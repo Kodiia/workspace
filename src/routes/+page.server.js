@@ -15,7 +15,7 @@ export async function load(){
             return serializeNonPOJOs(result)
         } catch (err){
             console.log(err)
-            throw error(err.status, err.message);
+            //throw error(err.status, err.message);
         }
     }
 
