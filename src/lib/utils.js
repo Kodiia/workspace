@@ -1,4 +1,5 @@
 export const serializeNonPOJOs = (obj) => {
 	//return JSON.stringify(JSON.parse(obj));
-	return structuredClone(obj)
+	return JSON.parse(JSON.stringify(obj))
+	// return structuredClone(obj)
 };
