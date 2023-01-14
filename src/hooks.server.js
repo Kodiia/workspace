@@ -1,9 +1,10 @@
 // src/hooks.server.js
 import PocketBase from 'pocketbase';
+import { DB_URL } from '$env/static/private'
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
-    event.locals.pb = new PocketBase("https://kodiia-db.pockethost.io/");
+    event.locals.pb = new PocketBase(DB_URL);
 
     // load the store data from the request cookie string
     event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');

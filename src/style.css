@@ -5,9 +5,28 @@
 body{
     font-family: 'Roboto', sans-serif;
     font-size: 1.2rem;
-    background: rgb(250, 250, 255)
+    background: rgb(250, 250, 255);
+    background: radial-gradient(circle at top left, #f9f9f9, #f1efff); 
+    color: #1a1a1a;
 }
 
 h1,h2,h3{
     font-family: 'Poppins', sans-serif;
+}
+
+button{
+    /* width: 200px;
+    height: 50px; */
+    padding: 0.4rem 1rem;
+    border: 2px solid #4233fb;
+    border-radius: 2rem;
+    background: none;
+    color: #4233fb;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+}
+button:hover{
+    background: #4233fb;
+    color: #f9f9f9;
+    cursor: pointer;
 }

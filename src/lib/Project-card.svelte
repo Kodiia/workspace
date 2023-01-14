@@ -1,9 +1,12 @@
 <script>
     export let title = 'Title'
     export let description = 'Description'
+    // export let src = ''
+    // let imagePath = 'https:/'
 </script>
 
 <div class='card-container'>
+    <!-- <img src='{src}' alt='project'> -->
     <h2>{title}</h2>
     <p>{description}</p>
     <button>START</button>
