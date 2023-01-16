@@ -1,5 +1,6 @@
 import { DB_URL } from '$env/static/private'
 import { serializeNonPOJOs } from '$lib/utils';
+// const fetch = require('node-fetch')
 
 // let id = ''
 // projectId.subscribe(value => {
@@ -21,7 +22,7 @@ export async function load ({ locals, fetch, params}) {
       const project = await locals.pb.collection(params.projectType).getOne(id)
 
       for (let file of project.project_files){
-        let url = `${DB_URL}api/files/${params.projectType}/${params.projectId}/${file}`
+        let url = `${DB_URL}/api/files/${params.projectType}/${params.projectId}/${file}`
         console.log(url)
         await fetchFile(url).then(result => {filesData.push(
           {
