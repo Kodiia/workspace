@@ -1,7 +1,8 @@
 <script>
-    import ProjectCard from "$lib/Project-card.svelte";
+    import ProjectCard from "$lib/ProjectCard.svelte";
 
     export let data
+    console.log(data.result.items)
 
     let items = data.result.items
     // let title = data.result.items[0].project_name
@@ -17,7 +18,7 @@
 <h1>What code will you write?</h1>
 <div class='cards-container'>
     {#each items as item}
-        <ProjectCard title={item.project_name} description={item.project_description} />
+        <ProjectCard title={item.project_name} description={item.project_description} link='{item.collectionName}/{item.id}' />
     {/each}
 </div>
 </div>
