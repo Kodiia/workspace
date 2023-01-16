@@ -1,4 +1,5 @@
 //import { pb } from "../db/db"
+import { error } from '@sveltejs/kit';
 import { serializeNonPOJOs } from '$lib/utils';
 
 export async function load({locals}){
@@ -11,7 +12,7 @@ export async function load({locals}){
             return serializeNonPOJOs(result)
         } catch (err){
             console.log(err)
-            //throw error(err.status, err.message);
+            throw error(err.status, err.message);
         }
     }
 
