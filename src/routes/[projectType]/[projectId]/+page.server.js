@@ -28,7 +28,7 @@ export async function load ({ locals, fetch, params}) {
           console.log(url)
           await fetchFile(url).then(result => {filesData.push(
             {
-              fileName: file,
+              fileName: file.split('_')[0] + '.' + file.split('.')[1],
               fileData: result
             }
             )

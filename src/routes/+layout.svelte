@@ -1,7 +1,9 @@
 <script>
     import { navigating } from '$app/stores'
-    import '../style.css'
+    import '../style.css' 
 </script>
+
+
 
 {#if $navigating}
 <p>Loading...</p>

@@ -8,9 +8,12 @@ body{
     background: rgb(250, 250, 255);
     background: radial-gradient(circle at top left, #f9f9f9, #f1efff); 
     color: #1a1a1a;
+    margin: 0;
+
+    
 }
 
-h1,h2,h3{
+h1,h2,h3, h4{
     font-family: 'Poppins', sans-serif;
 }
 
@@ -30,3 +33,28 @@ button:hover{
     color: #f9f9f9;
     cursor: pointer;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  
+    /* height: 0.5em; */
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: rgba(66, 51, 251, 0.1);
+    border-radius: 5px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(66, 51, 251, 0.2);
+    border-radius: 5px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(66, 51, 251, 1);
+  }
