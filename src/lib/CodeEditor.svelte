@@ -6,17 +6,18 @@
     // import 'ace-builds/src-noconflict/theme-chrome';
     // // import 'ace-builds/src-noconflict/mode/javascript';
     
-    import * as ace from 'brace';
-    import 'brace/mode/javascript';
-    import 'brace/mode/html';
-    import 'brace/mode/css';
-    import 'brace/theme/monokai';
-    import 'brace/theme/dracula';
-    import 'brace/theme/vibrant_ink';
-    import 'brace/theme/sqlserver';
-    import 'brace/theme/chrome';
-    import 'brace/ext/language_tools';
-    import 'brace/snippets/javascript';
+    
+    // import * as ace from 'brace';
+    // import 'brace/mode/javascript';
+    // import 'brace/mode/html';
+    // import 'brace/mode/css';
+    // import 'brace/theme/monokai';
+    // import 'brace/theme/dracula';
+    // import 'brace/theme/vibrant_ink';
+    // import 'brace/theme/sqlserver';
+    // import 'brace/theme/chrome';
+    // import 'brace/ext/language_tools';
+    // import 'brace/snippets/javascript';
     
     import { filesLocalCopy, editorState } from './store';
     import { getFileLogoURL } from '$lib/utils'
@@ -43,8 +44,20 @@
     let editorTheme = "ace/theme/" + themeValue
     let editor
 
-    onMount(() => {
-      if (typeof window !== 'undefined') {
+    onMount(async () => {
+      const ace = await import('brace')
+      await import('brace/mode/javascript');
+      await import('brace/mode/html');
+      await import('brace/mode/css');
+    // import 'brace/theme/monokai';
+    // import 'brace/theme/dracula';
+    // import 'brace/theme/vibrant_ink';
+    // import 'brace/theme/sqlserver';
+      await import('brace/theme/chrome');
+      await import('brace/ext/language_tools');
+      // await import('brace/snippets/javascript');
+
+      
         //ace.require("brace/ext/language_tools");
         editor = ace.edit(editor, {
             mode: modePath,
@@ -64,7 +77,7 @@
             // runUserCode()
         });
         console.log(editorText)
-      }
+      
     })
 
     function updateFileText(fileNameLocal){
