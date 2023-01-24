@@ -8,13 +8,18 @@
     let files = data.project.project_files
     $filesLocalCopy = data.files
 
-    let userSRCDoc = `
-    <html>
-        <style>${getFileContents('style.css')}</style>
-        <script>${getFileContents('script.js')}<\/script>
-        <body>${getFileContents('index.html')}</body>   
-    </html>
-    `
+    let userSRCDoc
+
+    filesLocalCopy.subscribe(value => {
+        // console.log('updated')
+        userSRCDoc = `<html>
+            <style>${getFileContents('style.css')}</style>
+            <script>${getFileContents('script.js')}<\/script>
+            <body>${getFileContents('index.html')}</body>   
+        </html>`
+    })
+
+    
 
     function getFileContents(fileToSearch){
         for(let file of $filesLocalCopy){

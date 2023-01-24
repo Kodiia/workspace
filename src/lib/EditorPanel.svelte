@@ -8,11 +8,11 @@
 
     let editorText = 'hi'
     function getFileText(){
-        console.log($fileToOpen)
+        // console.log($fileToOpen)
         for (let file of $filesLocalCopy){
             if($fileToOpen === file.fileName){
                 editorText = file.fileData
-                console.log(editorText)
+                // console.log(editorText)
             }
         }
     }

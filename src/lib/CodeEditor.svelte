@@ -46,6 +46,7 @@
 
     onMount(async () => {
       const ace = await import('brace')
+      console.log(ace)
       await import('brace/mode/javascript');
       await import('brace/mode/html');
       await import('brace/mode/css');
@@ -72,18 +73,21 @@
         editor.session.setTabSize(2);
         editor.setReadOnly(readOnly);
         editor.session.on('change', function(e) {
-            updateFileText(fileName)
+            // console.log(e, 'looking for changes...')
+            updateFileData(fileName, editor.getValue())
             // getFile(fileIndex)
             // runUserCode()
         });
-        console.log(editorText)
+        // console.log(editorText)
       
     })
 
-    function updateFileText(fileNameLocal){
+    function updateFileData(fileNameLocal, value){
         for (let file of $filesLocalCopy){
             if (file.fileName === fileNameLocal ){
-                file.fileData = editor.getValue()
+              $filesLocalCopy = [...$filesLocalCopy, 
+              file.fileData = value
+            ]
             }
         }
     }
