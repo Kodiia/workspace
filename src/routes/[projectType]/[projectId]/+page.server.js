@@ -42,10 +42,23 @@ export async function load ({ locals, fetch, params}) {
         throw error(err.status, err.message);
       }
     }
+
+    const getHTMLdocs = async () => {
+      try{
+        const records = await locals.pb.collection('docsHTML').getFullList(200 /* batch size */, {
+          sort: '-tag',
+        });
+        return serializeNonPOJOs(records)
+      } catch (err){
+        console.log(err)
+        throw error(err.status, err.message);
+      }
+    }
   
     return {
       project: getProject(params.projectId),
-      files: filesData
+      files: filesData,
+      docsHTML: getHTMLdocs()
     }
   
   }

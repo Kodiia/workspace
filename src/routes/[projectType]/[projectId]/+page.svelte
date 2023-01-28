@@ -1,9 +1,10 @@
 <script>
     import { filesLocalCopy, fileToOpen, editorState, width, height } from '$lib/store'
     import EditorPanel from '$lib/EditorPanel.svelte';
+    import InfoPanel from '$lib/InfoPanel.svelte';
     
     export let data
-    //console.log(data)
+    console.log(data.docsHTML)
 
     let files = data.project.project_files
     $filesLocalCopy = data.files
@@ -34,6 +35,7 @@
 <div style="display: flex; align-items: center; width: {$width}px; height:{$height}px">
     <EditorPanel files='{files}' projectName='{data.project.project_name}'/>
     <iframe srcDoc="{userSRCDoc}" style="flex: 1 1 100%; height: calc({$height}px - 20px); border-radius: 25px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  />
+    <InfoPanel docsHTML='{data.docsHTML}' />
 </div>
 
 

@@ -18,14 +18,14 @@
 
 <style>
     button{
-        /* width: 5rem; */
+        width: 100%;
         background: #fff;
         color: #1a1a1a;
         border: none;
         border-radius: 20px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
         padding: 10px;
-        margin: 0 10px 10px 0;
+        /* margin: 0 10px 10px 0; */
         box-sizing: border-box;
 
         display: flex;
