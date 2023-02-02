@@ -7,9 +7,21 @@ export async function load({locals}){
     const getProjects = async () =>{
 
         try{
-            const result = await locals.pb.collection('projects').getList(1, 20, { '$autoCancel': false }
+            const projects = await locals.pb.collection('projects').getList(1, 20, { '$autoCancel': false }
             );
-            return serializeNonPOJOs(result)
+            return serializeNonPOJOs(projects)
+        } catch (err){
+            console.log(err)
+            throw error(err.status, err.message);
+        }
+    }
+
+    const getTutorials = async () =>{
+
+        try{
+            const tutorials = await locals.pb.collection('tutorials').getList(1, 20, { '$autoCancel': false }
+            );
+            return serializeNonPOJOs(tutorials)
         } catch (err){
             console.log(err)
             throw error(err.status, err.message);
@@ -17,6 +29,7 @@ export async function load({locals}){
     }
 
     return {
-        result: getProjects()
+        projects: getProjects(),
+        tutorials: getTutorials()
     }
 }
