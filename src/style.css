@@ -44,7 +44,7 @@ button:hover{
   
   /* Track */
   ::-webkit-scrollbar-track {
-    background: rgba(66, 51, 251, 0.1);
+    background: rgba(66, 51, 251, 0.05);
     border-radius: 5px;
   }
   
@@ -57,4 +57,9 @@ button:hover{
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(66, 51, 251, 1);
+  }
+
+  .ace_editor{
+    font-family: Roboto, sans-serif !important;
+    font-size: 1rem !important;
   }

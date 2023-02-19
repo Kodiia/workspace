@@ -3,9 +3,9 @@
     import { width, height } from '$lib/store'
 
     export let data
-    console.log(data.projects.items)
+    console.log(data.projects.items, data.tutorials.items)
 
-    let items = data.projects.items
+    let projects = data.projects.items
     // let title = data.result.items[0].project_name
     // let description = data.result.items[0].project_description
     let tutorials = data.tutorials.items
@@ -29,8 +29,8 @@
     <!-- <p>{innerWidth}{innerHeight}{$width}{$height}</p> -->
 <h1>What code will you write?</h1>
 <div class='cards-container'>
-    {#each items as item}
-        <ProjectCard title={item.project_name} description={item.project_description} link='{item.collectionName}/{item.id}' />
+    {#each projects as project}
+        <ProjectCard title={project.name} description={project.description} link='{project.collectionName}/{project.id}' />
     {/each}
 </div>
 <div class='cards-container'>

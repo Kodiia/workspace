@@ -9,23 +9,22 @@ import { serializeNonPOJOs } from '$lib/utils';
 // })
 
 export async function load ({ locals, fetch, params}) {
-    console.log(params)
+    //console.log(params)
   
     let filesData = []
+    let tutorialSteps
     const fetchFile = async (url) => {
       const res = await fetch(url)
       const data = res.text()
       return data
     }
 
-    const getProject = async (id) => { 
+    const getProjectFiles = async (id) => { 
       try{
-        console.log(id)
         const project = await locals.pb.collection(params.projectType).getOne(id)
 
-        for (let file of project.project_files){
+        for (let file of project.files){
           let url = `${DB_URL}/api/files/${params.projectType}/${params.projectId}/${file}`
-          console.log(url)
           await fetchFile(url).then(result => {filesData.push(
             {
               fileName: file.split('_')[0] + '.' + file.split('.')[1],
@@ -34,7 +33,6 @@ export async function load ({ locals, fetch, params}) {
             )
           }
           )
-          console.log(filesData)
         }
         return serializeNonPOJOs(project)
       } catch (err){
@@ -54,11 +52,22 @@ export async function load ({ locals, fetch, params}) {
         throw error(err.status, err.message);
       }
     }
-  
-    return {
-      project: getProject(params.projectId),
-      files: filesData,
-      docsHTML: getHTMLdocs()
+
+
+    if(params.projectType === 'projects'){
+      return {
+        project: getProjectFiles(params.projectId),
+        type: 'project',
+        files: filesData,
+        docsHTML: getHTMLdocs()
+      }
+    }
+    if(params.projectType === 'tutorials'){
+      return {
+        project: getProjectFiles(params.projectId),
+        type: 'tutorial',
+        files: filesData,
+      }
     }
   
   }

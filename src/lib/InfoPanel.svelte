@@ -3,7 +3,9 @@
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
 
-    export let docsHTML
+    export let docsHTML = ''
+    export let steps = ''
+    export let state = '' //docs, tutorial, quiz, challenge, etc
 
     let panelWidth = '30rem';
     let panelState = true;
@@ -53,18 +55,38 @@
     </button>
 
     {#if panelState}
-        <div>
-            <h3 style="margin-top: 0;">Docs</h3>
-        </div>
-        {#each docsHTML as tag}
-            <details>
-                <summary>{tag.tag}</summary>
-                <p>{tag.description}</p>
-                <div style='height: 7rem'>
-                    <CodeEditor fileName='.html' readOnly='{true}' editorText='{tag.snippet}'/>
-                </div>
-            </details>
-        {/each}
+        {#if state == 'docs'}
+            <div>
+                <h3 style="margin-top: 0;">Docs</h3>
+            </div>
+            <div class='container'>
+                {#each docsHTML as tag}
+                    <details>
+                        <summary>{tag.tag}</summary>
+                        <p>{tag.description}</p>
+                        <div style='height: 7rem'>
+                            <CodeEditor fileName='.html' readOnly='{true}' editorText='{tag.snippet}'/>
+                        </div>
+                    </details>
+                {/each}
+            </div>
+        {/if}
+        {#if state == 'tutorial'}
+            <div>
+                <h3 style="margin-top: 0;">Steps</h3>
+            </div>
+            <div class='container'>
+                {#each steps.steps as step}
+                    <details>
+                        <summary>{step.step}</summary>
+                        <p>{step.text}</p>
+                        <div style='height: 7rem'>
+                            <CodeEditor fileName='.js' readOnly='{true}' editorText='{step.code}'/>
+                        </div>
+                    </details>
+                {/each}
+            </div>
+        {/if}
     {/if}
     </div>
     
@@ -109,6 +131,13 @@
             font-size: 0.8rem;
             font-family: 'Roboto', sans-serif;
         } 
+        .container{
+            width: 100%;
+            height: calc(100% - 3rem);
+            overflow-y: scroll;
+            padding: 10px;
+            box-sizing: border-box;
+        }
         details{
             width: 100%;
             background: #fff;
