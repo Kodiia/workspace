@@ -34,7 +34,12 @@
             }
         }
     }
+
+
+    
 </script>
+
+
 
 <div style="display: flex; align-items: center; width: {$width}px; height:{$height}px">
     <EditorPanel files='{files}' projectName='{data.project.name}'/>

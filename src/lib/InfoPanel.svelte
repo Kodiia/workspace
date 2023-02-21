@@ -57,7 +57,7 @@
     {#if panelState}
         {#if state == 'docs'}
             <div>
-                <h3 style="margin-top: 0;">Docs</h3>
+                <h3 style="margin-top: 4px; margin-left: 10px;">Docs</h3>
             </div>
             <div class='container'>
                 {#each docsHTML as tag}
@@ -73,7 +73,7 @@
         {/if}
         {#if state == 'tutorial'}
             <div>
-                <h3 style="margin-top: 0;">Steps</h3>
+                <h3 style="margin-top: 4px; margin-left: 10px;">Steps</h3>
             </div>
             <div class='container'>
                 {#each steps.steps as step}
@@ -156,5 +156,8 @@
         }
         details summary{
             cursor: pointer;
+            font-family: Poppins, sans-serif;
+            font-weight: bold;
+            font-size: 1.17rem;
         }
     </style>

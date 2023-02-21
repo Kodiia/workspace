@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
 
 body{
     font-family: 'Roboto', sans-serif;
@@ -60,6 +60,6 @@ button:hover{
   }
 
   .ace_editor{
-    font-family: Roboto, sans-serif !important;
+    font-family: 'Source Code Pro', monospace !important;
     font-size: 1rem !important;
   }

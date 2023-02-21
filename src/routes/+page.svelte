@@ -10,20 +10,8 @@
     // let description = data.result.items[0].project_description
     let tutorials = data.tutorials.items
 
-    let innerWidth = 0
-    let innerHeight = 0
-    $: {
-        $width = innerWidth;
-        $height = innerHeight;
-    }
 </script>
 
-<svelte:head>
-    <title>Kodiia Workspace</title>
-    <meta name="online workspace to learn programming and build projects">
-</svelte:head>
-
-<svelte:window bind:innerWidth bind:innerHeight />
 
 <div class='container'>
     <!-- <p>{innerWidth}{innerHeight}{$width}{$height}</p> -->
