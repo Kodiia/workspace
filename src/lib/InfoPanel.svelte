@@ -76,13 +76,15 @@
                 <h3 style="margin-top: 4px; margin-left: 10px;">Steps</h3>
             </div>
             <div class='container'>
-                {#each steps.steps as step}
+                {#each steps.steps as step, id}
                     <details>
-                        <summary>{step.step}</summary>
+                        <summary>{id}. {step.step}</summary>
                         <p>{step.text}</p>
-                        <div style='height: 7rem'>
-                            <CodeEditor fileName='.js' readOnly='{true}' editorText='{step.code}'/>
-                        </div>
+                        {#if step.code != 'false'}
+                            <div style='height: calc(({step.codeLines} * 1.2rem) + 6rem)'>
+                                <CodeEditor fileName='{step.mode}' readOnly='{true}' editorText='{step.code}'/>
+                            </div>
+                        {/if}
                     </details>
                 {/each}
             </div>

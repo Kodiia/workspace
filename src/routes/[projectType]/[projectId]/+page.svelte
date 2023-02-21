@@ -18,9 +18,10 @@
     filesLocalCopy.subscribe(value => {
         // console.log('updated')
         userSRCDoc = `<html>
+            <body>${getFileContents('index.html')}</body>
             <style>${getFileContents('style.css')}</style>
             <script>${getFileContents('script.js')}<\/script>
-            <body>${getFileContents('index.html')}</body>   
+               
         </html>`
     })
 
