@@ -33,7 +33,7 @@
         if(panelState){
             panelWidth = '30rem'
         } else {
-            panelWidth = '50px'
+            panelWidth = '40px'
         }
     }
 </script>

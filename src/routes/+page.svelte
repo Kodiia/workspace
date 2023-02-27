@@ -16,11 +16,13 @@
 <div class='container'>
     <!-- <p>{innerWidth}{innerHeight}{$width}{$height}</p> -->
 <h1>What code will you write?</h1>
+<h2>Starter projects</h2>
 <div class='cards-container'>
     {#each projects as project}
         <ProjectCard title={project.name} description={project.description} link='{project.collectionName}/{project.id}' />
     {/each}
 </div>
+<h2>Tutorials</h2>
 <div class='cards-container'>
     {#each tutorials as tutorial}
         <ProjectCard title={tutorial.name} description={tutorial.description} link='{tutorial.collectionName}/{tutorial.id}' />
@@ -29,13 +31,24 @@
 </div>
 
 <style>
+    h1{
+        text-align: center;
+    }
+    h2{
+        margin-left: 10px;
+    }
+    p{
+        margin-top: 0;
+    }
     .container{
-        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        width: max(1044px);
         height: 100vh;
-        display: flex;
+        /* display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
+        align-items: center; */
     }
     .cards-container{
         display: grid;

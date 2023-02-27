@@ -2,9 +2,10 @@
     import { filesLocalCopy, fileToOpen, editorState, width, height } from '$lib/store'
     import EditorPanel from '$lib/EditorPanel.svelte';
     import InfoPanel from '$lib/InfoPanel.svelte';
+    import { page } from '$app/stores';
     
     export let data
-    console.log('page data', data)
+    console.log('page data', data, $page.url.href)
     // console.log('DATA TYPE', data.type)
     // if(data.type === 'tutorial'){
     //     console.log('JSON', data, data.project.stepsJSON)
@@ -49,7 +50,7 @@
         <InfoPanel docsHTML='{data.docsHTML}' state='docs'/>
     {/if}
     {#if data.type === 'tutorial'}
-        <InfoPanel steps='{data.project.stepsJSON}' state='tutorial'/>
+        <InfoPanel steps='{data.project.stepsJSON}' state='tutorial' URLtoShare='{$page.url.href}'/>
     {/if}
 </div>
 
