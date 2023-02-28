@@ -1,5 +1,5 @@
 <script>
-    import { filesLocalCopy, fileToOpen, editorState, width, height } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, rightPanelWidthSetByUser } from '$lib/store'
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
 
@@ -12,12 +12,42 @@
     let panelState = true;
     let button, buttonText;
 
+    $: if($rightPanelWidthSetByUser > $width * 0.3){
+        panelWidth = $rightPanelWidthSetByUser + 'px';
+            if($rightPanelWidthSetByUser > $width * 0.45){
+                $rightPanelWidthSetByUser = $width * 0.45
+            }
+    } else {
+        panelWidth = $width * 0.3 + 'px';
+        if($width * 0.3 < 400){
+            panelWidth = '400px'
+        }
+    }
+
     function changePanelState(){
         panelState = !panelState
         if(panelState){
-            panelWidth = $width * 0.3 + 'px'
+            if($rightPanelWidthSetByUser > $width * 0.3){
+                panelWidth = $rightPanelWidthSetByUser + 'px';
+            } else {
+                panelWidth = $width * 0.3 + 'px';
+                if($width * 0.3 < 400){
+                    panelWidth = '400px'
+                }
+            }
         } else {
             panelWidth = '40px'
+        }
+    }
+
+    let setUserPanelSize = false;
+    function updateUserPanelSize(event){
+        event.preventDefault()
+        if(setUserPanelSize){
+            $rightPanelWidthSetByUser = $width - event.pageX - 20
+            if($rightPanelWidthSetByUser > $width * 0.45){
+                $rightPanelWidthSetByUser = $width * 0.45
+            }
         }
     }
 
@@ -57,6 +87,7 @@
     </button>
 
     {#if panelState}
+    <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div>
         {#if state == 'docs'}
             <div>
                 <h3 style="margin-top: 4px; margin-left: 10px;">Docs</h3>
@@ -179,5 +210,21 @@
         }
         .socialLinks{
             display: flex;
+        }
+        .handle{
+            position: absolute;
+            top: calc(50% - 40px);
+            left: 0px;
+            margin-left: -19px;
+
+            width: 11px;
+            height: 80px;
+            background: rgba(66, 51, 251, 0.1);
+            border: none; 
+            border-radius: 5px;
+            cursor: ew-resize;
+        }
+        .handle:hover{
+            background: rgba(66, 51, 251, 1);
         }
     </style>

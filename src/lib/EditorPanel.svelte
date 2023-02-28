@@ -43,11 +43,8 @@
     function changePanelState(){
         panelState = !panelState
         if(panelState){
-            if($leftPanelWidthSetByUser > $width * 0.3){
+            if($leftPanelWidthSetByUser > $width * 0.3){                
                 panelWidth = $leftPanelWidthSetByUser + 'px';
-                if($leftPanelWidthSetByUser > $width * 0.45){
-                    $leftPanelWidthSetByUser = $width * 0.45
-                }
             } else {
                 panelWidth = $width * 0.3 + 'px';
                 if($width * 0.3 < 400){
@@ -60,19 +57,22 @@
     }
     console.log('editor panel', $width, panelWidth)
 
-    let panel
+
     let setUserPanelSize = false;
     function updateUserPanelSize(event){
         event.preventDefault()
         if(setUserPanelSize){
             $leftPanelWidthSetByUser = event.pageX - 20 // - panel.getBoundingClientRect().left
-            console.log('handle', $leftPanelWidthSetByUser, event.clientX, event.pageX, panel.getBoundingClientRect().left, panel.getBoundingClientRect())
+            if($leftPanelWidthSetByUser > $width * 0.45){
+                $leftPanelWidthSetByUser = $width * 0.45
+            }
+            console.log('handle', $leftPanelWidthSetByUser, $width*0.45)
         }
     }
 
 </script>
 
-<div bind:this={panel} class='panel' style='flex: 0 0 {panelWidth}; width: {panelWidth}; height: calc({$height}px - 20px); z-index: 2;' >
+<div class='panel' style='flex: 0 0 {panelWidth}; width: {panelWidth}; height: calc({$height}px - 20px); z-index: 2;' >
     <button bind:this={button} class="panelButton" on:click={changePanelState} 
     on:pointerover={()=>{
       if(!panelState){
