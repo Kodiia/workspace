@@ -48,6 +48,8 @@
         align-items: center; */
     }
     .cards-container{
+        margin-left: auto;
+        margin-right: auto;
         display: grid;
         grid-template-columns: repeat(auto-fill, 26rem);
     }

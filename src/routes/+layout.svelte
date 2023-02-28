@@ -3,12 +3,17 @@
     import { navigating } from '$app/stores'
     import '../style.css' 
 
-    let innerWidth = 0
-    let innerHeight = 0
-    $: {
-        $width = innerWidth;
-        $height = innerHeight;
-    }
+    // let innerWidthValue = 0
+    // let innerHeightValue = 0
+    // $: {
+    //     $width = innerWidthValue;
+    //     $height = innerHeightValue;
+    // }
+    $: innerWidth = 0
+    $: innerHeight = 0
+    $: $width = innerWidth
+    $: $height = innerHeight
+    $: console.log('width and height', $width, $height, innerWidth, innerHeight)
 </script>
 
 <svelte:head>

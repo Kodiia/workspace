@@ -1,5 +1,5 @@
 <script>
-    import { filesLocalCopy, fileToOpen, editorState, width, height } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, leftPanelWidthSetByUser } from '$lib/store'
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
 
@@ -28,17 +28,51 @@
     let panelState = true;
     let button, buttonText;
 
+    $: if($leftPanelWidthSetByUser > $width * 0.3){
+        panelWidth = $leftPanelWidthSetByUser + 'px';
+            if($leftPanelWidthSetByUser > $width * 0.45){
+                $leftPanelWidthSetByUser = $width * 0.45
+            }
+    } else {
+        panelWidth = $width * 0.3 + 'px';
+        if($width * 0.3 < 400){
+            panelWidth = '400px'
+        }
+    }
+
     function changePanelState(){
         panelState = !panelState
         if(panelState){
-            panelWidth = $width * 0.3 + 'px'
+            if($leftPanelWidthSetByUser > $width * 0.3){
+                panelWidth = $leftPanelWidthSetByUser + 'px';
+                if($leftPanelWidthSetByUser > $width * 0.45){
+                    $leftPanelWidthSetByUser = $width * 0.45
+                }
+            } else {
+                panelWidth = $width * 0.3 + 'px';
+                if($width * 0.3 < 400){
+                    panelWidth = '400px'
+                }
+            }
         } else {
             panelWidth = '40px'
         }
     }
+    console.log('editor panel', $width, panelWidth)
+
+    let panel
+    let setUserPanelSize = false;
+    function updateUserPanelSize(event){
+        event.preventDefault()
+        if(setUserPanelSize){
+            $leftPanelWidthSetByUser = event.pageX - 20 // - panel.getBoundingClientRect().left
+            console.log('handle', $leftPanelWidthSetByUser, event.clientX, event.pageX, panel.getBoundingClientRect().left, panel.getBoundingClientRect())
+        }
+    }
+
 </script>
 
-<div class='panel' style='flex: 0 0 {panelWidth}; width: {panelWidth}; height: calc({$height}px - 20px); z-index: 2;'>
+<div bind:this={panel} class='panel' style='flex: 0 0 {panelWidth}; width: {panelWidth}; height: calc({$height}px - 20px); z-index: 2;' >
     <button bind:this={button} class="panelButton" on:click={changePanelState} 
     on:pointerover={()=>{
       if(!panelState){
@@ -65,6 +99,9 @@
     </button>
 
     {#if panelState}
+    <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}>
+
+    </div>
         <div>
             <h3 style="margin-top: 0;">{projectName}</h3>
         </div>
@@ -130,5 +167,22 @@
             display: grid;
             grid-template-columns: auto auto;
             gap: 10px;
+        }
+
+        .handle{
+            position: absolute;
+            top: calc(50% - 40px);
+            right: 0px;
+            margin-right: -19px;
+
+            width: 11px;
+            height: 80px;
+            background: rgba(66, 51, 251, 0.1);
+            border: none; 
+            border-radius: 5px;
+            cursor: ew-resize;
+        }
+        .handle:hover{
+            background: rgba(66, 51, 251, 1);
         }
     </style>
