@@ -8,14 +8,14 @@
     export let state = '' //docs, tutorial, quiz, challenge, etc
     export let URLtoShare = 'url'
 
-    let panelWidth = '30rem';
+    let panelWidth = $width * 0.3 + 'px';
     let panelState = true;
     let button, buttonText;
 
     function changePanelState(){
         panelState = !panelState
         if(panelState){
-            panelWidth = '30rem'
+            panelWidth = $width * 0.3 + 'px'
         } else {
             panelWidth = '40px'
         }
