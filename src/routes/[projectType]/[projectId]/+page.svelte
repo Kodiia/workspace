@@ -21,7 +21,7 @@
         userSRCDoc = `<html>
             <body>${getFileContents('index.html')}</body>
             <style>${getFileContents('style.css')}</style>
-            <script>${getFileContents('script.js')}<\/script>
+            <script type='module'>${getFileContents('script.js')}<\/script>
                
         </html>`
     })

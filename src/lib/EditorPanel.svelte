@@ -38,12 +38,12 @@
     }
 </script>
 
-<div class='panel' style='flex: 0 0 {panelWidth}; width: {panelWidth}; height: calc({$height}px - 20px)'>
+<div class='panel' style='flex: 0 0 {panelWidth}; width: {panelWidth}; height: calc({$height}px - 20px); z-index: 2;'>
     <button bind:this={button} class="panelButton" on:click={changePanelState} 
     on:pointerover={()=>{
       if(!panelState){
       button.style.width = "80px"; 
-      button.style.marginRight = "-45px"; 
+      button.style.marginRight = "-65px"; 
       buttonText.style.transform = "scale(1)"
       } else {
         button.style.width = "30px"; 
