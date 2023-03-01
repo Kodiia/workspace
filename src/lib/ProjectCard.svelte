@@ -1,6 +1,7 @@
 <script>
     export let title = 'Title'
     export let description = 'Description'
+    export let topics = ''
     export let link = ''
     // export let src = ''
     // let imagePath = 'https:/'
@@ -16,6 +17,9 @@
     <!-- <img src='{src}' alt='project'> -->
     <h3>{title}</h3>
     <p>{description}</p>
+    {#if topics}
+    <p>✔️ Topics: <b>{topics}</b></p>
+    {/if}
     <div class="linkContainer">
     <a href={link} on:click={setProjectId}>START</a>
     </div>
@@ -23,7 +27,7 @@
 
 <style>
     .card-container{
-        width: 25rem;
+        width: 100%;
         background: white;
         border-radius: 20px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);

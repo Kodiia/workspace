@@ -19,13 +19,13 @@
 <h2>💫 Starter projects</h2>
 <div class='cards-container'>
     {#each projects as project}
-        <ProjectCard title={project.name} description={project.description} link='{project.collectionName}/{project.id}' />
+        <ProjectCard title={project.name} description={project.description} topics='' link='{project.collectionName}/{project.id}' />
     {/each}
 </div>
 <h2>📚 Tutorials</h2>
 <div class='cards-container'>
     {#each tutorials as tutorial}
-        <ProjectCard title={tutorial.name} description={tutorial.description} link='{tutorial.collectionName}/{tutorial.id}' />
+        <ProjectCard title={tutorial.name} description={tutorial.description} topics={tutorial.topics} link='{tutorial.collectionName}/{tutorial.id}' />
     {/each}
 </div>
 </div>
@@ -51,6 +51,7 @@
         margin-left: auto;
         margin-right: auto;
         display: grid;
-        grid-template-columns: repeat(auto-fill, 26rem);
+        grid-template-columns: repeat(auto-fill, 30%);
+        grid-gap: 10px;
     }
 </style>
