@@ -5,6 +5,7 @@ import mdSVG from '$lib/logos/md.svg'
 import txtSVG from '$lib/logos/txt.svg'
 import svelteSVG from '$lib/logos/svelte.svg'
 
+
 export const serializeNonPOJOs = (obj) => {
 	return JSON.parse(JSON.stringify(obj))
 	// return structuredClone(obj)
@@ -37,5 +38,6 @@ export const getFileLogoURL = (fileType) => {
         logoPath = svelteSVG
         break;
     }
+    console.log(htmlSVG, logoPath)
 	return logoPath
 }
