@@ -33,12 +33,14 @@
             if($leftPanelWidthSetByUser > $width * 0.45){
                 $leftPanelWidthSetByUser = $width * 0.45
             }
-    } else {
-        panelWidth = $width * 0.3 + 'px';
-        if($width * 0.3 < 400){
-            panelWidth = '400px'
+        } else {
+            if(panelState){
+                panelWidth = $width * 0.3 + 'px';
+                if($width * 0.3 < 400){
+                    panelWidth = '400px'
+                }
+            }
         }
-    }
 
     function changePanelState(){
         panelState = !panelState

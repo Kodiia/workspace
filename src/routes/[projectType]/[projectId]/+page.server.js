@@ -44,7 +44,7 @@ export async function load ({ locals, fetch, params}) {
     const getHTMLdocs = async () => {
       try{
         const records = await locals.pb.collection('docsHTML').getFullList(200 /* batch size */, {
-          sort: '-tag',
+          sort: '+tag',
         });
         return serializeNonPOJOs(records)
       } catch (err){

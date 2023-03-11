@@ -17,12 +17,14 @@
             if($rightPanelWidthSetByUser > $width * 0.45){
                 $rightPanelWidthSetByUser = $width * 0.45
             }
-    } else {
-        panelWidth = $width * 0.3 + 'px';
-        if($width * 0.3 < 400){
-            panelWidth = '400px'
+        } else {
+            if(panelState){
+                panelWidth = $width * 0.3 + 'px';
+                if($width * 0.3 < 400){
+                    panelWidth = '400px'
+                }
+            }
         }
-    }
 
     function changePanelState(){
         panelState = !panelState
@@ -97,8 +99,8 @@
                     <details>
                         <summary>{tag.tag}</summary>
                         <p>{tag.description}</p>
-                        <div style='height: 7rem'>
-                            <CodeEditor fileName='.html' readOnly='{true}' editorText='{tag.snippet}'/>
+                        <div style='height: calc(({tag.snippetJSON.codeLines} * 1.2rem) + 6rem)'>
+                            <CodeEditor fileName='{tag.snippetJSON.mode}' readOnly='{true}' editorText='{tag.snippetJSON.code}'/>
                         </div>
                     </details>
                 {/each}

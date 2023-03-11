@@ -13,7 +13,7 @@
     $: innerHeight = 0
     $: $width = innerWidth
     $: $height = innerHeight
-    $: console.log('width and height', $width, $height, innerWidth, innerHeight)
+    // $: console.log('width and height', $width, $height, innerWidth, innerHeight)
 </script>
 
 <svelte:head>
