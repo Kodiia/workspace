@@ -16,7 +16,7 @@
 <div class='container'>
     <!-- <p>{innerWidth}{innerHeight}{$width}{$height}</p> -->
 <h1>What code will you write?</h1>
-<h2>💫 Starter projects</h2>
+<h2>💫 Templates</h2>
 <div class='cards-container'>
     {#each projects as project}
         <ProjectCard title={project.name} description={project.description} topics='' link='{project.collectionName}/{project.id}' />

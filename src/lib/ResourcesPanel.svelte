@@ -5,7 +5,7 @@
 
     export let docsHTML = ''
     export let steps = ''
-    export let state = '' //docs, tutorial, quiz, challenge, etc
+    export let mode = '' //docs, tutorial, quiz, challenge, etc
     export let URLtoShare = 'url'
 
     let panelWidth = $width * 0.3 + 'px';
@@ -55,8 +55,8 @@
 
 </script>
 
-<div class='panel' style='flex: 0 0 {panelWidth}; width: {panelWidth}; height: calc({$height}px - 20px)'>
-    <button bind:this={button} class="panelButton" on:click={changePanelState} 
+<div class='panel' style='flex: 0 0 {panelWidth}; width: {panelWidth}; height: calc({$height}px - 70px)'>
+    <!-- <button bind:this={button} class="panelButton" on:click={changePanelState} 
     on:pointerover={()=>{
       if(!panelState){
         button.style.width = "95px"; 
@@ -86,11 +86,11 @@
     <svg style="flex: 0 0 20px; margin: 5px; transform: rotate(180deg);" width="20" height="20" viewBox="0 0 34 30" fill="none" xmlns="http://www.w3.org/2000/svg" id="leftPanelArrow"><path d="M0.585785 13.5858C-0.195263 14.3668 -0.195263 15.6332 0.585785 16.4142L13.3137 29.1421C14.0948 29.9232 15.3611 29.9232 16.1421 29.1421C16.9232 28.3611 16.9232 27.0948 16.1421 26.3137L4.82843 15L16.1421 3.68629C16.9232 2.90524 16.9232 1.63891 16.1421 0.857863C15.3611 0.076814 14.0948 0.0768139 13.3137 0.857863L0.585785 13.5858ZM34 13L2 13L2 17L34 17L34 13Z" fill="white"/></svg>
     {/if}
     <p bind:this={buttonText} style="width: 0; margin: 0; padding: 0;" class="buttonText">resources</p>
-    </button>
+    </button> -->
 
     {#if panelState}
     <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div>
-        {#if state == 'docs'}
+        {#if mode == 'docs'}
             <div>
                 <h3 style="margin-top: 4px; margin-left: 10px;">Docs</h3>
             </div>
@@ -106,7 +106,7 @@
                 {/each}
             </div>
         {/if}
-        {#if state == 'tutorial'}
+        {#if mode == 'tutorial'}
             <div>
                 <h3 style="margin-top: 4px; margin-left: 10px;">📖 Steps</h3>
             </div>
@@ -143,7 +143,7 @@
     <style>
         .panel{
             position: relative;
-            background: #f9f9f9;
+            background: #fdfdfd;
             border-radius: 20px;
             box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
             padding: 20px;
