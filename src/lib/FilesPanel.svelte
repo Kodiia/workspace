@@ -116,6 +116,7 @@
             background: #fdfdfd;
             background: linear-gradient(45deg, #ffffff50, transparent);
             backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
             padding: 20px;

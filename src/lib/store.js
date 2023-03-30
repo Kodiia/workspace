@@ -10,4 +10,4 @@ export let filesLocalCopy = writable([])
 export let fileToOpen = writable('index.html')
 export let editorState = writable(false)
 
-export let filesPanelState = writable(true), docsPanelState = writable(true), stepsPanelState = writable(false);
+export let filesPanelState = writable(true), docsPanelState = writable(true), stepsPanelState = writable(true);

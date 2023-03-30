@@ -8,9 +8,14 @@
     export let data
     console.log('page data', data, $page.url.href)
     // console.log('DATA TYPE', data.type)
-    // if(data.type === 'tutorial'){
-    //     console.log('JSON', data, data.project.stepsJSON)
-    // }
+    if(data.type === 'tutorial'){
+        docsPanelState.set(false);
+        stepsPanelState.set(true);
+    }
+    if(data.type === 'project'){
+        stepsPanelState.set(false);
+        docsPanelState.set(true);
+    }
 
     let files = data.project.files
     $filesLocalCopy = data.files
@@ -51,7 +56,7 @@
             {#if data.type === 'project'}
             <button class="smallMenuButton" on:click='{()=>{docsPanelState.set(true)}}'>Docs</button>
             {/if}
-            {#if data.type === 'tutorials'}
+            {#if data.type === 'tutorial'}
             <button class="smallMenuButton" on:click='{()=>{stepsPanelState.set(true)}}'>Steps</button>
             {/if}
         </div>
