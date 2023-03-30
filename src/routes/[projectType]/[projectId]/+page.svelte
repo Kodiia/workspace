@@ -1,8 +1,9 @@
 <script>
-    import { filesLocalCopy, fileToOpen, editorState, width, height } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, filesPanelState, docsPanelState, stepsPanelState } from '$lib/store'
     import FilesPanel from '$lib/FilesPanel.svelte';
     import ResourcesPanel from '$lib/ResourcesPanel.svelte';
     import { page } from '$app/stores';
+    import paths from '$lib/images/paths.svg'
     
     export let data
     console.log('page data', data, $page.url.href)
@@ -15,7 +16,7 @@
     $filesLocalCopy = data.files
 
     let userSRCDoc
-    let filesPanelState = true, docsPanelState = true, stepsPanelState = false;
+    // let filesPanelState = true, docsPanelState = true, stepsPanelState = false;
 
     filesLocalCopy.subscribe(value => {
         // console.log('updated')
@@ -42,25 +43,29 @@
     
 </script>
 
-<div class='container' style='width: {$width}px; height:{$height}px'>
+<div class='container' style='width: {$width}px; height:{$height}px; background: url({paths}); background-size: 100px;'>
     <nav>
         <div class='desktopMenu'>
             <a href='../' aria-label="menu" class='smallMenuButton'>Dashboard</a>
-            <button class="{filesPanelState ? 'activeSmallMenuButton' : 'smallMenuButton'}" on:click='{()=>{filesPanelState = !filesPanelState}}'>Files</button>
-            <button class="{stepsPanelState ? 'activeSmallMenuButton' : 'smallMenuButton'}" on:click='{()=>{stepsPanelState = !stepsPanelState}}'>Steps</button>
-            <button class="{docsPanelState ? 'activeSmallMenuButton' : 'smallMenuButton'}" on:click='{()=>{docsPanelState = !docsPanelState}}'>Docs</button>
+            <button class="smallMenuButton" on:click='{()=>{filesPanelState.set(true)}}'>Files</button>
+            {#if data.type === 'project'}
+            <button class="smallMenuButton" on:click='{()=>{docsPanelState.set(true)}}'>Docs</button>
+            {/if}
+            {#if data.type === 'tutorials'}
+            <button class="smallMenuButton" on:click='{()=>{stepsPanelState.set(true)}}'>Steps</button>
+            {/if}
         </div>
         <button>Sign In</button>
     </nav>
     <div style="display: flex; align-items: center;">
-        {#if filesPanelState}
+        {#if $filesPanelState}
         <FilesPanel files='{files}' projectName='{data.project.name}'/>
         {/if}
         <iframe srcDoc="{userSRCDoc}" style="flex: 1 1 100%; height: calc({$height}px - 70px); border-radius: 20px; margin-top: 10px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  />
-        {#if docsPanelState}
+        {#if $docsPanelState}
             <ResourcesPanel docsHTML='{data.docsHTML}' mode='docs' />
         {/if}
-        {#if stepsPanelState}
+        {#if $stepsPanelState}
             <ResourcesPanel steps='{data.project.stepsJSON}' mode='tutorial' URLtoShare='{$page.url.href}' />
         {/if}
         
@@ -75,6 +80,7 @@
 
 
 <style>
+
     div{
         overflow: hidden;
     }   
@@ -102,7 +108,7 @@
       background: none;
       border: none;
       font-family: Roboto, sans-serif;
-      font-weight: 500;
+      font-weight: 300;
       font-size: 1rem;
       color: #3d95ee;
       text-decoration: underline;

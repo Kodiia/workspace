@@ -207,6 +207,7 @@
       box-sizing: content-box;
       position: relative;
       font-family: Roboto, sans-serif;
+      font-weight: 300;
     }
     
     .panelButton{

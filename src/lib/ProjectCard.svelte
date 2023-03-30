@@ -32,7 +32,7 @@
         border-radius: 20px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
         padding: 20px;
-        margin: 10px;
+        /* margin: 10px; */
         box-sizing: border-box;
         display: flex;
         flex-direction: column;

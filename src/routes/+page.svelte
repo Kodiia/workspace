@@ -17,13 +17,13 @@
     <!-- <p>{innerWidth}{innerHeight}{$width}{$height}</p> -->
 <h1>What code will you write?</h1>
 <h2>💫 Templates</h2>
-<div class='cards-container'>
+<div class='template-cards-container'>
     {#each projects as project}
         <ProjectCard title={project.name} description={project.description} topics='' link='{project.collectionName}/{project.id}' />
     {/each}
 </div>
 <h2>📚 Tutorials</h2>
-<div class='cards-container'>
+<div class='tutorial-cards-container'>
     {#each tutorials as tutorial}
         <ProjectCard title={tutorial.name} description={tutorial.description} topics={tutorial.topics} link='{tutorial.collectionName}/{tutorial.id}' />
     {/each}
@@ -47,11 +47,11 @@
         justify-content: center;
         align-items: center; */
     }
-    .cards-container{
+    .template-cards-container, .tutorial-cards-container{
         margin-left: auto;
         margin-right: auto;
         display: grid;
-        grid-template-columns: repeat(auto-fill, 30%);
+        grid-template-columns: 1fr 1fr;
         grid-gap: 10px;
     }
 </style>
