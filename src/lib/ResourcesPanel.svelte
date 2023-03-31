@@ -1,5 +1,5 @@
 <script>
-    import { filesLocalCopy, fileToOpen, editorState, width, height, rightPanelWidthSetByUser } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, rightPanelWidthSetByUser, resourcesPanelState } from '$lib/store'
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
 
@@ -56,6 +56,9 @@
 </script>
 
 <div class='panel' style='flex: 0 0 {panelWidth}; width: {panelWidth}; height: calc({$height}px - 70px)'>
+    <button bind:this={button} class="panelButton" on:click={()=>{resourcesPanelState.set(false);}} >
+        <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
+    </button>
     <!-- <button bind:this={button} class="panelButton" on:click={changePanelState} 
     on:pointerover={()=>{
       if(!panelState){
@@ -89,7 +92,7 @@
     </button> -->
 
     {#if panelState}
-    <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div>
+    <!-- <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div> -->
         {#if mode == 'docs'}
             <div>
                 <h3 style="margin-top: 4px; margin-left: 10px;">Docs</h3>
@@ -144,7 +147,10 @@
         .panel{
             position: relative;
             background: #fdfdfd;
-            border-radius: 20px;
+            background: linear-gradient(45deg, #ffffff50, transparent);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            border-radius: 15px;
             box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
             padding: 20px;
             margin: 10px;
@@ -153,28 +159,30 @@
         }
         .panelButton{
             position: absolute;
-            top: 25px;
-            left: 0px;
-            margin-left: -15px;
+            top: 5px;
+            right: 0px;
+            margin-right: 5px;
             
             display: flex;
-            flex-direction: row-reverse; 
             align-items: center;
             justify-content: center;
             /* justify-content: space-between; */
             
-            width: 30px;
-            height: 30px;
-            border-radius: 20px;
-            border: 1px solid #4233fb;
-            background: #4233fb;
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            border: none;
+            background: #4233fb00;
             /* background: radial-gradient(#ca94ff, #4233fb); */
             color: white;
             box-sizing: content-box;
             padding: 0;
             
             cursor: pointer;
-            transition: margin 0.25s, width 0.25s;
+            transition: 0.25s;
+        }
+        .panelButton:hover{
+            background: #4233fb20;
         }
         .buttonText{
             transform: scale(0);

@@ -2,6 +2,7 @@
     import { width, height } from '$lib/store'
     import { navigating } from '$app/stores'
     import '../style.css' 
+    import paths from '$lib/images/paths.svg'
 
     // let innerWidthValue = 0
     // let innerHeightValue = 0
@@ -31,7 +32,9 @@
     <h3>Loading...</h3>
 </div>
 {:else}
-<slot />
+<div style='background: url({paths}); background-size: 100px;'>
+    <slot />
+</div>
 {/if}
 
 <style>

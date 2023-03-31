@@ -1,9 +1,8 @@
 <script>
-    import { filesLocalCopy, fileToOpen, editorState, width, height, filesPanelState, docsPanelState, stepsPanelState } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, filesPanelState, docsPanelState, stepsPanelState, resourcesPanelState } from '$lib/store'
     import FilesPanel from '$lib/FilesPanel.svelte';
     import ResourcesPanel from '$lib/ResourcesPanel.svelte';
     import { page } from '$app/stores';
-    import paths from '$lib/images/paths.svg'
     
     export let data
     console.log('page data', data, $page.url.href)
@@ -48,16 +47,16 @@
     
 </script>
 
-<div class='container' style='width: {$width}px; height:{$height}px; background: url({paths}); background-size: 100px;'>
+<div class='container' style='width: {$width}px; height:{$height}px;'>
     <nav>
         <div class='desktopMenu'>
             <a href='../' aria-label="menu" class='smallMenuButton'>Dashboard</a>
             <button class="smallMenuButton" on:click='{()=>{filesPanelState.set(true)}}'>Files</button>
             {#if data.type === 'project'}
-            <button class="smallMenuButton" on:click='{()=>{docsPanelState.set(true)}}'>Docs</button>
+            <button class="smallMenuButton" on:click='{()=>{resourcesPanelState.set(true)}}'>Docs</button>
             {/if}
             {#if data.type === 'tutorial'}
-            <button class="smallMenuButton" on:click='{()=>{stepsPanelState.set(true)}}'>Steps</button>
+            <button class="smallMenuButton" on:click='{()=>{resourcesPanelState.set(true)}}'>Steps</button>
             {/if}
         </div>
         <button>Sign In</button>
@@ -67,10 +66,10 @@
         <FilesPanel files='{files}' projectName='{data.project.name}'/>
         {/if}
         <iframe srcDoc="{userSRCDoc}" style="flex: 1 1 100%; height: calc({$height}px - 70px); border-radius: 20px; margin-top: 10px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  />
-        {#if $docsPanelState}
+        {#if data.type === 'project' && $resourcesPanelState}
             <ResourcesPanel docsHTML='{data.docsHTML}' mode='docs' />
         {/if}
-        {#if $stepsPanelState}
+        {#if data.type === 'tutorial' && $resourcesPanelState}
             <ResourcesPanel steps='{data.project.stepsJSON}' mode='tutorial' URLtoShare='{$page.url.href}' />
         {/if}
         
@@ -108,6 +107,7 @@
       text-decoration: none;
       display: flex;
       align-items: center;
+      padding: 0 20px 0 0;
     }
     .smallMenuButton:hover, .activeSmallMenuButton {
       background: none;
