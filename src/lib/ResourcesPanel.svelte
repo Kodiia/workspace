@@ -55,7 +55,7 @@
 
 </script>
 
-<div class='panel' style='flex: 0 0 {panelWidth}; width: {panelWidth}; height: calc({$height}px - 70px)'>
+<div class='panel' style='height: calc({$height}px - 70px)'>
     <button bind:this={button} class="panelButton" on:click={()=>{resourcesPanelState.set(false);}} >
         <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
     </button>
@@ -145,15 +145,16 @@
     
     <style>
         .panel{
+            width: 100%;
             position: relative;
             background: #fdfdfd;
             background: linear-gradient(45deg, #ffffff50, transparent);
             backdrop-filter: blur(3px);
             -webkit-backdrop-filter: blur(3px);
             border-radius: 15px;
-            box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
+            box-shadow: 0 0 10px rgba(60, 150, 238, 0.5);
             padding: 20px;
-            margin: 10px;
+            /* margin: 10px; */
             box-sizing: border-box;
             transition: width 0.25s;
         }

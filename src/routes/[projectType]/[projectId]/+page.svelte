@@ -1,4 +1,5 @@
 <script>
+    import { fade, fly } from 'svelte/transition';
     import { filesLocalCopy, fileToOpen, editorState, width, height, filesPanelState, docsPanelState, stepsPanelState, resourcesPanelState } from '$lib/store'
     import FilesPanel from '$lib/FilesPanel.svelte';
     import ResourcesPanel from '$lib/ResourcesPanel.svelte';
@@ -61,16 +62,24 @@
         </div>
         <button>Sign In</button>
     </nav>
-    <div style="display: flex; align-items: center;">
+    <div class='panelsContainer'>
         {#if $filesPanelState}
-        <FilesPanel files='{files}' projectName='{data.project.name}'/>
+        <div transition:fade style='width: 100%; padding: 10px; transition: all 2s'>
+            <FilesPanel files='{files}' projectName='{data.project.name}'/>
+        </div>
         {/if}
-        <iframe srcDoc="{userSRCDoc}" style="flex: 1 1 100%; height: calc({$height}px - 70px); border-radius: 20px; margin-top: 10px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  />
+        <div transition:fade style='width: 100%; padding: 10px; transition: all 2s;'>
+            <iframe srcDoc="{userSRCDoc}" style="width: 100%; height: calc({$height}px - 70px); border-radius: 20px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  />
+        </div>
         {#if data.type === 'project' && $resourcesPanelState}
-            <ResourcesPanel docsHTML='{data.docsHTML}' mode='docs' />
+            <div transition:fade style='width: 100%; padding: 10px;'>
+                <ResourcesPanel docsHTML='{data.docsHTML}' mode='docs' />
+            </div>
         {/if}
         {#if data.type === 'tutorial' && $resourcesPanelState}
-            <ResourcesPanel steps='{data.project.stepsJSON}' mode='tutorial' URLtoShare='{$page.url.href}' />
+            <div transition:fade style='width: 100%; padding: 10px;'>
+                <ResourcesPanel steps='{data.project.stepsJSON}' mode='tutorial' URLtoShare='{$page.url.href}' />
+            </div>
         {/if}
         
         <!-- {#if data.type === 'project'}
@@ -88,14 +97,20 @@
     div{
         overflow: hidden;
     }   
+    .panelsContainer{
+        display: flex;
+        /* grid-auto-columns: 1fr; */
+        /* display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+    }
     .userContainer {
         background: #fff;
         color: #1a1a1a;
         z-index: 0;
         border: none;
         border-radius: 25px;
-        margin: 0 17px;
-        box-shadow: 0px 0px 5px rgba(61, 149, 238, 0.3);
+        /* margin: 0 17px; */
+        box-shadow: 0px 0px 5px rgba(61, 149, 238, 0.5);
     }
     .smallMenuButton {
       background: none;

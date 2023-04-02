@@ -13,7 +13,7 @@
 </script>
 
 
-<div class='container'>
+<div class='container' style='height: calc({$height}px - 70px);'>
     <!-- <p>{innerWidth}{innerHeight}{$width}{$height}</p> -->
 <h1>What code will you write?</h1>
 <h2>💫 Templates</h2>
@@ -40,12 +40,25 @@
     .container{
         margin-left: auto;
         margin-right: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
         width: max(1044px);
         height: 100vh;
+
+        background: #fdfdfd;
+        background: linear-gradient(45deg, #ffffff50, transparent);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(60, 150, 238, 0.5);
+        padding: 20px;
+        /* margin: 10px; */
+        box-sizing: border-box;
         /* display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center; */
+        overflow-y: auto;
     }
     .template-cards-container, .tutorial-cards-container{
         margin-left: auto;
