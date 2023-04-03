@@ -1,6 +1,7 @@
 <script>
     import ProjectCard from "$lib/ProjectCard.svelte";
-    import { width, height } from '$lib/store'
+    import StylesPanel from "$lib/StylesPanel.svelte";
+    import { width, height, stylesPanelState } from '$lib/store'
 
     export let data
     console.log(data.projects.items, data.tutorials.items)
@@ -12,59 +13,129 @@
 
 </script>
 
+<div class='container'>
+<nav>
+    <div class='desktopMenu'>
+        <a href='../' aria-label="menu" class='smallMenuButton'>Dashboard</a>
+    </div>
+    <div class='desktopMenu'>
+        <button class="smallMenuButton" on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
+        <button>Sign In</button>
+    </div>
+</nav>
 
-<div class='container' style='height: calc({$height}px - 70px);'>
+{#if $stylesPanelState}
+    <div style='position: absolute; top: 0px; right: 0px; padding: 10px; width: min(300px, 100%);'>
+        <StylesPanel />
+    </div>
+{/if}
+<div class='panelsContainer' style='height: calc({$height}px - 70px);'>
     <!-- <p>{innerWidth}{innerHeight}{$width}{$height}</p> -->
-<h1>What code will you write?</h1>
-<h2>💫 Templates</h2>
-<div class='template-cards-container'>
-    {#each projects as project}
-        <ProjectCard title={project.name} description={project.description} topics='' link='{project.collectionName}/{project.id}' />
-    {/each}
-</div>
-<h2>📚 Tutorials</h2>
-<div class='tutorial-cards-container'>
-    {#each tutorials as tutorial}
-        <ProjectCard title={tutorial.name} description={tutorial.description} topics={tutorial.topics} link='{tutorial.collectionName}/{tutorial.id}' />
-    {/each}
+    <h1 style='margin: 0px;'>What code will you write?</h1>
+    <div class='scrollable-container'>
+        <h2>Templates</h2>
+        <div class='template-cards-container'>
+            {#each projects as project}
+                <ProjectCard title={project.name} description={project.description} topics='' link='{project.collectionName}/{project.id}' />
+            {/each}
+        </div>
+        <h2>Tutorials</h2>
+        <div class='tutorial-cards-container'>
+            {#each tutorials as tutorial}
+                <ProjectCard title={tutorial.name} description={tutorial.description} topics={tutorial.topics} link='{tutorial.collectionName}/{tutorial.id}' />
+            {/each}
+        </div>
+    </div>
 </div>
 </div>
 
 <style>
-    h1{
-        text-align: center;
-    }
-    h2{
-        margin-left: 10px;
-    }
-    .container{
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        width: max(1044px);
-        height: 100vh;
+    .panelsContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
 
         background: #fdfdfd;
-        background: linear-gradient(45deg, #ffffff50, transparent);
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
         backdrop-filter: blur(3px);
         -webkit-backdrop-filter: blur(3px);
         border-radius: 15px;
-        box-shadow: 0 0 10px rgba(60, 150, 238, 0.5);
-        padding: 20px;
+        box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
         /* margin: 10px; */
         box-sizing: border-box;
         /* display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center; */
+    }
+    nav{
+        height: 40px;
+        border-radius: 20px;
+        background: #fdfdfd;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        padding: 0 20px;
+        margin: 0px 0px 10px 0px;
+        box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .desktopMenu{
+        display: flex;
+        align-items: center;
+    }
+    h1{
+        text-align: center;
+    }
+    h2{
+        margin-left: 0px;
+    }
+    .container{
+        margin-left: auto;
+        margin-right: auto;
+        /* margin-top: 10px;
+        margin-bottom: 10px; */
+        width: max(1044px);
+        height: 100vh;
+    }
+    .scrollable-container{
+        box-sizing: border-box;
+        width: calc(100% - 20px);
+        height: calc(100% - 6em);
+        padding: 20px;
         overflow-y: auto;
     }
     .template-cards-container, .tutorial-cards-container{
         margin-left: auto;
         margin-right: auto;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         grid-gap: 10px;
+    }
+    .smallMenuButton {
+      background: none;
+      border: none;
+      color: #1a1a1a;
+      font-family: Roboto, sans-serif;
+      font-weight: 300;
+      font-size: 1rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 0 20px 0 0;
+    }
+    .smallMenuButton:hover {
+      background: none;
+      border: none;
+      font-family: Roboto, sans-serif;
+      font-weight: 300;
+      font-size: 1rem;
+      color: #3d95ee;
+      text-decoration: underline;
+      display: flex;
+      align-items: center;
     }
 </style>

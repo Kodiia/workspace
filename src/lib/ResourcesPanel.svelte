@@ -1,4 +1,5 @@
 <script>
+    import { fade } from 'svelte/transition';
     import { filesLocalCopy, fileToOpen, editorState, width, height, rightPanelWidthSetByUser, resourcesPanelState } from '$lib/store'
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
@@ -91,7 +92,8 @@
     <p bind:this={buttonText} style="width: 0; margin: 0; padding: 0;" class="buttonText">resources</p>
     </button> -->
 
-    {#if panelState}
+    {#if $resourcesPanelState}
+    <div class='contentContainer' in:fade='{{delay: 125}}' out:fade='{{delay: 0}}'>
     <!-- <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div> -->
         {#if mode == 'docs'}
             <div>
@@ -140,7 +142,9 @@
                 </div>
             </div>
         {/if}
+    </div>
     {/if}
+
     </div>
     
     <style>
@@ -148,11 +152,11 @@
             width: 100%;
             position: relative;
             background: #fdfdfd;
-            background: linear-gradient(45deg, #ffffff50, transparent);
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
             backdrop-filter: blur(3px);
             -webkit-backdrop-filter: blur(3px);
             border-radius: 15px;
-            box-shadow: 0 0 10px rgba(60, 150, 238, 0.5);
+            box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
             padding: 20px;
             /* margin: 10px; */
             box-sizing: border-box;
@@ -184,6 +188,10 @@
         }
         .panelButton:hover{
             background: #4233fb20;
+        }
+        .contentContainer{
+            width: 100%;
+            height: 100%;
         }
         .buttonText{
             transform: scale(0);

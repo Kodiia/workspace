@@ -1,9 +1,10 @@
 <script>
-    import { fade, fly } from 'svelte/transition';
-    import { filesLocalCopy, fileToOpen, editorState, width, height, filesPanelState, docsPanelState, stepsPanelState, resourcesPanelState } from '$lib/store'
+    import { fade } from 'svelte/transition';
+    import { filesLocalCopy, fileToOpen, editorState, width, height, filesPanelState, docsPanelState, stepsPanelState, resourcesPanelState, stylesPanelState } from '$lib/store'
     import FilesPanel from '$lib/FilesPanel.svelte';
     import ResourcesPanel from '$lib/ResourcesPanel.svelte';
     import { page } from '$app/stores';
+	import StylesPanel from '$lib/StylesPanel.svelte';
     
     export let data
     console.log('page data', data, $page.url.href)
@@ -60,24 +61,33 @@
             <button class="smallMenuButton" on:click='{()=>{resourcesPanelState.set(true)}}'>Steps</button>
             {/if}
         </div>
-        <button>Sign In</button>
+        <div class='desktopMenu'>
+            <button class="smallMenuButton" on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
+            <button>Sign In</button>
+        </div>
     </nav>
+
+    {#if $stylesPanelState}
+        <div style='position: absolute; top: 0px; right: 0px; padding: 10px; width: min(300px, 100%);'>
+            <StylesPanel />
+        </div>
+    {/if}
     <div class='panelsContainer'>
-        {#if $filesPanelState}
-        <div transition:fade style='width: 100%; padding: 10px; transition: all 2s'>
+        
+        <div transition:fade style='box-sizing: border-box; width: {$filesPanelState ? '100%' : '0px'}; padding: {$filesPanelState ? '10px' : '0px'}; transition: all 0.125s;'>
             <FilesPanel files='{files}' projectName='{data.project.name}'/>
         </div>
-        {/if}
-        <div transition:fade style='width: 100%; padding: 10px; transition: all 2s;'>
-            <iframe srcDoc="{userSRCDoc}" style="width: 100%; height: calc({$height}px - 70px); border-radius: 20px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  />
+    
+        <div transition:fade style='width: 100%; padding: 10px; transition: all 0.125s;'>
+            <iframe srcDoc="{userSRCDoc}" style="width: 100%; height: calc({$height}px - 70px); border-radius: 15px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  />
         </div>
-        {#if data.type === 'project' && $resourcesPanelState}
-            <div transition:fade style='width: 100%; padding: 10px;'>
+        {#if data.type === 'project'}
+            <div transition:fade style='box-sizing: border-box; width: {$resourcesPanelState ? '100%' : '0px'}; padding: {$resourcesPanelState ? '10px' : '0px'}; transition: all 0.125s;'>
                 <ResourcesPanel docsHTML='{data.docsHTML}' mode='docs' />
             </div>
         {/if}
-        {#if data.type === 'tutorial' && $resourcesPanelState}
-            <div transition:fade style='width: 100%; padding: 10px;'>
+        {#if data.type === 'tutorial'}
+            <div transition:fade style='box-sizing: border-box; width: {$resourcesPanelState ? '100%' : '0px'}; padding: {$resourcesPanelState ? '10px' : '0px'}; transition: all 0.125s;'>
                 <ResourcesPanel steps='{data.project.stepsJSON}' mode='tutorial' URLtoShare='{$page.url.href}' />
             </div>
         {/if}
@@ -99,6 +109,9 @@
     }   
     .panelsContainer{
         display: flex;
+        align-items: center;
+        justify-content: center;
+        /* padding: 10px; */
         /* grid-auto-columns: 1fr; */
         /* display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
@@ -108,9 +121,9 @@
         color: #1a1a1a;
         z-index: 0;
         border: none;
-        border-radius: 25px;
+        border-radius: 15px;
         /* margin: 0 17px; */
-        box-shadow: 0px 0px 5px rgba(61, 149, 238, 0.5);
+        box-shadow: 0px 0px 10px rgba(61, 149, 238, 0.5);
     }
     .smallMenuButton {
       background: none;
@@ -148,6 +161,9 @@
         height: 40px;
         border-radius: 20px;
         background: #fdfdfd;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
         padding: 0 20px;
         margin: 10px 10px 0 10px;
         box-shadow: 0px 0px 5px rgba(61, 149, 238, 0.3);

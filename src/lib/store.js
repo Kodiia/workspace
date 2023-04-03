@@ -1,5 +1,8 @@
 import { writable } from 'svelte/store';
 
+export let bgColor = writable('195, 100%, 95%');
+export let stylesPanelState = writable(false);
+
 export let width = writable(1920)
 export let height = writable(1080)
 export let leftPanelWidthSetByUser = writable(0)

@@ -1,4 +1,5 @@
 <script>
+    import { fade } from 'svelte/transition';
     import { filesLocalCopy, fileToOpen, editorState, width, height, leftPanelWidthSetByUser, filesPanelState } from '$lib/store'
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
@@ -86,41 +87,43 @@
     <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
     </button>
 
-    {#if panelState}
-    <!-- <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div> -->
-        <div>
-            <h3 style="margin-top: 0;">{projectName}</h3>
-        </div>
-        {#if $editorState}
-            <div style='height: calc(100% - 3.7rem)'>
-                <CodeEditor fileName='{$fileToOpen}' readOnly='{false}' editorText='{editorText}'/>
+    {#if $filesPanelState}
+        <!-- <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div> -->
+        <div class='contentContainer' in:fade='{{delay: 125}}' out:fade='{{delay: 0}}'>
+            <div>
+                <h3 style="margin-top: 0;">{projectName}</h3>
             </div>
-        {:else}
-            <p>Click files to open</p>
-            <div class='filesGrid'>
-                {#each files as file, index}
-                    <div on:click={runEditor}>
-                        <ProjectFileCard name='{file}' />
-                    </div>
-                {/each}
-            </div>
-        {/if}
+            {#if $editorState}
+                <div style='height: calc(100% - 3.7rem)'>
+                    <CodeEditor fileName='{$fileToOpen}' readOnly='{false}' editorText='{editorText}'/>
+                </div>
+            {:else}
+                <p>Click files to open</p>
+                <div class='filesGrid'>
+                    {#each files as file, index}
+                        <div on:click={runEditor}>
+                            <ProjectFileCard name='{file}' />
+                        </div>
+                    {/each}
+                </div>
+            {/if}
+        </div>    
     {/if}
     </div>
     
     <style>
         .panel{
+            box-sizing: border-box;
             width: 100%;
             position: relative;
             background: #fdfdfd;
-            background: linear-gradient(45deg, #ffffff50, transparent);
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
             backdrop-filter: blur(3px);
             -webkit-backdrop-filter: blur(3px);
             border-radius: 15px;
-            box-shadow: 0 0 10px rgba(60, 150, 238, 0.5);
+            box-shadow: 0 0 10px rgba(60, 150, 238, 0.302);
             padding: 20px;
             /* margin: 10px; */
-            box-sizing: border-box;
             transition: width 0.25s;
         }
         .panelButton{
@@ -149,6 +152,10 @@
         }
         .panelButton:hover{
             background: #4233fb20;
+        }
+        .contentContainer{
+            width: 100%;
+            height: 100%;
         }
         .buttonText{
             /* transform: scale(0); */

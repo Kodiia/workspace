@@ -1,5 +1,5 @@
 <script>
-    import { width, height } from '$lib/store'
+    import { width, height, bgColor } from '$lib/store'
     import { navigating } from '$app/stores'
     import '../style.css' 
     import paths from '$lib/images/paths.svg'
@@ -26,16 +26,14 @@
 
 
 
+<div class='layout-container' style='width: {$width}px; height: {$height}px; background-image: url({paths}); background-size: 100px; background-color: hsl({$bgColor});'>
 {#if $navigating}
-<div class='container'>
     <div class='loader'></div>
     <h3>Loading...</h3>
-</div>
 {:else}
-<div style='background: url({paths}); background-size: 100px;'>
     <slot />
-</div>
 {/if}
+</div>
 
 <style>
     .container{
@@ -44,6 +42,17 @@
         box-sizing: border-box;
         margin-left: auto;
         margin-right: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .layout-container{
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
