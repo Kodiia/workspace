@@ -41,8 +41,8 @@
         position: relative;
         background: #fdfdfd;
         background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
-        backdrop-filter: blur(3px);
-        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
         border-radius: 15px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
         padding: 20px;

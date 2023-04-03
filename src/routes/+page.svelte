@@ -25,7 +25,7 @@
 </nav>
 
 {#if $stylesPanelState}
-    <div style='position: absolute; top: 0px; right: 0px; padding: 10px; width: min(300px, 100%);'>
+    <div style='position: absolute; top: 0px; right: 0px; padding: 0px; width: min(300px, 100%);'>
         <StylesPanel />
     </div>
 {/if}
@@ -50,6 +50,15 @@
 </div>
 
 <style>
+    .container{
+        margin-left: auto;
+        margin-right: auto;
+        /* margin-top: 10px;
+        margin-bottom: 10px; */
+        width: max(1044px);
+        height: 100vh;
+        position: relative;
+    }
     .panelsContainer{
         display: flex;
         flex-direction: column;
@@ -58,8 +67,8 @@
 
         background: #fdfdfd;
         background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
-        backdrop-filter: blur(3px);
-        -webkit-backdrop-filter: blur(3px);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
         border-radius: 15px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
         /* margin: 10px; */
@@ -74,8 +83,8 @@
         border-radius: 20px;
         background: #fdfdfd;
         background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
-        backdrop-filter: blur(3px);
-        -webkit-backdrop-filter: blur(3px);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
         padding: 0 20px;
         margin: 0px 0px 10px 0px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
@@ -93,14 +102,7 @@
     h2{
         margin-left: 0px;
     }
-    .container{
-        margin-left: auto;
-        margin-right: auto;
-        /* margin-top: 10px;
-        margin-bottom: 10px; */
-        width: max(1044px);
-        height: 100vh;
-    }
+    
     .scrollable-container{
         box-sizing: border-box;
         width: calc(100% - 20px);
