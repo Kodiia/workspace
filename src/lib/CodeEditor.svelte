@@ -249,7 +249,7 @@
 
     .editorMenu{
       background:#fff;
-      border-radius: 20px 20px 0 0;
+      border-radius: 15px 15px 0 0;
       border-bottom: 1px solid #dfdfdf;
       display: flex;
       justify-content: space-between;

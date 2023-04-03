@@ -55,7 +55,7 @@
         margin-right: auto;
         /* margin-top: 10px;
         margin-bottom: 10px; */
-        width: max(1044px);
+        width: min(100%, 1044px);
         height: 100vh;
         position: relative;
     }
@@ -106,8 +106,8 @@
     .scrollable-container{
         box-sizing: border-box;
         width: calc(100% - 20px);
-        height: calc(100% - 6em);
-        padding: 20px;
+        height: calc(100% - 4em);
+        padding: 0 10px 10px 10px;
         overflow-y: auto;
     }
     .template-cards-container, .tutorial-cards-container{
