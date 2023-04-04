@@ -3,21 +3,21 @@
     import { fade } from 'svelte/transition';
 
     let hueValue = 195
-    let saturationValue = '45%'
-    let lightnessValue = '85%'
+    let saturationValue = '48%'
+    let lightnessValue = '95%'
     function updateColorValue(){
         bgColor.set(hueValue + ',' + saturationValue + ',' + lightnessValue);
         //console.log($bgColor, ' value:', hueValue)
     }
 
-    let handlePosition = 125
+    let hueEventPosition = 125
     let gradientContainerWidth = 0
     function getGradientContainerEventPosition(event){
-        handlePosition = Math.floor(event.offsetX)
-        if(handlePosition > gradientContainerWidth - 10){
-            handlePosition = gradientContainerWidth - 10
+        hueEventPosition = Math.floor(event.offsetX)
+        if(hueEventPosition > gradientContainerWidth - 10){
+            hueEventPosition = gradientContainerWidth - 10
         }
-        hueValue = Math.floor( handlePosition/gradientContainerWidth * 360 )
+        hueValue = Math.floor( hueEventPosition/gradientContainerWidth * 360 )
         bgColor.set(hueValue + ',' + saturationValue + ',' + lightnessValue);
         console.log($bgColor)
     }
@@ -46,26 +46,47 @@
         console.log($bgColor)
     }
 
-    console.log(hueValue, lightnessValue, saturationValue)
+    function setColorWithPresetButton(h, s, l){
+        bgColor.set(h + ', ' + s + '%, ' + l + '%');
+
+        hueEventPosition = h / 360 * gradientContainerWidth;
+        saturationEventPosition = s / 50 * saturationContainerWidth;
+
+        lightnessEventPosition = (l - 50) / 50 * lightnessContainerWidth;
+        if(lightnessEventPosition > lightnessContainerWidth - 10){
+            lightnessEventPosition = lightnessContainerWidth - 10
+        }
+
+        hueValue = h;
+        saturationValue = s + '%';
+        lightnessValue = l + '%';
+    }
 </script>
 
 <div class='panel' transition:fade>
     <button class="panelButton" on:click={()=>{stylesPanelState.set(false);}} >    
     <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
     </button>
-    <h3>Update Workspace Colors</h3>
+    <h3>Workspace Colors</h3>
     <!-- <input type='range' bind:value={hueValue} min='0' max='360' on:change={updateColorValue}> -->
-    <p>Click the color palettes to change the tint.</p>
+    <p>Pick a color you like.</p>
     <div bind:clientWidth='{gradientContainerWidth}' class='colorGradient' on:pointerdown={getGradientContainerEventPosition}>
-        <div class='gradientHandle' style='left: {handlePosition}px'></div>
+        <div class='gradientHandle' style='left: {hueEventPosition}px'></div>
     </div>
     <!-- <p>Click the saturation palette to change the saturation of colors.</p> -->
-    <div bind:clientWidth='{saturationContainerWidth}' class='saturationGradient' style='background: linear-gradient(to right, hsl({hueValue} 0% {lightnessValue}), hsl({hueValue} 50% {lightnessValue}))' on:pointerdown={getSaturationContainerEventPosition}>
+    <div bind:clientWidth='{saturationContainerWidth}' class='saturationGradient' style='background: linear-gradient(to right, hsl({hueValue} 0% {lightnessValue}), hsl({hueValue} 50% {lightnessValue}));' on:pointerdown={getSaturationContainerEventPosition}>
         <div class='gradientHandle' style='left: {saturationEventPosition}px'></div>
     </div>
     <!-- <p>Click the lightness palette to change colors from light to dark. {hueValue} {saturationValue} {lightnessValue}</p> -->
-    <div bind:clientWidth='{lightnessContainerWidth}' class='lightnessGradient' style='background: linear-gradient( to right,  hsl({hueValue} {saturationValue} 50%), hsl({hueValue} {saturationValue} 100%)' on:pointerdown={getLightnessContainerEventPosition}>
+    <div bind:clientWidth='{lightnessContainerWidth}' class='lightnessGradient' style='background: linear-gradient( to right,  hsl({hueValue} {saturationValue} 50%), hsl({hueValue} {saturationValue} 100%);' on:pointerdown={getLightnessContainerEventPosition}>
         <div class='gradientHandle' style='left: {lightnessEventPosition}px'></div>
+    </div>
+    <div class='presets'>
+        <button class='presets-button' style='background: hsl(195 48% 95%)' on:pointerdown={()=>{setColorWithPresetButton(195, 48, 95)}}></button>
+        <button class='presets-button' style='background: hsl(215 45% 55%)' on:pointerdown={()=>{setColorWithPresetButton(215, 45, 55)}}></button>
+        <button class='presets-button' style='background: hsl(5 48% 55%)' on:pointerdown={()=>{setColorWithPresetButton(5, 48, 55)}}></button>
+        <button class='presets-button' style='background: hsl(250 48% 70%)' on:pointerdown={()=>{setColorWithPresetButton(250, 48, 70)}}></button>
+        <button class='presets-button' style='background: hsl(297 45% 98%)' on:pointerdown={()=>{setColorWithPresetButton(297, 45, 98)}}></button>
     </div>
     <!-- <p>{handlePosition} {hueValue} {gradientContainerWidth}</p> -->
 </div>
@@ -83,7 +104,7 @@
         -webkit-backdrop-filter: blur(25px);
         border-radius: 15px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
-        padding: 20px;
+        padding: 15px;
         /* margin: 10px; */
         transition: width 0.25s;
         z-index: 10;
@@ -132,7 +153,7 @@
         hsl(360, 100%, 85%)
     ); 
         height: 10px;
-        border: none;
+        border: 2px solid #eceaff;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
         position: relative;
@@ -142,7 +163,7 @@
      .saturationGradient{
         /* background: linear-gradient(90deg, white, rgb(149, 149, 149) );  */
         height: 10px;
-        border:none;
+        border: 2px solid #eceaff;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
         position: relative;
@@ -152,7 +173,7 @@
      .lightnessGradient{
         /* background: linear-gradient(90deg, rgb(149, 149, 149), white );  */
         height: 10px;
-        border:none;
+        border: 2px solid #eceaff;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
         position: relative;
@@ -171,5 +192,22 @@
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px); */
         box-sizing: border-box;
+        transition: all 0.125s;
+     }
+     .presets{
+        width: 100%;
+        height: 30px;
+        display: flex;
+        justify-content: space-around;
+        margin-top: 15px;
+     }
+     .presets-button{
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        border: 2px solid #eceaff;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
+        cursor: pointer; 
      }
 </style>

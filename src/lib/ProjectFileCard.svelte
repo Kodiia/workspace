@@ -19,10 +19,13 @@
 <style>
     button{
         width: 100%;
-        background: #fff;
+        background: #fdfdfd;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
         color: #1a1a1a;
         border: none;
-        border-radius: 20px;
+        border-radius: 15px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
         padding: 10px;
         /* margin: 0 10px 10px 0; */

@@ -28,10 +28,13 @@
 <style>
     .card-container{
         width: 100%;
-        background: white;
-        border-radius: 20px;
+        background: #fdfdfd;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-radius: 15px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
-        padding: 20px;
+        padding: 15px;
         /* margin: 10px; */
         box-sizing: border-box;
         display: flex;

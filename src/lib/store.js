@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export let bgColor = writable('195, 100%, 95%');
+export let bgColor = writable('195, 48%, 95%');
 export let stylesPanelState = writable(false);
 
 export let width = writable(1920)

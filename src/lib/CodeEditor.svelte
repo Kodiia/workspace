@@ -202,7 +202,10 @@
       /* width: calc(100% - 40px); */
       width: 100%;
       text-align: left;
-      background: #fff;
+      background: #fdfdfd;
+      background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
       border-radius: 15px;
       box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
       /* padding: 10px; */
@@ -247,8 +250,18 @@
       transition: transform 0.25s;
     } 
 
+    .editor{
+      background: #fdfdfd;
+      /* background: linear-gradient(45deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.55)); */
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+    }
+
     .editorMenu{
-      background:#fff;
+      background: #fdfdfd;
+      background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
       border-radius: 15px 15px 0 0;
       border-bottom: 1px solid #dfdfdf;
       display: flex;
