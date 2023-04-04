@@ -20,7 +20,7 @@
     </div>
     <div class='desktopMenu'>
         <button class="smallMenuButton" on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
-        <button>Sign In</button>
+        <button class='sign-in-button'>Sign In</button>
     </div>
 </nav>
 
@@ -139,5 +139,14 @@
       text-decoration: underline;
       display: flex;
       align-items: center;
+    }
+    .sign-in-button{
+        height: 30px;
+        border-radius: 15px;
+        padding: 0 10px;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
     }
 </style>

@@ -23,13 +23,21 @@
 
     let userSRCDoc
     // let filesPanelState = true, docsPanelState = true, stepsPanelState = false;
-
+    
     filesLocalCopy.subscribe(value => {
         // console.log('updated')
         userSRCDoc = `<html>
             <body>${getFileContents('index.html')}</body>
             <style>${getFileContents('style.css')}</style>
-            <script type='module'>${getFileContents('script.js')}<\/script>
+            <script type='module'>
+                let consoleMessages = []
+                window.onerror = function (e) {
+                consoleMessages.push(e)
+                console.log('myerror')
+                console.log(consoleMessages);
+                }
+                ${getFileContents('script.js')}
+            <\/script>
                
         </html>`
     })
@@ -46,8 +54,14 @@
     }
 
 
-    
+    let consoleMessages = []
+    function handleErrors(error){
+    //consoleMessages.push(error);
+    console.log('error', consoleMessages);
+    }
 </script>
+
+<svelte:window on:error|capture={e => handleErrors(e.error)} />
 
 <div class='container' style='width: {$width}px; height:{$height}px;'>
     <nav>
@@ -63,7 +77,7 @@
         </div>
         <div class='desktopMenu'>
             <button class="smallMenuButton" on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
-            <button>Sign In</button>
+            <button class='sign-in-button'>Sign In</button>
         </div>
     </nav>
 
@@ -173,6 +187,15 @@
     }
     .desktopMenu{
         display: flex;
+        align-items: center;
+    }
+    .sign-in-button{
+        height: 30px;
+        border-radius: 15px;
+        padding: 0 10px;
+        display: flex;
+        text-align: center;
+        justify-content: center;
         align-items: center;
     }
 </style>

@@ -122,7 +122,7 @@
             -webkit-backdrop-filter: blur(25px);
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(60, 150, 238, 0.302);
-            padding: 20px;
+            padding: 15px;
             /* margin: 10px; */
             transition: width 0.25s;
         }

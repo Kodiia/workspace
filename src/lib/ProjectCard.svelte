@@ -21,7 +21,7 @@
     <p>✔️ Topics: <b>{topics}</b></p>
     {/if}
     <div class="linkContainer">
-    <a href={link} on:click={setProjectId}>START</a>
+    <a href={link} on:click={setProjectId}>Start</a>
     </div>
 </div>
 

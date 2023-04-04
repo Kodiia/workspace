@@ -1,5 +1,6 @@
 <script>
   import { fade } from 'svelte/transition';
+  import ConsolePanel from "$lib/ConsolePanel.svelte";
     // import * as ace from 'ace-builds/src-noconflict/ace';
     // import 'ace-builds/src-noconflict/theme-textmate';
     // import 'ace-builds/src-noconflict/theme-monokai';
@@ -19,7 +20,7 @@
     // import 'brace/ext/language_tools';
     // import 'brace/snippets/javascript';
     
-    import { filesLocalCopy, editorState } from './store';
+    import { filesLocalCopy, editorState, consolePanelState } from './store';
     import { getFileLogoURL } from '$lib/utils'
     // import {editorState, filesData, CSSthemeClass, userSRCDoc} from "./stores";
     
@@ -43,6 +44,7 @@
     let themeValue = "chrome"
     let editorTheme = "ace/theme/" + themeValue
     let editor
+    let consoleMessages = []
 
     onMount(async () => {
       const ace = await import('brace')
@@ -58,7 +60,19 @@
       await import('brace/ext/language_tools');
       // await import('brace/snippets/javascript');
 
-      
+      // console.oldLog = console.log;
+        console.log = function(value){
+            // console.oldLog(value);
+            typeof value === 'string' ? consoleMessages.push(value) : consoleMessages.push(JSON.stringify(value));
+        };
+
+        // window.onerror = function (e) {
+        //     consoleMessages.push(e);
+        //     console.log(consoleMessages);
+        // }
+        
+
+
         //ace.require("brace/ext/language_tools");
         editor = ace.edit(editor, {
             mode: modePath,
@@ -74,7 +88,9 @@
         editor.setReadOnly(readOnly);
         editor.session.on('change', function(e) {
             // console.log(e, 'looking for changes...')
-            updateFileData(fileName, editor.getValue())
+            setTimeout(()=>{
+              updateFileData(fileName, editor.getValue())
+            }, 500)
             // getFile(fileIndex)
             // runUserCode()
         });
@@ -152,7 +168,11 @@
   }
 
   let button, buttonText
+
+  
 </script>
+
+
     
 <main transition:fade style="background: none; height: 100%;">
     <div class="editorMenu">
@@ -189,12 +209,21 @@
                 <button class="smallMenuButton" on:click={paste}>paste</button>
                 <button class="smallMenuButton" on:click={()=>{editor.undo()}}>undo</button>
                 <button class="smallMenuButton" on:click={()=>{editor.redo()}}>redo</button>
+                {#if mode==='javascript'}
+                  <button class="smallMenuButton" on:click={()=>{consolePanelState.set(true)}}>console</button>
+                {/if}
                 <!-- <button class="smallMenuButton" on:click={max}>{maxButtonText}</button> -->
             </div>
         {/if}
     </div>
-    <div bind:this={editor} class="editor" style="width: 100%; height: calc(100% - 3rem); border-radius: 0 0 15px 15px;" />
-    
+    <div style='height: calc(100% - 3rem); position: relative;'>
+      <div bind:this={editor} class="editor" style="width: 100%; border-radius: 0 0 15px 15px;" ></div>
+        <!-- {#if $consolePanelState}
+        <div style='position: absolute; bottom: 0;'>
+          <ConsolePanel consoleMessages={consoleMessages}/>
+        </div>
+        {/if} -->
+    </div>
 </main>
     
 <style>
@@ -251,6 +280,7 @@
     } 
 
     .editor{
+      height: 100%;
       background: #fdfdfd;
       /* background: linear-gradient(45deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.55)); */
       backdrop-filter: blur(25px);
