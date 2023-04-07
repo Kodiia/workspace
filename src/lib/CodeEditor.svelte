@@ -20,7 +20,7 @@
     // import 'brace/ext/language_tools';
     // import 'brace/snippets/javascript';
     
-    import { filesLocalCopy, editorState, consolePanelState } from './store';
+    import { filesLocalCopy, editorState, consolePanelState, consoleMessages } from './store';
     import { getFileLogoURL } from '$lib/utils'
     // import {editorState, filesData, CSSthemeClass, userSRCDoc} from "./stores";
     
@@ -44,11 +44,10 @@
     let themeValue = "chrome"
     let editorTheme = "ace/theme/" + themeValue
     let editor
-    let consoleMessages = []
 
     onMount(async () => {
       const ace = await import('brace')
-      console.log(ace)
+      //console.log(ace)
       await import('brace/mode/javascript');
       await import('brace/mode/html');
       await import('brace/mode/css');
@@ -61,10 +60,10 @@
       // await import('brace/snippets/javascript');
 
       // console.oldLog = console.log;
-        console.log = function(value){
-            // console.oldLog(value);
-            typeof value === 'string' ? consoleMessages.push(value) : consoleMessages.push(JSON.stringify(value));
-        };
+        // console.log = function(value){
+        //     // console.oldLog(value);
+        //     typeof value === 'string' ? consoleMessages.push(value) : consoleMessages.push(JSON.stringify(value));
+        // };
 
         // window.onerror = function (e) {
         //     consoleMessages.push(e);
@@ -87,15 +86,11 @@
         editor.session.setTabSize(2);
         editor.setReadOnly(readOnly);
         editor.session.on('change', function(e) {
-            // console.log(e, 'looking for changes...')
             setTimeout(()=>{
-              updateFileData(fileName, editor.getValue())
+              updateFileData(fileName, editor.getValue()),
+              consoleMessages.set([])
             }, 500)
-            // getFile(fileIndex)
-            // runUserCode()
-        });
-        // console.log(editorText)
-      
+        });      
     })
 
     function updateFileData(fileNameLocal, value){
@@ -107,50 +102,6 @@
             }
         }
     }
-
-    // function getFile(fileIndex){
-    //     console.log($filesData[fileIndex].text)
-    //     $filesData[fileIndex].text = editor.getValue()
-    // }
-
-    
-    function runUserCode() {
-    //     let htmlText, cssText, jsText
-    //   for(let file of $filesData){
-    //     if (file.type == "html"){htmlText = file.text}
-    //     if (file.type == "css"){cssText = file.text}
-    //     if (file.type == "js"){jsText = file.text}
-    //   }
-    //   console.log(`<html>` + htmlText + `<style>` + cssText + `</style><script>` + jsText + `<\/script></html>`)
-    //   userSRCDoc.set(`<html>` + htmlText + `<style>` + cssText + `</style><script>` + jsText + `<\/script></html>`);
-    }
-
-    // let iconName = mode
-    // if(mode == 'javascript'){iconName = 'js'}
-
-    
-    
-    // let themeValue = "chrome", editorTheme, CSSclass
-    // // let textColor = $darkColor
-    // // let bgColor = $lightColor
-    // CSSthemeClass.subscribe(value=>{
-    //   if(value == "dark-theme"){
-    //     themeValue = "vibrant_ink"
-    //     // CSSclass = "dark-theme"
-    //   } else if(value == "light-theme"){
-    //     themeValue = "chrome"
-    //     // CSSclass = "dark-theme"
-    //   }
-    //   switchTheme()
-    // })
-    
-    
-    // function switchTheme(){
-    //   editorTheme = "ace/theme/" + themeValue
-    //   if(editor){
-    //   editor.setTheme(editorTheme);
-    //   }
-    // }
     
     async function paste(){
       let text = await navigator.clipboard.readText();
@@ -218,11 +169,11 @@
     </div>
     <div style='height: calc(100% - 3rem); position: relative;'>
       <div bind:this={editor} class="editor" style="width: 100%; border-radius: 0 0 15px 15px;" ></div>
-        <!-- {#if $consolePanelState}
-        <div style='position: absolute; bottom: 0;'>
-          <ConsolePanel consoleMessages={consoleMessages}/>
+        {#if $consolePanelState}
+        <div style='position: absolute; bottom: 0; width: 100%;'>
+          <ConsolePanel />
         </div>
-        {/if} -->
+        {/if}
     </div>
 </main>
     

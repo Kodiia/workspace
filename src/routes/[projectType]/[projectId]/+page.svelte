@@ -5,10 +5,10 @@
     import ResourcesPanel from '$lib/ResourcesPanel.svelte';
     import { page } from '$app/stores';
 	import StylesPanel from '$lib/StylesPanel.svelte';
+    import ProjectPanel from '$lib/ProjectPanel.svelte';
     
     export let data
-    console.log('page data', data, $page.url.href)
-    // console.log('DATA TYPE', data.type)
+
     if(data.type === 'tutorial'){
         docsPanelState.set(false);
         stepsPanelState.set(true);
@@ -20,48 +20,8 @@
 
     let files = data.project.files
     $filesLocalCopy = data.files
-
-    let userSRCDoc
-    // let filesPanelState = true, docsPanelState = true, stepsPanelState = false;
-    
-    filesLocalCopy.subscribe(value => {
-        // console.log('updated')
-        userSRCDoc = `<html>
-            <body>${getFileContents('index.html')}</body>
-            <style>${getFileContents('style.css')}</style>
-            <script type='module'>
-                let consoleMessages = []
-                window.onerror = function (e) {
-                consoleMessages.push(e)
-                console.log('myerror')
-                console.log(consoleMessages);
-                }
-                ${getFileContents('script.js')}
-            <\/script>
-               
-        </html>`
-    })
-
-    
-
-    function getFileContents(fileToSearch){
-        for(let file of $filesLocalCopy){
-            if(file.fileName === fileToSearch){
-                console.log('this is ', file.fileData)
-                return file.fileData   
-            }
-        }
-    }
-
-
-    let consoleMessages = []
-    function handleErrors(error){
-    //consoleMessages.push(error);
-    console.log('error', consoleMessages);
-    }
 </script>
 
-<svelte:window on:error|capture={e => handleErrors(e.error)} />
 
 <div class='container' style='width: {$width}px; height:{$height}px;'>
     <nav>
@@ -93,7 +53,8 @@
         </div>
     
         <div transition:fade style='width: 100%; padding: 10px; transition: all 0.125s;'>
-            <iframe srcDoc="{userSRCDoc}" style="width: 100%; height: calc({$height}px - 70px); border-radius: 15px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  />
+            <ProjectPanel />
+            <!-- <iframe srcDoc="{userSRCDoc}" style="width: 100%; height: calc({$height}px - 70px); border-radius: 15px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  /> -->
         </div>
         {#if data.type === 'project'}
             <div transition:fade style='box-sizing: border-box; width: {$resourcesPanelState ? '100%' : '0px'}; padding: {$resourcesPanelState ? '10px' : '0px'}; transition: all 0.125s;'>

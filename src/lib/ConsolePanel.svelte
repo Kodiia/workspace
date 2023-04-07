@@ -1,9 +1,9 @@
 <script>
     // import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
-    import { consolePanelState } from './store';
+    import { consolePanelState, consoleMessages } from './store';
 
-    export let consoleMessages = []
+    // export let consoleMessages = []
     let consoleData, button
     
 
@@ -15,8 +15,12 @@
         <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
     </button>
     <div class='consoleDataContainer' bind:this={consoleData}>
-    {#each consoleMessages as consoleMessage}
-        <p>{consoleMessage}</p>
+    {#each $consoleMessages as message}
+        {#if message.type === 'text'}
+            <p class='text-message'>{message.text}</p>
+        {:else if message.type === 'error'}
+            <p class='error-message'>🔴{message.text}</p>
+        {/if}
     {/each}
     </div> 
 </div>
@@ -35,7 +39,7 @@
         -webkit-backdrop-filter: blur(25px);
         border-radius: 15px;
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.302);
-        padding: 15px;
+        padding: 30px 15px 15px 15px;
         /* margin: 10px; */
         transition: width 0.25s;
     }
@@ -67,7 +71,13 @@
       background: #4233fb20;
     }
     .consoleDataContainer{
+        width: 100%;
         height: 100%;
         overflow: auto;
+        font-family: 'Source Code Pro', sans-serif;
+        font-size: 1rem;
+    }
+    .text-message, .error-message{
+        border-bottom: 1px solid rgba(0,0,0,0.1);
     }
 </style>

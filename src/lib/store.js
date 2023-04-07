@@ -4,6 +4,7 @@ export let bgColor = writable('195, 48%, 95%');
 export let stylesPanelState = writable(false);
 
 export let consolePanelState = writable(false);
+export let consoleMessages = writable([]);
 
 export let width = writable(1920)
 export let height = writable(1080)
