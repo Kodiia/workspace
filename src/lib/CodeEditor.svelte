@@ -169,7 +169,7 @@
     </div>
     <div style='height: calc(100% - 3rem); position: relative;'>
       <div bind:this={editor} class="editor" style="width: 100%; border-radius: 0 0 15px 15px;" ></div>
-        {#if $consolePanelState && mode==='javascript'}
+        {#if $consolePanelState && mode==='javascript' && !readOnly}
         <div style='position: absolute; bottom: 0; width: 100%;'>
           <ConsolePanel />
         </div>
