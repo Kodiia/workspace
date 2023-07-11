@@ -5,7 +5,7 @@
 
     export let data
     // console.log(data.projects.items, data.tutorials.items)
-    console.log(data.user)
+    // console.log(data.user)
 
     let projects = data.projects.items
     // let title = data.result.items[0].project_name

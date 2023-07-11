@@ -4,7 +4,7 @@
 </script>
 <div class='container'>
     <h2>Log in to your acccount</h2>
-    <p>Or <a href='/register'>sing up</a> if you don't already have an account.</p>
+    <p>Or <a href='/register'>sing up</a> if you don't have an account.</p>
 
     <form action='?/login' method='POST' class='formContainer'>
     <div class='formFieldContainer'>
@@ -19,9 +19,11 @@
         </label>
         <input type='password' name='password' class='formInput' />
     </div>
+    <a href='/reset-password'>Forgot password?</a>
     <div class='formFieldContainer'>
         <button type='submit' class='submitButton'>Log In</button>
     </div>
+    
 
     {#if form?.notVerified}
         <div class='alertContainer'>

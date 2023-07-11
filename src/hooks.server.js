@@ -18,7 +18,6 @@ export async function handle({ event, resolve }) {
         } else {
             event.locals.user = undefined;
         }
-        console.log('hooks', event.locals.pb.authStore.isValid)
     } catch (_) {
         // clear the auth store on failed refresh
         event.locals.pb.authStore.clear();
@@ -28,7 +27,6 @@ export async function handle({ event, resolve }) {
 
     // send back the default 'pb_auth' cookie to the client with the latest store state
     response.headers.set('set-cookie', event.locals.pb.authStore.exportToCookie());
-    // console.log(response)
 
     return response;
 }
