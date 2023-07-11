@@ -5,11 +5,17 @@ import mdSVG from '$lib/logos/md.svg'
 import txtSVG from '$lib/logos/txt.svg'
 import svelteSVG from '$lib/logos/svelte.svg'
 
+// const { randomBytes } = await import('node:crypto');
 
 export const serializeNonPOJOs = (obj) => {
 	return JSON.parse(JSON.stringify(obj))
 	// return structuredClone(obj)
 };
+
+// export const generateUsername = (name) => {
+// 	const id = randomBytes(2).toString('hex');
+// 	return `${name.slice(0, 5)}${id}`;
+// };
 
 export const getFileLogoURL = (fileType) => {
 	let logoPath = htmlSVG
