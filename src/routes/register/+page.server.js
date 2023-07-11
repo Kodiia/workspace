@@ -6,14 +6,14 @@ export const actions = {
         const body = Object.fromEntries(await request.formData())
 
         // let username = generateUsername(body.name.split(' ').join('')).toLowerCase();
-        let username = body.email
+        // let username = body.email
 
         try {
-            await locals.pb.collection('users').create({username, ...body})
+            await locals.pb.collection('users').create({...body})
             await locals.pb.collection('users').requestVerification(body.email)
         } catch (err) {
             console.log('Error: ', err)
-            throw error(500, 'Something went wrong')
+            throw error(500, 'Something went wrong', err)
         }
 
         throw redirect(303, '/login')
