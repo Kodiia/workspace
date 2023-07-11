@@ -1,11 +1,12 @@
 <script>
+    export let form
 
 </script>
 <div class='container'>
-    <h2>Register for an acccount</h2>
-    <p>Or <a href='/login'>log in</a> if you already have an account.</p>
+    <h2>Log in to your acccount</h2>
+    <p>Or <a href='/register'>sing up</a> if you don't already have an account.</p>
 
-    <form action='?/register' method='POST' class='formContainer'>
+    <form action='?/login' method='POST' class='formContainer'>
     <div class='formFieldContainer'>
         <label for='email' class='formLabel'>
             <span class='labelSpan'>email</span>
@@ -19,14 +20,14 @@
         <input type='password' name='password' class='formInput' />
     </div>
     <div class='formFieldContainer'>
-        <label for='passwordConfirm' class='formLabel'>
-            <span class='labelSpan'>confirm password</span>
-        </label>
-        <input type='password' name='passwordConfirm' class='formInput' />
+        <button type='submit' class='submitButton'>Log In</button>
     </div>
-    <div class='formFieldContainer'>
-        <button type='submit' class='submitButton'>Sign Up</button>
-    </div>
+
+    {#if form?.notVerified}
+        <div class='alertContainer'>
+            <p>Please, verify your email before logging in.</p>
+        </div>
+    {/if}
     </form>
 </div>
 
@@ -45,5 +46,11 @@
     }
     .submitButton:hover{
         transform: scale(1.1);
+    }
+
+    .alertContainer{
+        background: red;
+        padding: 10px;
+        border-radius: 10px;;
     }
 </style>

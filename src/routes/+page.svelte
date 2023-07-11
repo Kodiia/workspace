@@ -21,7 +21,9 @@
     </div>
     <div class='desktopMenu'>
         {#if data.user}
-            <button class='smallMenuButton'>Log Out</button>
+        <form action='/logout' method='POST'>
+            <button type='submit' class='smallMenuButton'>Log Out</button>
+        </form>
             <button class="smallMenuButton" on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
         {:else}
             <a class='smallMenuButton' href='/register'>Sign Up</a>
