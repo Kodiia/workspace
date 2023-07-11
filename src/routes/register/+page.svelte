@@ -20,10 +20,10 @@
         <input type='password' name='password' class='formInput' />
     </div>
     <div class='formFieldContainer'>
-        <label for='confirmPassword' class='formLabel'>
+        <label for='passwordConfirm' class='formLabel'>
             <span class='labelSpan'>confirm password</span>
         </label>
-        <input type='password' name='confirmPassword' class='formInput' />
+        <input type='password' name='passwordConfirm' class='formInput' />
     </div>
     <div class='formFieldContainer'>
         <button type='submit' class='submitButton'>Register</button>
