@@ -1,5 +1,6 @@
 // src/hooks.server.js
 import PocketBase from 'pocketbase';
+import { serializeNonPOJOs } from '$lib/utils';
 import { DB_URL } from '$env/static/private'
 
 /** @type {import('@sveltejs/kit').Handle} */
@@ -12,7 +13,12 @@ export async function handle({ event, resolve }) {
     try {
         // get an up-to-date auth store state by verifying and refreshing the loaded auth model (if any)
         event.locals.pb.authStore.isValid && await event.locals.pb.collection('users').authRefresh();
-        console.log(event.locals.pb.authStore.isValid)
+        if (event.locals.pb.authStore.isValid) {
+            event.locals.user = serializeNonPOJOs(event.locals.pb.authStore.model);
+        } else {
+            event.locals.user = undefined;
+        }
+        console.log('hooks', event.locals.pb.authStore.isValid)
     } catch (_) {
         // clear the auth store on failed refresh
         event.locals.pb.authStore.clear();
