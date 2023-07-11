@@ -2,7 +2,7 @@
 
 </script>
 <div class='container'>
-    <h2>Register for an acccount</h2>
+    <h2>Sign up for an acccount</h2>
     <p>Or <a href='/login'>log in</a> if you already have an account.</p>
 
     <form action='?/register' method='POST' class='formContainer'>
@@ -16,7 +16,7 @@
         <label for='password' class='formLabel'>
             <span class='labelSpan'>password</span>
         </label>
-        <input type='password' name='password' class='formInput' />
+        <input type='password' name='password' class='formInput' placeholder='min 8 characters' />
     </div>
     <div class='formFieldContainer'>
         <label for='passwordConfirm' class='formLabel'>
@@ -31,12 +31,22 @@
 </div>
 
 <style>
+    .container{
+        padding: 10px;
+        background: linear-gradient(45deg, #ffffff50, #ffffff90);
+        backdrop-filter: blur(25px);
+        border: 1px solid #ffffff90;
+        border-radius: 15px;
+        box-shadow: 0 0 10px #4233fb20;
+    }
     .formFieldContainer{
         display: flex;
         flex-direction: column;
         margin: 10px 0;
     }
-
+    a{
+        color: #4233fb;
+    }
     .submitButton{
         background: #4233fb;
         color: #f9f9f9;
@@ -44,6 +54,11 @@
         transform: scale(1.0);
     }
     .submitButton:hover{
-        transform: scale(1.1);
+        transform: scale(1.01);
+    }
+    .formInput{
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #1a1a1a20;
     }
 </style>

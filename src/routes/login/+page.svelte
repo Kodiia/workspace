@@ -32,10 +32,21 @@
 </div>
 
 <style>
+    .container{
+        padding: 10px;
+        background: linear-gradient(45deg, #ffffff50, #ffffff90);
+        backdrop-filter: blur(25px);
+        border: 1px solid #ffffff90;
+        border-radius: 15px;
+        box-shadow: 0 0 10px #4233fb20;
+    }
     .formFieldContainer{
         display: flex;
         flex-direction: column;
         margin: 10px 0;
+    }
+    a{
+        color: #4233fb;
     }
 
     .submitButton{
@@ -45,11 +56,16 @@
         transform: scale(1.0);
     }
     .submitButton:hover{
-        transform: scale(1.1);
+        transform: scale(1.01);
+    }
+    .formInput{
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #1a1a1a20;
     }
 
     .alertContainer{
-        background: red;
+        background: rgb(255, 218, 218);
         padding: 10px;
         border-radius: 10px;;
     }
