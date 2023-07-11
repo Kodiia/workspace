@@ -4,7 +4,8 @@
     import { width, height, stylesPanelState } from '$lib/store'
 
     export let data
-    console.log(data.projects.items, data.tutorials.items)
+    // console.log(data.projects.items, data.tutorials.items)
+    console.log(data.user)
 
     let projects = data.projects.items
     // let title = data.result.items[0].project_name
@@ -16,11 +17,16 @@
 <div class='container'>
 <nav>
     <div class='desktopMenu'>
-        <a href='../' aria-label="menu" class='smallMenuButton'>Dashboard</a>
+        <!-- <a href='../' aria-label="menu" class='smallMenuButton'>Dashboard</a> -->
     </div>
     <div class='desktopMenu'>
-        <button class="smallMenuButton" on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
-        <button class='sign-in-button'>Sign In</button>
+        {#if data.user}
+            <button class='smallMenuButton'>Log Out</button>
+            <button class="smallMenuButton" on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
+        {:else}
+            <a class='smallMenuButton' href='/register'>Sign Up</a>
+            <a class='smallMenuButton' href='/login'>Log In</a>
+        {/if}
     </div>
 </nav>
 
@@ -141,6 +147,7 @@
       align-items: center;
     }
     .sign-in-button{
+        margin-right: 5px;
         height: 30px;
         border-radius: 15px;
         padding: 0 10px;

@@ -4,6 +4,7 @@
     import '../style.css' 
     import paths from '$lib/images/paths.svg'
     import kodiiaLogo from '$lib/logos/kodiia_logo.svg'
+    
 
     $: innerWidth = 0
     $: innerHeight = 0
