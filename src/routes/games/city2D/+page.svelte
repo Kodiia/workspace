@@ -168,6 +168,7 @@
         position: fixed;
         padding: 5px;
         top: 0;
+        left: 0;
         background: linear-gradient( 45deg, #ffffffc3, #ffffff90);
         backdrop-filter: blur(40px);
         -webkit-backdrop-filter: blur(40px);
