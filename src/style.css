@@ -23,7 +23,7 @@ button{
     height: 50px; */
     padding: 0.4rem 1rem;
     border: 2px solid #4233fb;
-    border-radius: 2rem;
+    border-radius: 10px;
     background: none;
     color: #4233fb;
     font-size: 1.2rem;

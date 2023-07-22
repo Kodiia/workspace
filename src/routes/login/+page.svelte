@@ -3,8 +3,8 @@
 
 </script>
 <div class='container'>
-    <h2>Log in to your acccount</h2>
-    <p>Or <a href='/register'>sing up</a> if you don't have an account.</p>
+    <h2>Log in to Kodiia</h2>
+    <p>Or <a href='/register'>sing up for free</a> if you don't have an account.</p>
 
     <form action='?/login' method='POST' class='formContainer'>
     <div class='formFieldContainer'>
@@ -19,7 +19,7 @@
         </label>
         <input type='password' name='password' class='formInput' />
     </div>
-    <a href='/reset-password'>Forgot password?</a>
+    <a href='/reset-password'>I forgot my password</a>
     <div class='formFieldContainer'>
         <button type='submit' class='submitButton'>Log In</button>
     </div>
@@ -35,6 +35,7 @@
 
 <style>
     .container{
+        width: min(400px, 100%);
         padding: 10px;
         background: linear-gradient(45deg, #ffffff50, #ffffff90);
         backdrop-filter: blur(25px);
@@ -49,6 +50,9 @@
     }
     a{
         color: #4233fb;
+    }
+    h2{
+        margin: 0;
     }
 
     .submitButton{

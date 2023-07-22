@@ -2,7 +2,7 @@
 
 </script>
 <div class='container'>
-    <h2>Sign up for an acccount</h2>
+    <h2>Get started for free</h2>
     <p>Or <a href='/login'>log in</a> if you already have an account.</p>
 
     <form action='?/register' method='POST' class='formContainer'>
@@ -28,16 +28,19 @@
         <button type='submit' class='submitButton'>Sign Up</button>
     </div>
     </form>
+    <p>By signing up for Kodiia, you agree to Kodiia's Terms of Service & Privacy Policy.</p>
 </div>
 
 <style>
     .container{
+        width: min(400px, 100%);
         padding: 10px;
         background: linear-gradient(45deg, #ffffff50, #ffffff90);
         backdrop-filter: blur(25px);
         border: 1px solid #ffffff90;
         border-radius: 15px;
         box-shadow: 0 0 10px #4233fb20;
+        box-sizing: border-box;
     }
     .formFieldContainer{
         display: flex;
@@ -46,6 +49,9 @@
     }
     a{
         color: #4233fb;
+    }
+    h2{
+        margin: 0;
     }
     .submitButton{
         background: #4233fb;

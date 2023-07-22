@@ -21,7 +21,8 @@
 
 
 
-<div class='layout-container' style='width: {$width}px; height: {$height}px; background-image: url({paths}); background-size: 100px; background-color: hsl({$bgColor}); overflow: none;'>
+<!-- <div class='layout-container' style='width: {$width}px; height: {$height}px; background-image: url({paths}); background-size: 100px; background-color: hsl({$bgColor}); overflow: none;'> -->
+<div class='layout-container'>
 {#if $navigating}
     <!-- <div class='loader'></div>
     <h3>Loading...</h3> -->
@@ -33,15 +34,15 @@
 
 <style>
     .layout-container{
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
+        width: 100%;
+        /* height: 100vh;
+        overflow: hidden; */
         box-sizing: border-box;
         padding: 10px;
-        display: flex;
+        /* display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: center; */
     }
     /* .loader{
         width: 50px;

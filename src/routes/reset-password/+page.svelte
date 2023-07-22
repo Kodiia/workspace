@@ -29,6 +29,7 @@
 
 <style>
     .container{
+        width: min(400px, 100%);
         padding: 10px;
         background: linear-gradient(45deg, #ffffff50, #ffffff90);
         backdrop-filter: blur(25px);
@@ -43,6 +44,9 @@
     }
     a{
         color: #4233fb;
+    }
+    h2{
+        margin: 0;
     }
 
     .submitButton{

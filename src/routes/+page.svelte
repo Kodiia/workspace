@@ -64,7 +64,7 @@
         /* margin-top: 10px;
         margin-bottom: 10px; */
         width: min(100%, 1044px);
-        height: 100vh;
+        /* height: 100vh; */
         position: relative;
     }
     .panelsContainer{
