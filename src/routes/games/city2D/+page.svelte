@@ -221,8 +221,8 @@
     }
 
     .image{
-        width: 100%;
-        height: 100%;
+        width: calc(100% - 40px);
+        height: calc(100% - 40px);
         margin: 20px;
         background: lightgrey;
         border-radius: 50px;
