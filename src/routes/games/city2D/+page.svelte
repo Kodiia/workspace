@@ -5,6 +5,9 @@
     import wood1 from '$lib/images/games/wood1.webp'
 
 
+    /**
+	 * @type {string | any[]}
+	 */
     let cells = []
     let houses = [concrete1, concrete2, concrete3, wood1]
     const widthNum = 10
