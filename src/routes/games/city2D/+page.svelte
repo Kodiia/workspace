@@ -162,13 +162,21 @@
 <style>
     nav{
         width: 100%;
+        height: 50px;
         display: flex;
-        margin-bottom: 10px;
+        /* margin-bottom: 10px; */
+        position: fixed;
+        padding: 5px;
+        top: 0;
+        background: linear-gradient( 45deg, #ffffffc3, #ffffff90);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
     }
     .button{
         margin-right: 5px;
     }
     .gridContainer{
+        margin-top: 50px;
         display: grid;
         grid-template-columns: repeat(10, 200px);
         background: black;
