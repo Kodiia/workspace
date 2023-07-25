@@ -23,7 +23,7 @@
         {
             number: 1,
             title: 'Decrease overall temperature',
-            description: "Try replacing some structures and public spaces with different types. See how city evolves by pressing 'Analyze impact' button. Try decreasing the overall temperature in the city. Make sure you don't turn it into a parking desert or a forest!"
+            description: "Try replacing some structures and public spaces with different types. See how city evolves by pressing '+ 10 years' button. Try decreasing the overall temperature in the city. Make sure you don't turn it into a parking desert or a forest!"
         }
     ]
     
@@ -34,10 +34,35 @@
 	 */
     let cells = []
     
-    const concreteBuildings = [concrete02, concrete03 ]
-    const woodenBuildings = [wood02]
-    const parkings = [ parking01 ]
-    const plazas = [ parking01 ]
+    const concreteBuildings = [
+        {
+            url: concrete02,
+            background: 'linear-gradient(180deg, rgb(190, 190, 190), rgb(120, 120, 120))',
+            temperature: 40,
+        }, 
+        {
+            url:  concrete03,
+            background: 'linear-gradient(180deg, rgb(190, 190, 190), rgb(120, 120, 120))',
+            temperature: 40, 
+        } ]
+    const woodenBuildings = [
+        {
+            url: wood02,
+            background: 'linear-gradient(180deg, rgb(190, 190, 190), rgb(120, 120, 120))',
+            temperature: 30,
+        } ]
+    const parkings = [ 
+        {
+            url: parking01,
+            background: 'linear-gradient(180deg, rgb(65, 65, 65), rgb(35, 35, 35))',
+            temperature: 50,
+        } ]
+    const plazas = [ 
+        { 
+            url: parking01,
+            background: 'linear-gradient(180deg, rgb(35, 35, 35), rgb(65, 65, 65))',
+            temperature: 50,
+        } ]
 
     const widthNum = 10
     const heightNum = 10
@@ -49,6 +74,10 @@
             for(let j=0; j<height; j++){
             
             if(Math.random() > 0.5){
+                const num = Math.floor(Math.random()*concreteBuildings.length)
+                const blockType = 'concrete'
+                const blockData = getBlockData(num, blockType) 
+
                 let className = 'concrete'
                 cells[i][j] = {
                 aliveNow: true,
@@ -56,58 +85,26 @@
                 liveNeighbours: 0,
                 id: i + '-' + j,
                 className: 'buildings',
-                type: 'concrete',
-                image: concrete1,
-                url: function (){
-                    let image
-                    switch (this.type){
-                        case 'concrete':
-                            image = concreteBuildings[Math.floor(Math.random()*concreteBuildings.length)]
-                        break;
-                        case 'wood':
-                            image = woodenBuildings[Math.floor(Math.random()*woodenBuildings.length)]
-                        break;
-                        case 'parking':
-                            image = parkings[Math.floor(Math.random()*parkings.length)]
-                        break;
-                        case 'plaza':
-                            image = plazas[Math.floor(Math.random()*plazas.length)]
-                        break;    
-                    }
-                    return image
-                },
-                background: 'linear-gradient(180deg, rgb(190, 190, 190), rgb(120, 120, 120))',
-                temperature: 40
+                type: blockType,
+                image: blockData.image,
+                background: blockData.background,
+                temperature: blockData.temperature
                 }
             } else {
+                const num = Math.floor(Math.random()*parkings.length)
+                const blockType = 'parking'
+                const blockData = getBlockData(num, blockType)
+
                 cells[i][j] = {
                 aliveNow: false,
                 aliveNext: false,
                 liveNeighbours: 0,
                 id: i + '-' + j,
                 className: 'spaces',
-                type: 'parking',
-                image: parking01,
-                url: function (){
-                    let image
-                    switch (this.type){
-                        case 'concrete':
-                            image = concreteBuildings[Math.floor(Math.random()*concreteBuildings.length)]
-                        break;
-                        case 'wood':
-                            image = woodenBuildings[Math.floor(Math.random()*woodenBuildings.length)]
-                        break;
-                        case 'parking':
-                            image = parkings[Math.floor(Math.random()*parkings.length)]
-                        break;
-                        case 'plaza':
-                            image = plazas[Math.floor(Math.random()*plazas.length)]
-                        break;    
-                    }
-                    return image
-                },
-                background: 'linear-gradient(180deg, rgb(65, 65, 65), rgb(35, 35, 35))',
-                temperature: 50
+                type: blockType,
+                image: blockData.image,
+                background: blockData.background,
+                temperature: blockData.temperature
                 }
             }
             
@@ -126,6 +123,37 @@
             // }
 
             }
+        }
+    }
+
+    function getBlockData(num = 0, type = 'concrete'){
+        let blockImage, blockBackground, blockTemperature
+        switch (type){
+            case 'concrete':
+                blockImage = concreteBuildings[num].url
+                blockBackground = concreteBuildings[num].background
+                blockTemperature = concreteBuildings[num].temperature
+            break;
+            case 'wood':
+                blockImage = woodenBuildings[num].url
+                blockBackground = woodenBuildings[num].background
+                blockTemperature = woodenBuildings[num].temperature
+            break;
+            case 'parking':
+                blockImage = parkings[num].url
+                blockBackground = parkings[num].background
+                blockTemperature = parkings[num].temperature
+            break;
+            case 'plaza':
+                blockImage = plazas[num].url
+                blockBackground = plazas[num].background
+                blockTemperature = plazas[num].temperature
+             break;    
+        }
+        return {
+            image: blockImage,
+            background: blockBackground,
+            temperature: blockTemperature
         }
     }
 
@@ -171,19 +199,23 @@
         for(let i=0; i<widthNum; i++){
             for(let j=0; j<heightNum; j++){
                 if(cells[i][j].aliveNow){
+                    const num = Math.floor(Math.random()*concreteBuildings.length)
+                    const blockType = 'concrete'
+                    const blockData = getBlockData(num, blockType)
                     cells[i][j].className = 'buildings',
-                    cells[i][j].type = 'concrete',
-                    cells[i][j].image = cells[i][j].url()
-                    cells[i][j].temperature = 40
-                    cells[i][j].url()
-                    cells[i][j].background = 'linear-gradient(180deg, rgb(190, 190, 190), rgb(120, 120, 120))'
+                    cells[i][j].type = blockType,
+                    cells[i][j].image = blockData.image
+                    cells[i][j].temperature = blockData.temperature
+                    cells[i][j].background = blockData.background
                 } else {
+                    const num = Math.floor(Math.random()*parkings.length)
+                    const blockType = 'parking'
+                    const blockData = getBlockData(num, blockType)
                     cells[i][j].className = 'spaces'
-                    cells[i][j].type = 'parking'
-                    cells[i][j].image = cells[i][j].url()
-                    cells[i][j].temperature = 50
-                    cells[i][j].url()
-                    cells[i][j].background = 'linear-gradient(180deg, rgb(65, 65, 65), rgb(35, 35, 35))'
+                    cells[i][j].type = blockType
+                    cells[i][j].image = blockData.image
+                    cells[i][j].temperature = blockData.temperature
+                    cells[i][j].background = blockData.background
                 }
             }
         }
@@ -274,7 +306,7 @@
             {/if}
         </button>
         <img src='{habitat}' width='100' alt='habitat'/>
-        <button class='analyzeButton' on:click={generationLoop}>Analyze impact</button>
+        <button class='analyzeButton' on:click={generationLoop}>+ 10 years</button>
     </div>
     <hr style='display: {navMenuDisplay}'>
     <div class='navMenu' style='display: {navMenuDisplay}; max-height: calc({$height}px - 70px);' transition:fade >
@@ -323,25 +355,25 @@
     <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px);'>
         <h3>Concrete buildings</h3>
         {#each concreteBuildings as concreteBuilding}
-            <img src='{concreteBuilding}' alt='concrete building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            <img src='{concreteBuilding.url}' alt='concrete building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
         {/each}
     </div>
     <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px);'>
         <h3>Wooden buildings</h3>
         {#each woodenBuildings as woodenBuilding}
-            <img src='{woodenBuilding}' alt='wooden building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            <img src='{woodenBuilding.url}' alt='wooden building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
         {/each}
     </div>
     <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px);'>
         <h3>Parkings</h3>
         {#each parkings as parking}
-            <img src='{parking}' alt='wooden building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            <img src='{parking.url}' alt='parking' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
         {/each}
     </div>
     <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px); margin-bottom: 20px;'>
         <h3>Plazas</h3>
         {#each plazas as plaza}
-            <img src='{plaza}' alt='wooden building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            <img src='{plaza.url}' alt='plaza' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
         {/each}
     </div>
 </div>
@@ -429,7 +461,7 @@
     }
 
     .assetsMenu{
-        /* width: 100%; */
+        width: calc(100% - 10px);
         position: fixed;
         top: 60px;
         left: 0;
