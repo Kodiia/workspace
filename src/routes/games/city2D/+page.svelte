@@ -1,15 +1,40 @@
 <script>
+    import { width, height } from '$lib/store'
+    import { fade } from 'svelte/transition';
+    import habitat from '$lib/logos/habitat.svg'
     import concrete1 from '$lib/images/games/concrete1.webp'
     import concrete2 from '$lib/images/games/concrete2.webp'
     import concrete3 from '$lib/images/games/concrete3.webp'
+    import concrete02 from '$lib/images/games/concrete_02.webp'
+    import concrete03 from '$lib/images/games/concrete_03.webp'
     import wood1 from '$lib/images/games/wood1.webp'
+    import wood02 from '$lib/images/games/wood_02.webp'
+    import parking01 from '$lib/images/games/parking_01.webp'
+
+    let cellWidth
+    width.subscribe(()=>{
+        cellWidth = ($width - 20) / 10;
+        if(cellWidth < 200){
+            cellWidth = 200
+        }
+    })
+
+    const challenges = [
+        {
+            number: 1,
+            title: 'Decrease overall temperature',
+            description: "Try replacing some structures and public spaces with different types. See how city evolves by pressing 'Analyze impact' button. Try decreasing the overall temperature in the city. Make sure you don't turn into a parking desert or a forest!"
+        }
+    ]
+    
 
 
     /**
 	 * @type {string | any[]}
 	 */
     let cells = []
-    let houses = [concrete1, concrete2, concrete3, wood1]
+    let houses = [concrete02, concrete03, wood02]
+    let spaces = [parking01]
     const widthNum = 10
     const heightNum = 10
     let gridContainer
@@ -31,7 +56,7 @@
                 aliveNext: false,
                 liveNeighbours: 0,
                 // element: `<div class=${className}></div>`,
-                className: className,
+                className: 'buildings',
                 image: concrete1
                 }
             } else {
@@ -40,8 +65,8 @@
                 aliveNext: false,
                 liveNeighbours: 0,
                 // element: `<div class='asphalt'></div>`,
-                className: 'asphalt',
-                image: false
+                className: 'spaces',
+                image: parking01
                 }
             }
             
@@ -110,12 +135,12 @@
                 if(cells[i][j].aliveNow){
                 // let className = 'concrete' + Math.floor(Math.random()*4)
                 // cells[i][j].element = `<div class='${className}'></div>`
-                cells[i][j].className = 'block',
+                cells[i][j].className = 'buildings',
                 cells[i][j].image = houses[Math.floor(Math.random()*houses.length)]
                 } else {
                 // cells[i][j].element = `<div class='asphalt'></div>`
-                cells[i][j].className = 'asphalt'
-                cells[i][j].image = false
+                cells[i][j].className = 'spaces'
+                cells[i][j].image = spaces[Math.floor(Math.random()*spaces.length)]
                 }
             }
         }
@@ -138,32 +163,82 @@
     
 
     // console.log(cells)
+    let navMenuDisplay = 'none'
+
 </script>
 
 
 <nav>
-    <button class='button'>Stats</button>
-    <button class='button'>Challenges</button>
-    <button class='button' on:click={generationLoop}>Next Generation</button>
+    <div class='navButtons'>
+        <button class='menuButton' on:click={()=>{navMenuDisplay === 'none' ? navMenuDisplay = 'block' : navMenuDisplay = 'none'}}>
+            {#if navMenuDisplay === 'none'}
+                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="10" y1="20" x2="40" y2="20" stroke="#1a1a1a" stroke-width='2' />
+                    <line x1="10" y1="30" x2="40" y2="30" stroke="#1a1a1a" stroke-width='2' />
+                </svg>
+            {:else}
+                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="15" y1="15" x2="35" y2="35" stroke="#1a1a1a" stroke-width='2' />
+                    <line x1="15" y1="35" x2="35" y2="15" stroke="#1a1a1a" stroke-width='2' />
+                </svg>
+            {/if}
+        </button>
+        <img src='{habitat}' width='100' alt='habitat'/>
+        <button class='analyzeButton' on:click={generationLoop}>Analyze impact</button>
+    </div>
+    <hr style='display: {navMenuDisplay}'>
+    <div class='navMenu' style='display: {navMenuDisplay}; max-height: calc({$height}px - 70px);' transition:fade >
+        <div class='statisticsContainer' style='margin-top: 10px;'>
+            <h2>Statistics</h2>
+            <div class='statisticsGrid' style='grid-template-columns: repeat(7, {cellWidth*1.2}px);'>
+                <div class='statisticsGridCard' style='width: calc({cellWidth*1.2}px - 20px);'>
+                    <p>Temperature: <span>40 °C</span></p>
+                </div>
+                <div class='statisticsGridCard' style='width: calc({cellWidth*1.2}px - 20px);'>
+                    <p>CO2 level: <span>high</span></p>
+                </div>
+                <div class='statisticsGridCard' style='width: calc({cellWidth*1.2}px - 20px);'>
+                    <p>Air-quality: <span>poor</span></p>
+                </div>
+            </div>
+        </div>
+        <div class='challengesContainer'>
+            <h2>Challenges</h2>
+            <div class='challengesGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth*2}px);'>
+                {#each challenges as {number, title, description}}
+                    <div class='challengesGridCard' style='width: calc({cellWidth*2}px - 20px);'>
+                        <h3>{number}. {title}</h3>
+                        <p>{description}</p>
+                    </div>
+                {/each}
+            </div>
+        </div>
+        <!-- <button class='smallMenuButton'>Stats</button>
+        <button class='smallMenuButton'>Challenges</button> -->
+    </div>
 </nav>
 <!-- <h1>city building game</h1> -->
-<div bind:this={gridContainer} class='gridContainer'>
+<div bind:this={gridContainer} class='gridContainer' style='grid-template-columns: repeat(10, {cellWidth}px);'>
 {#each cells as cell}
     {#each cell as {className, image}}
-        <div class={className}>
-            {#if image}
-                <img src={image} alt='house' class='image'/>
-            {/if}
-        </div>
+        {#if className === 'buildings'}
+            <div class='block' style='width: {cellWidth}px; height: {cellWidth}px;'>
+                <img src={image} alt='house' class='buildingImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            </div>
+        {:else if className === 'spaces'}
+            <div class='block' style='width: {cellWidth}px; height: {cellWidth}px;'>
+                <img src={image} alt='space' class='spacesImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            </div>
+        {/if}
     {/each}
 {/each}
 </div>
 
 <style>
     nav{
-        width: 100%;
-        height: 50px;
-        display: flex;
+        width: calc(100% - 10px);
+        min-height: 50px;
+        /* display: flex; */
         /* margin-bottom: 10px; */
         position: fixed;
         padding: 5px;
@@ -172,9 +247,56 @@
         background: linear-gradient( 45deg, #ffffffc3, #ffffff90);
         backdrop-filter: blur(40px);
         -webkit-backdrop-filter: blur(40px);
+        border-radius: 0 0 10px 10px;
     }
-    .button{
-        margin-right: 5px;
+    .navButtons{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .navMenu{
+        /* width: calc(100% - 10px); */
+        overflow-y: scroll;
+        margin-bottom: 10px;
+    }
+    .analyzeButton{
+        background: radial-gradient(#3d95ee, #4433fb);
+        border: none;
+        color: #f9f9f9;
+        transform: scale(1.0);
+    }
+    .analyzeButton:hover{
+        transform: scale(1.05);
+    }
+    .menuButton{
+        padding: 5px;
+        width: 50px;
+        height: 50px;
+        border: none;
+        transform: scale(1.0);
+    }
+    .menuButton:hover{
+        background: none;
+        transform: scale(1.1);
+    }
+    .statisticsContainer, .challengesContainer{
+        /* width: 100%; */
+        padding: 10px;
+    }
+    .statisticsGrid, .challengesGrid{
+        /* width: 100%; */
+        display: grid;
+    }
+    .statisticsGridCard, .challengesGridCard{
+        margin: 0 0 10px 0;
+        padding: 10px;
+        background: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #3d95ee50;
+        box-sizing: border-box;
+    }
+    span{
+        color: #4233fb;
     }
     .gridContainer{
         margin-top: 50px;
@@ -182,67 +304,34 @@
         grid-template-columns: repeat(10, 200px);
         background: black;
     }
-    /* .concrete0{
-        border: 20px solid black;
-        width: 200px;
-        height: 200px;
-        box-sizing: border-box;
-        background: lightGrey;
-        background-image: url('https://cdn.glitch.global/d5e3fc9c-4f11-4448-b74e-ec64c5193369/Alina_SA_lab_None_b7ed2e2a-cf01-411f-a74a-ac6b15703150.png?v=1689943927578');
-        background-size: contain;
-    }
-    .concrete1{
-        border: 20px solid black;
-        border-radius: 50px;
-        width: 200px;
-        height: 200px;
-        box-sizing: border-box;
-        background: lightGrey;
-        background-image: url('https://cdn.glitch.global/d5e3fc9c-4f11-4448-b74e-ec64c5193369/Alina_SA_lab_None_3372da37-44a2-42cf-975b-8d1865c62c8e.png?v=1689943927051');
-        background-size: contain;
-    }
-    .concrete2{
-        border: 20px solid black;
-        width: 200px;
-        height: 200px;
-        box-sizing: border-box;
-        background: lightGrey;
-        background-image: url('https://cdn.glitch.global/d5e3fc9c-4f11-4448-b74e-ec64c5193369/Alina_SA_lab_None_1712a3ea-9f8c-469a-b554-4b40f63acc6b.png?v=1689943926424');
-        background-size: contain;
-    }
-    .concrete3{
-        border: 20px solid black;
-        width: 200px;
-        height: 200px;
-        box-sizing: border-box;
-        background: lightGrey;
-        background-image: url('https://cdn.glitch.global/d5e3fc9c-4f11-4448-b74e-ec64c5193369/Alina_SA_lab_None_8d9bcc65-3ed6-4a57-ab1e-6038247dec9f.png?v=1689943925838');
-        background-size: contain;
-    } */
 
-    .asphalt{
-        /* border: 20px solid black;
-        border-radius: 50px; */
-        width: 200px;
-        height: 200px;
+
+    /* .asphalt{
         box-sizing: border-box;
         background: black;
+        display: grid;
+        align-items: center;
+        justify-content: center;
+    } */
+    .spacesImage{
+        background: linear-gradient(180deg, rgb(65, 65, 65), rgb(35, 35, 35));
+        border: 2px solid #383838;
+        border-radius: 30px;
+        box-sizing: border-box;
     }
 
-    .image{
-        width: calc(100% - 40px);
-        height: calc(100% - 40px);
-        margin: 20px;
-        background: lightgrey;
-        border-radius: 50px;
+    .buildingImage{
+        background: linear-gradient(180deg, rgb(156, 192, 156), rgb(63, 114, 63));
+        border: 2px solid #f9f9f9;
+        border-radius: 30px;
+        box-sizing: border-box;
     }
 
     .block{
-        /* border: 20px solid black;
-        border-radius: 50px; */
-        width: 200px;
-        height: 200px;
         box-sizing: border-box;
         background: black;
+        display: grid;
+        align-items: center;
+        justify-content: center;
     }
 </style>
