@@ -246,6 +246,7 @@
 
     // console.log(cells)
     let navMenuDisplay = 'none'
+    let assetsMenuDisplay = 'none'
 
     generateCells(widthNum, heightNum)
     cellIsAliveNextGeneration();
@@ -308,20 +309,52 @@
                 {/each}
             </div>
         </div>
-        <!-- <button class='smallMenuButton'>Stats</button>
-        <button class='smallMenuButton'>Challenges</button> -->
     </div>
 </nav>
-<!-- <h1>city building game</h1> -->
+
+<div style='display: {assetsMenuDisplay}; width: {$width}px; max-height: calc({$height}px - 70px);' class='assetsMenu'>
+    <button class='assetsMenuButton' on:click={()=>{assetsMenuDisplay = 'none'}}>
+        <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+            <line x1="15" y1="15" x2="35" y2="35" stroke="#1a1a1a" stroke-width='2' />
+            <line x1="15" y1="35" x2="35" y2="15" stroke="#1a1a1a" stroke-width='2' />
+        </svg>
+    </button>
+    <h3>{selectedId}</h3>
+    <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px);'>
+        <h3>Concrete buildings</h3>
+        {#each concreteBuildings as concreteBuilding}
+            <img src='{concreteBuilding}' alt='concrete building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+        {/each}
+    </div>
+    <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px);'>
+        <h3>Wooden buildings</h3>
+        {#each woodenBuildings as woodenBuilding}
+            <img src='{woodenBuilding}' alt='wooden building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+        {/each}
+    </div>
+    <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px);'>
+        <h3>Parkings</h3>
+        {#each parkings as parking}
+            <img src='{parking}' alt='wooden building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+        {/each}
+    </div>
+    <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px); margin-bottom: 20px;'>
+        <h3>Plazas</h3>
+        {#each plazas as plaza}
+            <img src='{plaza}' alt='wooden building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+        {/each}
+    </div>
+</div>
+
 <div bind:this={gridContainer} class='gridContainer' style='grid-template-columns: repeat(10, {cellWidth}px);'>
 {#each cells as cell}
     {#each cell as {className, image, id, background}}
         {#if className === 'buildings'}
-            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;'>
+            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;' on:click={()=>{assetsMenuDisplay = 'block'; selectedId = id}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id}}>
                 <img src={image} alt='house' class='buildingImage' style='background: {background}; width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
             </div>
         {:else if className === 'spaces'}
-            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;'>
+            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;' on:click={()=>{assetsMenuDisplay = 'block'; selectedId = id}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id}}>
                 <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
             </div>
         {/if}
@@ -343,6 +376,7 @@
         backdrop-filter: blur(40px);
         -webkit-backdrop-filter: blur(40px);
         border-radius: 0 0 10px 10px;
+        z-index: 2;
     }
     .navButtons{
         width: 100%;
@@ -363,14 +397,14 @@
     .analyzeButton:hover{
         transform: scale(1.05);
     }
-    .menuButton{
+    .menuButton, .assetsMenuButton{
         padding: 5px;
         width: 50px;
         height: 50px;
         border: none;
         transform: scale(1.0);
     }
-    .menuButton:hover{
+    .menuButton:hover, .assetsMenuButton:hover{
         background: none;
         transform: scale(1.1);
     }
@@ -393,6 +427,39 @@
     span{
         color: #4233fb;
     }
+
+    .assetsMenu{
+        /* width: 100%; */
+        position: fixed;
+        top: 60px;
+        left: 0;
+        z-index: 1;
+        overflow-y: scroll;
+        margin-bottom: 10px;
+        background: linear-gradient( 45deg, #ffffffc3, #ffffff90);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        padding: 10px;
+    }
+    .assetsMenuButton{
+        position: absolute;
+        top: 0;
+        right: 10px;
+    }
+    .assetsGrid{
+        display: grid;
+    }
+    .assetsImage{
+        margin-bottom: 10px;
+        border: 1px solid #38383830;
+        border-radius: 30px;
+        box-sizing: border-box;
+        cursor: pointer;
+        transform: scale(1.0);
+    }
+    .assetsImage:hover{
+        transform: scale(1.05);
+    }
     .gridContainer{
         margin-top: 50px;
         display: grid;
@@ -409,17 +476,17 @@
         justify-content: center;
     } */
     .spacesImage{
-        background: linear-gradient(180deg, rgb(65, 65, 65), rgb(35, 35, 35));
         border: 2px solid #383838;
         border-radius: 30px;
         box-sizing: border-box;
+        cursor: pointer;
     }
 
     .buildingImage{
-        background: linear-gradient(180deg, rgb(156, 192, 156), rgb(63, 114, 63));
         border: 2px solid #f9f9f9;
         border-radius: 30px;
         box-sizing: border-box;
+        cursor: pointer;
     }
 
     .block{
