@@ -23,7 +23,7 @@
         {
             number: 1,
             title: 'Decrease overall temperature',
-            description: "Try replacing some structures and public spaces with different types. See how city evolves by pressing 'Analyze impact' button. Try decreasing the overall temperature in the city. Make sure you don't turn into a parking desert or a forest!"
+            description: "Try replacing some structures and public spaces with different types. See how city evolves by pressing 'Analyze impact' button. Try decreasing the overall temperature in the city. Make sure you don't turn it into a parking desert or a forest!"
         }
     ]
     
@@ -33,16 +33,15 @@
 	 * @type {string | any[]}
 	 */
     let cells = []
-    let houses = [concrete02, concrete03, wood02]
-    let spaces = [parking01]
+    
+    const concreteBuildings = [concrete02, concrete03 ]
+    const woodenBuildings = [wood02]
+    const parkings = [ parking01 ]
+    const plazas = [ parking01 ]
+
     const widthNum = 10
     const heightNum = 10
     let gridContainer
-
-    // let gridContainer = document.createElement('div')
-    // gridContainer.className = 'gridContainer'
-    // gridContainer.style.zoom = '100%'
-    // document.body.appendChild(gridContainer)
 
     function generateCells(width, height){
         for(let i=0; i<width; i++){
@@ -55,18 +54,60 @@
                 aliveNow: true,
                 aliveNext: false,
                 liveNeighbours: 0,
-                // element: `<div class=${className}></div>`,
+                id: i + '-' + j,
                 className: 'buildings',
-                image: concrete1
+                type: 'concrete',
+                image: concrete1,
+                url: function (){
+                    let image
+                    switch (this.type){
+                        case 'concrete':
+                            image = concreteBuildings[Math.floor(Math.random()*concreteBuildings.length)]
+                        break;
+                        case 'wood':
+                            image = woodenBuildings[Math.floor(Math.random()*woodenBuildings.length)]
+                        break;
+                        case 'parking':
+                            image = parkings[Math.floor(Math.random()*parkings.length)]
+                        break;
+                        case 'plaza':
+                            image = plazas[Math.floor(Math.random()*plazas.length)]
+                        break;    
+                    }
+                    return image
+                },
+                background: 'linear-gradient(180deg, rgb(190, 190, 190), rgb(120, 120, 120))',
+                temperature: 40
                 }
             } else {
                 cells[i][j] = {
                 aliveNow: false,
                 aliveNext: false,
                 liveNeighbours: 0,
-                // element: `<div class='asphalt'></div>`,
+                id: i + '-' + j,
                 className: 'spaces',
-                image: parking01
+                type: 'parking',
+                image: parking01,
+                url: function (){
+                    let image
+                    switch (this.type){
+                        case 'concrete':
+                            image = concreteBuildings[Math.floor(Math.random()*concreteBuildings.length)]
+                        break;
+                        case 'wood':
+                            image = woodenBuildings[Math.floor(Math.random()*woodenBuildings.length)]
+                        break;
+                        case 'parking':
+                            image = parkings[Math.floor(Math.random()*parkings.length)]
+                        break;
+                        case 'plaza':
+                            image = plazas[Math.floor(Math.random()*plazas.length)]
+                        break;    
+                    }
+                    return image
+                },
+                background: 'linear-gradient(180deg, rgb(65, 65, 65), rgb(35, 35, 35))',
+                temperature: 50
                 }
             }
             
@@ -124,23 +165,25 @@
         }
     }
 
-    generateCells(widthNum, heightNum)
-    cellIsAliveNextGeneration();
-    updateCells();
-    resetGeneration();
+
 
     function updateCells(){
         for(let i=0; i<widthNum; i++){
             for(let j=0; j<heightNum; j++){
                 if(cells[i][j].aliveNow){
-                // let className = 'concrete' + Math.floor(Math.random()*4)
-                // cells[i][j].element = `<div class='${className}'></div>`
-                cells[i][j].className = 'buildings',
-                cells[i][j].image = houses[Math.floor(Math.random()*houses.length)]
+                    cells[i][j].className = 'buildings',
+                    cells[i][j].type = 'concrete',
+                    cells[i][j].image = cells[i][j].url()
+                    cells[i][j].temperature = 40
+                    cells[i][j].url()
+                    cells[i][j].background = 'linear-gradient(180deg, rgb(190, 190, 190), rgb(120, 120, 120))'
                 } else {
-                // cells[i][j].element = `<div class='asphalt'></div>`
-                cells[i][j].className = 'spaces'
-                cells[i][j].image = spaces[Math.floor(Math.random()*spaces.length)]
+                    cells[i][j].className = 'spaces'
+                    cells[i][j].type = 'parking'
+                    cells[i][j].image = cells[i][j].url()
+                    cells[i][j].temperature = 50
+                    cells[i][j].url()
+                    cells[i][j].background = 'linear-gradient(180deg, rgb(65, 65, 65), rgb(35, 35, 35))'
                 }
             }
         }
@@ -150,21 +193,67 @@
     function generationLoop(){
         cellIsAliveNextGeneration();
         updateCells();
-        
-        // gridContainer.innerHTML = ''
-        // for(let i=0; i<widthNum; i++){
-        //     for(let j=0; j<heightNum; j++){
-        //         gridContainer.innerHTML += cells[i][j].element
-        //     }
-        // }
-        
-        resetGeneration();
+        getTemperatureValue()
+        getBuildingsNumber()
+        getSpacesNumber()
+        resetGeneration()
+    }
+
+    let temperature = 0
+    function getTemperatureValue(){
+        temperature = 0
+        for(let i=0; i<widthNum; i++){
+            for(let j=0; j<heightNum; j++){
+                temperature += cells[i][j].temperature
+            }
+        }
+        temperature = temperature / (widthNum * heightNum)
+        return temperature
+    }
+
+    let buildingsNumber = 0
+    function getBuildingsNumber(){
+        buildingsNumber = 0
+        for(let i=0; i<widthNum; i++){
+            for(let j=0; j<heightNum; j++){
+                if(cells[i][j].aliveNow){
+                    buildingsNumber += 1
+                } else {
+                    buildingsNumber += 0
+                }
+            }
+        }
+        return buildingsNumber
+    }
+
+    let spacesNumber = 0
+    function getSpacesNumber(){
+        spacesNumber = 0
+        for(let i=0; i<widthNum; i++){
+            for(let j=0; j<heightNum; j++){
+                if(cells[i][j].aliveNow){
+                    spacesNumber += 0
+                } else {
+                    spacesNumber += 1
+                }
+            }
+        }
+        return spacesNumber
     }
     
+
+    let selectedId
 
     // console.log(cells)
     let navMenuDisplay = 'none'
 
+    generateCells(widthNum, heightNum)
+    cellIsAliveNextGeneration();
+    updateCells();
+    getTemperatureValue();
+    getBuildingsNumber()
+    getSpacesNumber()
+    resetGeneration();
 </script>
 
 
@@ -189,10 +278,16 @@
     <hr style='display: {navMenuDisplay}'>
     <div class='navMenu' style='display: {navMenuDisplay}; max-height: calc({$height}px - 70px);' transition:fade >
         <div class='statisticsContainer' style='margin-top: 10px;'>
-            <h2>Statistics</h2>
-            <div class='statisticsGrid' style='grid-template-columns: repeat(7, {cellWidth*1.2}px);'>
+            <h2>City statistics</h2>
+            <div class='statisticsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth*1.2}px);'>
                 <div class='statisticsGridCard' style='width: calc({cellWidth*1.2}px - 20px);'>
-                    <p>Temperature: <span>40 °C</span></p>
+                    <p>Buildings: <span>{buildingsNumber}</span></p>
+                </div>
+                <div class='statisticsGridCard' style='width: calc({cellWidth*1.2}px - 20px);'>
+                    <p>Public Spaces: <span>{spacesNumber}</span></p>
+                </div>
+                <div class='statisticsGridCard' style='width: calc({cellWidth*1.2}px - 20px);'>
+                    <p>Temperature: <span>{temperature}°C</span></p>
                 </div>
                 <div class='statisticsGridCard' style='width: calc({cellWidth*1.2}px - 20px);'>
                     <p>CO2 level: <span>high</span></p>
@@ -220,14 +315,14 @@
 <!-- <h1>city building game</h1> -->
 <div bind:this={gridContainer} class='gridContainer' style='grid-template-columns: repeat(10, {cellWidth}px);'>
 {#each cells as cell}
-    {#each cell as {className, image}}
+    {#each cell as {className, image, id, background}}
         {#if className === 'buildings'}
-            <div class='block' style='width: {cellWidth}px; height: {cellWidth}px;'>
-                <img src={image} alt='house' class='buildingImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;'>
+                <img src={image} alt='house' class='buildingImage' style='background: {background}; width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
             </div>
         {:else if className === 'spaces'}
-            <div class='block' style='width: {cellWidth}px; height: {cellWidth}px;'>
-                <img src={image} alt='space' class='spacesImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;'>
+                <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
             </div>
         {/if}
     {/each}
