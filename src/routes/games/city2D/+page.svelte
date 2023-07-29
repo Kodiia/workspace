@@ -84,6 +84,8 @@
                 aliveNext: false,
                 liveNeighbours: 0,
                 id: i + '-' + j,
+                row: i,
+                column: j,
                 className: 'buildings',
                 type: blockType,
                 image: blockData.image,
@@ -100,6 +102,8 @@
                 aliveNext: false,
                 liveNeighbours: 0,
                 id: i + '-' + j,
+                row: i, 
+                column: j,
                 className: 'spaces',
                 type: blockType,
                 image: blockData.image,
@@ -273,8 +277,14 @@
         return spacesNumber
     }
     
+    function updateCellData(i = 0, j = 0, type = 'concrete', image = concrete02, background = 'grey', temperature = 40){
+        cells[i][j].type = type
+        cells[i][j].image = image
+        cells[i][j].background = background
+        cells[i][j].temperature = temperature
+    }
 
-    let selectedId
+    let selectedId, selectedRow = 0, selectedColumn = 0, selectedType = 'concrete'
 
     // console.log(cells)
     let navMenuDisplay = 'none'
@@ -351,42 +361,54 @@
             <line x1="15" y1="35" x2="35" y2="15" stroke="#1a1a1a" stroke-width='2' />
         </svg>
     </button>
-    <h3>{selectedId}</h3>
+    <h3>{selectedRow}-{selectedColumn}</h3>
     <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px);'>
         <h3>Concrete buildings</h3>
-        {#each concreteBuildings as concreteBuilding}
-            <img src='{concreteBuilding.url}' alt='concrete building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+        {#each concreteBuildings as concreteBuilding, i}
+            <button class='assetsButton' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);' on:click={()=>{selectedType = 'concrete'; updateCellData(selectedRow, selectedColumn, selectedType, concreteBuildings[i].url, concreteBuildings[i].background, concreteBuildings[i].temperature); assetsMenuDisplay = 'none'}}> 
+                <p class='assetsButtonText'>{i}</p>
+                <img src='{concreteBuilding.url}' alt='concrete building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            </button>
         {/each}
     </div>
     <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px);'>
         <h3>Wooden buildings</h3>
-        {#each woodenBuildings as woodenBuilding}
-            <img src='{woodenBuilding.url}' alt='wooden building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+        {#each woodenBuildings as woodenBuilding, i}
+            <button class='assetsButton' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);' on:click={()=>{selectedType = 'wood'; updateCellData(selectedRow, selectedColumn, selectedType, woodenBuildings[i].url, woodenBuildings[i].background, woodenBuildings[i].temperature); assetsMenuDisplay = 'none'}}> 
+                <p class='assetsButtonText'>{i}</p>
+                <img src='{woodenBuilding.url}' alt='wooden building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            </button>
         {/each}
     </div>
     <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px);'>
         <h3>Parkings</h3>
-        {#each parkings as parking}
-            <img src='{parking.url}' alt='parking' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+        {#each parkings as parking, i}
+            <button class='assetsButton' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);' on:click={()=>{selectedType = 'parking'; updateCellData(selectedRow, selectedColumn, selectedType, parkings[i].url, parkings[i].background, parkings[i].temperature); assetsMenuDisplay = 'none'}}> 
+                <p class='assetsButtonText'>{i}</p>
+                <img src='{parking.url}' alt='parking' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            </button>
         {/each}
     </div>
     <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px); margin-bottom: 20px;'>
         <h3>Plazas</h3>
-        {#each plazas as plaza}
-            <img src='{plaza.url}' alt='plaza' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+        {#each plazas as plaza, i}
+            <button class='assetsButton' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);' on:click={()=>{selectedType = 'plaza'; updateCellData(selectedRow, selectedColumn, selectedType, plazas[i].url, plazas[i].background, plazas[i].temperature); assetsMenuDisplay = 'none'}}> 
+                <p class='assetsButtonText'>{i}</p>
+                <img src='{plaza.url}' alt='plaza' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            </button>
         {/each}
     </div>
 </div>
 
 <div bind:this={gridContainer} class='gridContainer' style='grid-template-columns: repeat(10, {cellWidth}px);'>
 {#each cells as cell}
-    {#each cell as {className, image, id, background}}
+    {#each cell as {className, image, id, row, column, background}}
         {#if className === 'buildings'}
-            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;' on:click={()=>{assetsMenuDisplay = 'block'; selectedId = id}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id}}>
+            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;' on:click={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column; }}>
                 <img src={image} alt='house' class='buildingImage' style='background: {background}; width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
             </div>
         {:else if className === 'spaces'}
-            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;' on:click={()=>{assetsMenuDisplay = 'block'; selectedId = id}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id}}>
+            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;' on:click={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
                 <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
             </div>
         {/if}
@@ -481,16 +503,28 @@
     .assetsGrid{
         display: grid;
     }
+    .assetsButton{
+        position: relative;
+        border: none;
+        background: none;
+        color: #1a1a1a;
+        padding: 10px;
+        display: flex; 
+        align-items: center;
+        justify-content: center;
+    }
+    .assetsButton:hover{
+        background: #4233fb10;
+    }
+    .assetsButtonText{
+        position: absolute;
+        margin: 0;
+        top: 0px;
+        right: 5px;
+    }
     .assetsImage{
         margin-bottom: 10px;
-        border: 1px solid #38383830;
-        border-radius: 30px;
         box-sizing: border-box;
-        cursor: pointer;
-        transform: scale(1.0);
-    }
-    .assetsImage:hover{
-        transform: scale(1.05);
     }
     .gridContainer{
         margin-top: 50px;
