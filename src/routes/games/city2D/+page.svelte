@@ -406,6 +406,22 @@
         
     }
 
+    // function makeAllCellsOfCertainType(currentType = 'concrete', targetType = 'wood'){
+    //     let className
+    //     if(targetType === 'concrete' || targetType === 'wood' || targetType === 'innovative'){
+    //         className = 'buildings'
+    //     } else {
+    //         className = 'spaces'
+    //     }
+    //     for(let i=0; i<widthNum; i++){
+    //         for(let j=0; j<heightNum; j++){
+    //             if(cells[i][j].type === currentType){
+    //                 updateBlockData(i, j, className, targetType, )
+    //             }
+    //         }
+    //     }
+    // }
+
     let selectedId, selectedRow = 0, selectedColumn = 0, selectedType = 'concrete'
 
     // console.log(cells)
@@ -477,7 +493,10 @@
 </nav>
 
 <div class='dataContainer'>
-    <p style='margin: 0; color: {temperatureColor};'>🌡️ {temperature}°C</p>
+    <p style='margin: 0 5px;'>🏙️ {buildingsNumber}</p>
+    <p style='margin: 0 5px;'>🌳 {spacesNumber}</p>
+    <p style='margin: 0 5px; color: {temperatureColor};'>🌡️ {temperature}°C</p>
+    
 </div>
 
 <div style='display: {assetsMenuDisplay}; width: {$width}px; max-height: calc({$height}px - 70px);' class='assetsMenu'>
@@ -587,15 +606,20 @@
         margin-bottom: 10px;
     }
     .dataContainer{
+        width: calc(100% - 10px);
+        min-height: 50px;
+        display: flex;
+        align-items: center;
         position: fixed;
-        top: 70px;
-        left: 20px;
+        bottom: 0px;
+        left: 0px;
         z-index: 1;
-        padding: 10px;
+        padding: 5px;
         background: linear-gradient( 45deg, #ffffffc3, #ffffff90);
         backdrop-filter: blur(40px);
         -webkit-backdrop-filter: blur(40px);
-        border-radius: 10px;
+        border-radius: 10px 10px 0 0;
+        overflow-y: auto;
     }
     .analyzeButton{
         background: radial-gradient(#3d95ee, #4433fb);
@@ -651,7 +675,7 @@
         padding: 10px;
     }
     .assetsMenuButton{
-        position: absolute;
+        position: fixed;
         top: 0;
         right: 10px;
     }
@@ -669,7 +693,7 @@
         justify-content: center;
     }
     .assetsButton:hover{
-        background: #4233fb10;
+        background: #4233fb30;
     }
     .assetsButtonText{
         position: absolute;
@@ -678,7 +702,7 @@
         right: 5px;
     }
     .assetsImage{
-        margin-bottom: 10px;
+        /* margin-bottom: 10px; */
         box-sizing: border-box;
     }
     .gridContainer{
