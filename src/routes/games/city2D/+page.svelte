@@ -5,6 +5,10 @@
     import concrete01 from '$lib/images/games/concrete_01.webp'
     import concrete02 from '$lib/images/games/concrete_02.webp'
     import wood01 from '$lib/images/games/wood_01.webp'
+    import wood02 from '$lib/images/games/wood_02.webp'
+    import wood03 from '$lib/images/games/wood_03.webp'
+    import brick01 from '$lib/images/games/brick_01.webp'
+    import brick02 from '$lib/images/games/brick_02.webp'
     import innovative01 from '$lib/images/games/innovative_01.webp'
     import innovative02 from '$lib/images/games/innovative_02.webp'
     import innovative03 from '$lib/images/games/innovative_03.webp'
@@ -37,34 +41,55 @@
     const concreteBuildings = [
         {
             url: concrete01,
-            background: 'linear-gradient(180deg, rgb(95, 95, 95), rgb(65, 65, 65))',
+            background: 'linear-gradient(180deg, rgb(125, 125, 125), rgb(65, 65, 65))',
             temperature: 10,
         }, 
         {
             url:  concrete02,
-            background: 'linear-gradient(180deg, rgb(95, 95, 95), rgb(65, 65, 65))',
+            background: 'linear-gradient(180deg, rgb(125, 125, 125), rgb(65, 65, 65))',
             temperature: 10, 
         } ]
     const woodenBuildings = [
         {
             url: wood01,
-            background: 'linear-gradient(180deg, rgb(190, 190, 190), rgb(120, 120, 120))',
+            background: 'linear-gradient(180deg, rgb(220, 220, 220), rgb(170, 170, 170))',
             temperature: 5,
+        },
+        {
+            url: wood02,
+            background: 'linear-gradient(180deg, rgb(220, 220, 220), rgb(170, 170, 170))',
+            temperature: 5,
+        },
+        {
+            url: wood03,
+            background: 'linear-gradient(180deg, rgb(220, 220, 220), rgb(170, 170, 170))',
+            temperature: 5,
+        } ]
+    const brickBuildings = [
+        {
+            url: brick01,
+            background: 'linear-gradient(180deg, rgb(220, 220, 220), rgb(170, 170, 170))',
+            temperature: 7,
+        },
+        {
+            url: brick02,
+            background: 'linear-gradient(180deg, rgb(220, 220, 220), rgb(170, 170, 170))',
+            temperature: 7,
         } ]
     const innovativeBuildings = [
         {
             url: innovative01,
-            background: 'linear-gradient(180deg, rgb(190, 190, 190), rgb(120, 120, 120))',
+            background: 'linear-gradient(180deg, rgb(220, 220, 220), rgb(170, 170, 170))',
             temperature: 5,
         },
         {
             url: innovative02,
-            background: 'linear-gradient(180deg, rgb(190, 190, 190), rgb(120, 120, 120))',
+            background: 'linear-gradient(180deg, rgb(220, 220, 220), rgb(170, 170, 170))',
             temperature: 3,
         },
         {
             url: innovative03,
-            background: 'linear-gradient(180deg, rgb(190, 190, 190), rgb(120, 120, 120))',
+            background: 'linear-gradient(180deg, rgb(220, 220, 220), rgb(170, 170, 170))',
             temperature: 3,
         } ]
     const parkings = [ 
@@ -167,6 +192,11 @@
                 blockBackground = woodenBuildings[num].background
                 blockTemperature = woodenBuildings[num].temperature
             break;
+            case 'brick':
+                blockImage = brickBuildings[num].url
+                blockBackground = brickBuildings[num].background
+                blockTemperature = brickBuildings[num].temperature
+            break;
             case 'innovative':
                 blockImage = innovativeBuildings[num].url
                 blockBackground = innovativeBuildings[num].background
@@ -246,6 +276,9 @@
                     if(cells[i][j].type === 'wood'){
                         blockType = 'wood'
                         num = Math.floor(Math.random()*woodenBuildings.length)
+                    } else if(cells[i][j].type === 'brick'){
+                        blockType = 'brick'
+                        num = Math.floor(Math.random()*brickBuildings.length)
                     } else if(cells[i][j].type === 'innovative'){
                         blockType = 'innovative'
                         num = Math.floor(Math.random()*innovativeBuildings.length)
@@ -437,6 +470,11 @@
     // resetGeneration();
 </script>
 
+<svelte:head>
+    <title>Kodiia | Sustainable city simulation game</title>
+    <meta name="online sustainable city simulation game">
+</svelte:head>
+
 
 <nav>
     <div class='navButtons'>
@@ -526,6 +564,15 @@
         {/each}
     </div>
     <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px);'>
+        <h3>Brick buildings</h3>
+        {#each brickBuildings as brickBuilding, i}
+            <button class='assetsButton' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);' on:click={()=>{selectedType = 'brick'; updateBlockData(selectedRow, selectedColumn, 'buildings', selectedType, brickBuildings[i].url, brickBuildings[i].background, brickBuildings[i].temperature); assetsMenuDisplay = 'none'}}> 
+                <p class='assetsButtonText'>{i}</p>
+                <img src='{brickBuilding.url}' alt='brick building' class='assetsImage' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+            </button>
+        {/each}
+    </div>
+    <div class='assetsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth}px);'>
         <h3>Innovative buildings</h3>
         {#each innovativeBuildings as innovativeBuilding, i}
             <button class='assetsButton' style='width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);' on:click={()=>{selectedType = 'innovative'; updateBlockData(selectedRow, selectedColumn, 'buildings', selectedType, innovativeBuildings[i].url, innovativeBuildings[i].background, innovativeBuildings[i].temperature); assetsMenuDisplay = 'none'}}> 
@@ -565,14 +612,15 @@
 
 <div bind:this={gridContainer} class='gridContainer' style='grid-template-columns: repeat(10, {cellWidth}px);'>
 {#each cells as cell}
-    {#each cell as {className, image, id, row, column, background}}
+    {#each cell as {className, image, id, row, column, background, temperature}}
         {#if className === 'buildings'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;' on:click={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column; }}>
-                <img src={image} alt='house' class='buildingImage' style='background: {background}; width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+                <!-- <p class='blockText'>{20 + temperature}°C</p> -->
+                <img src={image} alt='house' class='buildingImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/>
             </div>
         {:else if className === 'spaces'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px;' on:click={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
-                <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 20px); height: calc({cellWidth}px - 20px);'/>
+                <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/>
             </div>
         {/if}
     {/each}
@@ -707,9 +755,12 @@
     }
     .gridContainer{
         margin-top: 50px;
+        position: absolute;
+        left: 0;
         display: grid;
         grid-template-columns: repeat(10, 200px);
-        background: black;
+        background: #f9f9f9;
+        padding-bottom: 60px;
     }
 
 
@@ -721,24 +772,42 @@
         justify-content: center;
     } */
     .spacesImage{
-        border: 2px solid #383838;
+        /* border: 2px solid #787878; */
         border-radius: 30px;
         box-sizing: border-box;
         cursor: pointer;
+        box-shadow: 0 0 10px #1a1a1a;
+        padding: 10px;
     }
 
     .buildingImage{
-        border: 2px solid #f9f9f9;
+        /* border: 2px solid #787878; */
         border-radius: 30px;
         box-sizing: border-box;
         cursor: pointer;
+        box-shadow: 0 0 10px #1a1a1a;
+        padding: 10px;
     }
 
     .block{
+        /* border: 1px dashed #f9f9f920; */
+        position: relative;
         box-sizing: border-box;
-        background: black;
+        background: rgb(156, 156, 156);
         display: grid;
         align-items: center;
         justify-content: center;
+        transform: scale(1.0);
     }
+    .block:hover{
+        transform: scale(1.02);
+    }
+
+    /* .blockText{
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 5px;
+        padding: 5px;
+    } */
 </style>

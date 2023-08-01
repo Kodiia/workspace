@@ -38,7 +38,7 @@
         /* height: 100vh;
         overflow: hidden; */
         box-sizing: border-box;
-        padding: 10px;
+        /* padding: 10px; */
         /* display: flex;
         flex-direction: column;
         align-items: center;
