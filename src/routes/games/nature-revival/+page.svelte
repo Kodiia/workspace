@@ -8,7 +8,7 @@
         if(cellWidth < 40){
             cellWidth = 40
         }
-        cellWidth = 80
+        // cellWidth = 80
     })
 
     let cells = []
@@ -66,6 +66,10 @@
                 type: blockType,
                 // image: blockData.image,
                 background: blockData.background,
+                borderTop: 'none',
+                borderBottom: 'none',
+                borderRight: 'none',
+                borderLeft: 'none',
                 // temperature: blockData.temperature
                 }
             } else {
@@ -84,6 +88,10 @@
                 type: blockType,
                 // image: blockData.image,
                 background: blockData.background,
+                borderTop: 'none',
+                borderBottom: 'none',
+                borderRight: 'none',
+                borderLeft: 'none',
                 // temperature: blockData.temperature
                 }
             }
@@ -134,6 +142,27 @@
 
     }
 
+    function drawCellBorders(){
+        for(let i=0; i<cells.length; i++){
+            for(let j=0; j<cells[i].length; j++){
+                if(cells[i][j].type === 'empty' || cells[i][j].type === 'plant'){
+                    if(typeof cells[i-1] != 'undefined' && cells[i-1][j].type === 'building' || typeof cells[i-1] != 'undefined' && cells[i-1][j].type === 'buildingGreen'){
+                        cells[i][j].borderTop = '2px solid #f9f9f9'
+                    }
+                    if(typeof cells[i+1] != 'undefined' && cells[i+1][j].type === 'building' || typeof cells[i+1] != 'undefined' && cells[i+1][j].type === 'buildingGreen'){
+                        cells[i][j].borderBottom = '2px solid #f9f9f9'
+                    }
+                    if(typeof cells[i][j-1] != 'undefined' && cells[i][j-1].type === 'building' || typeof cells[i][j-1] != 'undefined' && cells[i][j-1].type === 'buildingGreen'){
+                        cells[i][j].borderLeft = '2px solid #f9f9f9'
+                    }
+                    if(typeof cells[i][j+1] != 'undefined' && cells[i][j+1].type === 'building' || typeof cells[i][j+1] != 'undefined' && cells[i][j+1].type === 'buildingGreen'){
+                        cells[i][j].borderRight = '2px solid #f9f9f9'
+                    }
+                }
+            }
+        }
+    }
+
     function cellIsGreenNextGeneration(){
         console.log('checking if cell is green next generation')
         for(let i=0; i<cells.length; i++){
@@ -174,7 +203,7 @@
                 //     // 
                 // }
 
-                if(cells[i][j].liveNeighbours > 0 && Math.random() > 0.005){
+                if(cells[i][j].liveNeighbours > 0 && cells[i][j].liveNeighbours < 8 && Math.random() > 0.005){
                     cells[i][j].aliveNext = true
                 } else {
                     cells[i][j].aliveNext = false
@@ -258,6 +287,7 @@
     let assetsMenuDisplay = 'none'
 
     generateCells(widthNum, heightNum)
+    drawCellBorders()
 
 
 </script>
@@ -284,6 +314,7 @@
     </div>
     <hr style='display: {navMenuDisplay}'>
     <div class='navMenu' style='display: {navMenuDisplay}; max-height: calc({$height}px - 70px);' transition:fade >
+        <a class='smallMenuButton' href='/'>Home</a>
         <div class='statisticsContainer' style='margin-top: 10px;'>
             <h2>City statistics</h2>
             <!-- <div class='statisticsGrid' style='grid-template-columns: repeat(auto-fill, {cellWidth*1.2}px);'>
@@ -398,33 +429,35 @@
     </div> -->
 </div>
 
+<div class='cityOutscirtsContainer'>
 <div bind:this={gridContainer} class='gridContainer' style='grid-template-columns: repeat(10, {cellWidth}px);'>
 {#each cells as cell}
-    {#each cell as {className, image, id, row, column, background, temperature, type, aliveNow, liveNeighbours}}
+    {#each cell as {className, image, id, row, column, background, borderTop, borderBottom, borderRight, borderLeft, temperature, type, aliveNow, liveNeighbours}}
         {#if type === 'building'}
-            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}' on:click={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column; }}>
+            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background};  border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft};' on:click={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column; }}>
                 <p style='font-size: 10px;'>{type}, {aliveNow}, {liveNeighbours}</p>
                 <!-- <p class='blockText'>{20 + temperature}°C</p> -->
                 <!-- <img src={image} alt='house' class='buildingImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'empty'}
-            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column; turnEmptyCellIntoGreenSpace(selectedRow, selectedColumn);}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;  turnEmptyCellIntoGreenSpace(selectedRow, selectedColumn)}}>
+            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft};' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column; turnEmptyCellIntoGreenSpace(selectedRow, selectedColumn); generationLoop()}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;  turnEmptyCellIntoGreenSpace(selectedRow, selectedColumn)}}>
                 <p style='font-size: 10px;'>{type}, {aliveNow}, {liveNeighbours}</p>
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'plant'}
-            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
+            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft};' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
                 <p style='font-size: 10px;'>{type}, {aliveNow}, {liveNeighbours}</p>
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'buildingGreen'}
-            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
+            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft};' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
                 <p style='font-size: 10px;'>{type}, {aliveNow}, {liveNeighbours}</p>
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {/if}
     {/each}
 {/each}
+</div>
 </div>
 
 <style>
@@ -452,6 +485,29 @@
         /* width: calc(100% - 10px); */
         overflow-y: scroll;
         margin-bottom: 10px;
+    }
+    .smallMenuButton {
+      background: none;
+      border: none;
+      color: #1a1a1a;
+      font-family: Roboto, sans-serif;
+      font-weight: 300;
+      font-size: 1rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 0 20px 0 0;
+    }
+    .smallMenuButton:hover {
+      background: none;
+      border: none;
+      font-family: Roboto, sans-serif;
+      font-weight: 300;
+      font-size: 1rem;
+      color: #3d95ee;
+      text-decoration: underline;
+      display: flex;
+      align-items: center;
     }
     /* .dataContainer{
         width: calc(100% - 10px);
@@ -551,14 +607,21 @@
     .assetsImage{
         box-sizing: border-box;
     } */
-    .gridContainer{
-        margin-top: 60px;
+    .cityOutscirtsContainer{
         position: absolute;
-        left: 0;
+        padding: 120px 60px 60px 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgb(132, 162, 132);
+    }
+    .gridContainer{
+        /* position: absolute; */
+        /* left: 0; */
         display: grid;
         grid-template-columns: repeat(10, 200px);
         background: #f9f9f9;
-        padding-bottom: 60px;
+        border: 2px solid #f9f9f9;
     }
 
 
@@ -586,7 +649,6 @@
     } */
 
     .block{
-        border: 1px solid #f9f9f9;
         position: relative;
         box-sizing: border-box;
         background: rgb(156, 156, 156);

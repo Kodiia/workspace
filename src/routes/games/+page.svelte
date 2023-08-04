@@ -5,15 +5,6 @@
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
 
     export let data
-    // console.log(data.projects.items, data.tutorials.items)
-    // console.log(data.user)
-
-    let projects = data.projects.items
-    // let title = data.result.items[0].project_name
-    // let description = data.result.items[0].project_description
-    let tutorials = data.tutorials.items
-    let courses = data.courses.items
-
 </script>
 
 <div class='container'>
@@ -24,6 +15,7 @@
         </a>
     </div>
     <div class='desktopMenu'>
+        <a class='smallMenuButton' href='/'>Home</a>
         {#if data.user}
         <form action='/logout' method='POST'>
             <button type='submit' class='smallMenuButton'>Log Out</button>
@@ -36,45 +28,13 @@
     </div>
 </nav>
 
-{#if $stylesPanelState}
-    <div style='position: absolute; top: 0px; right: 0px; padding: 0px; width: min(300px, 100%);'>
-        <StylesPanel />
-    </div>
-{/if}
-
-<!-- <p>{innerWidth}{innerHeight}{$width}{$height}</p> -->
-<!-- <h1 style='margin-top: 70px;'>What code will you write?</h1> -->
-<div class='scrollable-container' style='margin-top: 70px;'>
-    
-    <h2>Courses</h2>
-    <p>Follow step-by-step tutorials.</p>
-    <div class='tutorial-cards-container'>
-        {#each courses as course}
-            {#if course.type === 'open'}
-                <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
-            {/if}
-        {/each}
-    </div>
-
-    <h2>Games and simulations</h2>
-    <p>Build your skills by playing games or explore simulations.</p>
-    <div class='tutorial-cards-container'>
-        <ProjectCard title='Habitat' description='Sustainable city simulation game.' link='games/city2D' />
-        <ProjectCard title='Nature Revival' description='Simulate nature revival in a generative city.' link='games/nature-revival' />
-    </div>
-
-    <h2>Templates</h2>
-    <p>Start building a project on your own.</p>
-    <div class='template-cards-container'>
-        {#each projects as project}
-            <ProjectCard title={project.name} description={project.description} topics='' link='{project.collectionName}/{project.id}' />
-        {/each}
-    </div>
+<h2 style='margin-top: 70px'>Games and simulations</h2>
+<p>Build your skills by playing games or explore simulations.</p>
+<div class='tutorial-cards-container'>
+    <ProjectCard title='Habitat' description='Sustainable city simulation game.' link='games/city2D' />
+    <ProjectCard title='Nature Revival' description='Simulate nature revival in a generative city.' link='games/nature-revival' />
 </div>
 
-<!-- <div class='panelsContainer' style='height: calc({$height}px - 70px);'>
-    
-</div> -->
 </div>
 
 <style>
@@ -86,25 +46,11 @@
         width: min(100%, 1044px);
         /* height: 100vh; */
         position: relative;
-    }
-    .panelsContainer{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
 
-        background: #fdfdfd;
-        background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border-radius: 15px;
-        box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
-        /* margin: 10px; */
         box-sizing: border-box;
-        /* display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center; */
+        /* height: calc(100% - 4em); */
+        padding: 0 10px 10px 10px;
+        overflow-y: auto;
     }
     nav{
         position: fixed;
@@ -130,13 +76,6 @@
         display: flex;
         align-items: center;
     }
-    h1{
-        text-align: center;
-    }
-    h2{
-        margin-left: 0px;
-    }
-    
     .scrollable-container{
         box-sizing: border-box;
         width: 100%;
@@ -173,15 +112,5 @@
       text-decoration: underline;
       display: flex;
       align-items: center;
-    }
-    .sign-in-button{
-        margin-right: 5px;
-        height: 30px;
-        border-radius: 15px;
-        padding: 0 10px;
-        display: flex;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
     }
 </style>
