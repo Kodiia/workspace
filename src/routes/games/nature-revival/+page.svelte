@@ -613,7 +613,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: rgb(132, 162, 132);
+        background-image: linear-gradient(rgb(162, 201, 224) 60px, transparent 120px), linear-gradient(to right, rgb(162, 201, 224) 0px, transparent 60px), linear-gradient(to left, rgb(162, 201, 224) 0px, transparent 60px), linear-gradient(to top, rgb(162, 201, 224) 0px, transparent 60px);
     }
     .gridContainer{
         /* position: absolute; */
