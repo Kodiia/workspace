@@ -8,34 +8,46 @@
         if(cellWidth < 40){
             cellWidth = 40
         }
-        // cellWidth = 80
+        //cellWidth = 80
     })
 
     let cells = []
 
+    const water = [
+        {
+            background: '#dbedff',
+            temperature: 0
+        }
+    ]
+
     const buildings = [
         {
-            background: 'grey'
+            background: 'grey',
+            temperature: 25
         }
     ]
     const buildingsGreen = [
         {
-            background: 'purple'
+            background: 'purple',
+            temperature: 18
         }
     ]
 
     const plants = [
         {
-            background: 'green'
+            background: 'green',
+            temperature: 15
         },
         {
-            background: 'darkgreen'
+            background: 'darkgreen',
+            temperature: 15
         } 
     ]
 
     const empty = [
         {
-            background: 'lightgrey'
+            background: 'lightgrey',
+            temperature: 30
         }
     ]
 
@@ -50,49 +62,121 @@
             cells[i] = []
             for(let j=0; j<height; j++){
             
-            if(Math.random() > 0.5){
-                const num = Math.floor(Math.random()*buildings.length)
-                const blockType = 'building'
-                const blockData = getBlockData(num, blockType) 
+            if(i < 2 || i > width - 2 || j < 2 || j > height - 2){
+                if(Math.random() > 0.75){
+                    const num = Math.floor(Math.random()*buildings.length)
+                    const blockType = 'water'
+                    const blockData = getBlockData(num, blockType) 
 
-                cells[i][j] = {
-                aliveNow: false,
-                aliveNext: false,
-                liveNeighbours: 0,
-                id: i + '-' + j,
-                row: i,
-                column: j,
-                className: 'buildings',
-                type: blockType,
-                // image: blockData.image,
-                background: blockData.background,
-                borderTop: 'none',
-                borderBottom: 'none',
-                borderRight: 'none',
-                borderLeft: 'none',
-                // temperature: blockData.temperature
+                    cells[i][j] = {
+                    aliveNow: false,
+                    aliveNext: false,
+                    liveNeighbours: 0,
+                    id: i + '-' + j,
+                    row: i,
+                    column: j,
+                    className: 'water',
+                    type: blockType,
+                    // image: blockData.image,
+                    background: blockData.background,
+                    borderTop: 'none',
+                    borderBottom: 'none',
+                    borderRight: 'none',
+                    borderLeft: 'none',
+                    temperature: blockData.temperature
+                    }
+                } else {
+                    if(Math.random() > 0.5){
+                        const num = Math.floor(Math.random()*buildings.length)
+                        const blockType = 'building'
+                        const blockData = getBlockData(num, blockType) 
+
+                        cells[i][j] = {
+                        aliveNow: false,
+                        aliveNext: false,
+                        liveNeighbours: 0,
+                        id: i + '-' + j,
+                        row: i,
+                        column: j,
+                        className: 'buildings',
+                        type: blockType,
+                        // image: blockData.image,
+                        background: blockData.background,
+                        borderTop: 'none',
+                        borderBottom: 'none',
+                        borderRight: 'none',
+                        borderLeft: 'none',
+                        temperature: blockData.temperature
+                        }
+                    } else {
+                        const num = Math.floor(Math.random()*empty.length)
+                        const blockType = 'empty'
+                        const blockData = getBlockData(num, blockType)
+
+                        cells[i][j] = {
+                        aliveNow: false,
+                        aliveNext: false,
+                        liveNeighbours: 0,
+                        id: i + '-' + j,
+                        row: i, 
+                        column: j,
+                        className: 'nature',
+                        type: blockType,
+                        // image: blockData.image,
+                        background: blockData.background,
+                        borderTop: 'none',
+                        borderBottom: 'none',
+                        borderRight: 'none',
+                        borderLeft: 'none',
+                        temperature: blockData.temperature
+                        }
+                    }
                 }
             } else {
-                const num = Math.floor(Math.random()*empty.length)
-                const blockType = 'empty'
-                const blockData = getBlockData(num, blockType)
+                if(Math.random() > 0.5){
+                    const num = Math.floor(Math.random()*buildings.length)
+                    const blockType = 'building'
+                    const blockData = getBlockData(num, blockType) 
 
-                cells[i][j] = {
-                aliveNow: false,
-                aliveNext: false,
-                liveNeighbours: 0,
-                id: i + '-' + j,
-                row: i, 
-                column: j,
-                className: 'nature',
-                type: blockType,
-                // image: blockData.image,
-                background: blockData.background,
-                borderTop: 'none',
-                borderBottom: 'none',
-                borderRight: 'none',
-                borderLeft: 'none',
-                // temperature: blockData.temperature
+                    cells[i][j] = {
+                    aliveNow: false,
+                    aliveNext: false,
+                    liveNeighbours: 0,
+                    id: i + '-' + j,
+                    row: i,
+                    column: j,
+                    className: 'buildings',
+                    type: blockType,
+                    // image: blockData.image,
+                    background: blockData.background,
+                    borderTop: 'none',
+                    borderBottom: 'none',
+                    borderRight: 'none',
+                    borderLeft: 'none',
+                    temperature: blockData.temperature
+                    }
+                } else {
+                    const num = Math.floor(Math.random()*empty.length)
+                    const blockType = 'empty'
+                    const blockData = getBlockData(num, blockType)
+
+                    cells[i][j] = {
+                    aliveNow: false,
+                    aliveNext: false,
+                    liveNeighbours: 0,
+                    id: i + '-' + j,
+                    row: i, 
+                    column: j,
+                    className: 'nature',
+                    type: blockType,
+                    // image: blockData.image,
+                    background: blockData.background,
+                    borderTop: 'none',
+                    borderBottom: 'none',
+                    borderRight: 'none',
+                    borderLeft: 'none',
+                    temperature: blockData.temperature
+                    }
                 }
             }
 
@@ -104,32 +188,37 @@
         //console.log('getting block data')
         let blockImage, blockBackground, blockTemperature
         switch (type){
+            case 'water':
+                // blockImage = buildings[num].url
+                blockBackground = water[num].background,
+                blockTemperature = water[num].temperature
+            break;
             case 'building':
                 // blockImage = buildings[num].url
-                blockBackground = buildings[num].background
-                // blockTemperature = buildings[num].temperature
+                blockBackground = buildings[num].background,
+                blockTemperature = buildings[num].temperature
             break;
             case 'buildingGreen':
                 // blockImage = buildings[num].url
-                blockBackground = buildingsGreen[num].background
-                // blockTemperature = buildings[num].temperature
+                blockBackground = buildingsGreen[num].background,
+                blockTemperature = buildingsGreen[num].temperature
             break;
             case 'plant':
                 // blockImage = buildings[num].url
-                blockBackground = plants[num].background
-                // blockTemperature = buildings[num].temperature
+                blockBackground = plants[num].background,
+                blockTemperature = plants[num].temperature
             break;
             case 'empty':
                 // blockImage = buildings[num].url
-                blockBackground = empty[num].background
-                // blockTemperature = buildings[num].temperature
+                blockBackground = empty[num].background,
+                blockTemperature = empty[num].temperature
             break;   
         }
 
         return {
             // image: blockImage,
             background: blockBackground,
-            // temperature: blockTemperature
+            temperature: blockTemperature
         }
     }
 
@@ -139,7 +228,26 @@
         cells[i][j].aliveNow = true
         cells[i][j].type = 'plant'
         cells[i][j].background = getBlockData(0, 'plant').background
+        cells[i][j].temperature = getBlockData(0, 'plant').temperature
 
+    }
+
+
+    function updateNighborCellsTemperature(i =0, j = 0){
+        if(typeof cells[i-1] != 'undefined' && cells[i-1][j].type != 'water'){
+            cells[i-1][j].temperature = (cells[i][j].temperature + cells[i-1][j].temperature) / 2
+        
+        }
+        if(typeof cells[i+1] != 'undefined' && cells[i+1][j].type != 'water'){
+            cells[i+1][j].temperature = (cells[i][j].temperature + cells[i+1][j].temperature) / 2
+        
+        }
+        if(typeof cells[i][j-1] != 'undefined' && cells[i][j-1].type != 'water'){
+            cells[i][j-1].temperature = (cells[i][j].temperature + cells[i][j-1].temperature) / 2
+        }
+        if(typeof cells[i][j+1] != 'undefined' && cells[i][j+1].type != 'water'){
+            cells[i][j+1].temperature = (cells[i][j].temperature + cells[i][j+1].temperature) / 2
+        }
     }
 
     function drawCellBorders(){
@@ -273,9 +381,11 @@
 
     function generationLoop(){
         console.log('running generation loop')
-        cellIsGreenNextGeneration()
-        updateAllCells();
-        resetGeneration()
+        // cellIsGreenNextGeneration()
+        // updateNeighborCellsTemperatureWhenTreeIsPlanted(selectedRow, selectedColumn)
+        updateNighborCellsTemperature(selectedRow, selectedColumn)
+        // updateAllCells();
+        // resetGeneration()
     }
 
 
@@ -288,6 +398,12 @@
 
     generateCells(widthNum, heightNum)
     drawCellBorders()
+
+    // for(let i=0; i<widthNum; i++){
+    //     for(let j=0; j<heightNum; j++){
+    //         cells[i][j].temperature = 20
+    //     }
+    // }
 
 
 </script>
@@ -435,23 +551,28 @@
     {#each cell as {className, image, id, row, column, background, borderTop, borderBottom, borderRight, borderLeft, temperature, type, aliveNow, liveNeighbours}}
         {#if type === 'building'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background};  border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft};' on:click={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column; }}>
-                <p style='font-size: 10px;'>{type}, {aliveNow}, {liveNeighbours}</p>
+                <p style='font-size: 10px;'>{temperature}°C</p>
                 <!-- <p class='blockText'>{20 + temperature}°C</p> -->
                 <!-- <img src={image} alt='house' class='buildingImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'empty'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft};' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column; turnEmptyCellIntoGreenSpace(selectedRow, selectedColumn); generationLoop()}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;  turnEmptyCellIntoGreenSpace(selectedRow, selectedColumn)}}>
-                <p style='font-size: 10px;'>{type}, {aliveNow}, {liveNeighbours}</p>
+                <p style='font-size: 10px;'>{temperature}°C</p>
+                <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
+            </div>
+        {:else if type === 'water'}
+            <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft};' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column; }} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column; }}>
+                <!-- <p style='font-size: 10px;'>{temperature}°C</p> -->
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'plant'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft};' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
-                <p style='font-size: 10px;'>{type}, {aliveNow}, {liveNeighbours}</p>
+                <p style='font-size: 10px;'>{temperature}°C</p>
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'buildingGreen'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft};' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
-                <p style='font-size: 10px;'>{type}, {aliveNow}, {liveNeighbours}</p>
+                <p style='font-size: 10px;'>{temperature}°C</p>
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {/if}
@@ -613,7 +734,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-image: linear-gradient(rgb(162, 201, 224) 60px, transparent 120px), linear-gradient(to right, rgb(162, 201, 224) 0px, transparent 60px), linear-gradient(to left, rgb(162, 201, 224) 0px, transparent 60px), linear-gradient(to top, rgb(162, 201, 224) 0px, transparent 60px);
+        /* background-image: linear-gradient(rgb(162, 201, 224) 60px, transparent 120px), linear-gradient(to right, rgb(162, 201, 224) 0px, transparent 60px), linear-gradient(to left, rgb(162, 201, 224) 0px, transparent 60px), linear-gradient(to top, rgb(162, 201, 224) 0px, transparent 60px); */
+        /* background: #f9f9f9; */
+        background-color: #dbedff;
     }
     .gridContainer{
         /* position: absolute; */
@@ -621,7 +744,7 @@
         display: grid;
         grid-template-columns: repeat(10, 200px);
         background: #f9f9f9;
-        border: 2px solid #f9f9f9;
+        /* border: 2px solid #f9f9f9; */
     }
 
 
