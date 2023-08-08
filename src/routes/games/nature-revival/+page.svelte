@@ -84,7 +84,8 @@
                     borderRight: 'none',
                     borderLeft: 'none',
                     temperature: blockData.temperature,
-                    temperatureTextScale: 1
+                    temperatureTextScale: 1,
+                    temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature)
                     }
                 } else {
                     if(Math.random() > 0.5){
@@ -109,7 +110,7 @@
                         borderLeft: 'none',
                         temperature: blockData.temperature,
                         temperatureTextScale: 1,
-                        
+                        temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature)
                         }
                     } else {
                         const num = Math.floor(Math.random()*empty.length)
@@ -132,7 +133,8 @@
                         borderRight: 'none',
                         borderLeft: 'none',
                         temperature: blockData.temperature,
-                        temperatureTextScale: 1
+                        temperatureTextScale: 1,
+                        temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature)
                         }
                     }
                 }
@@ -159,7 +161,7 @@
                     borderLeft: 'none',
                     temperature: blockData.temperature,
                     temperatureTextScale: 1,
-                    
+                    temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature)
                     }
                 } else {
                     const num = Math.floor(Math.random()*empty.length)
@@ -182,7 +184,8 @@
                     borderRight: 'none',
                     borderLeft: 'none',
                     temperature: blockData.temperature,
-                    temperatureTextScale: 1
+                    temperatureTextScale: 1,
+                    temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature)
                     }
                 }
             }
@@ -229,6 +232,23 @@
         }
     }
 
+    function getTemepratureTextBackgroundColor(temp = 15){
+        let temperature = temp
+        let color = 'gold'
+        if (temp <= 15){
+            color = '#caf0f830'
+        } else if(temperature > 15 && temperature <= 20){
+            color = '#00f5d430'
+        } else if (temperature > 20 && temperature <= 23){
+            color = '#ffba0830'
+        } else if (temperature > 23 && temperature <= 25){
+            color = '#e85d0430'
+        } else if (temperature > 25){
+            color = '#9d020830'
+        }
+        return color
+    }
+
 
     function turnEmptyCellIntoGreenSpace(i=0, j=0){
         console.log(cells[i][j])
@@ -236,13 +256,14 @@
         cells[i][j].type = 'plant'
         cells[i][j].background = getBlockData(0, 'plant').background
         cells[i][j].temperature = getBlockData(0, 'plant').temperature
-
+        cells[i][j].temperatureBackgroundColor = getTemepratureTextBackgroundColor(cells[i][j].temperature)
     }
 
 
     function updateNighborCellsTemperature(i =0, j = 0){
         if(typeof cells[i-1] != 'undefined' && cells[i-1][j].type != 'water'){
             cells[i-1][j].temperature = (cells[i][j].temperature + cells[i-1][j].temperature) / 2
+            cells[i-1][j].temperatureBackgroundColor = getTemepratureTextBackgroundColor(cells[i-1][j].temperature)
             if(cells[i-1][j].type != 'plant'){
                 cells[i-1][j].temperatureTextScale = 1.3
                 setTimeout(()=>{cells[i-1][j].temperatureTextScale = 1}, 1000)
@@ -250,6 +271,7 @@
         }
         if(typeof cells[i+1] != 'undefined' && cells[i+1][j].type != 'water'){
             cells[i+1][j].temperature = (cells[i][j].temperature + cells[i+1][j].temperature) / 2
+            cells[i+1][j].temperatureBackgroundColor = getTemepratureTextBackgroundColor(cells[i+1][j].temperature)
             if(cells[i+1][j].type != 'plant'){
                 cells[i+1][j].temperatureTextScale = 1.3
                 setTimeout(()=>{cells[i+1][j].temperatureTextScale = 1}, 1000)
@@ -257,6 +279,7 @@
         }
         if(typeof cells[i][j-1] != 'undefined' && cells[i][j-1].type != 'water'){
             cells[i][j-1].temperature = (cells[i][j].temperature + cells[i][j-1].temperature) / 2
+            cells[i][j-1].temperatureBackgroundColor = getTemepratureTextBackgroundColor(cells[i][j-1].temperature)
             if(cells[i][j-1].type != 'plant'){
                 cells[i][j-1].temperatureTextScale = 1.3
                 setTimeout(()=>{cells[i][j-1].temperatureTextScale = 1}, 1000)
@@ -264,6 +287,7 @@
         }
         if(typeof cells[i][j+1] != 'undefined' && cells[i][j+1].type != 'water'){
             cells[i][j+1].temperature = (cells[i][j].temperature + cells[i][j+1].temperature) / 2
+            cells[i][j+1].temperatureBackgroundColor = getTemepratureTextBackgroundColor(cells[i][j+1].temperature)
             if(cells[i][j+1].type != 'plant'){
                 cells[i][j+1].temperatureTextScale = 1.3
                 setTimeout(()=>{cells[i][j+1].temperatureTextScale = 1}, 1000)
@@ -416,7 +440,7 @@
     // console.log(cells)
     let navMenuDisplay = 'none'
     let assetsMenuDisplay = 'none'
-    let heatMapDisplay = true
+    let heatMapDisplay = false
 
     generateCells(widthNum, heightNum)
     drawCellBorders()
@@ -570,16 +594,16 @@
 <div class='cityOutscirtsContainer'>
 <div bind:this={gridContainer} class='gridContainer' style='grid-template-columns: repeat(10, {cellWidth}px);'>
 {#each cells as cell}
-    {#each cell as {className, image, id, row, column, background, borderTop, borderBottom, borderRight, borderLeft, temperature, temperatureTextScale, type, aliveNow, liveNeighbours}}
+    {#each cell as {className, image, id, row, column, background, borderTop, borderBottom, borderRight, borderLeft, temperature, temperatureTextScale, temperatureBackgroundColor, type, aliveNow, liveNeighbours}}
         {#if type === 'building'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background};  border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: default;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{selectedId = id; selectedRow = row; selectedColumn = column; }}>
-                <p style='font-size: 10px; transform: scale({temperatureTextScale})' class='blockText'>{temperature}°C</p>
+                <p style='font-size: 10px; transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
                 <!-- <p class='blockText'>{20 + temperature}°C</p> -->
                 <!-- <img src={image} alt='house' class='buildingImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'empty'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: pointer;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column; turnEmptyCellIntoGreenSpace(selectedRow, selectedColumn); generationLoop()}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;  turnEmptyCellIntoGreenSpace(selectedRow, selectedColumn)}}>
-                <p style='font-size: 10px; transform: scale({temperatureTextScale})' class='blockText'>{temperature}°C</p>
+                <p style='font-size: 10px; transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'water'}
@@ -589,12 +613,12 @@
             </div>
         {:else if type === 'plant'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: default;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
-                <p style='font-size: 10px; transform: scale({temperatureTextScale})' class='blockText'>{temperature}°C</p>
+                <p style='font-size: 10px; transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'buildingGreen'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: default;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
-                <p style='font-size: 10px; transform: scale({temperatureTextScale})' class='blockText'>{temperature}°C</p>
+                <p style='font-size: 10px; transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {/if}
@@ -602,42 +626,31 @@
 {/each}
 </div>
 
-{#if heatMapDisplay === true}
+<!-- {#if heatMapDisplay === true}
 <div style='opacity: 0.35; position: absolute; z-index: 2; width: {cellWidth * widthNum + 120}px; height: {cellWidth * heightNum + 120}px; backdrop-filter: blur(20px) contrast(500%) grayscale(20%); -webkit-backdrop-filter: blur(20px) contrast(500%) grayscale(20%);'></div>
 <div class='gridContainer' style='position: absolute; z-index: 1; grid-template-columns: repeat(10, {cellWidth}px);'>
     {#each cells as cell}
         {#each cell as {className, image, id, row, column, background, borderTop, borderBottom, borderRight, borderLeft, temperature, temperatureTextScale, type, aliveNow, liveNeighbours}}
             {#if temperature < 15}
                 <div class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: skyblue;'>
-                    <!-- <p style='font-size: 10px; transform: scale({temperatureTextScale})' class='blockText'>{temperature}°C</p> -->
-                    <!-- <p class='blockText'>{20 + temperature}°C</p> -->
-                    <!-- <img src={image} alt='house' class='buildingImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
                 </div>
             {:else if temperature >= 15 && temperature <= 18}
                 <div class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: lime;'>
-                    <!-- <p style='font-size: 10px; transform: scale({temperatureTextScale})' class='blockText'>{temperature}°C</p> -->
-                    <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
                 </div>
             {:else if temperature > 18 && temperature <= 23}
                 <div class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: #f9c22e;'>
-                    <!-- <p style='font-size: 10px;'>{temperature}°C</p> -->
-                    <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
                 </div>
             {:else if temperature > 23 && temperature <= 25}
                 <div class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: #ff8800;'>
-                    <!-- <p style='font-size: 10px; transform: scale({temperatureTextScale})' class='blockText'>{temperature}°C</p> -->
-                    <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
                 </div>
             {:else if temperature > 25}
                 <div class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: #e01e37;'>
-                    <!-- <p style='font-size: 10px; transform: scale({temperatureTextScale})' class='blockText'>{temperature}°C</p> -->
-                    <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
                 </div>
             {/if}
         {/each}
     {/each}
 </div>
-{/if}
+{/if} -->
 </div>
 
 <style>
@@ -850,7 +863,7 @@
         margin: 5px;
         padding: 5px;
         background: #1a1a1a20;
-        color: #f9f9f9;
+        color: #1a1a1a;
         border-radius: 20px;
     }
 </style>
