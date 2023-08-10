@@ -28,7 +28,7 @@
     </div>
 </nav>
 
-<h2 style='margin-top: 70px'>Games and simulations</h2>
+<h2 style='margin-top: 70px'>Apps</h2>
 <p>Build your skills by playing games or explore simulations.</p>
 <div class='tutorial-cards-container'>
     <ProjectCard title='Habitat' description='Sustainable city simulation game.' link='games/city2D' />

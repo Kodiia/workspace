@@ -3,7 +3,13 @@
     import { fade } from 'svelte/transition';
     // import block001 from '$lib/images/games/city/01.png'
     // import block002 from '$lib/images/games/city/02.png'
-    import block003 from '$lib/images/games/city/03.png'
+    import building001 from '$lib/images/games/city/building001.png'
+    import building002 from '$lib/images/games/city/building002.png'
+    import building003 from '$lib/images/games/city/building003.png'
+    import building004 from '$lib/images/games/city/building004.png'
+    import tree001 from '$lib/images/games/city/tree001.png'
+    import tree002 from '$lib/images/games/city/tree002.png'
+    import tree003 from '$lib/images/games/city/tree003.png'
     import tree004 from '$lib/images/games/city/04.png'
     // import block001 from '$lib/images/games/city/block001.svg'
     // import block002 from '$lib/images/games/city/block002.svg'
@@ -17,7 +23,8 @@
     // import block010 from '$lib/images/games/city/block010.svg'
     
     // const city = [block001, block002, block003, block004, block005, block006, block007, block008, block009, block010]
-    const city = [block003]
+    const city = [building001, building002, building003, building004]
+    const trees = [tree001, tree002, tree003]
 
     let cellWidth = 40
     width.subscribe(()=>{
@@ -43,7 +50,7 @@
 
     const buildings = [
         {
-            background: '#e8e8e8',
+            background: '#dedede',
             temperature: 25,
             structure: city[Math.floor(Math.random()*city.length)]
         }
@@ -261,7 +268,7 @@
             break;   
         }
 
-        console.log(blockStructure)
+        //console.log(blockStructure)
         return {
             // image: blockImage,
             background: blockBackground,
@@ -305,7 +312,7 @@
 
     function getTreesData(){
         let treesData = []
-        const num = Math.floor(Math.random()*5 + 1)
+        const num = Math.floor(Math.random()*5 + 3)
     
         for (let i=0; i<num; i++){
             const topPosition = (Math.floor(Math.random()*(cellWidth/2) + cellWidth/8) / cellWidth) * 100
@@ -317,7 +324,8 @@
                 top: topPosition,
                 left: leftPosition,
                 width: treeWidth,
-                zIndex: treeZIndex
+                zIndex: treeZIndex,
+                image: trees[Math.floor(Math.random() * trees.length)]
             })
         }
         return treesData
@@ -683,7 +691,7 @@
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: default;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
                 <p style='transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
                 {#each structure as tree}
-                    <div class='tree' style='top: {tree.top}%; left: {tree.left}%; width: {tree.width}%; height: {tree.width}%; z-index: {tree.zIndex};'></div>
+                    <div class='tree' style='top: {tree.top}%; left: {tree.left}%; width: {tree.width}%; height: {tree.width}%; z-index: {tree.zIndex}; background-image: url({tree.image}); background-size: 200%; background-position: center'></div>
                 {/each}
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
@@ -949,7 +957,7 @@
     .tree{
         position: absolute;
         border-radius: 50%;
-        background: green;
+        /* background: green; */
         filter: drop-shadow(2px -2px 5px #1a1a1ab0);
     }
 </style>
