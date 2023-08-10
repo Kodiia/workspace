@@ -1,24 +1,32 @@
 <script>
     import { width, height } from '$lib/store'
     import { fade } from 'svelte/transition';
-    import block001 from '$lib/images/games/city/block001.svg'
-    import block002 from '$lib/images/games/city/block002.svg'
-    import block003 from '$lib/images/games/city/block003.svg'
-    import block004 from '$lib/images/games/city/block004.svg'
-    import block005 from '$lib/images/games/city/block005.svg'
-    import block006 from '$lib/images/games/city/block006.svg'
-    import block007 from '$lib/images/games/city/block007.svg'
-    import block008 from '$lib/images/games/city/block008.svg'
-    import block009 from '$lib/images/games/city/block009.svg'
-    import block010 from '$lib/images/games/city/block010.svg'
+    // import block001 from '$lib/images/games/city/01.png'
+    // import block002 from '$lib/images/games/city/02.png'
+    import block003 from '$lib/images/games/city/03.png'
+    import tree004 from '$lib/images/games/city/04.png'
+    // import block001 from '$lib/images/games/city/block001.svg'
+    // import block002 from '$lib/images/games/city/block002.svg'
+    // import block003 from '$lib/images/games/city/block003.svg'
+    // import block004 from '$lib/images/games/city/block004.svg'
+    // import block005 from '$lib/images/games/city/block005.svg'
+    // import block006 from '$lib/images/games/city/block006.svg'
+    // import block007 from '$lib/images/games/city/block007.svg'
+    // import block008 from '$lib/images/games/city/block008.svg'
+    // import block009 from '$lib/images/games/city/block009.svg'
+    // import block010 from '$lib/images/games/city/block010.svg'
     
-    const city = [block001, block002, block003, block004, block005, block006, block007, block008, block009, block010]
+    // const city = [block001, block002, block003, block004, block005, block006, block007, block008, block009, block010]
+    const city = [block003]
 
-    let cellWidth
+    let cellWidth = 40
     width.subscribe(()=>{
         cellWidth = ($width - 20) / 10;
         if(cellWidth < 40){
             cellWidth = 40
+        }
+        if(cellWidth > 300){
+            cellWidth = 300
         }
         //cellWidth = 80
     })
@@ -50,7 +58,7 @@
 
     const plants = [
         {
-            background: '#7DCEA0',
+            background: '#ddebd8',
             temperature: 15,
             structure: false
         },
@@ -292,6 +300,27 @@
         cells[i][j].background = getBlockData(0, 'plant').background
         cells[i][j].temperature = getBlockData(0, 'plant').temperature
         cells[i][j].temperatureBackgroundColor = getTemepratureTextBackgroundColor(cells[i][j].temperature)
+        cells[i][j].structure = getTreesData()
+    }
+
+    function getTreesData(){
+        let treesData = []
+        const num = Math.floor(Math.random()*5 + 1)
+    
+        for (let i=0; i<num; i++){
+            const topPosition = (Math.floor(Math.random()*(cellWidth/2) + cellWidth/8) / cellWidth) * 100
+            const leftPosition = (Math.floor(Math.random()*(cellWidth/2) + cellWidth/8) / cellWidth) * 100
+            const treeWidth = ((Math.floor(Math.random()*(cellWidth/8)) + 20) / cellWidth) * 100
+            const treeZIndex = Math.round((treeWidth / cellWidth) * 100)
+            treesData.push({
+                // number: Math.floor(Math.random()*10 + 1),
+                top: topPosition,
+                left: leftPosition,
+                width: treeWidth,
+                zIndex: treeZIndex
+            })
+        }
+        return treesData
     }
 
 
@@ -507,7 +536,10 @@
             {/if}
         </button>
         <!-- <img src='{habitat}' width='100' alt='habitat'/> -->
-        <button class='analyzeButton' on:click={()=>{heatMapDisplay = !heatMapDisplay}}>heat map</button>
+        <div>
+            <button class='zoomButton' on:click={()=>{cellWidth < 300 ? cellWidth += 10 : cellWidth=cellWidth}}>+</button>
+            <button class='zoomButton' on:click={()=>{cellWidth > 50 ? cellWidth -= 10 : cellWidth=cellWidth}}>-</button>
+        </div>
     </div>
     <hr style='display: {navMenuDisplay}'>
     <div class='navMenu' style='display: {navMenuDisplay}; max-height: calc({$height}px - 70px);' transition:fade >
@@ -650,6 +682,9 @@
         {:else if type === 'plant'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: default;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
                 <p style='transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
+                {#each structure as tree}
+                    <div class='tree' style='top: {tree.top}%; left: {tree.left}%; width: {tree.width}%; height: {tree.width}%; z-index: {tree.zIndex};'></div>
+                {/each}
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'buildingGreen'}
@@ -890,7 +925,8 @@
         z-index: 1;
     }
     .block:hover{
-        transform: scale(1.02);
+        /* transform: scale(1.02); */
+        background: rgb(156, 156, 156);
     }
     .blockText{
         position: absolute;
@@ -902,12 +938,18 @@
         color: #1a1a1a;
         border-radius: 20px;
         transition: transform 0.5s;
-        z-index: 2;
+        z-index: 100;
         font-size: 1rem;
     }
     .blockImage{
         width: 80%;
         height: 80%;
+        filter: drop-shadow(2px -2px 5px #1a1a1ab0);
+    }
+    .tree{
+        position: absolute;
+        border-radius: 50%;
+        background: green;
         filter: drop-shadow(2px -2px 5px #1a1a1ab0);
     }
 </style>
