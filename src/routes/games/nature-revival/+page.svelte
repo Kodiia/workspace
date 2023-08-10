@@ -1,7 +1,19 @@
 <script>
     import { width, height } from '$lib/store'
     import { fade } from 'svelte/transition';
+    import block001 from '$lib/images/games/city/block001.svg'
+    import block002 from '$lib/images/games/city/block002.svg'
+    import block003 from '$lib/images/games/city/block003.svg'
+    import block004 from '$lib/images/games/city/block004.svg'
+    import block005 from '$lib/images/games/city/block005.svg'
+    import block006 from '$lib/images/games/city/block006.svg'
+    import block007 from '$lib/images/games/city/block007.svg'
+    import block008 from '$lib/images/games/city/block008.svg'
+    import block009 from '$lib/images/games/city/block009.svg'
+    import block010 from '$lib/images/games/city/block010.svg'
     
+    const city = [block001, block002, block003, block004, block005, block006, block007, block008, block009, block010]
+
     let cellWidth
     width.subscribe(()=>{
         cellWidth = ($width - 20) / 10;
@@ -16,38 +28,44 @@
     const water = [
         {
             background: '#dbedff',
-            temperature: 0
+            temperature: 0,
+            structure: false
         }
     ]
 
     const buildings = [
         {
-            background: '#F1948A',
-            temperature: 25
+            background: '#e8e8e8',
+            temperature: 25,
+            structure: city[Math.floor(Math.random()*city.length)]
         }
     ]
     const buildingsGreen = [
         {
             background: 'purple',
-            temperature: 18
+            temperature: 18,
+            structure: false
         }
     ]
 
     const plants = [
         {
             background: '#7DCEA0',
-            temperature: 15
+            temperature: 15,
+            structure: false
         },
         {
             background: 'darkgreen',
-            temperature: 15
+            temperature: 15,
+            structure: false
         } 
     ]
 
     const empty = [
         {
-            background: '#FADBD8',
-            temperature: 30
+            background: '#f5f5f5',
+            temperature: 30,
+            structure: false
         }
     ]
 
@@ -85,7 +103,8 @@
                     borderLeft: 'none',
                     temperature: blockData.temperature,
                     temperatureTextScale: 1,
-                    temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature)
+                    temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature),
+                    structure: blockData.structure
                     }
                 } else {
                     if(Math.random() > 0.5){
@@ -110,7 +129,8 @@
                         borderLeft: 'none',
                         temperature: blockData.temperature,
                         temperatureTextScale: 1,
-                        temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature)
+                        temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature),
+                        structure: city[Math.floor(Math.random()*city.length)]
                         }
                     } else {
                         const num = Math.floor(Math.random()*empty.length)
@@ -134,7 +154,8 @@
                         borderLeft: 'none',
                         temperature: blockData.temperature,
                         temperatureTextScale: 1,
-                        temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature)
+                        temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature),
+                        structure: blockData.structure
                         }
                     }
                 }
@@ -161,7 +182,8 @@
                     borderLeft: 'none',
                     temperature: blockData.temperature,
                     temperatureTextScale: 1,
-                    temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature)
+                    temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature),
+                    structure: city[Math.floor(Math.random()*city.length)]
                     }
                 } else {
                     const num = Math.floor(Math.random()*empty.length)
@@ -185,7 +207,8 @@
                     borderLeft: 'none',
                     temperature: blockData.temperature,
                     temperatureTextScale: 1,
-                    temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature)
+                    temperatureBackgroundColor: getTemepratureTextBackgroundColor(blockData.temperature),
+                    structure: blockData.structure
                     }
                 }
             }
@@ -196,39 +219,46 @@
 
     function getBlockData(num = 0, type = 'building'){
         //console.log('getting block data')
-        let blockImage, blockBackground, blockTemperature
+        let blockImage, blockBackground, blockTemperature, blockStructure
         switch (type){
             case 'water':
                 // blockImage = buildings[num].url
                 blockBackground = water[num].background,
-                blockTemperature = water[num].temperature
+                blockTemperature = water[num].temperature,
+                blockStructure = water[num].structure
             break;
             case 'building':
                 // blockImage = buildings[num].url
                 blockBackground = buildings[num].background,
-                blockTemperature = buildings[num].temperature
+                blockTemperature = buildings[num].temperature,
+                blockStructure = buildings[num].structure
             break;
             case 'buildingGreen':
                 // blockImage = buildings[num].url
                 blockBackground = buildingsGreen[num].background,
-                blockTemperature = buildingsGreen[num].temperature
+                blockTemperature = buildingsGreen[num].temperature,
+                blockStructure = buildingsGreen[num].structure
             break;
             case 'plant':
                 // blockImage = buildings[num].url
                 blockBackground = plants[num].background,
-                blockTemperature = plants[num].temperature
+                blockTemperature = plants[num].temperature,
+                blockStructure = plants[num].structure
             break;
             case 'empty':
                 // blockImage = buildings[num].url
                 blockBackground = empty[num].background,
-                blockTemperature = empty[num].temperature
+                blockTemperature = empty[num].temperature,
+                blockStructure = empty[num].structure
             break;   
         }
 
+        console.log(blockStructure)
         return {
             // image: blockImage,
             background: blockBackground,
-            temperature: blockTemperature
+            temperature: blockTemperature,
+            structure: blockStructure
         }
     }
 
@@ -236,15 +266,20 @@
         let temperature = temp
         let color = 'gold'
         if (temp <= 15){
-            color = '#caf0f830'
+            // color = '#caf0f8b0'
+            color = '#8fecff'
         } else if(temperature > 15 && temperature <= 20){
-            color = '#00f5d430'
+            // color = '#00f5d4b0'
+            color = '#8ffff0'
         } else if (temperature > 20 && temperature <= 23){
-            color = '#ffba0830'
+            // color = '#ffba08b0'
+            color = '#ffdf8f'
         } else if (temperature > 23 && temperature <= 25){
-            color = '#e85d0430'
+            // color = '#e85d04'
+            color = '#ffbc91'
         } else if (temperature > 25){
-            color = '#9d020830'
+            // color = '#9d0208b0'
+            color = '#ff858a'
         }
         return color
     }
@@ -300,16 +335,16 @@
             for(let j=0; j<cells[i].length; j++){
                 if(cells[i][j].type === 'empty' || cells[i][j].type === 'plant'){
                     if(typeof cells[i-1] != 'undefined' && cells[i-1][j].type === 'building' || typeof cells[i-1] != 'undefined' && cells[i-1][j].type === 'buildingGreen'){
-                        cells[i][j].borderTop = '2px solid #EC7063'
+                        cells[i][j].borderTop = '2px solid #EC706310'
                     }
                     if(typeof cells[i+1] != 'undefined' && cells[i+1][j].type === 'building' || typeof cells[i+1] != 'undefined' && cells[i+1][j].type === 'buildingGreen'){
-                        cells[i][j].borderBottom = '2px solid #EC7063'
+                        cells[i][j].borderBottom = '2px solid #EC706310'
                     }
                     if(typeof cells[i][j-1] != 'undefined' && cells[i][j-1].type === 'building' || typeof cells[i][j-1] != 'undefined' && cells[i][j-1].type === 'buildingGreen'){
-                        cells[i][j].borderLeft = '2px solid #EC7063'
+                        cells[i][j].borderLeft = '2px solid #EC706310'
                     }
                     if(typeof cells[i][j+1] != 'undefined' && cells[i][j+1].type === 'building' || typeof cells[i][j+1] != 'undefined' && cells[i][j+1].type === 'buildingGreen'){
-                        cells[i][j].borderRight = '2px solid #EC7063'
+                        cells[i][j].borderRight = '2px solid #EC706310'
                     }
                 }
             }
@@ -594,10 +629,11 @@
 <div class='cityOutscirtsContainer'>
 <div bind:this={gridContainer} class='gridContainer' style='grid-template-columns: repeat(10, {cellWidth}px);'>
 {#each cells as cell}
-    {#each cell as {className, image, id, row, column, background, borderTop, borderBottom, borderRight, borderLeft, temperature, temperatureTextScale, temperatureBackgroundColor, type, aliveNow, liveNeighbours}}
+    {#each cell as {className, image, id, row, column, background, borderTop, borderBottom, borderRight, borderLeft, temperature, temperatureTextScale, temperatureBackgroundColor, type, structure, aliveNow, liveNeighbours}}
         {#if type === 'building'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background};  border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: default;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{selectedId = id; selectedRow = row; selectedColumn = column; }}>
                 <p style='font-size: 10px; transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
+                <img class='blockImage' src={structure} alt='house'/>
                 <!-- <p class='blockText'>{20 + temperature}°C</p> -->
                 <!-- <img src={image} alt='house' class='buildingImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
@@ -847,15 +883,15 @@
         position: relative;
         box-sizing: border-box;
         background: rgb(156, 156, 156);
-        display: grid;
+        display: flex;
         align-items: center;
         justify-content: center;
         transform: scale(1.0);
+        z-index: 1;
     }
     .block:hover{
         transform: scale(1.02);
     }
-
     .blockText{
         position: absolute;
         top: 0;
@@ -865,5 +901,12 @@
         background: #1a1a1a20;
         color: #1a1a1a;
         border-radius: 20px;
+        transition: transform 0.5s;
+        z-index: 2;
+    }
+    .blockImage{
+        width: 80%;
+        height: 80%;
+        filter: drop-shadow(2px -2px 5px #1a1a1ab0);
     }
 </style>
