@@ -632,14 +632,14 @@
     {#each cell as {className, image, id, row, column, background, borderTop, borderBottom, borderRight, borderLeft, temperature, temperatureTextScale, temperatureBackgroundColor, type, structure, aliveNow, liveNeighbours}}
         {#if type === 'building'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background};  border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: default;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{selectedId = id; selectedRow = row; selectedColumn = column; }}>
-                <p style='font-size: 10px; transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
+                <p style='transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
                 <img class='blockImage' src={structure} alt='house'/>
                 <!-- <p class='blockText'>{20 + temperature}°C</p> -->
                 <!-- <img src={image} alt='house' class='buildingImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'empty'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: pointer;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column; turnEmptyCellIntoGreenSpace(selectedRow, selectedColumn); generationLoop()}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;  turnEmptyCellIntoGreenSpace(selectedRow, selectedColumn)}}>
-                <p style='font-size: 10px; transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
+                <p style='transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'water'}
@@ -649,12 +649,12 @@
             </div>
         {:else if type === 'plant'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: default;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
-                <p style='font-size: 10px; transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
+                <p style='transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {:else if type === 'buildingGreen'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: default;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
-                <p style='font-size: 10px; transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
+                <p style='transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
                 <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
             </div>
         {/if}
@@ -903,6 +903,7 @@
         border-radius: 20px;
         transition: transform 0.5s;
         z-index: 2;
+        font-size: 1rem;
     }
     .blockImage{
         width: 80%;
