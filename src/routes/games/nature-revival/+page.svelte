@@ -1,6 +1,8 @@
 <script>
     import { width, height } from '$lib/store'
     import { fade } from 'svelte/transition';
+    import WaterCA from "$lib/WaterCA.svelte";
+    import GrassCA from "$lib/GrassCA.svelte";
     // import block001 from '$lib/images/games/city/01.png'
     // import block002 from '$lib/images/games/city/02.png'
     import building001 from '$lib/images/games/city/building001.png'
@@ -684,12 +686,12 @@
             </div>
         {:else if type === 'water'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: default;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column; }} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column; }}>
-                <!-- <p style='font-size: 10px;'>{temperature}°C</p> -->
-                <!-- <img src={image} alt='space' class='spacesImage' style='background: {background}; width: calc({cellWidth}px - 30px); height: calc({cellWidth}px - 30px);'/> -->
+                <WaterCA width={cellWidth}/>
             </div>
         {:else if type === 'plant'}
             <div id={id} class='block' style='width: {cellWidth}px; height: {cellWidth}px; background: {background}; border-top: {borderTop}; border-bottom: {borderBottom}; border-right: {borderRight}; border-left: {borderLeft}; cursor: default;' on:click={()=>{selectedId = id; selectedRow = row; selectedColumn = column;}} on:keypress={()=>{assetsMenuDisplay = 'block'; selectedId = id; selectedRow = row; selectedColumn = column;}}>
                 <p style='transform: scale({temperatureTextScale}); background: {temperatureBackgroundColor};' class='blockText'>{temperature}°C</p>
+                <GrassCA width={cellWidth}/>
                 {#each structure as tree}
                     <div class='tree' style='top: {tree.top}%; left: {tree.left}%; width: {tree.width}%; height: {tree.width}%; z-index: {tree.zIndex}; background-image: url({tree.image}); background-size: 200%; background-position: center'></div>
                 {/each}
@@ -887,7 +889,7 @@
         align-items: center;
         /* background-image: linear-gradient(rgb(162, 201, 224) 60px, transparent 120px), linear-gradient(to right, rgb(162, 201, 224) 0px, transparent 60px), linear-gradient(to left, rgb(162, 201, 224) 0px, transparent 60px), linear-gradient(to top, rgb(162, 201, 224) 0px, transparent 60px); */
         /* background: #f9f9f9; */
-        background-color: #dbedff;
+        background-color: #b7dbff;
     }
     .gridContainer{
         /* position: absolute; */
@@ -925,7 +927,7 @@
     .block{
         position: relative;
         box-sizing: border-box;
-        background: rgb(156, 156, 156);
+        background: none;
         display: flex;
         align-items: center;
         justify-content: center;
