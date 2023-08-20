@@ -5,7 +5,8 @@
     import { fade } from 'svelte/transition';
 
     let navMenuDisplay = 'none'
-
+    let worldWidth, worldDepth, worldHeight
+    let x = 10, y = 10, z = 10
 
 </script>
 
@@ -32,6 +33,7 @@
         
         <div class='statisticsContainer' style='margin-top: 10px;'>
             <h2>Some setups</h2>
+            <input bind:this={worldWidth} type='text' value=10 on:change={()=>{x = parseInt(worldWidth.value); console.log(x)}} />
         </div>
         <div class='challengesContainer'>
         </div>
@@ -41,7 +43,7 @@
 
 <div class='container' style='width: {$width}px; height: {$height}px;'>
     <Canvas>
-        <ProceduralWorlds />
+        <ProceduralWorlds widthNum = {x} />
     </Canvas>
 </div>
 

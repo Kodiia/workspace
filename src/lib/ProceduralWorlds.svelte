@@ -12,9 +12,11 @@
 
     let points = []
     let cells = []
-    const widthNum = 10
-    const depthNum = 10
-    const heightNum = 10
+    export let widthNum = 100
+    export let depthNum = 10
+    export let heightNum = 10
+
+    console.log('width: ' + widthNum)
 
     function generateCells(widthNum, depthNum, heightNum){
     for(let i=0; i<widthNum; i++){
@@ -127,7 +129,7 @@
                 x: i,
                 y: k,
                 z: j,
-                color: 'white',
+                thiscolor: k>5 ? 'grey' : 'white',
                 scale: 1
                 })
             }
@@ -146,8 +148,6 @@
         }
 
         getPointsCoords()
-
-        // console.log(scene)
     }
 
     updateWorld()
@@ -155,9 +155,15 @@
     function removeElementfromPoints(x = 0, y = 0, z = 0){
         for(let i=0; i<points.length; i++){
             if(points[i].x === x && points[i].y === y && points[i].z === z){
+                console.log(points[i], x, y, z)
                 points.splice(i, 1)
             }
         }
+        
+    }
+
+    function updateInstanceGeometry(){
+
     }
 </script>
 
@@ -180,19 +186,45 @@
    <T.MeshBasicMaterial color="red" />
 </T.Mesh> -->
 
+
 <InstancedMesh >
     <T.BoxGeometry args={[1, 1, 1]} />
-    <T.MeshStandardMaterial color={'hotpink'} />
+    <T.MeshStandardMaterial color={'white'} />
 
-    {#each points as {x, y, z, color, scale}}
-    <Instance
-        position.x={x}
-        position.y={y}
-        position.z={z}
-        scale={scale}
-        on:pointerdown={(e) => {removeElementfromPoints(x, y, z); console.log(e.normal, e.object.position)}}
-        on:pointerenter={() => {scale = 0.85}}
-        on:pointerleave={() => {scale = 1.0}}
-    />
+    {#each points as {x, y, z, thiscolor, scale}}
+        {#if z>5}
+            <Instance
+                position.x={x}
+                position.y={y}
+                position.z={z}
+                scale={scale}
+                color={thiscolor}
+                on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log(e, e.normal, e.object.position)}}
+                on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
+                on:pointerout={() => {thiscolor = 'white'}}
+            />
+        {/if}
     {/each}
+    
+</InstancedMesh>
+
+<InstancedMesh >
+    <T.SphereGeometry args={[0.5]} />
+    <T.MeshStandardMaterial color={'white'} />
+
+    {#each points as {x, y, z, thiscolor, scale}}
+        {#if z<=5}
+            <Instance
+                position.x={x}
+                position.y={y}
+                position.z={z}
+                scale={scale}
+                color={thiscolor}
+                on:click={(e) => {e.stopPropagation(); removeElementfromPoints(x, y, z); console.log(e, e.normal, e.object.position)}}
+                on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
+                on:pointerout={() => {thiscolor = 'white'}}
+            />
+        {/if}
+    {/each}
+    
 </InstancedMesh>
