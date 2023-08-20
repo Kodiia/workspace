@@ -28,13 +28,33 @@
                     cells[i][j][k] = {
                         aliveNow: true,
                         aliveNext: false,
-                        liveNeighbors: 0
+                        liveNeighbors: 0,
+                        aliveNeighborXpos: false,
+                        aliveNeighborXneg: false,
+                        aliveNeighborYpos: false,
+                        aliveNeighborYneg: false,
+                        aliveNeighborZpos: false,
+                        aliveNeighborZneg: false,
+                        x: i,
+                        y: k, 
+                        z: j,
+                        thiscolor: 'white'
                     }
                 } else {
                     cells[i][j][k] = {
                         aliveNow: false,
                         aliveNext: false,
-                        liveNeighbors: 0
+                        liveNeighbors: 0,
+                        aliveNeighborXpos: false,
+                        aliveNeighborXneg: false,
+                        aliveNeighborYpos: false,
+                        aliveNeighborYneg: false,
+                        aliveNeighborZpos: false,
+                        aliveNeighborZneg: false,
+                        x: i,
+                        y: k, 
+                        z: j,
+                        thiscolor: 'white'
                     }
                 }
             }
@@ -79,22 +99,40 @@
             cells[i][j][k].liveNeighbours = 0
 
                 if(typeof cells[i-1] != 'undefined' && cells[i-1][j][k].aliveNow){
-                cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].aliveNeighborXneg = true
+                } else {
+                    cells[i][j][k].aliveNeighborXneg = false
                 }
                 if(typeof cells[i+1] != 'undefined' && cells[i+1][j][k].aliveNow){
-                cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].aliveNeighborXpos = true
+                } else {
+                    cells[i][j][k].aliveNeighborXpos = false
                 }
                 if(typeof cells[i][j-1] != 'undefined' && cells[i][j-1][k].aliveNow){
-                cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].aliveNeighborZneg = true
+                } else {
+                    cells[i][j][k].aliveNeighborZneg = false
                 }
                 if(typeof cells[i][j+1] != 'undefined' && cells[i][j+1][k].aliveNow){
-                cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].aliveNeighborZpos = true
+                } else {
+                    cells[i][j][k].aliveNeighborZpos = false
                 }
                 if(typeof cells[i][j][k-1] != 'undefined' && cells[i][j][k-1].aliveNow){
-                cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].aliveNeighborYneg = true
+                } else {
+                    cells[i][j][k].aliveNeighborYneg = false
                 }
                 if(typeof cells[i][j][k+1] != 'undefined' && cells[i][j][k+1].aliveNow){
-                cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].liveNeighbours++
+                    cells[i][j][k].aliveNeighborYpos = true
+                } else {
+                    cells[i][j][k].aliveNeighborYpos = false
                 }
 
             if(cells[i][j][k].liveNeighbours <= 2 || cells[i][j][k].liveNeighbours >= 5){
@@ -153,14 +191,14 @@
 
     updateWorld()
 
-    function removeElementfromPoints(x = 0, y = 0, z = 0){
-        for(let i=0; i<points.length; i++){
-            if(points[i].x === x && points[i].y === y && points[i].z === z){
-                console.log(points[i], x, y, z)
-                points.splice(i, 1)
-            }
-        }
-        
+    function removeElementfromPoints(i = 0, j = 0, k = 0){
+        // for(let i=0; i<points.length; i++){
+        //     if(points[i].x === x && points[i].y === y && points[i].z === z){
+        //         console.log(points[i], x, y, z)
+        //         points.splice(i, 1)
+        //     }
+        // }
+        cells[i][k][j].aliveNow = false
     }
 
     function updateInstanceGeometry(){
@@ -192,7 +230,7 @@
     <T.BoxGeometry args={[1, 1, 1]} />
     <T.MeshStandardMaterial color={'white'} />
 
-    {#each points as {x, y, z, thiscolor, scale}}
+    <!-- {#each points as {x, y, z, thiscolor, scale}}
         {#if z>5}
             <Instance
                 position.x={x}
@@ -205,11 +243,28 @@
                 on:pointerout={() => {thiscolor = 'white'}}
             />
         {/if}
+    {/each} -->
+    {#each cells as cellI}
+        {#each cellI as cellJ}
+            {#each cellJ as {aliveNow, x, y, z, thiscolor}}
+                {#if aliveNow}
+                    <Instance
+                        position.x={x}
+                        position.y={y}
+                        position.z={z}
+                        color = {thiscolor}
+                        on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log(e, e.normal, e.object.position)}}
+                        on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
+                        on:pointerout={() => {thiscolor = 'white'}}
+                    />
+                {/if}
+            {/each}
+        {/each}
     {/each}
     
 </InstancedMesh>
 
-<InstancedMesh >
+<!-- <InstancedMesh >
     <T.SphereGeometry args={[0.5]} />
     <T.MeshStandardMaterial color={'white'} />
 
@@ -228,4 +283,4 @@
         {/if}
     {/each}
     
-</InstancedMesh>
+</InstancedMesh> -->
