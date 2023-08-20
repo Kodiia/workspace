@@ -138,8 +138,9 @@
     }
     }
 
-    function updateWorld(){
+    export function updateWorld(){
         cells = []
+        points = []
         generateCells(widthNum, depthNum, heightNum)
 
         for(let i=0; i<10; i++){
@@ -179,7 +180,7 @@
 <OrbitControls />
 </T.PerspectiveCamera>
 
-<T.HemisphereLight args={['white', 'skyblue']}/>
+<T.HemisphereLight args={['white', 'skyblue', 3]}/>
 
 <!-- <T.Mesh >
    <T.BoxGeometry args={[1, 1, 1]} />
