@@ -56,11 +56,11 @@
         {/each}
     </div>
 
-    <h2>Games and simulations</h2>
-    <p>Build your skills by playing games or explore simulations.</p>
+    <h2>Apps</h2>
+    <p>The Apps section is a treasure trove of prototypes of games and complex systems controlled by cellular automata and other algorithms. This section showcases real-life examples of what can be built with procedural design techniques, and it's created with a goal to be the perfect place for creative developers to explore, experiment, and push the boundaries of what's possible.</p>
     <div class='tutorial-cards-container'>
-        <ProjectCard title='Habitat' description='Sustainable city simulation game.' link='games/city2D' />
         <ProjectCard title='Nature Revival' description='Simulate nature revival in a generative city.' link='games/nature-revival' />
+        <ProjectCard title='Procedural World' description='A procedural world generator that is powered by a 3D cellular automata system. Create an intricate procedural world that is both dynamic and engaging. Join us on a journey through a world that is truly alive!' link='games/procedural-worlds' />
     </div>
 
     <h2>Templates</h2>

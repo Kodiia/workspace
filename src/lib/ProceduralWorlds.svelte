@@ -14,11 +14,13 @@
         },
     ]
 
+    let assets = []
+    let loadedAssets = 0
+
     let walls = []
     let roofs = []
     let slabs = []
-    let assets = []
-    let loadedAssets = 0
+    
     let loadedWallModels = 0
     let loadedRoofModels = 0
     let loadedSlabModels = 0
@@ -55,7 +57,7 @@
     // })
 
 
-    const nakagin_roof = useGltf('/nakagin_roof.glb')
+    // const nakagin_roof = useGltf('/nakagin_roof.glb')
     
     // let meshes = [
     //     new Mesh(nakagin_wall.scene.children[0].geometry, nakagin_wall.scene.children[0].material)
@@ -66,7 +68,7 @@
     interactivity()
 
 
-    let points = []
+    // let points = []
     let cells = []
     export let widthNum = 100
     export let depthNum = 10
@@ -380,7 +382,7 @@
 
     export function updateWorld(){
         cells = []
-        points = []
+        // points = []
         generateCells(widthNum, depthNum, heightNum)
         cellIsAliveNextGeneration()
         // resetGeneration()
