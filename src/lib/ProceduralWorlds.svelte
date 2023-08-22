@@ -360,29 +360,9 @@
     }
     }
 
-
-    // function getPointsCoords(){
-    // for(let i=0; i<cells.length; i++){
-    //     for(let j=0; j<cells[i].length; j++){
-    //         for(let k=0; k<cells[i][j].length; k++){  
-        
-    //         if(cells[i][j][k].aliveNow){          
-    //             points.push({
-    //             x: i,
-    //             y: k,
-    //             z: j,
-    //             thiscolor: k>5 ? 'grey' : 'white',
-    //             scale: 1
-    //             })
-    //         }
-    //         }
-    //     }
-    // }
-    // }
-
     export function updateWorld(){
         cells = []
-        // points = []
+
         generateCells(widthNum, depthNum, heightNum)
         cellIsAliveNextGeneration()
         // resetGeneration()
@@ -391,10 +371,8 @@
         for(let i=0; i<10; i++){
             resetGeneration()
             cellIsAliveNextGeneration()
-            // resetGeneration()
         }
 
-        //getPointsCoords()
     }
 
     updateWorld()
@@ -407,7 +385,7 @@
         //     }
         // }
         console.log(cells[i][k][j])
-        // cells[i][k][j].aliveNow = false
+        cells[i][k][j].aliveNow = false
     }
 
     function updateInstanceGeometry(){
@@ -421,10 +399,10 @@
     makeDefault
     position={[-10, heightNum + 5, -10]}
     on:create={({ ref }) => {
-      ref.lookAt(0, heightNum / 1.2, 0)
+      ref.lookAt(widthNum/2, heightNum / 1.2, depthNum/2)
     }}
 >
-<OrbitControls />
+<OrbitControls target={[widthNum/2, heightNum / 1.2, depthNum/2]}/>
 </T.PerspectiveCamera>
 
 <T.HemisphereLight args={['white', 'skyblue', 3]}/>
