@@ -1,9 +1,65 @@
 <script lang="ts">
     import { T } from '@threlte/core'
-    import { OrbitControls, interactivity, InstancedMesh, Instance } from '@threlte/extras'
+    import { OrbitControls, interactivity, InstancedMesh, Instance, useGltf, InstancedMeshes, GLTF } from '@threlte/extras'
 	import { scale } from 'svelte/transition';
-	import { AxesHelper, HemisphereLight } from 'three';
+	import { Mesh, BufferGeometry, MeshStandardMaterial, AxesHelper, HemisphereLight } from 'three';
 	//import { InstancedMesh, PerspectiveCamera } from 'three';
+    // import nakagin_wall from '$lib/models/nakagin_wall.glb'
+
+
+    let selectedModels = [
+        {
+            type: 'asset',
+            url: '/nakagin_capsule_center.glb'
+        },
+    ]
+
+    let walls = []
+    let roofs = []
+    let slabs = []
+    let assets = []
+    let loadedAssets = 0
+    let loadedWallModels = 0
+    let loadedRoofModels = 0
+    let loadedSlabModels = 0
+
+    for(let model of selectedModels){
+        let loadedModel = useGltf(model.url).then(
+            result => {
+                // if(model.type === 'wall'){
+                //     loadedWallModels++
+                //     walls.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+                // } else if (model.type === 'roof'){
+                //     loadedRoofModels++
+                //     roofs.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+                // } else if (model.type === 'slab'){
+                //     loadedSlabModels++
+                //     slabs.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+                // }
+                loadedAssets++
+                assets.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+            }
+        )
+    }
+
+    // const nakagin_wall = useGltf('/nakagin_wall.glb').then(result => {
+    //     loadedWallModels++
+    //     walls.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+    //     console.log(walls[0].geometry)
+    // })
+    // const nakagin_wall_no_window = useGltf('/nakagin_wall_no_window.glb').then(result => {
+    //     loadedWallModels++
+    //     walls.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+    //     roofs.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+    //     console.log(walls[0].geometry)
+    // })
+
+
+    const nakagin_roof = useGltf('/nakagin_roof.glb')
+    
+    // let meshes = [
+    //     new Mesh(nakagin_wall.scene.children[0].geometry, nakagin_wall.scene.children[0].material)
+    // ]
 
     let thescale = 1.0
     let color = 'white'
@@ -38,7 +94,13 @@
                         x: i,
                         y: k, 
                         z: j,
-                        thiscolor: 'white'
+                        thiscolor: 'white',
+                        roofType: Math.floor(Math.random()*roofs.length),
+                        xPosWallType: Math.floor(Math.random()*walls.length),
+                        xNegWallType: Math.floor(Math.random()*walls.length),
+                        zPosWallType: Math.floor(Math.random()*walls.length),
+                        zNegWallType: Math.floor(Math.random()*walls.length),
+                        slabType: Math.floor(Math.random()*slabs.length),
                     }
                 } else {
                     cells[i][j][k] = {
@@ -54,7 +116,13 @@
                         x: i,
                         y: k, 
                         z: j,
-                        thiscolor: 'white'
+                        thiscolor: 'white',
+                        roofType: Math.floor(Math.random()*roofs.length),
+                        xPosWallType: Math.floor(Math.random()*walls.length),
+                        xNegWallType: Math.floor(Math.random()*walls.length),
+                        zPosWallType: Math.floor(Math.random()*walls.length),
+                        zNegWallType: Math.floor(Math.random()*walls.length),
+                        slabType: Math.floor(Math.random()*slabs.length),
                     }
                 }
             }
@@ -365,27 +433,13 @@
 </T.Mesh> -->
 
 
-<InstancedMesh >
+<!-- <InstancedMesh >
     <T.BoxGeometry args={[1, 1, 1]} />
     <T.MeshStandardMaterial color={'white'} />
 
-    <!-- {#each points as {x, y, z, thiscolor, scale}}
-        {#if z>5}
-            <Instance
-                position.x={x}
-                position.y={y}
-                position.z={z}
-                scale={scale}
-                color={thiscolor}
-                on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log(e, e.normal, e.object.position)}}
-                on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
-                on:pointerout={() => {thiscolor = 'white'}}
-            />
-        {/if}
-    {/each} -->
     {#each cells as cellI}
         {#each cellI as cellJ}
-            {#each cellJ as {aliveNow, x, y, z, thiscolor}}
+            {#each cellJ as {aliveNow, x, y, z, thiscolor, aliveNeighborYpos}}
                 {#if aliveNow}
                     <Instance
                         position.x={x}
@@ -401,7 +455,9 @@
         {/each}
     {/each}
     
-</InstancedMesh>
+</InstancedMesh> -->
+
+
 
 <T.AxesHelper args={[20]}/>
 
@@ -425,3 +481,57 @@
     {/each}
     
 </InstancedMesh> -->
+
+{#if loadedAssets > 0}
+    
+        <InstancedMesh >
+            <T is={assets[0].geometry} />
+            <T is={assets[0].material} />
+
+            {#each cells as cellI}
+            {#each cellI as cellJ}
+                {#each cellJ as {aliveNow, x, y, z, thiscolor, aliveNeighborXpos, aliveNeighborXneg, aliveNeighborYpos, aliveNeighborYneg, aliveNeighborZpos, aliveNeighborZneg}}
+                    {#if aliveNow}
+                        <!-- <Instance
+                            position.x={x}
+                            position.y={y}
+                            position.z={z}
+                            color = {thiscolor}
+                            on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
+                            on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
+                            on:pointerout={() => {thiscolor = 'white'}}
+                        /> -->
+                        {#if aliveNeighborXpos || aliveNeighborXneg || aliveNeighborYpos || aliveNeighborYneg || aliveNeighborZpos || aliveNeighborZneg}
+                            <Instance 
+                                rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
+                                rotation.z={Math.PI/2}
+                                
+                                position.x={x}
+                                position.y={y}
+                                position.z={z} 
+                                color = {thiscolor}
+                                on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
+                                on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
+                                on:pointerout={() => {thiscolor = 'white'}}
+                            />
+                        {/if}
+
+                        <!-- {#if aliveNeighborYpos === false}
+                            <Instance 
+                            position.x={x}
+                            position.y={y}
+                            position.z={z} />
+                        {/if} -->
+                    {/if}
+                {/each}
+            {/each}
+        {/each}
+        </InstancedMesh>
+
+        
+    
+{/if}
+
+
+
+
