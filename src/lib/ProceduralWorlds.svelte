@@ -10,16 +10,19 @@
     let selectedModels = [
         {
             type: 'asset',
+            number: 0,
             url: '/nakagin_capsule_center.glb'
         },
         {
             type: 'asset',
+            number: 1,
             url: '/nakagin_capsule_center_green.glb'
         }
     ]
 
     let assets = []
     let loadedAssets = 0
+    let modelsLoaded = false
 
     let walls = []
     let roofs = []
@@ -29,24 +32,33 @@
     let loadedRoofModels = 0
     let loadedSlabModels = 0
 
-    for(let model of selectedModels){
-        let loadedModel = useGltf(model.url).then(
-            result => {
-                // if(model.type === 'wall'){
-                //     loadedWallModels++
-                //     walls.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
-                // } else if (model.type === 'roof'){
-                //     loadedRoofModels++
-                //     roofs.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
-                // } else if (model.type === 'slab'){
-                //     loadedSlabModels++
-                //     slabs.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
-                // }
-                loadedAssets++
-                assets.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
-            }
-        )
+    async function loadModels(){
+        for(let model of selectedModels){
+            let loadedModel = useGltf(model.url).then(
+                result => {
+                    // if(model.type === 'wall'){
+                    //     loadedWallModels++
+                    //     walls.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+                    // } else if (model.type === 'roof'){
+                    //     loadedRoofModels++
+                    //     roofs.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+                    // } else if (model.type === 'slab'){
+                    //     loadedSlabModels++
+                    //     slabs.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+                    // }
+                    loadedAssets++
+                    assets.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+                }
+            )
+        }
+        
     }
+    loadModels()
+    // loadModels().then(result => {
+    //     modelsLoaded = true
+    //     updateWorld()
+    //     console.log(modelsLoaded, assets, result)
+    // })
 
     // const nakagin_wall = useGltf('/nakagin_wall.glb').then(result => {
     //     loadedWallModels++
@@ -107,6 +119,7 @@
                         zPosWallType: Math.floor(Math.random()*walls.length),
                         zNegWallType: Math.floor(Math.random()*walls.length),
                         slabType: Math.floor(Math.random()*slabs.length),
+                        asset: Math.floor(Math.random()*assets.length),
                     }
                 } else {
                     cells[i][j][k] = {
@@ -129,6 +142,7 @@
                         zPosWallType: Math.floor(Math.random()*walls.length),
                         zNegWallType: Math.floor(Math.random()*walls.length),
                         slabType: Math.floor(Math.random()*slabs.length),
+                        asset: Math.floor(Math.random()*assets.length),
                     }
                 }
             }
@@ -371,6 +385,7 @@
         cellIsAliveNextGeneration()
         // resetGeneration()
         // cellIsAliveNextGeneration()
+        //console.log(cells)
 
         for(let i=0; i<10; i++){
             resetGeneration()
@@ -417,56 +432,15 @@
 </T.Mesh> -->
 
 
-<!-- <InstancedMesh >
-    <T.BoxGeometry args={[1, 1, 1]} />
-    <T.MeshStandardMaterial color={'white'} />
-
-    {#each cells as cellI}
-        {#each cellI as cellJ}
-            {#each cellJ as {aliveNow, x, y, z, thiscolor, aliveNeighborYpos}}
-                {#if aliveNow}
-                    <Instance
-                        position.x={x}
-                        position.y={y}
-                        position.z={z}
-                        color = {thiscolor}
-                        on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
-                        on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
-                        on:pointerout={() => {thiscolor = 'white'}}
-                    />
-                {/if}
-            {/each}
-        {/each}
-    {/each}
-    
-</InstancedMesh> -->
 
 
 
-<T.AxesHelper args={[20]}/>
 
-<!-- <InstancedMesh >
-    <T.SphereGeometry args={[0.5]} />
-    <T.MeshStandardMaterial color={'white'} />
+<!-- <T.AxesHelper args={[20]}/> -->
 
-    {#each points as {x, y, z, thiscolor, scale}}
-        {#if z<=5}
-            <Instance
-                position.x={x}
-                position.y={y}
-                position.z={z}
-                scale={scale}
-                color={thiscolor}
-                on:click={(e) => {e.stopPropagation(); removeElementfromPoints(x, y, z); console.log(e, e.normal, e.object.position)}}
-                on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
-                on:pointerout={() => {thiscolor = 'white'}}
-            />
-        {/if}
-    {/each}
-    
-</InstancedMesh> -->
 
 {#if loadedAssets > 0}
+
     
         <InstancedMesh >
             <T is={assets[0].geometry} />
@@ -474,22 +448,35 @@
 
             {#each cells as cellI}
                 {#each cellI as cellJ}
-                    {#each cellJ as {aliveNow, x, y, z, thiscolor, aliveNeighborXpos, aliveNeighborXneg, aliveNeighborYpos, aliveNeighborYneg, aliveNeighborZpos, aliveNeighborZneg}}
+                    {#each cellJ as {aliveNow, x, y, z, thiscolor, aliveNeighborXpos, aliveNeighborXneg, aliveNeighborYpos, aliveNeighborYneg, aliveNeighborZpos, aliveNeighborZneg, asset}}
                         {#if aliveNow}
-                            {#if aliveNeighborXpos || aliveNeighborXneg || aliveNeighborYpos || aliveNeighborYneg || aliveNeighborZpos || aliveNeighborZneg}
-                                <Instance 
-                                    rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
-                                    rotation.z={Math.PI/2}
-                                    
-                                    position.x={x}
-                                    position.y={y}
-                                    position.z={z} 
-                                    color = {thiscolor}
-                                    on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
-                                    on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
-                                    on:pointerout={() => {thiscolor = 'white'}}
-                                />
-                            {/if}
+                        <Instance 
+                            rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
+                            rotation.z={Math.PI/2}    
+                            position.x={x}
+                            position.y={y}
+                            position.z={z} 
+                            color = {thiscolor}
+                            on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
+                            on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
+                            on:pointerout={() => {thiscolor = 'white'}}
+                        />
+                            <!-- {#if aliveNeighborXpos || aliveNeighborXneg || aliveNeighborYpos || aliveNeighborYneg || aliveNeighborZpos || aliveNeighborZneg}
+                                
+                                    <Instance 
+                                        rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
+                                        rotation.z={Math.PI/2}
+                                        
+                                        position.x={x}
+                                        position.y={y}
+                                        position.z={z} 
+                                        color = {thiscolor}
+                                        on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
+                                        on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
+                                        on:pointerout={() => {thiscolor = 'white'}}
+                                    />
+                                
+                            {/if} -->
 
                             <!-- {#if aliveNeighborYpos === false}
                                 <Instance 
@@ -503,8 +490,40 @@
             {/each}
         </InstancedMesh>
 
+        <!-- <InstancedMesh >
+            <T is={assets[1].geometry} />
+            <T is={assets[1].material} />
+
+            {#each cells as cellI}
+                {#each cellI as cellJ}
+                    {#each cellJ as {aliveNow, x, y, z, thiscolor, aliveNeighborXpos, aliveNeighborXneg, aliveNeighborYpos, aliveNeighborYneg, aliveNeighborZpos, aliveNeighborZneg, asset}}
+                        {#if aliveNow}
+                            {#if aliveNeighborXpos || aliveNeighborXneg || aliveNeighborYpos || aliveNeighborYneg || aliveNeighborZpos || aliveNeighborZneg}
+                                {#if asset === 1}
+                                    <Instance 
+                                        rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
+                                        rotation.z={Math.PI/2}
+                                        
+                                        position.x={x}
+                                        position.y={y}
+                                        position.z={z} 
+                                        color = {thiscolor}
+                                        on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
+                                        on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
+                                        on:pointerout={() => {thiscolor = 'white'}}
+                                    />
+                                {/if}
+                            {/if}
+
+
+                        {/if}
+                    {/each}
+                {/each}
+            {/each}
+        </InstancedMesh> -->
+
         
-    
+
 {/if}
 
 

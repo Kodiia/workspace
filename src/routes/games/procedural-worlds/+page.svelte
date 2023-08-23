@@ -45,19 +45,19 @@
         
         <div class='statisticsContainer' style='margin-top: 10px;'>
             <h2>World size</h2>
-            <p>Minimal size is 1 and maximum is 50 in every direction</p>
+            <p>Minimal size is 1 and maximum is 20 in every direction</p>
             <div class='inputsGroup'>
                 <div class='inputContainer'>
                     <label for='xSize'>X</label>
-                    <input bind:this={worldX} name='xSize' id='xSize' type='text' value=10 on:change={()=>{x = parseInt(worldX.value); x > 50 ? x = 50 : x = x; x < 1 ? x = 1 : x = x; worldX.value = x}} />
+                    <input bind:this={worldX} name='xSize' id='xSize' type='text' value=10 on:change={()=>{x = parseInt(worldX.value); x > 20 ? x = 20 : x = x; x < 1 ? x = 1 : x = x; worldX.value = x}} />
                 </div>
                 <div class='inputContainer'>
                     <label for='ySize'>Y</label>
-                    <input bind:this={worldY} name='ySize' id='ySize' type='text' value=10 on:change={()=>{y = parseInt(worldY.value); y > 100 ? y = 100 : y = y; y < 1 ? y = 1 : y = y; worldY.value = y}} />
+                    <input bind:this={worldY} name='ySize' id='ySize' type='text' value=10 on:change={()=>{y = parseInt(worldY.value); y > 20 ? y = 20 : y = y; y < 1 ? y = 1 : y = y; worldY.value = y}} />
                 </div>
                 <div class='inputContainer'>
                     <label for='zSize'>Z</label>
-                    <input bind:this={worldZ} name='zSize' id='zSize' type='text' value=10 on:change={()=>{z = parseInt(worldZ.value); z > 100 ? z = 100 : z = z; z < 1 ? z = 1 : z = z; worldZ.value = z}} />
+                    <input bind:this={worldZ} name='zSize' id='zSize' type='text' value=10 on:change={()=>{z = parseInt(worldZ.value); z > 20 ? z = 20 : z = z; z < 1 ? z = 1 : z = z; worldZ.value = z}} />
                 </div>
             </div>
 
