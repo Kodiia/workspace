@@ -95,7 +95,7 @@
     {#if $resourcesPanelState}
     <div class='contentContainer' in:fade='{{delay: 125}}' out:fade='{{delay: 0}}'>
     <!-- <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div> -->
-        {#if mode == 'docs'}
+        <!-- {#if mode == 'docs'}
             <div>
                 <h3 style="margin-top: 4px; margin-left: 10px;">Docs</h3>
             </div>
@@ -110,7 +110,7 @@
                     </details>
                 {/each}
             </div>
-        {/if}
+        {/if} -->
         {#if mode == 'tutorial'}
             <div>
                 <h3 style="margin-top: 4px; margin-left: 10px;">📖 Steps</h3>

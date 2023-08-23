@@ -26,7 +26,9 @@
 {#if $navigating}
     <!-- <div class='loader'></div>
     <h3>Loading...</h3> -->
-    <div class='logo-card' style='background: url({kodiiaLogo}); background-position: center; background-repeat: no-repeat; background-size: 65px;'></div>
+    <div style='display: flex; justify-content: center; align-items: center; width: {$width}px; height: {$height}px;'>
+        <div class='logo-card' style='background: url({kodiiaLogo}); background-position: center; background-repeat: no-repeat; background-size: 65px;'></div>
+    </div>
 {:else}
     <slot />
 {/if}
