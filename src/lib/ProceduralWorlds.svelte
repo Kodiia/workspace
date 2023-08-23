@@ -12,6 +12,10 @@
             type: 'asset',
             url: '/nakagin_capsule_center.glb'
         },
+        {
+            type: 'asset',
+            url: '/nakagin_capsule_center_green.glb'
+        }
     ]
 
     let assets = []
@@ -469,43 +473,34 @@
             <T is={assets[0].material} />
 
             {#each cells as cellI}
-            {#each cellI as cellJ}
-                {#each cellJ as {aliveNow, x, y, z, thiscolor, aliveNeighborXpos, aliveNeighborXneg, aliveNeighborYpos, aliveNeighborYneg, aliveNeighborZpos, aliveNeighborZneg}}
-                    {#if aliveNow}
-                        <!-- <Instance
-                            position.x={x}
-                            position.y={y}
-                            position.z={z}
-                            color = {thiscolor}
-                            on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
-                            on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
-                            on:pointerout={() => {thiscolor = 'white'}}
-                        /> -->
-                        {#if aliveNeighborXpos || aliveNeighborXneg || aliveNeighborYpos || aliveNeighborYneg || aliveNeighborZpos || aliveNeighborZneg}
-                            <Instance 
-                                rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
-                                rotation.z={Math.PI/2}
-                                
+                {#each cellI as cellJ}
+                    {#each cellJ as {aliveNow, x, y, z, thiscolor, aliveNeighborXpos, aliveNeighborXneg, aliveNeighborYpos, aliveNeighborYneg, aliveNeighborZpos, aliveNeighborZneg}}
+                        {#if aliveNow}
+                            {#if aliveNeighborXpos || aliveNeighborXneg || aliveNeighborYpos || aliveNeighborYneg || aliveNeighborZpos || aliveNeighborZneg}
+                                <Instance 
+                                    rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
+                                    rotation.z={Math.PI/2}
+                                    
+                                    position.x={x}
+                                    position.y={y}
+                                    position.z={z} 
+                                    color = {thiscolor}
+                                    on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
+                                    on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
+                                    on:pointerout={() => {thiscolor = 'white'}}
+                                />
+                            {/if}
+
+                            <!-- {#if aliveNeighborYpos === false}
+                                <Instance 
                                 position.x={x}
                                 position.y={y}
-                                position.z={z} 
-                                color = {thiscolor}
-                                on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
-                                on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
-                                on:pointerout={() => {thiscolor = 'white'}}
-                            />
+                                position.z={z} />
+                            {/if} -->
                         {/if}
-
-                        <!-- {#if aliveNeighborYpos === false}
-                            <Instance 
-                            position.x={x}
-                            position.y={y}
-                            position.z={z} />
-                        {/if} -->
-                    {/if}
+                    {/each}
                 {/each}
             {/each}
-        {/each}
         </InstancedMesh>
 
         

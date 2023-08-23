@@ -8,6 +8,7 @@
     let worldX, worldY, worldZ
     let x = 10, y = 10, z = 10
     let proceduralWorld
+    let bgColor1, bgColor1Value = '#bdcdd9', bgColor2, bgColor2Value = '#6a82b4'
 
 
     function updateInputValue(name = 'x'){
@@ -59,7 +60,21 @@
                     <input bind:this={worldZ} name='zSize' id='zSize' type='text' value=10 on:change={()=>{z = parseInt(worldZ.value); z > 100 ? z = 100 : z = z; z < 1 ? z = 1 : z = z; worldZ.value = z}} />
                 </div>
             </div>
-            <button on:click={proceduralWorld.updateWorld()}>Update</button>
+
+            <h2>Background color</h2>
+            <p>Setup the background color</p>
+            <div class='inputsGroup'>
+                <div class='inputContainer'>
+                    <label for='color1'>color 1</label>
+                    <input bind:this={bgColor1} name='color1' id='color1' type='color' value='{bgColor1Value}' on:change={()=>{bgColor1Value = bgColor1.value}} />
+                </div>
+                <div class='inputContainer'>
+                    <label for='color2'>color 2</label>
+                    <input bind:this={bgColor2} name='color2' id='color2' type='color' value='{bgColor2Value}' on:change={()=>{bgColor2Value = bgColor2.value}} />
+                </div>
+            </div>
+
+            <button on:click={proceduralWorld.updateWorld()}>Create new world</button>
         </div>
         <div class='challengesContainer'>
         </div>
@@ -67,7 +82,7 @@
 </nav>
 
 
-<div class='container' style='width: {$width}px; height: {$height}px;'>
+<div class='container' style='width: {$width}px; height: {$height}px; background: linear-gradient({bgColor1Value}, {bgColor2Value});'>
     <Canvas>
         <ProceduralWorlds bind:this={proceduralWorld} widthNum = {x} depthNum = {z} heightNum = {y}/>
     </Canvas>
@@ -143,14 +158,27 @@
         display: flex;
         align-items: center;
     }
-    input{
+    input[type='text']{
         margin: 5px 10px;
         max-width: 50px;
         border: 1px solid white;
         border-radius: 10px;
         padding: 10px;
         font-size: 1em;
+        background: #f9f9f9;
     }
+    input[type='color']{
+        flex: 0 0 50px;
+        margin: 5px 10px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid white;
+        border-radius: 10px;
+        padding: 5px;
+        font-size: 1em;
+        background: #f9f9f9;
+    }
+
     .statisticsContainer, .challengesContainer{
         /* width: 100%; */
         padding: 10px;
