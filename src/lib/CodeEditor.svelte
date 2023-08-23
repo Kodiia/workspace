@@ -148,8 +148,8 @@
         </button> -->
         {/if}
         <div style="display: flex; justify-content: center; align-items: center;">
-          <img src="{logoPath}" width="20rem" height="20rem" style="margin-right: 5px;" alt="file logo">
-          <h4>{fileName}</h4>
+          <img src="{logoPath}" width="20" height="20" style="margin-right: 0px;" alt="file logo">
+          <h5>{fileName}</h5>
         </div>
         {#if readOnly}
             <div style="display: flex; align-items: center;">
@@ -167,7 +167,7 @@
             </div>
         {/if}
     </div>
-    <div style='height: calc(100% - 3rem); position: relative;'>
+    <div style='height: calc(100% - 35px); position: relative;'>
       <div bind:this={editor} class="editor" style="width: 100%; border-radius: 0 0 15px 15px;" ></div>
         {#if $consolePanelState && mode==='javascript' && !readOnly}
         <div style='position: absolute; bottom: 0; width: 100%;'>
@@ -183,9 +183,9 @@
       width: 100%;
       text-align: left;
       background: #fdfdfd;
-      background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
+      /* background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
       backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px); */
       border-radius: 15px;
       box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
       /* padding: 10px; */
@@ -240,16 +240,21 @@
 
     .editorMenu{
       background: #fdfdfd;
-      background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
+      /* background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
       backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px); */
       border-radius: 15px 15px 0 0;
       border-bottom: 1px solid #dfdfdf;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 3rem;
+      flex-direction: column;
+      /* justify-content: space-between; */
+      align-items: start;
+      height: 55px;
       padding: 0 20px 0 10px;
+    }
+    .editorMenu h5{
+      margin: 5px;
+      font-weight: 500;
     }
 
     .smallMenuButton {
@@ -259,6 +264,8 @@
       font-family: Roboto, sans-serif;
       font-size: 1rem;
       font-weight: 300;
+      margin: 0;
+      padding: 0 10px 5px 0px;
     }
     .smallMenuButton:hover {
       color: #3d95ee;

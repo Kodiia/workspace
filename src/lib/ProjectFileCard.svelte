@@ -20,9 +20,9 @@
     button{
         width: 100%;
         background: #fdfdfd;
-        background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
+        /* background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
         backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px); */
         color: #1a1a1a;
         border: none;
         border-radius: 15px;

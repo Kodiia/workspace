@@ -91,7 +91,7 @@
         <!-- <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div> -->
         <div class='contentContainer' in:fade='{{delay: 125}}' out:fade='{{delay: 0}}'>
             <div>
-                <h3 style="margin-top: 0;">{projectName}</h3>
+                <h3 style="margin-top: 0; margin-bottom: 5px;">{projectName}</h3>
             </div>
             {#if $editorState}
                 <div style='height: calc(100% - 3.7rem)'>

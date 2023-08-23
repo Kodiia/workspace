@@ -1,4 +1,6 @@
 <script>
+    import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
+    import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
     import { fade } from 'svelte/transition';
     import { filesLocalCopy, fileToOpen, editorState, width, height, filesPanelState, docsPanelState, stepsPanelState, resourcesPanelState, stylesPanelState } from '$lib/store'
     import FilesPanel from '$lib/FilesPanel.svelte';
@@ -21,28 +23,72 @@
     let files = data.tutorial.files
     $filesLocalCopy = data.files
 
-    console.log('steps: ' + data.tutorial.stepsJSON)
+    let mobileMenuDisplay = 'none'
 </script>
 
-
-<div class='container' style='width: {$width}px; height:{$height}px;'>
-    <nav>
-        <div class='desktopMenu'>
-            <a href='/' aria-label="menu" class='smallMenuButton'>Home</a>
+<nav>
+    {#if $width > 700}
+        <div class='desktopMenu' style='height: 50px;'>
+            <a href='https://kodiia.com'>
+                <img src={kodiia_logo_bw} alt='logo' width='70'>
+            </a>
             <button class="smallMenuButton" on:click='{()=>{filesPanelState.set(true)}}'>Files</button>
-            <!-- {#if data.type === 'project'}
-            <button class="smallMenuButton" on:click='{()=>{resourcesPanelState.set(true)}}'>Docs</button>
-            {/if} -->
             {#if data.type === 'tutorial'}
-            <button class="smallMenuButton" on:click='{()=>{resourcesPanelState.set(true)}}'>Steps</button>
+                <button class="smallMenuButton" on:click='{()=>{resourcesPanelState.set(true)}}'>Steps</button>
+            {/if}
+            <a class='smallMenuButton' href='/'>Home</a>
+            {#if data.user}
+            <form action='/logout' method='POST'>
+                <button type='submit' class='smallMenuButton'>Log Out</button>
+            </form>
+                <button class="smallMenuButton" on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
+            {:else}
+                <a class='smallMenuButton' href='/register'>Sign Up</a>
+                <a class='smallMenuButton' href='/login'>Log In</a>
             {/if}
         </div>
-        <div class='desktopMenu'>
-            <button class="smallMenuButton" on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
-            <button class='sign-in-button'>Sign In</button>
-        </div>
-    </nav>
+    {:else}
+        <div style='display: flex; align-items: center; justify-content: space-between;'>
+            <a href='https://kodiia.com'>
+                <img src={kodiia_logo_bw_small} alt='logo' width='20'>
+            </a>
 
+            <button class='menuButton' on:click={()=>{mobileMenuDisplay === 'none' ? mobileMenuDisplay = 'block' : mobileMenuDisplay = 'none'}}>
+                {#if mobileMenuDisplay === 'none'}
+                    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="10" y1="20" x2="40" y2="20" stroke="#1a1a1a" stroke-width='2' />
+                        <line x1="10" y1="30" x2="40" y2="30" stroke="#1a1a1a" stroke-width='2' />
+                    </svg>
+                {:else}
+                    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="15" y1="15" x2="35" y2="35" stroke="#1a1a1a" stroke-width='2' />
+                        <line x1="15" y1="35" x2="35" y2="15" stroke="#1a1a1a" stroke-width='2' />
+                    </svg>
+                {/if}
+            </button>
+        </div>
+        <hr style='display: {mobileMenuDisplay}; max-height: calc({$height}px - 70px);'>
+        <div class='mobileMenu' style='display: {mobileMenuDisplay}; height: calc({$height}px - 70px);'>
+            <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{filesPanelState.set(true); mobileMenuDisplay = 'none'}}'>Files</button>
+            {#if data.type === 'tutorial'}
+                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{resourcesPanelState.set(true); mobileMenuDisplay = 'none'}}'>Steps</button>
+            {/if}
+            <a class='smallMenuButton' style='padding: 10px;' href='/'>Home</a>
+            {#if data.user}
+            <form action='/logout' method='POST'>
+                <button type='submit' class='smallMenuButton' style='padding: 10px;'>Log Out</button>
+            </form>
+                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
+            {:else}
+                <a class='smallMenuButton' style='padding: 10px;' href='/register'>Sign Up</a>
+                <a class='smallMenuButton' style='padding: 10px;' href='/login'>Log In</a>
+            {/if}
+        </div>
+    {/if}
+</nav>
+
+<div class='container' style='width: {$width}px; height:{$height}px;'>
+    
     {#if $stylesPanelState}
         <div style='position: absolute; top: 0px; right: 0px; padding: 10px; width: min(300px, 100%);'>
             <StylesPanel />
@@ -85,6 +131,10 @@
         overflow: hidden;
     }   
     .panelsContainer{
+        position: absolute;
+        top: 50px;
+        width: 100%;
+        height: calc(100% - 50px);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -112,7 +162,7 @@
       text-decoration: none;
       display: flex;
       align-items: center;
-      padding: 0 20px 0 0;
+      padding: 0 0 0 15px;
     }
     .smallMenuButton:hover, .activeSmallMenuButton {
       background: none;
@@ -135,30 +185,41 @@
         margin: 5px;
     } */
     nav{
-        height: 40px;
-        border-radius: 20px;
-        background: #fdfdfd;
-        background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
+        width: 100%;
+        min-height: 50px;
+        /* display: flex;
+        align-items: center; */
+        /* margin-bottom: 10px; */
+        position: fixed;
         padding: 0 20px;
-        margin: 10px 10px 0 10px;
-        box-shadow: 0px 0px 5px rgba(61, 149, 238, 0.3);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        top: 0;
+        left: 0;
+        background: linear-gradient( 45deg, #ffffffc3, #ffffff90);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
+        border-radius: 0 0 10px 10px;
+        z-index: 10;
+        box-sizing: border-box;
+    }
+    .mobileMenu{
+        /* width: calc(100% - 10px); */
+        overflow-y: auto;
+        margin-bottom: 10px;
     }
     .desktopMenu{
+        height: 100%;
         display: flex;
         align-items: center;
     }
-    .sign-in-button{
-        height: 30px;
-        border-radius: 15px;
-        padding: 0 10px;
-        display: flex;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
+    .menuButton{
+        padding: 5px;
+        width: 50px;
+        height: 50px;
+        border: none;
+        transform: scale(1.0);
+    }
+    .menuButton:hover{
+        background: none;
+        transform: scale(1.1);
     }
 </style>

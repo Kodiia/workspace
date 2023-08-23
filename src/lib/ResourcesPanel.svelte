@@ -121,7 +121,7 @@
                         <summary>{id}. {step.step}</summary>
                         <p>{step.text}</p>
                         {#if step.code != 'false'}
-                            <div style='height: calc(({step.codeLines} * 1.2rem) + 6rem)'>
+                            <div style='height: calc(({step.codeLines} * 1.3rem) + 55px)'>
                                 <CodeEditor fileName='{step.mode}' readOnly='{true}' editorText='{step.code}'/>
                             </div>
                         {/if}
@@ -210,14 +210,15 @@
         details{
             width: 100%;
             background: #fdfdfd;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
+            /* background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
             backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px); */
             color: #1a1a1a;
             border: none;
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
             padding: 15px;
+            padding-bottom: 35px;
             margin-bottom: 10px;
             /* margin: 0 10px 10px 0; */
             box-sizing: border-box;
