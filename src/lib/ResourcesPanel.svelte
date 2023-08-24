@@ -1,6 +1,6 @@
 <script>
     import { fade } from 'svelte/transition';
-    import { filesLocalCopy, fileToOpen, editorState, width, height, rightPanelWidthSetByUser, resourcesPanelState } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, rightPanelWidthSetByUser, resourcesPanelDisplay } from '$lib/store'
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
 
@@ -56,8 +56,9 @@
 
 </script>
 
-<div class='panel' style='height: calc({$height}px - 70px)'>
-    <button bind:this={button} class="panelButton" on:click={()=>{resourcesPanelState.set(false);}} >
+{#if $resourcesPanelDisplay === 'block'}
+<div class='panel' style='height: calc({$height}px - 60px)'>
+    <button bind:this={button} class="panelButton" on:click={()=>{$resourcesPanelDisplay = 'none';}} >
         <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
     </button>
     <!-- <button bind:this={button} class="panelButton" on:click={changePanelState} 
@@ -92,7 +93,7 @@
     <p bind:this={buttonText} style="width: 0; margin: 0; padding: 0;" class="buttonText">resources</p>
     </button> -->
 
-    {#if $resourcesPanelState}
+    
     <div class='contentContainer' in:fade='{{delay: 125}}' out:fade='{{delay: 0}}'>
     <!-- <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div> -->
         <!-- {#if mode == 'docs'}
@@ -143,10 +144,10 @@
             </div>
         {/if}
     </div>
-    {/if}
+    
 
     </div>
-    
+    {/if}
     <style>
         .panel{
             width: 100%;
@@ -225,6 +226,11 @@
 
             display: flex;
             align-items: center;
+            transform: scale(1.0);
+        }
+        details:hover{
+            background: #f9f9f9;
+            transform: scale(1.025);
         }
         details summary{
             cursor: pointer;

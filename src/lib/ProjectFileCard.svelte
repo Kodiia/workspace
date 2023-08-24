@@ -35,6 +35,12 @@
         align-items: center;
 
         cursor: pointer;
+
+        transform: scale(1.0);
+    }
+    button:hover{
+        background: #f9f9f9;
+        transform: scale(1.05);
     }
     img{
         width: 2rem;

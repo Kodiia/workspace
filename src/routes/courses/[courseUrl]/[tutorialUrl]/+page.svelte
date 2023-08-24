@@ -2,7 +2,7 @@
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
     import { fade } from 'svelte/transition';
-    import { filesLocalCopy, fileToOpen, editorState, width, height, filesPanelState, docsPanelState, stepsPanelState, resourcesPanelState, stylesPanelState } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay } from '$lib/store'
     import FilesPanel from '$lib/FilesPanel.svelte';
     import ResourcesPanel from '$lib/ResourcesPanel.svelte';
     import { page } from '$app/stores';
@@ -11,19 +11,21 @@
     
     export let data
 
-    if(data.type === 'tutorial'){
-        docsPanelState.set(false);
-        stepsPanelState.set(true);
-    }
-    if(data.type === 'project'){
-        stepsPanelState.set(false);
-        docsPanelState.set(true);
-    }
+    // if(data.type === 'tutorial'){
+    //     docsPanelState.set(false);
+    //     stepsPanelState.set(true);
+    // }
+    // if(data.type === 'project'){
+    //     stepsPanelState.set(false);
+    //     docsPanelState.set(true);
+    // }
 
     let files = data.tutorial.files
     $filesLocalCopy = data.files
 
     let mobileMenuDisplay = 'none'
+    // let filesPanelDisplay = 'none'
+    // let resourcesPanelDisplay = 'none'
 </script>
 
 <nav>
@@ -32,9 +34,9 @@
             <a href='https://kodiia.com'>
                 <img src={kodiia_logo_bw} alt='logo' width='70'>
             </a>
-            <button class="smallMenuButton" on:click='{()=>{filesPanelState.set(true)}}'>Files</button>
+            <button class="smallMenuButton" on:click='{()=>{$filesPanelDisplay = 'block'}}'>Files</button>
             {#if data.type === 'tutorial'}
-                <button class="smallMenuButton" on:click='{()=>{resourcesPanelState.set(true)}}'>Steps</button>
+                <button class="smallMenuButton" on:click='{()=>{$resourcesPanelDisplay = 'block'}}'>Steps</button>
             {/if}
             <a class='smallMenuButton' href='/'>Home</a>
             {#if data.user}
@@ -69,9 +71,9 @@
         </div>
         <hr style='display: {mobileMenuDisplay}; max-height: calc({$height}px - 70px);'>
         <div class='mobileMenu' style='display: {mobileMenuDisplay}; height: calc({$height}px - 70px);'>
-            <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{filesPanelState.set(true); mobileMenuDisplay = 'none'}}'>Files</button>
+            <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block'; $resourcesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Files</button>
             {#if data.type === 'tutorial'}
-                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{resourcesPanelState.set(true); mobileMenuDisplay = 'none'}}'>Steps</button>
+                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$resourcesPanelDisplay = 'block'; $filesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Steps</button>
             {/if}
             <a class='smallMenuButton' style='padding: 10px;' href='/'>Home</a>
             {#if data.user}
@@ -96,31 +98,20 @@
     {/if}
     <div class='panelsContainer'>
         
-        <div transition:fade style='box-sizing: border-box; width: {$filesPanelState ? '100%' : '0px'}; padding: {$filesPanelState ? '10px' : '0px'}; transition: all 0.125s;'>
+        <div style='width: 100%; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$filesPanelDisplay}'>
             <FilesPanel files='{files}' projectName='{data.tutorial.heading}'/>
         </div>
     
-        <div transition:fade style='width: 100%; padding: 10px; transition: all 0.125s;'>
+        <div style='width: 100%; height: 100%; padding: 5px; box-sizing: border-box;'>
             <ProjectPanel />
             <!-- <iframe srcDoc="{userSRCDoc}" style="width: 100%; height: calc({$height}px - 70px); border-radius: 15px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  /> -->
         </div>
-        <!-- {#if data.type === 'project'}
-            <div transition:fade style='box-sizing: border-box; width: {$resourcesPanelState ? '100%' : '0px'}; padding: {$resourcesPanelState ? '10px' : '0px'}; transition: all 0.125s;'>
-                <ResourcesPanel docsHTML='{data.docsHTML}' mode='docs' />
-            </div>
-        {/if} -->
-        {#if data.type === 'tutorial'}
-            <div transition:fade style='box-sizing: border-box; width: {$resourcesPanelState ? '100%' : '0px'}; padding: {$resourcesPanelState ? '10px' : '0px'}; transition: all 0.125s;'>
-                <ResourcesPanel steps='{data.tutorial.stepsJSON}' mode='tutorial' URLtoShare='{$page.url.href}' />
-            </div>
-        {/if}
-        
-        <!-- {#if data.type === 'project'}
-            <ResourcesPanel docsHTML='{data.docsHTML}' mode='docs' state='{docsPanelState}'/>
-        {/if}
-        {#if data.type === 'tutorial'}
-            <ResourcesPanel steps='{data.project.stepsJSON}' mode='tutorial' URLtoShare='{$page.url.href}' state='{stepsPanelState}'/>
-        {/if} -->
+
+        <div style='width: 100%; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$resourcesPanelDisplay};'>
+            <ResourcesPanel steps='{data.tutorial.stepsJSON}' mode='tutorial' URLtoShare='{$page.url.href}' />
+        </div>
+
+
     </div>
 </div>
 

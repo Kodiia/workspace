@@ -40,6 +40,9 @@
         display: flex;
         flex-direction: column;
     }
+    .card-container:hover{
+        background: #f9f9f9;
+    }
     h3{
         margin-top: 0;
     }
