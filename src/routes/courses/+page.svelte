@@ -6,7 +6,7 @@
 
     export let data
     let courses = data.courses.items
-    console.log(data.user.specialCourses, data.user.specialCourses[0], data.user.specialCourses.specialCourses[0])
+    console.log(data.user.specialCourses, data.user.specialCourses[0], data.user.specialCourses.specialCourses[0], courses)
 </script>
 
 <div class='container'>
@@ -42,7 +42,7 @@
     {#if data.user}
         {#each courses as course}
             {#if course.type === 'special'}
-                {#each data.user.specialCourses as specialCourse}
+                {#each data.user.specialCourses.specialCourses as specialCourse}
                     {#if specialCourse === course.url}
                         <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
                     {/if}
