@@ -6,7 +6,9 @@ export const actions = {
 
         try {
             await locals.pb.collection('users').requestPasswordReset(body.email)
-            success: true
+            return {
+                success: true
+            }
         } catch (err) {
             console.log('Error: ', err)
             throw error(500, 'Something went wrong')
