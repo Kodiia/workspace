@@ -6,6 +6,7 @@
 
     export let data
     let courses = data.courses.items
+    console.log(data.user)
 </script>
 
 <div class='container'>
@@ -37,6 +38,14 @@
             <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
         {/if}
     {/each}
+
+    {#if data.user}
+        {#each courses as course}
+            {#if course.type === 'special'}
+                <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
+            {/if}
+        {/each}
+    {/if}
 </div>
 
 </div>
