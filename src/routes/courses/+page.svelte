@@ -42,7 +42,11 @@
     {#if data.user}
         {#each courses as course}
             {#if course.type === 'special'}
-                <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
+                {#each data.user.specialCourses as specialCourse}
+                    {#if specialCourse === course.url}
+                        <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
+                    {/if}
+                {/each}
             {/if}
         {/each}
     {/if}
