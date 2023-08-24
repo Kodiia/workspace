@@ -5,7 +5,7 @@ export const actions = {
         const body = Object.fromEntries( await request.formData())
 
         try {
-            await localStorage.pb.collection('users').requestPasswordReset(body.email)
+            await locals.pb.collection('users').requestPasswordReset(body.email)
             success: true
         } catch (err) {
             console.log('Error: ', err)
