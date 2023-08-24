@@ -23,6 +23,10 @@ export async function load({locals, params}){
         try{
             const tutorials = await locals.pb.collection(courseUrl).getList(1, 20, { '$autoCancel': false }
             );
+            if(locals.user != undefined && locals.user.specialCourses === courseUrl){
+
+            }
+            console.log(locals.user, serializeNonPOJOs(tutorials))
             return serializeNonPOJOs(tutorials)
         } catch (err){
             console.log(err)
