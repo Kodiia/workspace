@@ -6,7 +6,7 @@
 
     export let data
     let courses = data.courses.items
-    console.log(data.user.specialCourses)
+    console.log(data.user.specialCourses, data.user.specialCourses[0], data.user.specialCourses.specialCourses[0])
 </script>
 
 <div class='container'>
