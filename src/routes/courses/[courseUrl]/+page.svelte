@@ -33,10 +33,10 @@
 </nav>
 
 
-<div class='tutorial-cards-container' style='margin-top: 60px;'>
-    <div class='descriptionCard'>
+<div class='tutorial-cards-container' style='margin-top: 60px; grid-template-columns: {$width > 900 ? 'repeat(auto-fit, minmax(300px, 1fr))' : '1fr'}'>
+    <div class='descriptionCard' style='grid-column: {$width > 900 ? '1/4' : '1/1'};'>
         <h2>{courseName}</h2>
-        <p>{courseDescription}</p>
+        <p style='width: {$width > 900 ? '50%' : 'auto'}'>{courseDescription}</p>
     </div>
     {#each tutorials as tutorial}
         {#if tutorial.type === 'open'}
@@ -117,7 +117,6 @@
       align-items: center;
     }
     .descriptionCard{
-        grid-column: 1/4;
         background: #fff;
         padding: 10px;
         border-radius: 10px;
