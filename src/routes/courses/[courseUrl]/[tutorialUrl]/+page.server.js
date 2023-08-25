@@ -56,8 +56,8 @@ export async function load ({ locals, fetch, params}) {
         if(course.items[0].type === 'special'){
           if(typeof locals.user != 'undefined'){
               for(let specialCourse of locals.user.specialCourses.specialCourses){
-                console.log(specialCourse, course.url)
-                  if(specialCourse === course.url){
+                console.log(specialCourse, course.items[0].url)
+                  if(specialCourse === course.items[0].url){
                     return serializeNonPOJOs(project)
                   } else {
                       // throw redirect(303, '/')
