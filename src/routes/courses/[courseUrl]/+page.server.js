@@ -19,7 +19,7 @@ export async function load({locals, params}){
     }
 
     let course = await getCourseName()
-    console.log(course.items[0].type, typeof locals.pb.user, locals.pb.user)
+    console.log(course.items[0].type, typeof locals.pb.user, locals.pb.user, locals.pb, locals.user)
 
     const getTutorials = async () =>{
 
@@ -34,8 +34,8 @@ export async function load({locals, params}){
     }
 
     if(course.items[0].type === 'special'){
-        if(typeof locals.pb.user != 'undefined'){
-            for(let specialCourse of locals.pb.user.specialCourses.specialCourses){
+        if(typeof locals.user != 'undefined'){
+            for(let specialCourse of locals.user.specialCourses.specialCourses){
                 if(specialCourse === courseUrl){
                     return {
                         course: getCourseName(),
