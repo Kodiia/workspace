@@ -5,7 +5,7 @@
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
 
     export let data
-    let courses = data.courses.items
+    let courses = data.courses
     console.log(data.user)
     //console.log(data.user, data.user.specialCourses, data.user.specialCourses[0], data.user.specialCourses.specialCourses[0], courses)
 </script>
@@ -35,22 +35,8 @@
 <p>Follow step-by-step tutorials.</p>
 <div class='tutorial-cards-container'>
     {#each courses as course}
-        {#if course.type === 'open'}
-            <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
-        {/if}
+        <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
     {/each}
-
-    {#if data.user}
-        {#each courses as course}
-            {#if course.type === 'special' && typeof data.user.specialCourses.specialCourses != undefined}
-                {#each data.user.specialCourses.specialCourses as specialCourse}
-                    {#if specialCourse === course.url}
-                        <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
-                    {/if}
-                {/each}
-            {/if}
-        {/each}
-    {/if}
 </div>
 
 </div>
