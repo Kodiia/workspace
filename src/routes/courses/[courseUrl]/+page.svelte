@@ -9,6 +9,7 @@
     let tutorials = data.tutorials.items
     let courseName = data.course.items[0].heading
     let courseDescription = data.course.items[0].description
+    let courseType = data.course.items[0].type
 </script>
 
 <div class='container'>
