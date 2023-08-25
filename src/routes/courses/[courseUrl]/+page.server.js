@@ -19,7 +19,7 @@ export async function load({locals, params}){
     }
 
     let course = await getCourseName()
-    console.log(course, typeof locals.user, locals.user.specialCourses.specialCourses)
+    console.log(course.items[0].type, typeof locals.user, locals.user.specialCourses.specialCourses)
 
     const getTutorials = async () =>{
 
@@ -41,7 +41,10 @@ export async function load({locals, params}){
                         course: getCourseName(),
                         tutorials: getTutorials()
                     }
-                }
+                } else {
+                    // throw redirect(303, '/')
+                    throw error(500, 'Access denied');
+                } 
             }
         } else {
             // throw redirect(303, '/')
