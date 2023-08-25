@@ -79,7 +79,7 @@
     <p>Start building a project on your own.</p>
     <div class='template-cards-container'>
         {#each projects as project}
-            <ProjectCard title={project.name} description={project.description} topics='' link='{project.collectionName}/{project.id}' />
+            <ProjectCard title={project.name} description={project.description} topics='' link='templates/{project.id}' />
         {/each}
     </div>
 </div>
