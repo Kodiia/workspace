@@ -22,11 +22,11 @@ export async function load({locals}){
     let availableCourses = []
 
     for(let course of courses.items){
-        console.log(course)
+        // console.log(course)
         if(course.type === 'special'){
             if(typeof locals.user != 'undefined'){
                 for(let specialCourse of locals.user.specialCourses.specialCourses){
-                    if(specialCourse === courseUrl){
+                    if(specialCourse === course.url){
                         availableCourses.push(course)
                     } 
                 }
