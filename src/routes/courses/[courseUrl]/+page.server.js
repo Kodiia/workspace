@@ -19,6 +19,7 @@ export async function load({locals, params}){
     }
 
     let course = await getCourseName()
+    console.log(course.items[0].type)
 
     const getTutorials = async () =>{
 
