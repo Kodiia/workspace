@@ -19,7 +19,7 @@ export async function load({locals, params}){
     }
 
     let course = await getCourseName()
-    console.log(course.items[0].type, typeof locals.pb.user, locals.pb.user, locals.pb, locals.user)
+    console.log(course, typeof locals.user)
 
     const getTutorials = async () =>{
 
