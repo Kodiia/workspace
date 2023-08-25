@@ -64,6 +64,9 @@ export async function load ({ locals, fetch, params}) {
                       throw error(500, 'Access denied');
                   } 
               }
+          } else {
+            // throw redirect(303, '/')
+            throw error(500, 'Access denied');
           }
         } else {
           return serializeNonPOJOs(project)
