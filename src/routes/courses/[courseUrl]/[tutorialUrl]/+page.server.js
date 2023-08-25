@@ -10,6 +10,24 @@ import { serializeNonPOJOs } from '$lib/utils';
 
 export async function load ({ locals, fetch, params}) {
     //console.log(params)
+    let courseUrl = params.courseUrl
+
+    const getCourseName = async () =>{
+      
+
+        try{
+            const courseData = await locals.pb.collection('courses').getList(1, 20, { 
+                '$autoCancel': false,
+                filter: `url = "${courseUrl}"` }
+            );
+            return serializeNonPOJOs(courseData)
+        } catch (err){
+            console.log(err)
+            throw error(err.status, err.message);
+        }
+    }
+
+    let course = await getCourseName()
   
     let filesData = []
     let tutorialSteps
@@ -34,41 +52,28 @@ export async function load ({ locals, fetch, params}) {
           }
           )
         }
-        return serializeNonPOJOs(project)
+
+        if(course.items[0].type === 'special'){
+          if(typeof locals.user != 'undefined'){
+              for(let specialCourse of locals.user.specialCourses.specialCourses){
+                  if(specialCourse === course.url){
+                    return serializeNonPOJOs(project)
+                  } else {
+                      // throw redirect(303, '/')
+                      throw error(500, 'Access denied');
+                  } 
+              }
+          }
+        } else {
+          return serializeNonPOJOs(project)
+        }
+        
+
       } catch (err){
         console.log(err)
         throw error(err.status, err.message);
       }
     }
-
-    // const getHTMLdocs = async () => {
-    //   try{
-    //     const records = await locals.pb.collection('docsHTML').getFullList(200 /* batch size */, {
-    //       sort: '+tag',
-    //     });
-    //     return serializeNonPOJOs(records)
-    //   } catch (err){
-    //     console.log(err)
-    //     throw error(err.status, err.message);
-    //   }
-    // }
-
-
-    // if(params.projectType === 'projects'){
-    //   return {
-    //     project: getProjectFiles(params.projectId),
-    //     type: 'project',
-    //     files: filesData,
-    //     docsHTML: getHTMLdocs()
-    //   }
-    // }
-    // if(params.projectType === 'tutorials'){
-    //   return {
-    //     project: getProjectFiles(params.projectId),
-    //     type: 'tutorial',
-    //     files: filesData,
-    //   }
-    // }
 
       return {
         tutorial: getTutorialFiles(params.tutorialUrl),
