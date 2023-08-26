@@ -69,6 +69,8 @@ let password = ''
     .submitButton:disabled{
         background: lightgrey;
         border: none;
+        cursor: default;
+        transform: scale(1.0);
     }
     .formInput{
         padding: 10px;

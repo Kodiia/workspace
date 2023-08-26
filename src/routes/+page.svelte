@@ -45,7 +45,10 @@
 <!-- <p>{innerWidth}{innerHeight}{$width}{$height}</p> -->
 <!-- <h1 style='margin-top: 70px;'>What code will you write?</h1> -->
 <div class='scrollable-container' style='margin-top: 70px;'>
-    
+    <div class='warning'>
+        <p>Hello! Thank you for being here! Kodiia is currently undergoing active development, so there may be things where certain features do not function as intended. In fact, it's possible that none of the features will work as expected. If you come across any unusual behavior on this platform, please do not hesitate to contact us at <span>info@kodiia.com</span>.</p>
+        <p>💜💜💜</p>
+    </div>
     <h2>Courses</h2>
     <p>Follow step-by-step tutorials.</p>
     <div class='tutorial-cards-container'>
@@ -98,6 +101,17 @@
         width: min(100%, 1044px);
         /* height: 100vh; */
         position: relative;
+    }
+    .warning{
+        margin-top: 10px;
+        padding: 10px;
+        background: #fdfdfd;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #3d95ee50;
+    }
+    .warning span{
+        color: #4233fb;
+        font-weight: 500;
     }
     .panelsContainer{
         display: flex;
