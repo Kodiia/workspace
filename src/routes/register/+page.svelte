@@ -37,10 +37,14 @@
         padding: 10px;
         background: linear-gradient(45deg, #ffffff50, #ffffff90);
         backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
         border: 1px solid #ffffff90;
         border-radius: 15px;
         box-shadow: 0 0 10px #4233fb20;
         box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 50px;
     }
     .formFieldContainer{
         display: flex;
