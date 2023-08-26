@@ -73,6 +73,18 @@
         }
     }
 
+    function downloadFiles(){
+        console.log($filesLocalCopy)
+        for (let file of $filesLocalCopy){
+            const fileText = file.fileData
+            const hiddenElement = document.createElement('a');
+            hiddenElement.href = 'data:attachment/text,' + encodeURI(fileText);
+            hiddenElement.target = '_blank';
+            hiddenElement.download = file.fileName;
+            console.log(hiddenElement)
+        }
+    }
+
 </script>
 
 {#if $filesPanelDisplay === 'block'}
@@ -107,6 +119,7 @@
                         </div>
                     {/each}
                 </div>
+                <button class='downloadButton' on:click={downloadFiles}>Save files</button>
             {/if}
         </div>    
     
@@ -190,5 +203,16 @@
         }
         .handle:hover{
             background: rgba(66, 51, 251, 1);
+        }
+
+        .downloadButton{
+            margin-top: 20px;
+            background: none;
+            border: 2px solid #4233fb;
+            color: #4233fb;
+        }
+        .downloadButton:hover{
+            background: #4233fb;
+            color: #fdfdfd;
         }
     </style>
