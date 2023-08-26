@@ -74,14 +74,15 @@
     }
 
     function downloadFiles(){
-        console.log($filesLocalCopy)
+        // console.log($filesLocalCopy)
         for (let file of $filesLocalCopy){
             const fileText = file.fileData
             const hiddenElement = document.createElement('a');
             hiddenElement.href = 'data:attachment/text,' + encodeURI(fileText);
             hiddenElement.target = '_blank';
             hiddenElement.download = file.fileName;
-            console.log(hiddenElement)
+            hiddenElement.click();
+            // console.log(hiddenElement)
         }
     }
 
