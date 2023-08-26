@@ -1,5 +1,5 @@
 <script>
-
+let password = ''
 </script>
 <div class='container'>
     <h2>Get started for free</h2>
@@ -16,7 +16,7 @@
         <label for='password' class='formLabel'>
             <span class='labelSpan'>password</span>
         </label>
-        <input type='password' name='password' class='formInput' placeholder='min 8 characters' />
+        <input bind:value='{password}' type='password' name='password' class='formInput' placeholder='min 8 characters' />
     </div>
     <div class='formFieldContainer'>
         <label for='passwordConfirm' class='formLabel'>
@@ -25,7 +25,7 @@
         <input type='password' name='passwordConfirm' class='formInput' />
     </div>
     <div class='formFieldContainer'>
-        <button type='submit' class='submitButton'>Sign Up</button>
+        <button type='submit' class='submitButton' disabled={password.length > 8 ? false : true }>Sign Up</button>
     </div>
     </form>
     <p>By signing up for Kodiia, you agree to Kodiia's Terms of Service & Privacy Policy.</p>
@@ -65,6 +65,10 @@
     }
     .submitButton:hover{
         transform: scale(1.01);
+    }
+    .submitButton:disabled{
+        background: lightgrey;
+        border: none;
     }
     .formInput{
         padding: 10px;
