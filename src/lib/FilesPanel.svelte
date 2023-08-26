@@ -120,7 +120,7 @@
                         </div>
                     {/each}
                 </div>
-                <button class='downloadButton' on:click={downloadFiles}>Save files</button>
+                <button class='downloadButton' on:click={downloadFiles}>Download files</button>
             {/if}
         </div>    
     
