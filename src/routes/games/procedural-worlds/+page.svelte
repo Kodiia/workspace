@@ -3,6 +3,8 @@
     import ProceduralWorlds from '$lib/ProceduralWorlds.svelte';
     import { width, height } from '$lib/store'
     import { fade } from 'svelte/transition';
+    import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
+    import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
 
     let navMenuDisplay = 'none'
     let worldX, worldY, worldZ
@@ -23,6 +25,31 @@
 </script>
 
 <nav>
+    {#if $width > 700}
+        <div class='desktopMenu' style='height: 50px;'>
+            <a href='https://kodiia.com'>
+                <img src={kodiia_logo_bw} alt='logo' width='70'>
+            </a>
+            <button class='smallMenuButton' on:click={()=>{navMenuDisplay === 'none' ? navMenuDisplay = 'block' : navMenuDisplay = 'none'}}>Settings</button>
+            <a class='smallMenuButton' href='/'>Home</a>
+            <!-- {#if data.user}
+            <form action='/logout' method='POST'>
+                <button type='submit' class='smallMenuButton'>Log Out</button>
+            </form>
+                <button class="smallMenuButton" on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
+            {:else}
+                <a class='smallMenuButton' href='/register'>Sign Up</a>
+                <a class='smallMenuButton' href='/login'>Log In</a>
+            {/if} -->
+        </div>
+    {:else}
+    <div class='mobileMenu'>
+        <a href='https://kodiia.com'>
+            <img src={kodiia_logo_bw_small} alt='logo' width='20'>
+        </a>
+        <!-- <button class='smallMenuButton' on:click={()=>{navMenuDisplay === 'none' ? navMenuDisplay = 'block' : navMenuDisplay = 'none'}}>Settings</button>
+        <a class='smallMenuButton' href='/'>Home</a>
+    </div>
     <div class='navButtons'>
         <button class='menuButton' on:click={()=>{navMenuDisplay === 'none' ? navMenuDisplay = 'block' : navMenuDisplay = 'none'}}>
             {#if navMenuDisplay === 'none'}
@@ -36,10 +63,11 @@
                     <line x1="15" y1="35" x2="35" y2="15" stroke="#1a1a1a" stroke-width='2' />
                 </svg>
             {/if}
-        </button>
-        <!-- <img src='{habitat}' width='100' alt='habitat'/> -->
+        </button> -->
+        <button class='smallMenuButton' on:click={()=>{navMenuDisplay === 'none' ? navMenuDisplay = 'block' : navMenuDisplay = 'none'}}>Settings</button>
         <a class='smallMenuButton' href='/'>Home</a>
     </div>
+    {/if}
     <hr style='display: {navMenuDisplay}'>
     <div class='navMenu' style='display: {navMenuDisplay}; max-height: calc({$height}px - 70px);' >
         
@@ -114,6 +142,19 @@
         overflow-y: scroll;
         margin-bottom: 10px;
     }
+    .desktopMenu{
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .mobileMenu{
+        /* width: calc(100% - 10px); */
+        height: 50px;
+        display: flex;
+        align-items: center;
+        overflow-y: auto;
+        /* margin-bottom: 10px; */
+    }
     .smallMenuButton {
       background: none;
       border: none;
@@ -124,7 +165,7 @@
       text-decoration: none;
       display: flex;
       align-items: center;
-      padding: 0 20px 0 0;
+      padding: 0 0 0 15px;
     }
     .smallMenuButton:hover {
       background: none;

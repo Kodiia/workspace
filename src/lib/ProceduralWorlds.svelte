@@ -47,7 +47,8 @@
                     //     slabs.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
                     // }
                     loadedAssets++
-                    assets.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+                    // assets.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
+                    assets = [...assets, new Mesh(result.scene.children[0].geometry, result.scene.children[0].material)]
                 }
             )
         }
