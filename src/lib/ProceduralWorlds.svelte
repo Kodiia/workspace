@@ -120,7 +120,7 @@
                         zPosWallType: Math.floor(Math.random()*walls.length),
                         zNegWallType: Math.floor(Math.random()*walls.length),
                         slabType: Math.floor(Math.random()*slabs.length),
-                        asset: Math.floor(Math.random()*assets.length),
+                        asset: Math.floor(Math.random()*selectedModels.length),
                     }
                 } else {
                     cells[i][j][k] = {
@@ -143,7 +143,7 @@
                         zPosWallType: Math.floor(Math.random()*walls.length),
                         zNegWallType: Math.floor(Math.random()*walls.length),
                         slabType: Math.floor(Math.random()*slabs.length),
-                        asset: Math.floor(Math.random()*assets.length),
+                        asset: Math.floor(Math.random()*selectedModels.length),
                     }
                 }
             }
@@ -442,15 +442,15 @@
 
 {#if loadedAssets > 0}
 
-    
+    {#each assets as asset, i}
         <InstancedMesh >
-            <T is={assets[0].geometry} />
-            <T is={assets[0].material} />
+            <T is={asset.geometry} />
+            <T is={asset.material} />
 
             {#each cells as cellI}
                 {#each cellI as cellJ}
                     {#each cellJ as {aliveNow, x, y, z, thiscolor, aliveNeighborXpos, aliveNeighborXneg, aliveNeighborYpos, aliveNeighborYneg, aliveNeighborZpos, aliveNeighborZneg, asset}}
-                        {#if aliveNow}
+                        {#if aliveNow && asset === i}
                         <Instance 
                             rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
                             rotation.z={Math.PI/2}    
@@ -490,7 +490,7 @@
                 {/each}
             {/each}
         </InstancedMesh>
-
+{/each}
         <!-- <InstancedMesh >
             <T is={assets[1].geometry} />
             <T is={assets[1].material} />
