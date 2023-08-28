@@ -7,6 +7,8 @@
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
 
     let navMenuDisplay = 'none'
+    let mobileMenuDisplay = 'none'
+    let optionsPanelDisplay = 'none'
     let worldX, worldY, worldZ
     let x = 10, y = 10, z = 10
     let proceduralWorld
@@ -30,7 +32,7 @@
             <a href='https://kodiia.com'>
                 <img src={kodiia_logo_bw} alt='logo' width='70'>
             </a>
-            <button class='smallMenuButton' on:click={()=>{navMenuDisplay === 'none' ? navMenuDisplay = 'block' : navMenuDisplay = 'none'}}>Settings</button>
+            <button class='smallMenuButton' on:click={()=>{optionsPanelDisplay === 'none' ? optionsPanelDisplay = 'block' : optionsPanelDisplay = 'none'}}>Options</button>
             <a class='smallMenuButton' href='/'>Home</a>
             <!-- {#if data.user}
             <form action='/logout' method='POST'>
@@ -43,35 +45,40 @@
             {/if} -->
         </div>
     {:else}
-    <div class='mobileMenu'>
+    <div style='display: flex; align-items: center; justify-content: space-between;'>
         <a href='https://kodiia.com'>
             <img src={kodiia_logo_bw_small} alt='logo' width='20'>
         </a>
-        <!-- <button class='smallMenuButton' on:click={()=>{navMenuDisplay === 'none' ? navMenuDisplay = 'block' : navMenuDisplay = 'none'}}>Settings</button>
-        <a class='smallMenuButton' href='/'>Home</a>
+        <!-- <button class='smallMenuButton' on:click={()=>{optionsPanelDisplay === 'none' ? optionsPanelDisplay = 'block' : optionsPanelDisplay = 'none'}}>Settings</button>
+        <a class='smallMenuButton' href='/'>Home</a> -->
+    
+        <div class='navButtons'>
+            <button class='menuButton' on:click={()=>{mobileMenuDisplay === 'none' ? mobileMenuDisplay = 'block' : mobileMenuDisplay = 'none'}}>
+                {#if mobileMenuDisplay === 'none'}
+                    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="10" y1="20" x2="40" y2="20" stroke="#1a1a1a" stroke-width='2' />
+                        <line x1="10" y1="30" x2="40" y2="30" stroke="#1a1a1a" stroke-width='2' />
+                    </svg>
+                {:else}
+                    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="15" y1="15" x2="35" y2="35" stroke="#1a1a1a" stroke-width='2' />
+                        <line x1="15" y1="35" x2="35" y2="15" stroke="#1a1a1a" stroke-width='2' />
+                    </svg>
+                {/if}
+            </button>
+        </div>
     </div>
-    <div class='navButtons'>
-        <button class='menuButton' on:click={()=>{navMenuDisplay === 'none' ? navMenuDisplay = 'block' : navMenuDisplay = 'none'}}>
-            {#if navMenuDisplay === 'none'}
-                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="10" y1="20" x2="40" y2="20" stroke="#1a1a1a" stroke-width='2' />
-                    <line x1="10" y1="30" x2="40" y2="30" stroke="#1a1a1a" stroke-width='2' />
-                </svg>
-            {:else}
-                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="15" y1="15" x2="35" y2="35" stroke="#1a1a1a" stroke-width='2' />
-                    <line x1="15" y1="35" x2="35" y2="15" stroke="#1a1a1a" stroke-width='2' />
-                </svg>
-            {/if}
-        </button> -->
-        <button class='smallMenuButton' on:click={()=>{navMenuDisplay === 'none' ? navMenuDisplay = 'block' : navMenuDisplay = 'none'}}>Settings</button>
-        <a class='smallMenuButton' href='/'>Home</a>
-    </div>
+        <hr style='display: {mobileMenuDisplay}; margin: 0;'>
+        <div class='mobileMenu' style='display: {mobileMenuDisplay}; height: calc({$height}px - 60px);'>
+            <button class='smallMenuButton' style='padding: 5px 10px;' on:click={()=>{optionsPanelDisplay === 'none' ? optionsPanelDisplay = 'block' : optionsPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}>Options</button>
+            <a class='smallMenuButton' style='padding: 5px 10px;' href='/'>Home</a>
+        </div>
+
     {/if}
 </nav>
 
-<div class='navMenu' style='display: {navMenuDisplay}; height: calc({$height}px - 60px);' >
-    <button class="panelButton" on:click={()=>{navMenuDisplay = 'none';}} >    
+<div class='optionsPanel' style='width: {$width > 700 ? "400px" : "calc(100% - 10px)"}; display: {optionsPanelDisplay}; height: calc({$height}px - 60px); ' >
+    <button class="panelButton" on:click={()=>{optionsPanelDisplay = 'none';}} >    
         <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
     </button>
     <div class='setupsContainer'>
@@ -122,30 +129,47 @@
 
 <style>
     nav{
-        width: calc(100% - 10px);
+        width: 100%;
         min-height: 50px;
         /* display: flex; */
         /* margin-bottom: 10px; */
         position: fixed;
-        padding: 5px;
+        padding: 0 20px;
         top: 0;
         left: 0;
         background: linear-gradient( 45deg, #ffffffc3, #ffffff90);
         backdrop-filter: blur(40px);
         -webkit-backdrop-filter: blur(40px);
         border-radius: 0 0 10px 10px;
+        box-sizing: border-box;
         z-index: 10;
     }
     .navButtons{
-        width: 100%;
         display: flex;
         justify-content: space-between;
     }
-    .navMenu{
+    .mobileMenu{
         /* width: calc(100% - 10px); */
+        overflow-y: auto;
+        margin-bottom: 10px;
+    }
+    .menuButton{
+        padding: 5px;
+        width: 50px;
+        height: 50px;
+        border: none;
+        transform: scale(1.0);
+    }
+    .menuButton:hover{
+        background: none;
+        transform: scale(1.1);
+    }
+    .optionsPanel{
+        width: 400px;
+        margin: 5px;
         height: 100%;
         position: absolute;
-        top: 60px;
+        top: 50px;
         background: linear-gradient( 45deg, #ffffffc3, #ffffff90);
         backdrop-filter: blur(40px);
         -webkit-backdrop-filter: blur(40px);
@@ -196,7 +220,7 @@
       display: flex;
       align-items: center;
     }
-    .menuButton, .assetsMenuButton{
+    /* .menuButton, .assetsMenuButton{
         padding: 5px;
         width: 50px;
         height: 50px;
@@ -206,7 +230,7 @@
     .menuButton:hover, .assetsMenuButton:hover{
         background: none;
         transform: scale(1.1);
-    }
+    } */
     .inputsGroup{
         display: grid;
         grid-template-columns: repeat(auto-fit, 100px);
