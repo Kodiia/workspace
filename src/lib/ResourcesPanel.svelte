@@ -250,7 +250,7 @@
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px); */
             color: #1a1a1a;
-            border: none;
+            border: 1px solid #f9f9f9;
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
             padding: 15px;
@@ -261,11 +261,12 @@
 
             display: flex;
             align-items: center;
-            transform: scale(1.0);
+            /* transform: scale(1.0); */
         }
         details:hover{
             background: #f9f9f9;
-            transform: scale(1.025);
+            border: 1px solid #4233fb20;
+            /* transform: scale(1.025); */
         }
         details summary{
             cursor: pointer;
