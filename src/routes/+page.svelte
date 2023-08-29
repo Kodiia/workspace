@@ -45,7 +45,7 @@
 
 <!-- <p>{innerWidth}{innerHeight}{$width}{$height}</p> -->
 <!-- <h1 style='margin-top: 70px;'>What code will you write?</h1> -->
-<div class='scrollable-container' style='margin-top: 70px;'>
+<div class='scrollable-container'>
     <div class='warning' style='flex-direction: {$width < 700 ? "column" : "row"};'>
         <img src={monster} alt='monster funny' />
             <div>
@@ -108,7 +108,7 @@
         position: relative;
     }
     .warning{
-        margin-top: 10px;
+        margin-top: 0px;
         padding: 10px;
         background: #fdfdfd;
         border-radius: 10px;
@@ -178,7 +178,7 @@
         box-sizing: border-box;
         width: 100%;
         /* height: calc(100% - 4em); */
-        padding: 0 10px 10px 10px;
+        padding: 60px 10px 10px 10px;
         overflow-y: auto;
     }
     .template-cards-container, .tutorial-cards-container{

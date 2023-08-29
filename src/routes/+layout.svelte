@@ -22,7 +22,7 @@
 
 
 <!-- <div class='layout-container' style='width: {$width}px; height: {$height}px; background-image: url({paths}); background-size: 100px; background-color: hsl({$bgColor}); overflow: none;'> -->
-<div class='layout-container'>
+<div class='layout-container' style='background-color: hsl({$bgColor});'>
 {#if $navigating}
     <!-- <div class='loader'></div>
     <h3>Loading...</h3> -->
@@ -37,6 +37,7 @@
 <style>
     .layout-container{
         width: 100%;
+        min-height: 100vh;
         /* height: 100vh;
         overflow: hidden; */
         box-sizing: border-box;
