@@ -3,6 +3,7 @@
     import { filesLocalCopy, fileToOpen, editorState, width, height, leftPanelWidthSetByUser, filesPanelDisplay } from '$lib/store'
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
+    import JSZip from 'jszip';
 
     export let files
     export let projectName
@@ -58,7 +59,7 @@
             panelWidth = '40px'
         }
     }
-    console.log('editor panel', $width, panelWidth)
+    // console.log('editor panel', $width, panelWidth)
 
 
     let setUserPanelSize = false;
@@ -73,17 +74,24 @@
         }
     }
 
-    function downloadFiles(){
-        // console.log($filesLocalCopy)
-        for (let file of $filesLocalCopy){
-            const fileText = file.fileData
-            const hiddenElement = document.createElement('a');
-            hiddenElement.href = 'data:attachment/text,' + encodeURI(fileText);
-            hiddenElement.target = '_blank';
-            hiddenElement.download = file.fileName;
-            hiddenElement.click();
-            // console.log(hiddenElement)
+    var zip = new JSZip()
+
+    async function downloadFiles(){
+        const zipFileName = projectName.replace(/\s/g, '');
+        let folder = zip.folder(zipFileName)
+        for(let file of $filesLocalCopy){
+            folder.file(file.fileName, file.fileData)
         }
+
+        let zipFile = await zip.generateAsync({type:"blob"})
+
+        const hiddenElement = document.createElement('a');
+        hiddenElement.download = zipFileName + '.zip';
+
+        const url = URL.createObjectURL(zipFile);
+        hiddenElement.href = url
+        hiddenElement.click();
+        hiddenElement.remove()
     }
 
 </script>
@@ -120,7 +128,7 @@
                         </div>
                     {/each}
                 </div>
-                <button class='downloadButton' on:click={downloadFiles}>Download files</button>
+                <button class='downloadButton' on:click={downloadFiles}>Download files as .zip</button>
             {/if}
         </div>    
     
