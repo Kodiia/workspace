@@ -37,7 +37,7 @@
         background: none;
         color: #4233fb;
         font-size: 1.2rem;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Montserrat', sans-serif;
         margin-top: 15px;
         box-sizing: border-box;
     }

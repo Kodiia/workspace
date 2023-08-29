@@ -269,7 +269,7 @@
         }
         details summary{
             cursor: pointer;
-            font-family: Poppins, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             font-weight: bold;
             font-size: 1.17rem;
         }
@@ -301,7 +301,7 @@
             background: none;
             color: #4233fb;
             font-size: 1.2rem;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             margin-top: auto;
             box-sizing: border-box;
         }
