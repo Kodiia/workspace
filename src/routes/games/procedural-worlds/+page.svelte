@@ -81,39 +81,44 @@
     <button class="panelButton" on:click={()=>{optionsPanelDisplay = 'none';}} >    
         <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
     </button>
+    <h2 style='margin: 0 0 0 10px; height: 40px;'>Options</h2>
     <div class='setupsContainer'>
     <div class='statisticsContainer' style='margin-top: 0px;'>
-        <h2 style='margin-top: 0px;'>World size</h2>
-        <p>Minimal size is 1 and maximum is 20 in every direction</p>
-        <div class='inputsGroup'>
-            <div class='inputContainer'>
-                <label for='xSize'>X</label>
-                <input bind:this={worldX} name='xSize' id='xSize' type='text' value=10 on:change={()=>{x = parseInt(worldX.value); x > 20 ? x = 20 : x = x; x < 1 ? x = 1 : x = x; worldX.value = x}} />
-            </div>
-            <div class='inputContainer'>
-                <label for='ySize'>Y</label>
-                <input bind:this={worldY} name='ySize' id='ySize' type='text' value=10 on:change={()=>{y = parseInt(worldY.value); y > 20 ? y = 20 : y = y; y < 1 ? y = 1 : y = y; worldY.value = y}} />
-            </div>
-            <div class='inputContainer'>
-                <label for='zSize'>Z</label>
-                <input bind:this={worldZ} name='zSize' id='zSize' type='text' value=10 on:change={()=>{z = parseInt(worldZ.value); z > 20 ? z = 20 : z = z; z < 1 ? z = 1 : z = z; worldZ.value = z}} />
-            </div>
-        </div>
-
-        <h2>Background color</h2>
-        <p>Setup the background color</p>
-        <div class='colorInputsGroup'>
-            <div class='colorInputContainer'>
-                <label for='color1'>{bgColor1Value}</label>
-                <input bind:this={bgColor1} name='color1' id='color1' type='color' value='{bgColor1Value}' on:change={()=>{bgColor1Value = bgColor1.value}} />
-            </div>
-            <div class='colorInputContainer'>
-                <label for='color2'>{bgColor2Value}</label>
-                <input bind:this={bgColor2} name='color2' id='color2' type='color' value='{bgColor2Value}' on:change={()=>{bgColor2Value = bgColor2.value}} />
+        <div class='setupsBlock'>
+            <h3 style='margin-top: 0px;'>World size</h3>
+            <p>Minimal size is 1 and maximum is 20 in every direction</p>
+            <div class='inputsGroup'>
+                <div class='inputContainer'>
+                    <label for='xSize'>X</label>
+                    <input bind:this={worldX} name='xSize' id='xSize' type='text' value=10 on:change={()=>{x = parseInt(worldX.value); x > 20 ? x = 20 : x = x; x < 1 ? x = 1 : x = x; worldX.value = x}} />
+                </div>
+                <div class='inputContainer'>
+                    <label for='ySize'>Y</label>
+                    <input bind:this={worldY} name='ySize' id='ySize' type='text' value=10 on:change={()=>{y = parseInt(worldY.value); y > 20 ? y = 20 : y = y; y < 1 ? y = 1 : y = y; worldY.value = y}} />
+                </div>
+                <div class='inputContainer'>
+                    <label for='zSize'>Z</label>
+                    <input bind:this={worldZ} name='zSize' id='zSize' type='text' value=10 on:change={()=>{z = parseInt(worldZ.value); z > 20 ? z = 20 : z = z; z < 1 ? z = 1 : z = z; worldZ.value = z}} />
+                </div>
             </div>
         </div>
 
-        <button on:click={proceduralWorld.updateWorld()} style='margin-bottom: 0px;'>Create new world</button>
+        <div class='setupsBlock'>
+            <h3>Background color</h3>
+            <p>Setup the background color</p>
+            <div class='colorInputsGroup'>
+                <div class='colorInputContainer'>
+                    <label for='color1'>{bgColor1Value}</label>
+                    <input bind:this={bgColor1} name='color1' id='color1' type='color' value='{bgColor1Value}' on:change={()=>{bgColor1Value = bgColor1.value}} />
+                </div>
+                <div class='colorInputContainer'>
+                    <label for='color2'>{bgColor2Value}</label>
+                    <input bind:this={bgColor2} name='color2' id='color2' type='color' value='{bgColor2Value}' on:change={()=>{bgColor2Value = bgColor2.value}} />
+                </div>
+            </div>
+        </div>
+
+        <button on:click={proceduralWorld.updateWorld()} style='margin: 0 0 0 10px;'>Create new world</button>
     </div>
     <div class='challengesContainer'>
     </div>
@@ -181,8 +186,17 @@
     }
     .setupsContainer{
         overflow-y: scroll;
-        height: calc(100% - 20px);
+        height: calc(100% - 60px);
         margin-top: 20px;
+        position: relative;
+    }
+    .setupsBlock{
+        margin: 10px;
+        padding: 10px;
+        background: #fdfdfd;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #3295ee50;
+        box-sizing: border-box;
     }
     .desktopMenu{
         height: 100%;
@@ -251,7 +265,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: #f9f9f9;
+        background: #ededed;
         padding: 5px 10px;
         box-sizing: border-box;
         border-radius: 10px;
@@ -263,18 +277,19 @@
         border-radius: 10px;
         padding: 10px;
         font-size: 1em;
-        background: #f9f9f9;
+        background: #ededed;
     }
     input[type='color']{
         flex: 0 0 50px;
         /* margin: 5px 10px; */
         width: 50px;
         height: 50px;
-        border: 1px solid #f9f9f9;
+        border: 1px solid #ededed;
         border-radius: 10px;
         padding: 0px;
         font-size: 1em;
-        background: #f9f9f9;
+        background: #ededed;
+        cursor: pointer;
     }
 
     .statisticsContainer, .challengesContainer{
@@ -286,7 +301,7 @@
         filter: contrast(1.3);
     }
     .panelButton{
-        position: fixed;
+        position: absolute;
         top: 5px;
         right: 0px;
         margin-right: 5px;
