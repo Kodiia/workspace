@@ -120,12 +120,16 @@
                 {#each steps.steps as step, id}
                     <details>
                         <summary>{id}. {step.step}</summary>
-                        <p>{step.text}</p>
+                        <p>{@html step.text}</p>
+                        {#if step.link}
+                            <a href='{step.link}' target='_blank' class='link'>{step.linkText}</a>
+                        {/if}
                         {#if step.code != 'false'}
                             <div style='height: calc(({step.codeLines} * 1.3rem) + 55px)'>
                                 <CodeEditor fileName='{step.mode}' readOnly='{true}' editorText='{step.code}'/>
                             </div>
                         {/if}
+                        
                     </details>
                 {/each}
                 <h3>🐈</h3>
@@ -153,14 +157,15 @@
                     <details>
                         <summary>{id}. {hint.hint}</summary>
                         <p>{hint.text}</p>
+                        {#if hint.link!= 'false'}
+                            <a href='{hint.link}' target='_blank' class='link'>{hint.hint}</a>
+                        {/if}
                         {#if hint.code != 'false'}
                             <div style='height: calc(({step.codeLines} * 1.3rem) + 55px)'>
                                 <CodeEditor fileName='{step.mode}' readOnly='{true}' editorText='{step.code}'/>
                             </div>
                         {/if}
-                        {#if hint.link!= 'false'}
-                            <a href='{hint.link}' target='_blank' class='link'>{hint.hint}</a>
-                        {/if}
+                        
                     </details>
                 {/each}
                 <h3>🐈</h3>
@@ -311,4 +316,5 @@
             color: #f9f9f9;
             cursor: pointer;
         }
+        
     </style>

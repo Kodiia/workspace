@@ -34,6 +34,7 @@
             <a href='https://kodiia.com'>
                 <img src={kodiia_logo_bw} alt='logo' width='70'>
             </a>
+            <a class='smallMenuButton' style='padding: 0 0 0 20px;' href='./'>Contents</a>
             <button class="smallMenuButton" on:click='{()=>{$filesPanelDisplay = 'block'}}'>Files</button>
             {#if data.type === 'tutorial'}
                 <button class="smallMenuButton" on:click='{()=>{$resourcesPanelDisplay = 'block'}}'>Steps</button>
@@ -71,6 +72,7 @@
         </div>
         <hr style='display: {mobileMenuDisplay}; max-height: calc({$height}px - 70px);'>
         <div class='mobileMenu' style='display: {mobileMenuDisplay}; height: calc({$height}px - 70px);'>
+            <a class='smallMenuButton' style='padding: 10px;' href='../'>Contents</a>
             <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block'; $resourcesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Files</button>
             {#if data.type === 'tutorial'}
                 <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$resourcesPanelDisplay = 'block'; $filesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Steps</button>

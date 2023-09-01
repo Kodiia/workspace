@@ -36,6 +36,14 @@ button:hover{
     cursor: pointer;
 }
 
+code{
+  padding: 0 3px;
+  background: #dedede;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-family: 'Source Code Pro', monospace !important;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
