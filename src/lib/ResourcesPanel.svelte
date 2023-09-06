@@ -333,7 +333,7 @@
         }
         .stepImage{
             width: 100%;
-            max-width: 400px;
+            max-width: 700px;
             border-radius: 10px;
         }
         
