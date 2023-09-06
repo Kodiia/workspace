@@ -24,9 +24,12 @@
     $filesLocalCopy = data.files
 
     let mobileMenuDisplay = 'none'
+    $: filesPanelWidth = $width / 3 
     // let filesPanelDisplay = 'none'
     // let resourcesPanelDisplay = 'none'
     // console.log($page)
+
+    let drag = false
 </script>
 
 <nav>
@@ -99,19 +102,28 @@
             <StylesPanel />
         </div>
     {/if}
-    <div class='panelsContainer'>
+    <div class='panelsContainer' on:pointerup={()=>{drag = false; console.log(drag)}}>
         
-        <div style='width: 100%; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$filesPanelDisplay}'>
+        <div style='width: {filesPanelWidth}px; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$filesPanelDisplay}'>
             <FilesPanel files='{files}' projectName='{data.tutorial.heading}'/>
         </div>
+
+        {#if $width > 700 && $filesPanelDisplay === 'block'}
+            <div class='resizeHandle'>
+                <button class='resizeButton' on:click={()=>{filesPanelWidth < $width / 1.5 ? filesPanelWidth += 100 : filesPanelWidth = filesPanelWidth}}>&gt;</button>
+                <button class='resizeButton' on:click={()=>{filesPanelWidth > 500 ? filesPanelWidth -= 100 : filesPanelWidth = filesPanelWidth; console.log(filesPanelWidth)}}>&lt;</button>
+            </div>
+        {/if}
     
-        <div style='width: 100%; height: 100%; padding: 5px; box-sizing: border-box;'>
+        <div class='rightSideContainer' >
+        <div style='width: 100%; height: 100%; padding: 5px; box-sizing: border-box; z-index: 2;'on:pointerup={()=>{drag = false; console.log(drag)}}>
             <ProjectPanel />
             <!-- <iframe srcDoc="{userSRCDoc}" style="width: 100%; height: calc({$height}px - 70px); border-radius: 15px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  /> -->
         </div>
 
         <div style='width: 100%; max-width: 700px; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$resourcesPanelDisplay};'>
             <ResourcesPanel steps='{data.tutorial.stepsJSON}' mode='tutorial' URLtoShare='{$page.url.href}' />
+        </div>
         </div>
 
 
@@ -136,6 +148,40 @@
         /* grid-auto-columns: 1fr; */
         /* display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+    }
+    .resizeHandle{
+        flex: 0 0 20px;
+        width: 20px;
+        height: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        background: none;
+    }
+    .resizeButton{
+        width: 20px;
+        height: 20px;
+        border: none;
+        border-radius: 10px;
+        background: #4233fb50;
+        color: #f9f9f9;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        touch-action: none;
+    }
+    .resizeButton:hover{
+        background: #4233fb;
+    }
+    .rightSideContainer{
+        /* width: 100%; */
+        display: flex;
+        height: 100%;
+        flex-grow: 1;
     }
     .userContainer {
         background: #fff;
