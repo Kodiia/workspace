@@ -120,10 +120,16 @@
                 {#each steps.steps as step, id}
                     <details>
                         <summary>{id}. {step.step}</summary>
+                        {#if step.imageUrl}
+                        <div class='stepImageContainer'>
+                            <img src='{step.imageUrl}' alt='{step.imageText}' class='stepImage' />
+                        </div>
+                        {/if}
                         <p>{@html step.text}</p>
                         {#if step.link}
                             <a href='{step.link}' target='_blank' class='link'>{step.linkText}</a>
                         {/if}
+                        
                         {#if step.code != 'false'}
                             <div style='height: calc(({step.codeLines} * 1.3rem) + 55px)'>
                                 <CodeEditor fileName='{step.mode}' readOnly='{true}' editorText='{step.code}'/>
@@ -161,8 +167,8 @@
                             <a href='{hint.link}' target='_blank' class='link'>{hint.hint}</a>
                         {/if}
                         {#if hint.code != 'false'}
-                            <div style='height: calc(({step.codeLines} * 1.3rem) + 55px)'>
-                                <CodeEditor fileName='{step.mode}' readOnly='{true}' editorText='{step.code}'/>
+                            <div style='height: calc(({hint.codeLines} * 1.3rem) + 55px)'>
+                                <CodeEditor fileName='{hint.mode}' readOnly='{true}' editorText='{hint.code}'/>
                             </div>
                         {/if}
                         
@@ -308,13 +314,27 @@
             color: #4233fb;
             font-size: 1.2rem;
             font-family: 'Montserrat', sans-serif;
-            margin-top: auto;
+            margin-bottom: 20px;
             box-sizing: border-box;
         }
         .link:hover{
             background: #4233fb;
             color: #f9f9f9;
             cursor: pointer;
+        }
+        .stepImageContainer{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items:center;
+            background: #f9f9f9;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .stepImage{
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
         }
         
     </style>

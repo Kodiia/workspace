@@ -30,7 +30,6 @@ export async function load ({ locals, fetch, params}) {
     let course = await getCourseName()
   
     let filesData = []
-    let tutorialSteps
     const fetchFile = async (url) => {
       const res = await fetch(url)
       const data = res.text()
@@ -39,7 +38,7 @@ export async function load ({ locals, fetch, params}) {
 
     const getTutorialFiles = async (id) => { 
       try{
-        const project = await locals.pb.collection(params.courseUrl).getOne(id)
+        const project = await locals.pb.collection(params.courseUrl).getOne(id, { requestKey: null })
 
         for (let file of project.files){
           let url = `${DB_URL}/api/files/${params.courseUrl}/${params.tutorialUrl}/${file}`
@@ -52,6 +51,7 @@ export async function load ({ locals, fetch, params}) {
           }
           )
         }
+
 
         if(course.items[0].type === 'special'){
           if(typeof locals.user != 'undefined'){
@@ -79,10 +79,11 @@ export async function load ({ locals, fetch, params}) {
       }
     }
 
+
       return {
         tutorial: getTutorialFiles(params.tutorialUrl),
         type: 'tutorial',
-        files: filesData,
+        files: filesData
       }
   
   }
