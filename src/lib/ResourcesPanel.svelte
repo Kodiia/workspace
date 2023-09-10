@@ -163,8 +163,8 @@
                     <details>
                         <summary>{id}. {hint.hint}</summary>
                         <p>{hint.text}</p>
-                        {#if hint.link!= 'false'}
-                            <a href='{hint.link}' target='_blank' class='link'>{hint.hint}</a>
+                        {#if hint.linkUrl}
+                            <a href='{hint.linkUrl}' target='_blank' class='link'>{hint.linkText}</a>
                         {/if}
                         {#if hint.code != 'false'}
                             <div style='height: calc(({hint.codeLines} * 1.3rem) + 55px)'>
