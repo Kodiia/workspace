@@ -1,24 +1,12 @@
 <script>
   import { fade } from 'svelte/transition';
   import ConsolePanel from "$lib/ConsolePanel.svelte";
-    // import * as ace from 'ace-builds/src-noconflict/ace';
-    // import 'ace-builds/src-noconflict/theme-textmate';
-    // import 'ace-builds/src-noconflict/theme-monokai';
-    // import 'ace-builds/src-noconflict/theme-chrome';
-    // // import 'ace-builds/src-noconflict/mode/javascript';
-    
-    
-    // import * as ace from 'brace';
-    // import 'brace/mode/javascript';
-    // import 'brace/mode/html';
-    // import 'brace/mode/css';
-    // import 'brace/theme/monokai';
-    // import 'brace/theme/dracula';
-    // import 'brace/theme/vibrant_ink';
-    // import 'brace/theme/sqlserver';
-    // import 'brace/theme/chrome';
-    // import 'brace/ext/language_tools';
-    // import 'brace/snippets/javascript';
+  import * as prettier from 'prettier';
+  import parserBabel from "prettier/plugins/babel";
+  import parserHTML from "prettier/plugins/html";
+  import parserEstree from "prettier/plugins/estree";
+  import parserCSS from "prettier/plugins/postcss";
+
     
     import { filesLocalCopy, editorState, consolePanelState, consoleMessages } from './store';
     import { getFileLogoURL } from '$lib/utils'
@@ -26,11 +14,13 @@
     
     
     import { onMount } from 'svelte';
-    
+
     export let fileName = 'index.html'
     let mode = fileName.split('.')[1]
+    let parserMode = mode
     if(mode == 'js'){
       mode = 'javascript'
+      parserMode = 'babel'
     }
     if (mode == 'md'){
       mode = 'text'
@@ -45,6 +35,12 @@
     let editorTheme = "ace/theme/" + themeValue
     let editor
 
+
+    const formatOptions = {
+          parser: parserMode,
+          plugins: [ parserBabel, parserHTML, parserEstree, parserCSS ]
+        }
+
     onMount(async () => {
       const ace = await import('brace')
       //console.log(ace)
@@ -57,27 +53,17 @@
     // import 'brace/theme/sqlserver';
       await import('brace/theme/chrome');
       await import('brace/ext/language_tools');
-      // await import('brace/snippets/javascript');
-
-      // console.oldLog = console.log;
-        // console.log = function(value){
-        //     // console.oldLog(value);
-        //     typeof value === 'string' ? consoleMessages.push(value) : consoleMessages.push(JSON.stringify(value));
-        // };
-
-        // window.onerror = function (e) {
-        //     consoleMessages.push(e);
-        //     console.log(consoleMessages);
-        // }
-        
-
-
+      await import('brace/ext/beautify');
+     
         //ace.require("brace/ext/language_tools");
         editor = ace.edit(editor, {
             mode: modePath,
             selectionStyle: "text"    
         });
-        editor.setValue(editorText)
+
+        const formattedCode = await prettier.format(editorText, formatOptions)
+
+        editor.setValue(formattedCode)
         editor.getSession().setMode(modePath);
         editor.setTheme(editorTheme);
         editor.setOption("enableSnippets", false);
@@ -85,13 +71,25 @@
         editor.setOption("enableLiveAutocompletion", true);
         editor.session.setTabSize(2);
         editor.setReadOnly(readOnly);
-        editor.session.on('change', function(e) {
-            setTimeout(()=>{
-              updateFileData(fileName, editor.getValue()),
-              consoleMessages.set([])
+        editor.gotoLine(editor.session.getLength())
+        editor.session.on('change', function(e){
+            setTimeout(async ()=>{
+              const formattedCode = await prettier.format(editor.getValue(), formatOptions)
+              updateFileData(fileName, formattedCode);
+              consoleMessages.set([]);
+              
+              // editor.setValue(formattedCode)
             }, 500)
-        });      
+        });
+
+        
+
     })
+
+
+    
+
+    
 
     function updateFileData(fileNameLocal, value){
         for (let file of $filesLocalCopy){
@@ -160,6 +158,7 @@
                 <button class="smallMenuButton" on:click={paste}>paste</button>
                 <button class="smallMenuButton" on:click={()=>{editor.undo()}}>undo</button>
                 <button class="smallMenuButton" on:click={()=>{editor.redo()}}>redo</button>
+                <button class="smallMenuButton" on:click={async ()=>{const formattedCode = await prettier.format(editor.getValue(), formatOptions); editor.setValue(formattedCode)}}>prettify</button>
                 {#if mode==='javascript'}
                   <button class="smallMenuButton" on:click={()=>{consolePanelState.set(true)}}>console</button>
                 {/if}

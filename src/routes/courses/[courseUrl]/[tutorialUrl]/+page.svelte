@@ -104,7 +104,7 @@
     {/if}
     <div class='panelsContainer' on:pointerup={()=>{drag = false; console.log(drag)}}>
         
-        <div style='width: {filesPanelWidth}px; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$filesPanelDisplay}'>
+        <div style='width: {$width > 700 ? filesPanelWidth + 'px' : '100%'}; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$filesPanelDisplay}'>
             <FilesPanel files='{files}' projectName='{data.tutorial.heading}'/>
         </div>
 
@@ -116,7 +116,7 @@
         {/if}
     
         <div class='rightSideContainer' >
-        <div style='width: 100%; height: 100%; padding: 5px; box-sizing: border-box; z-index: 2;'on:pointerup={()=>{drag = false; console.log(drag)}}>
+        <div style='width: 100%; height: 100%; padding: 5px; box-sizing: border-box;' on:pointerup={()=>{drag = false; console.log(drag)}}>
             <ProjectPanel />
             <!-- <iframe srcDoc="{userSRCDoc}" style="width: 100%; height: calc({$height}px - 70px); border-radius: 15px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  /> -->
         </div>
