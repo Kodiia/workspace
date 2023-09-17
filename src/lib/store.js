@@ -19,3 +19,6 @@ export let editorState = writable(false)
 export let filesPanelState = writable(true), docsPanelState = writable(true), stepsPanelState = writable(true), resourcesPanelState = writable(true);
 export let filesPanelDisplay = writable('none')
 export let resourcesPanelDisplay = writable('none')
+
+export let selectedAsset = writable({})
+export let assetOptionsPanelDisplay = writable('none')

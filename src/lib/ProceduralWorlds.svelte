@@ -3,6 +3,7 @@
     import { OrbitControls, interactivity, InstancedMesh, Instance, useGltf, InstancedMeshes, GLTF } from '@threlte/extras'
 	import { scale } from 'svelte/transition';
 	import { Mesh, BufferGeometry, MeshStandardMaterial, AxesHelper, HemisphereLight } from 'three';
+    import { width, height, selectedAsset, assetOptionsPanelDisplay } from '$lib/store';
 	//import { InstancedMesh, PerspectiveCamera } from 'three';
     // import nakagin_wall from '$lib/models/nakagin_wall.glb'
 
@@ -86,7 +87,7 @@
 
 
     // let points = []
-    let cells = []
+    export let cells = []
     export let widthNum = 100
     export let depthNum = 10
     export let heightNum = 10
@@ -113,7 +114,7 @@
                         x: i,
                         y: k, 
                         z: j,
-                        thiscolor: 'white',
+                        thisColor: '#ffffff',
                         roofType: Math.floor(Math.random()*roofs.length),
                         xPosWallType: Math.floor(Math.random()*walls.length),
                         xNegWallType: Math.floor(Math.random()*walls.length),
@@ -136,7 +137,7 @@
                         x: i,
                         y: k, 
                         z: j,
-                        thiscolor: 'white',
+                        thisColor: '#ffffff',
                         roofType: Math.floor(Math.random()*roofs.length),
                         xPosWallType: Math.floor(Math.random()*walls.length),
                         xNegWallType: Math.floor(Math.random()*walls.length),
@@ -397,21 +398,61 @@
 
     updateWorld()
 
-    function removeElementfromPoints(i = 0, j = 0, k = 0){
+    export function removeElementfromPoints(){
         // for(let i=0; i<points.length; i++){
         //     if(points[i].x === x && points[i].y === y && points[i].z === z){
         //         console.log(points[i], x, y, z)
         //         points.splice(i, 1)
         //     }
         // }
-        console.log(cells[i][k][j])
-        cells[i][k][j].aliveNow = false
+        // console.log(cells[i][k][j])
+
+        const i = $selectedAsset.x
+        const j = $selectedAsset.y
+        const k = $selectedAsset.z
+        cells[i][j][k].aliveNow = false
+
+        console.log(cells[i][j][k].length)
     }
 
     function updateInstanceGeometry(){
 
     }
+
+    // let assetNumber = '0, 0, 0'
+    // let assetI = 0, assetJ = 0, assetK = 0
+    // export function getAssetData(){
+    //     let assetNumber = assetI + ', ' + assetJ + ', ' + assetK
+    //     // cells[i][j][k]
+
+    //     console.log(assetNumber)
+
+    //     return assetNumber
+    // }
+    // getAssetData()
+
+    export function setAssetColor(){
+        const i = $selectedAsset.x
+        const j = $selectedAsset.y
+        const k = $selectedAsset.z
+        cells[i][j][k].thisColor = $selectedAsset.thisColor
+        console.log($selectedAsset.thisColor)
+    }
+
+    export function setAssetPosition(){
+        const i = $selectedAsset.x
+        const j = $selectedAsset.y
+        const k = $selectedAsset.z
+        cells[i][j][k].x = $selectedAsset.x
+        cells[i][j][k].y = $selectedAsset.y
+        cells[i][j][k].z = $selectedAsset.z
+    }
+
+    // export let assetOptionsPanelDisplay = 'block'
+
+    // removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);
 </script>
+
 
 
 
@@ -449,7 +490,7 @@
 
             {#each cells as cellI}
                 {#each cellI as cellJ}
-                    {#each cellJ as {aliveNow, x, y, z, thiscolor, aliveNeighborXpos, aliveNeighborXneg, aliveNeighborYpos, aliveNeighborYneg, aliveNeighborZpos, aliveNeighborZneg, asset}}
+                    {#each cellJ as {aliveNow, x, y, z, thisColor, aliveNeighborXpos, aliveNeighborXneg, aliveNeighborYpos, aliveNeighborYneg, aliveNeighborZpos, aliveNeighborZneg, asset}}
                         {#if aliveNow && asset === i}
                         <Instance 
                             rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
@@ -457,10 +498,10 @@
                             position.x={x}
                             position.y={y}
                             position.z={z} 
-                            color = {thiscolor}
-                            on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
-                            on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
-                            on:pointerout={() => {thiscolor = 'white'}}
+                            color = {thisColor}
+                            on:click={(e) => {e.stopPropagation(); $assetOptionsPanelDisplay = 'block'; $selectedAsset = cells[e.intersections[0].object.position.x][e.intersections[0].object.position.y][e.intersections[0].object.position.z]; console.log($selectedAsset.thisColor) }}
+                            on:pointerover={(e) => {thisColor = '#ff00ff'; e.stopPropagation()}}
+                            on:pointerout={() => {thisColor = '#ffffff'}}
                         />
                             <!-- {#if aliveNeighborXpos || aliveNeighborXneg || aliveNeighborYpos || aliveNeighborYneg || aliveNeighborZpos || aliveNeighborZneg}
                                 
@@ -526,7 +567,3 @@
         
 
 {/if}
-
-
-
-

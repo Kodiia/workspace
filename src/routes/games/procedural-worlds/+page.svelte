@@ -1,18 +1,22 @@
 <script>
     import { Canvas } from '@threlte/core'
     import ProceduralWorlds from '$lib/ProceduralWorlds.svelte';
-    import { width, height } from '$lib/store'
+    import { width, height, selectedAsset, assetOptionsPanelDisplay } from '$lib/store'
     import { fade } from 'svelte/transition';
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
 
     let navMenuDisplay = 'none'
     let mobileMenuDisplay = 'none'
-    let optionsPanelDisplay = 'none'
-    let worldX, worldY, worldZ
+    let optionsPanelDisplay = 'block'
+    let worldX, worldY, worldZ, assetX, assetY, assetZ
     let x = 10, y = 10, z = 10
     let proceduralWorld
     let bgColor1, bgColor1Value = '#bdcdd9', bgColor2, bgColor2Value = '#6a82b4'
+
+    
+    let assetColor, assetColorValue = '#ffffff'
+
 
 
     function updateInputValue(name = 'x'){
@@ -23,6 +27,9 @@
                 }
         }
     }
+
+
+    let item
 
 </script>
 
@@ -81,7 +88,7 @@
     <button class="panelButton" on:click={()=>{optionsPanelDisplay = 'none';}} >    
         <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
     </button>
-    <h2 style='margin: 0 0 0 10px; height: 40px;'>Options</h2>
+    <h2 style='margin: 0 0 0 10px; height: 40px;'>World Options</h2>
     <div class='setupsContainer'>
     <div class='statisticsContainer' style='margin-top: 0px;'>
         <div class='setupsBlock'>
@@ -104,7 +111,7 @@
         </div>
 
         <div class='setupsBlock'>
-            <h3>Background color</h3>
+            <h3 style='margin-top: 0px;'>Background color</h3>
             <p>Setup the background color</p>
             <div class='colorInputsGroup'>
                 <div class='colorInputContainer'>
@@ -118,11 +125,58 @@
             </div>
         </div>
 
-        <button on:click={proceduralWorld.updateWorld()} style='margin: 0 0 0 10px;'>Create new world</button>
+        <button on:click={proceduralWorld.updateWorld()} style='margin: 20px 0 0 10px;'>Create new world</button>
     </div>
     <div class='challengesContainer'>
     </div>
     </div>
+</div>
+
+
+<div class='assetOptionsPanel' style='display: {$assetOptionsPanelDisplay}; width: {$width > 700 ? "400px" : "calc(100% - 10px)"}; height: calc({$height}px - 60px);'>
+    <button class="panelButton" on:click={()=>{$assetOptionsPanelDisplay = 'none';}} >    
+        <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
+    </button>
+    
+
+    <!-- <button on:click={()=>{item = proceduralWorld.getAssetData(); console.log(proceduralWorld.getAssetData())}} style='margin: 0 0 0 10px;'>Create new world</button> -->
+    <h2 style='margin: 0 0 0 10px; height: 40px;'>Asset Options</h2>
+    <div class='setupsContainer'>
+    <div class='setupsBlock'>
+        <h3 style='margin-top: 0px;'>Asset Position</h3>
+        <p>Change position of the asset</p>
+        <div class='inputsGroup'>
+            <div class='inputContainer'>
+                <label for='xSize'>X</label>
+                <input name='xSize' bind:this={assetX} id='xSize' type='text' value={$selectedAsset.x} on:change={()=>{$selectedAsset.x = parseInt(assetX.value); $selectedAsset.x > 20 ? $selectedAsset.x = 20 : $selectedAsset.x = $selectedAsset.x; $selectedAsset.x < 0 ? $selectedAsset.x = 0 : $selectedAsset.x = $selectedAsset.x; assetX.value = $selectedAsset.x; proceduralWorld.setAssetPosition()}} />
+            </div>
+            <div class='inputContainer'>
+                <label for='ySize'>Y</label>
+                <input name='ySize' bind:this={assetY} id='ySize' type='text' value={$selectedAsset.z} on:change={()=>{$selectedAsset.z = parseInt(assetY.value); $selectedAsset.z > 20 ? $selectedAsset.z = 20 : $selectedAsset.z = $selectedAsset.z; $selectedAsset.z < 0 ? $selectedAsset.z = 1 : $selectedAsset.z = $selectedAsset.z; assetY.value = $selectedAsset.z; proceduralWorld.setAssetPosition()}} />
+            </div>
+            <div class='inputContainer'>
+                <label for='zSize'>Z</label>
+                <input name='zSize' bind:this={assetZ} id='zSize' type='text' value={$selectedAsset.y} on:change={()=>{$selectedAsset.y = parseInt(assetZ.value); $selectedAsset.y > 20 ? $selectedAsset.y = 20 : $selectedAsset.y = $selectedAsset.y; $selectedAsset.y < 0 ? $selectedAsset.y = 0 : $selectedAsset.y = $selectedAsset.y; assetZ.value = $selectedAsset.y; proceduralWorld.setAssetPosition()}} />
+            </div>
+        </div>
+    </div>
+
+    <div class='setupsBlock'>
+        <h3 style='margin-top: 0px;'>Asset color</h3>
+        <p>Change color of the asset</p>
+        <div class='colorInputsGroup'>
+            <div class='colorInputContainer'>
+                <label for='color1'>{$selectedAsset.thisColor}</label>
+                <input bind:this={assetColor} name='assetColor' id='assetColor' type='color' value='{$selectedAsset.thisColor}' on:change={()=>{$selectedAsset.thisColor = assetColor.value; assetColorValue = assetColor.value; proceduralWorld.setAssetColor()}} />
+            </div>
+        </div>
+    </div>
+
+
+    <button on:click={proceduralWorld.removeElementfromPoints()} style='margin: 20px 0 0 10px;'>Remove Asset</button>
+
+    </div>
+
 </div>
 
 
@@ -169,7 +223,7 @@
         background: none;
         transform: scale(1.1);
     }
-    .optionsPanel{
+    .optionsPanel, .assetOptionsPanel{
         width: 400px;
         margin: 5px;
         height: 100%;
@@ -183,6 +237,9 @@
         overflow: hidden;
         box-sizing: border-box;
         z-index: 2;
+    }
+    .assetOptionsPanel{
+        right: 0;
     }
     .setupsContainer{
         overflow-y: scroll;
@@ -249,7 +306,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, 100px);
         grid-gap: 10px;
-        margin-bottom: 20px;
+        /* margin-bottom: 20px; */
     }
     .inputContainer{
         display: flex;
@@ -259,7 +316,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, 150px);
         grid-gap: 10px;
-        margin-bottom: 20px;
+        /* margin-bottom: 20px; */
     }    
     .colorInputContainer{
         display: flex;
