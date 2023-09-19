@@ -20,5 +20,6 @@ export let filesPanelState = writable(true), docsPanelState = writable(true), st
 export let filesPanelDisplay = writable('none')
 export let resourcesPanelDisplay = writable('none')
 
+export let worldData = writable({})
 export let selectedAsset = writable({})
 export let assetOptionsPanelDisplay = writable('none')

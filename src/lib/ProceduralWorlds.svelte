@@ -3,7 +3,7 @@
     import { OrbitControls, interactivity, InstancedMesh, Instance, useGltf, InstancedMeshes, GLTF } from '@threlte/extras'
 	import { scale } from 'svelte/transition';
 	import { Mesh, BufferGeometry, MeshStandardMaterial, AxesHelper, HemisphereLight } from 'three';
-    import { width, height, selectedAsset, assetOptionsPanelDisplay } from '$lib/store';
+    import { width, height, selectedAsset, assetOptionsPanelDisplay, worldData } from '$lib/store';
 	//import { InstancedMesh, PerspectiveCamera } from 'three';
     // import nakagin_wall from '$lib/models/nakagin_wall.glb'
 
@@ -58,30 +58,6 @@
         
     }
     loadModels()
-    // loadModels().then(result => {
-    //     modelsLoaded = true
-    //     updateWorld()
-    //     console.log(modelsLoaded, assets, result)
-    // })
-
-    // const nakagin_wall = useGltf('/nakagin_wall.glb').then(result => {
-    //     loadedWallModels++
-    //     walls.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
-    //     console.log(walls[0].geometry)
-    // })
-    // const nakagin_wall_no_window = useGltf('/nakagin_wall_no_window.glb').then(result => {
-    //     loadedWallModels++
-    //     walls.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
-    //     roofs.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
-    //     console.log(walls[0].geometry)
-    // })
-
-
-    // const nakagin_roof = useGltf('/nakagin_roof.glb')
-    
-    // let meshes = [
-    //     new Mesh(nakagin_wall.scene.children[0].geometry, nakagin_wall.scene.children[0].material)
-    // ]
 
     let thescale = 1.0
     let color = 'white'
@@ -93,8 +69,6 @@
     export let widthNum = 100
     export let depthNum = 10
     export let heightNum = 10
-
-    console.log('width: ' + widthNum)
 
     function generateCells(widthNum, depthNum, heightNum){
     for(let i=0; i<widthNum; i++){
@@ -402,6 +376,10 @@
                 }
             }
         }
+
+        $worldData = {
+            assetsNumber: assetsData.length
+        }
     }
 
     export function updateWorld(){
@@ -435,21 +413,7 @@
         assetsData = [...assetsData]
     }
 
-    function updateInstanceGeometry(){
 
-    }
-
-    // let assetNumber = '0, 0, 0'
-    // let assetI = 0, assetJ = 0, assetK = 0
-    // export function getAssetData(){
-    //     let assetNumber = assetI + ', ' + assetJ + ', ' + assetK
-    //     // cells[i][j][k]
-
-    //     console.log(assetNumber)
-
-    //     return assetNumber
-    // }
-    // getAssetData()
 
     export function setAssetColor(){
         for (let asset of assetsData){
@@ -513,10 +477,6 @@
 
 <T.HemisphereLight args={['white', 'skyblue', 3]}/>
 
-<!-- <T.Mesh >
-   <T.BoxGeometry args={[1, 1, 1]} />
-   <T.MeshBasicMaterial color="red" />
-</T.Mesh> -->
 
 
 

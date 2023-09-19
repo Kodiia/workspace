@@ -1,7 +1,7 @@
 <script>
     import { Canvas } from '@threlte/core'
     import ProceduralWorlds from '$lib/ProceduralWorlds.svelte';
-    import { width, height, selectedAsset, assetOptionsPanelDisplay } from '$lib/store'
+    import { width, height, selectedAsset, assetOptionsPanelDisplay, worldData } from '$lib/store'
     import { fade } from 'svelte/transition';
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
@@ -91,6 +91,9 @@
     <h2 style='margin: 0 0 0 10px; height: 40px;'>World Options</h2>
     <div class='setupsContainer'>
     <div class='statisticsContainer' style='margin-top: 0px;'>
+
+        <p style='margin-left: 10px;'>Assets number: {$worldData.assetsNumber}</p>
+        
         <div class='setupsBlock'>
             <h3 style='margin-top: 0px;'>World size</h3>
             <p>Minimal size is 1 and maximum is 20 in every direction</p>
@@ -185,7 +188,7 @@
         <p>Change color of the asset</p>
         <div class='colorInputsGroup'>
             <div class='colorInputContainer'>
-                <label for='color1'>{$selectedAsset.assetColor}</label>
+                <label for='assetColor'>{$selectedAsset.assetColor}</label>
                 <input bind:this={assetColor} name='assetColor' id='assetColor' type='color' value='{$selectedAsset.assetColor}' on:change={()=>{$selectedAsset.assetColor = assetColor.value; assetColorValue = assetColor.value; proceduralWorld.setAssetColor()}} />
             </div>
         </div>
