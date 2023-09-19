@@ -7,6 +7,8 @@
 	//import { InstancedMesh, PerspectiveCamera } from 'three';
     // import nakagin_wall from '$lib/models/nakagin_wall.glb'
 
+    interactivity()
+
 
     let selectedModels = [
         {
@@ -83,7 +85,7 @@
 
     let thescale = 1.0
     let color = 'white'
-    interactivity()
+    
 
 
     let assetsData = []
@@ -386,7 +388,7 @@
             for(let j=0; j<cells[i].length; j++){
                 for(let k=0; k<cells[i][j].length; k++){  
                     if(cells[i][j][k].aliveNow){
-                        assetsData.push({
+                        assetsData = [...assetsData, {
                             x: cells[i][j][k].x,
                             y: cells[i][j][k].y,
                             z: cells[i][j][k].z,
@@ -395,7 +397,7 @@
                             rotZ: Math.PI/2,
                             assetColor: cells[i][j][k].thisColor,
                             assetType: cells[i][j][k].asset
-                        })
+                        }]
                     }
                 }
             }
@@ -429,20 +431,8 @@
                 assetsData.splice(i, 1)
             }
         }
-        // for(let i=0; i<points.length; i++){
-        //     if(points[i].x === x && points[i].y === y && points[i].z === z){
-        //         console.log(points[i], x, y, z)
-        //         points.splice(i, 1)
-        //     }
-        // }
-        // console.log(cells[i][k][j])
 
-        // const i = $selectedAsset.x
-        // const j = $selectedAsset.y
-        // const k = $selectedAsset.z
-        // cells[i][j][k].aliveNow = false
-
-        // console.log(cells[i][j][k].length)
+        assetsData = [...assetsData]
     }
 
     function updateInstanceGeometry(){
@@ -462,16 +452,12 @@
     // getAssetData()
 
     export function setAssetColor(){
-        // const i = $selectedAsset.x
-        // const j = $selectedAsset.y
-        // const k = $selectedAsset.z
-        // cells[i][j][k].thisColor = $selectedAsset.thisColor
-        // console.log($selectedAsset.thisColor)
         for (let asset of assetsData){
             if(asset.x === $selectedAsset.x && asset.y === $selectedAsset.y && asset.z === $selectedAsset.z){
                 asset.assetColor = $selectedAsset.assetColor
             }
         }
+        assetsData = [...assetsData]
     }
 
     export function setAssetPosition(){
@@ -482,6 +468,7 @@
                 asset.z = $selectedAsset.z
             }
         }
+        assetsData = [...assetsData]
     }
 
     export function setAssetRotation(){
@@ -493,6 +480,7 @@
                 asset.rotZ = $selectedAsset.rotZ
             }
         }
+        assetsData = [...assetsData]
     }
 
     function selectAsset(x, y, z){
