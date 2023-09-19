@@ -21,7 +21,7 @@
         }
     ]
 
-    let assets = []
+    let assetsMeshes = []
     let loadedAssets = 0
     let modelsLoaded = false
 
@@ -49,7 +49,7 @@
                     // }
                     loadedAssets++
                     // assets.push(new Mesh(result.scene.children[0].geometry, result.scene.children[0].material))
-                    assets = [...assets, new Mesh(result.scene.children[0].geometry, result.scene.children[0].material)]
+                    assetsMeshes = [...assetsMeshes, new Mesh(result.scene.children[0].geometry, result.scene.children[0].material)]
                 }
             )
         }
@@ -86,7 +86,7 @@
     interactivity()
 
 
-    // let points = []
+    let assetsData = []
     export let cells = []
     export let widthNum = 100
     export let depthNum = 10
@@ -377,7 +377,29 @@
                     cells[i][j][k].aliveNow = cells[i][j][k].aliveNext
                 }
             }
+        }
     }
+
+    function getAssetsData(){
+        assetsData = []
+        for(let i=0; i<cells.length; i++){
+            for(let j=0; j<cells[i].length; j++){
+                for(let k=0; k<cells[i][j].length; k++){  
+                    if(cells[i][j][k].aliveNow){
+                        assetsData.push({
+                            x: cells[i][j][k].x,
+                            y: cells[i][j][k].y,
+                            z: cells[i][j][k].z,
+                            rotX: 0,
+                            rotY: Math.floor(Math.random()*4) * Math.PI/2,
+                            rotZ: Math.PI/2,
+                            assetColor: cells[i][j][k].thisColor,
+                            assetType: cells[i][j][k].asset
+                        })
+                    }
+                }
+            }
+        }
     }
 
     export function updateWorld(){
@@ -394,11 +416,19 @@
             cellIsAliveNextGeneration()
         }
 
+        getAssetsData()
+
     }
 
     updateWorld()
 
     export function removeElementfromPoints(){
+
+        for (let i = 0; i < assetsData.length; i++){
+            if(assetsData[i].x === $selectedAsset.x && assetsData[i].y === $selectedAsset.y && assetsData[i].z === $selectedAsset.z){
+                assetsData.splice(i, 1)
+            }
+        }
         // for(let i=0; i<points.length; i++){
         //     if(points[i].x === x && points[i].y === y && points[i].z === z){
         //         console.log(points[i], x, y, z)
@@ -407,12 +437,12 @@
         // }
         // console.log(cells[i][k][j])
 
-        const i = $selectedAsset.x
-        const j = $selectedAsset.y
-        const k = $selectedAsset.z
-        cells[i][j][k].aliveNow = false
+        // const i = $selectedAsset.x
+        // const j = $selectedAsset.y
+        // const k = $selectedAsset.z
+        // cells[i][j][k].aliveNow = false
 
-        console.log(cells[i][j][k].length)
+        // console.log(cells[i][j][k].length)
     }
 
     function updateInstanceGeometry(){
@@ -432,20 +462,47 @@
     // getAssetData()
 
     export function setAssetColor(){
-        const i = $selectedAsset.x
-        const j = $selectedAsset.y
-        const k = $selectedAsset.z
-        cells[i][j][k].thisColor = $selectedAsset.thisColor
-        console.log($selectedAsset.thisColor)
+        // const i = $selectedAsset.x
+        // const j = $selectedAsset.y
+        // const k = $selectedAsset.z
+        // cells[i][j][k].thisColor = $selectedAsset.thisColor
+        // console.log($selectedAsset.thisColor)
+        for (let asset of assetsData){
+            if(asset.x === $selectedAsset.x && asset.y === $selectedAsset.y && asset.z === $selectedAsset.z){
+                asset.assetColor = $selectedAsset.assetColor
+            }
+        }
     }
 
     export function setAssetPosition(){
-        const i = $selectedAsset.x
-        const j = $selectedAsset.y
-        const k = $selectedAsset.z
-        cells[i][j][k].x = $selectedAsset.x
-        cells[i][j][k].y = $selectedAsset.y
-        cells[i][j][k].z = $selectedAsset.z
+        for (let asset of assetsData){
+            if(asset.x === $selectedAsset.x && asset.y === $selectedAsset.y && asset.z === $selectedAsset.z){
+                asset.x = $selectedAsset.x
+                asset.y = $selectedAsset.y
+                asset.z = $selectedAsset.z
+            }
+        }
+    }
+
+    export function setAssetRotation(){
+        console.log($selectedAsset)
+        for (let asset of assetsData){
+            if(asset.x === $selectedAsset.x && asset.y === $selectedAsset.y && asset.z === $selectedAsset.z){
+                asset.rotX = $selectedAsset.rotX
+                asset.rotY = $selectedAsset.rotY
+                asset.rotZ = $selectedAsset.rotZ
+            }
+        }
+    }
+
+    function selectAsset(x, y, z){
+        let selectedAsset
+        for (let asset of assetsData){
+            if(asset.x === x && asset.y === y && asset.z === z){
+                selectedAsset = asset
+            }
+        }
+        return selectedAsset
     }
 
     // export let assetOptionsPanelDisplay = 'block'
@@ -483,87 +540,27 @@
 
 {#if loadedAssets > 0}
 
-    {#each assets as asset, i}
+    {#each assetsMeshes as assetMesh, i}
         <InstancedMesh >
-            <T is={asset.geometry} />
-            <T is={asset.material} />
+            <T is={assetMesh.geometry} />
+            <T is={assetMesh.material} />
 
-            {#each cells as cellI}
-                {#each cellI as cellJ}
-                    {#each cellJ as {aliveNow, x, y, z, thisColor, aliveNeighborXpos, aliveNeighborXneg, aliveNeighborYpos, aliveNeighborYneg, aliveNeighborZpos, aliveNeighborZneg, asset}}
-                        {#if aliveNow && asset === i}
-                        <Instance 
-                            rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
-                            rotation.z={Math.PI/2}    
-                            position.x={x}
-                            position.y={y}
-                            position.z={z} 
-                            color = {thisColor}
-                            on:click={(e) => {e.stopPropagation(); $assetOptionsPanelDisplay = 'block'; $selectedAsset = cells[e.intersections[0].object.position.x][e.intersections[0].object.position.y][e.intersections[0].object.position.z]; console.log($selectedAsset.thisColor) }}
-                            on:pointerover={(e) => {thisColor = '#ff00ff'; e.stopPropagation()}}
-                            on:pointerout={() => {thisColor = '#ffffff'}}
-                        />
-                            <!-- {#if aliveNeighborXpos || aliveNeighborXneg || aliveNeighborYpos || aliveNeighborYneg || aliveNeighborZpos || aliveNeighborZneg}
-                                
-                                    <Instance 
-                                        rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
-                                        rotation.z={Math.PI/2}
-                                        
-                                        position.x={x}
-                                        position.y={y}
-                                        position.z={z} 
-                                        color = {thiscolor}
-                                        on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
-                                        on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
-                                        on:pointerout={() => {thiscolor = 'white'}}
-                                    />
-                                
-                            {/if} -->
-
-                            <!-- {#if aliveNeighborYpos === false}
-                                <Instance 
-                                position.x={x}
-                                position.y={y}
-                                position.z={z} />
-                            {/if} -->
-                        {/if}
-                    {/each}
-                {/each}
+            {#each assetsData as asset}
+                {#if asset.assetType === i}
+                    <Instance 
+                        rotation.x={asset.rotX}
+                        rotation.y={asset.rotY}
+                        rotation.z={asset.rotZ}    
+                        position.x={asset.x}
+                        position.y={asset.y}
+                        position.z={asset.z} 
+                        color = {asset.assetColor}
+                        on:click={(e) => {e.stopPropagation(); $assetOptionsPanelDisplay = 'block'; $selectedAsset = selectAsset(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log($selectedAsset) }}
+                        on:pointerover={(e) => {asset.assetColor = '#ff00ff'; e.stopPropagation()}}
+                        on:pointerout={() => {asset.assetColor = '#ffffff'}}
+                    />
+                {/if}
             {/each}
         </InstancedMesh>
-{/each}
-        <!-- <InstancedMesh >
-            <T is={assets[1].geometry} />
-            <T is={assets[1].material} />
-
-            {#each cells as cellI}
-                {#each cellI as cellJ}
-                    {#each cellJ as {aliveNow, x, y, z, thiscolor, aliveNeighborXpos, aliveNeighborXneg, aliveNeighborYpos, aliveNeighborYneg, aliveNeighborZpos, aliveNeighborZneg, asset}}
-                        {#if aliveNow}
-                            {#if aliveNeighborXpos || aliveNeighborXneg || aliveNeighborYpos || aliveNeighborYneg || aliveNeighborZpos || aliveNeighborZneg}
-                                {#if asset === 1}
-                                    <Instance 
-                                        rotation.y={Math.floor(Math.random()*4) * Math.PI/2}
-                                        rotation.z={Math.PI/2}
-                                        
-                                        position.x={x}
-                                        position.y={y}
-                                        position.z={z} 
-                                        color = {thiscolor}
-                                        on:click={(e) => {e.stopPropagation(); removeElementfromPoints(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z);}}
-                                        on:pointerover={(e) => {thiscolor = 'pink'; e.stopPropagation()}}
-                                        on:pointerout={() => {thiscolor = 'white'}}
-                                    />
-                                {/if}
-                            {/if}
-
-
-                        {/if}
-                    {/each}
-                {/each}
-            {/each}
-        </InstancedMesh> -->
-
-        
-
+    {/each}
 {/if}
