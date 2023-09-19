@@ -1,13 +1,30 @@
 <script lang="ts">
-    import { T } from '@threlte/core'
+    import { T, useFrame } from '@threlte/core'
     import { OrbitControls, interactivity, InstancedMesh, Instance, useGltf, InstancedMeshes, GLTF } from '@threlte/extras'
 	import { scale } from 'svelte/transition';
 	import { Mesh, BufferGeometry, MeshStandardMaterial, AxesHelper, HemisphereLight } from 'three';
     import { width, height, selectedAsset, assetOptionsPanelDisplay, worldData } from '$lib/store';
+
+    import { spring } from 'svelte/motion'
 	//import { InstancedMesh, PerspectiveCamera } from 'three';
     // import nakagin_wall from '$lib/models/nakagin_wall.glb'
 
     interactivity()
+
+    let rotation = 0
+    useFrame((state, delta) => {
+        // rotation += delta
+
+        for (let asset of assetsData){
+            if(asset.loop != ''){
+                try {
+                    eval(asset.loop);
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+    })
 
 
     let selectedModels = [
@@ -370,7 +387,8 @@
                             rotY: Math.floor(Math.random()*4) * Math.PI/2,
                             rotZ: Math.PI/2,
                             assetColor: cells[i][j][k].thisColor,
-                            assetType: cells[i][j][k].asset
+                            assetType: cells[i][j][k].asset,
+                            loop: ''
                         }]
                     }
                 }
@@ -447,7 +465,7 @@
         assetsData = [...assetsData]
     }
 
-    function selectAsset(x, y, z){
+    function selectAsset(x = 0, y = 0, z = 0){
         let selectedAsset
         for (let asset of assetsData){
             if(asset.x === x && asset.y === y && asset.z === z){
@@ -455,6 +473,13 @@
             }
         }
         return selectedAsset
+    }
+
+    function rotateY(num = 1){
+        let asset = selectAsset($selectedAsset.x, $selectedAsset.y, $selectedAsset.z)
+        asset.rotY += num
+
+        assetsData = [...assetsData]
     }
 
     // export let assetOptionsPanelDisplay = 'block'

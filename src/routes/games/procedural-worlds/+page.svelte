@@ -1,6 +1,7 @@
 <script>
     import { Canvas } from '@threlte/core'
     import ProceduralWorlds from '$lib/ProceduralWorlds.svelte';
+    import WorldsCodeEditor from '$lib/WorldsCodeEditor.svelte';
     import { width, height, selectedAsset, assetOptionsPanelDisplay, worldData } from '$lib/store'
     import { fade } from 'svelte/transition';
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
@@ -9,7 +10,7 @@
     let navMenuDisplay = 'none'
     let mobileMenuDisplay = 'none'
     let optionsPanelDisplay = 'block'
-    let worldX, worldY, worldZ, assetX, assetY, assetZ, assetXRot, assetYRot, assetZRot
+    let worldX, worldY, worldZ, assetX, assetY, assetZ, assetXRot, assetYRot, assetZRot, assetLoop
     let x = 10, y = 10, z = 10
     let proceduralWorld
     let bgColor1, bgColor1Value = '#bdcdd9', bgColor2, bgColor2Value = '#6a82b4'
@@ -194,6 +195,21 @@
         </div>
     </div>
 
+    <div class='setupsBlock'>
+        <h3 style='margin-top: 0px;'>Behavior</h3>
+        <p>Change behavior of the asset</p>
+        <!-- <div class='inputsGroup'>
+            <div class='inputContainer'>
+                <label for='assetLoop'>function loop()</label>
+                <input bind:this={assetLoop} name='assetLoop' id='assetLoop' type='text' value='{$selectedAsset.loop}' on:change={()=>{$selectedAsset.loop = assetLoop.value; }} />
+            </div>
+        </div> -->
+
+        <div style='height: 200px'>
+            <WorldsCodeEditor fileName='script.js' readOnly='{false}' editorText='{$selectedAsset.loop}'/>
+        </div>
+    </div>
+
 
     <button on:click={proceduralWorld.removeElementfromPoints()} style='margin: 20px 0 0 10px;'>Remove Asset</button>
 
@@ -255,7 +271,7 @@
         backdrop-filter: blur(40px);
         -webkit-backdrop-filter: blur(40px);
         border-radius: 10px;
-        padding: 10px;
+        padding: 10px 5px 10px 0;
         overflow: hidden;
         box-sizing: border-box;
         z-index: 2;
@@ -270,7 +286,7 @@
         position: relative;
     }
     .setupsBlock{
-        margin: 10px;
+        margin: 10px 5px;
         padding: 10px;
         background: #fdfdfd;
         border-radius: 10px;
