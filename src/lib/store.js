@@ -21,5 +21,12 @@ export let filesPanelDisplay = writable('none')
 export let resourcesPanelDisplay = writable('none')
 
 export let worldData = writable({})
-export let selectedAsset = writable({})
+export let selectedAsset = writable({
+    color: "#ffffff",
+    id: 0,
+    position: {x: 0, y: 0, z: 0},
+    rotation: {x: 0, y: 0, z: 0},
+    type: 1,
+    userLoopCode: ""
+})
 export let assetOptionsPanelDisplay = writable('none')

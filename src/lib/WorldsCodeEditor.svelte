@@ -28,13 +28,15 @@
       }
       let logoPath = getFileLogoURL(fileName.split('.')[1])
       export let readOnly = false
-      export let editorText = "//Type your code here"
+      export let editorText = ''
       let modePath = "ace/mode/" + mode
       let editorName = mode.toUpperCase()
       // export let fileIndex = 0
       let themeValue = "chrome"
       let editorTheme = "ace/theme/" + themeValue
       let editor
+
+      
   
   
       const formatOptions = {
@@ -61,6 +63,9 @@
               mode: modePath,
               selectionStyle: "text"    
           });
+
+          
+          console.log('text on mount', editorText)
   
           const formattedCode = await prettier.format(editorText, formatOptions)
   
@@ -76,17 +81,29 @@
           editor.session.on('change', function(e){
               setTimeout(async ()=>{
                 const formattedCode = await prettier.format(editor.getValue(), formatOptions)
-                $selectedAsset.loop = formattedCode
+                $selectedAsset.userLoopCode = formattedCode
                 // updateFileData(fileName, formattedCode);
+                // console.log('editor code', $selectedAsset.loop)
+
                 consoleMessages.set([]);
                 
                 // editor.setValue(formattedCode)
               }, 500)
           });
+
+
+          // selectedAsset.subscribe( (value) => {
+          //   editor.setValue($selectedAsset.loop)
+          // })
   
           
   
       })
+
+
+      export function updateEditorCodeWithSelectedAssetData(){
+        editor.setValue($selectedAsset.userLoopCode)
+      }
   
   
       

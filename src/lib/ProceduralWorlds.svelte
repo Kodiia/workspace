@@ -4,27 +4,44 @@
 	import { scale } from 'svelte/transition';
 	import { Mesh, BufferGeometry, MeshStandardMaterial, AxesHelper, HemisphereLight } from 'three';
     import { width, height, selectedAsset, assetOptionsPanelDisplay, worldData } from '$lib/store';
-
     import { spring } from 'svelte/motion'
 	//import { InstancedMesh, PerspectiveCamera } from 'three';
     // import nakagin_wall from '$lib/models/nakagin_wall.glb'
 
     interactivity()
 
-    let rotation = 0
+    const lib = [
+        'let rotateY = function(num = 0) { object.rotation.y += num; };'
+    ]
+
+
     useFrame((state, delta) => {
         // rotation += delta
 
         for (let asset of assetsData){
-            if(asset.loop != ''){
+            if(asset.userLoopCode != ''){
                 try {
-                    eval(asset.loop);
+                    //eval(asset.loop)
+                    const executeUserCode = new Function("object",  [...lib] + asset.userLoopCode);
+                    executeUserCode.call(asset, asset);
+                    assetsData = [...assetsData]
                 } catch (error) {
                     console.error(error);
                 }
             }
         }
     })
+
+    class Object3D {
+        constructor(id = 0, type = 0, position = {}, rotation = {}, color = 'white') {
+            this.id = id;
+            this.type = type;
+            this.position = position;
+            this.rotation = rotation;
+            this.color = color;
+            this.userLoopCode = ''; // Store user-generated code here
+        }
+    }
 
 
     let selectedModels = [
@@ -375,21 +392,30 @@
 
     function getAssetsData(){
         assetsData = []
+        let idNumber = 0
         for(let i=0; i<cells.length; i++){
             for(let j=0; j<cells[i].length; j++){
                 for(let k=0; k<cells[i][j].length; k++){  
                     if(cells[i][j][k].aliveNow){
-                        assetsData = [...assetsData, {
-                            x: cells[i][j][k].x,
-                            y: cells[i][j][k].y,
-                            z: cells[i][j][k].z,
-                            rotX: 0,
-                            rotY: Math.floor(Math.random()*4) * Math.PI/2,
-                            rotZ: Math.PI/2,
-                            assetColor: cells[i][j][k].thisColor,
-                            assetType: cells[i][j][k].asset,
-                            loop: ''
-                        }]
+                        assetsData = [...assetsData, 
+                        new Object3D(
+                            idNumber,
+                            cells[i][j][k].asset,
+                            {x: cells[i][j][k].x, y: cells[i][j][k].y, z: cells[i][j][k].z},
+                            {x: 0, y: 0, z: 0},
+                            cells[i][j][k].thisColor
+                            // x: cells[i][j][k].x,
+                            // y: cells[i][j][k].y,
+                            // z: cells[i][j][k].z,
+                            // rotX: 0,
+                            // rotY: Math.floor(Math.random()*4) * Math.PI/2,
+                            // rotZ: Math.PI/2,
+                            // assetColor: cells[i][j][k].thisColor,
+                            // assetType: cells[i][j][k].asset,
+                            // loop: ''
+                        )
+                    ]
+                        idNumber++
                     }
                 }
             }
@@ -398,6 +424,8 @@
         $worldData = {
             assetsNumber: assetsData.length
         }
+
+        //console.log(assetsData)
     }
 
     export function updateWorld(){
@@ -423,7 +451,7 @@
     export function removeElementfromPoints(){
 
         for (let i = 0; i < assetsData.length; i++){
-            if(assetsData[i].x === $selectedAsset.x && assetsData[i].y === $selectedAsset.y && assetsData[i].z === $selectedAsset.z){
+            if(assetsData[i].position.x === $selectedAsset.position.x && assetsData[i].position.y === $selectedAsset.position.y && assetsData[i].position.z === $selectedAsset.position.z){
                 assetsData.splice(i, 1)
             }
         }
@@ -435,8 +463,8 @@
 
     export function setAssetColor(){
         for (let asset of assetsData){
-            if(asset.x === $selectedAsset.x && asset.y === $selectedAsset.y && asset.z === $selectedAsset.z){
-                asset.assetColor = $selectedAsset.assetColor
+            if(asset.position.x === $selectedAsset.position.x && asset.position.y === $selectedAsset.position.y && asset.position.z === $selectedAsset.position.z){
+                asset.color = $selectedAsset.color
             }
         }
         assetsData = [...assetsData]
@@ -444,10 +472,10 @@
 
     export function setAssetPosition(){
         for (let asset of assetsData){
-            if(asset.x === $selectedAsset.x && asset.y === $selectedAsset.y && asset.z === $selectedAsset.z){
-                asset.x = $selectedAsset.x
-                asset.y = $selectedAsset.y
-                asset.z = $selectedAsset.z
+            if(asset.position.x === $selectedAsset.position.x && asset.position.y === $selectedAsset.position.y && asset.position.z === $selectedAsset.position.z){
+                asset.position.x = $selectedAsset.position.x
+                asset.position.y = $selectedAsset.position.y
+                asset.position.z = $selectedAsset.position.z
             }
         }
         assetsData = [...assetsData]
@@ -456,10 +484,10 @@
     export function setAssetRotation(){
         console.log($selectedAsset)
         for (let asset of assetsData){
-            if(asset.x === $selectedAsset.x && asset.y === $selectedAsset.y && asset.z === $selectedAsset.z){
-                asset.rotX = $selectedAsset.rotX
-                asset.rotY = $selectedAsset.rotY
-                asset.rotZ = $selectedAsset.rotZ
+            if(asset.position.x === $selectedAsset.position.x && asset.position.y === $selectedAsset.position.y && asset.position.z === $selectedAsset.position.z){
+                asset.rotation.x = $selectedAsset.rotation.x
+                asset.rotation.y = $selectedAsset.rotation.y
+                asset.rotation.z = $selectedAsset.rotation.z
             }
         }
         assetsData = [...assetsData]
@@ -468,16 +496,17 @@
     function selectAsset(x = 0, y = 0, z = 0){
         let selectedAsset
         for (let asset of assetsData){
-            if(asset.x === x && asset.y === y && asset.z === z){
+            if(asset.position.x === x && asset.position.y === y && asset.position.z === z){
                 selectedAsset = asset
             }
         }
         return selectedAsset
     }
 
-    function rotateY(num = 1){
-        let asset = selectAsset($selectedAsset.x, $selectedAsset.y, $selectedAsset.z)
-        asset.rotY += num
+    function rotateY(id = $selectedAsset.id, num = 1){
+        // let asset = selectAsset($selectedAsset.x, $selectedAsset.y, $selectedAsset.z)
+        // asset.rotY += num
+        assetsData[id].rotY += num
 
         assetsData = [...assetsData]
     }
@@ -519,18 +548,18 @@
             <T is={assetMesh.material} />
 
             {#each assetsData as asset}
-                {#if asset.assetType === i}
+                {#if asset.type === i}
                     <Instance 
-                        rotation.x={asset.rotX}
-                        rotation.y={asset.rotY}
-                        rotation.z={asset.rotZ}    
-                        position.x={asset.x}
-                        position.y={asset.y}
-                        position.z={asset.z} 
-                        color = {asset.assetColor}
-                        on:click={(e) => {e.stopPropagation(); $assetOptionsPanelDisplay = 'block'; $selectedAsset = selectAsset(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log($selectedAsset) }}
-                        on:pointerover={(e) => {asset.assetColor = '#ff00ff'; e.stopPropagation()}}
-                        on:pointerout={() => {asset.assetColor = '#ffffff'}}
+                        rotation.x={asset.rotation.x}
+                        rotation.y={asset.rotation.y}
+                        rotation.z={asset.rotation.z}    
+                        position.x={asset.position.x}
+                        position.y={asset.position.y}
+                        position.z={asset.position.z} 
+                        color = {asset.color}
+                        on:click={(e) => {e.stopPropagation(); $assetOptionsPanelDisplay = 'block'; $selectedAsset = selectAsset(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log($selectedAsset.userLoopCode);  }}
+                        on:pointerover={(e) => {asset.color = '#ff00ff'; e.stopPropagation()}}
+                        on:pointerout={() => {asset.color = '#ffffff'}}
                     />
                 {/if}
             {/each}

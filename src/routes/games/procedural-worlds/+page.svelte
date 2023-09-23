@@ -2,11 +2,12 @@
     import { Canvas } from '@threlte/core'
     import ProceduralWorlds from '$lib/ProceduralWorlds.svelte';
     import WorldsCodeEditor from '$lib/WorldsCodeEditor.svelte';
-    import { width, height, selectedAsset, assetOptionsPanelDisplay, worldData } from '$lib/store'
+    import { width, height, selectedAsset, assetOptionsPanelDisplay, worldData, consoleMessages } from '$lib/store'
     import { fade } from 'svelte/transition';
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
 
+    let worldsCodeEditor
     let navMenuDisplay = 'none'
     let mobileMenuDisplay = 'none'
     let optionsPanelDisplay = 'block'
@@ -17,6 +18,12 @@
 
     
     let assetColor, assetColorValue = '#ffffff'
+    let editorLoopValue = $selectedAsset.userLoopCode; 
+    selectedAsset.subscribe( value => {
+        editorLoopValue = value.userLoopCode
+        //console.log(editorLoopValue, $selectedAsset.userLoopCode)
+    })
+    
 
 
 
@@ -32,7 +39,15 @@
 
     let item
 
+    function handleMessage(response){
+        if(response.data ){
+           $consoleMessages = [...$consoleMessages, response.data.message];
+        }
+    }
+
 </script>
+
+<svelte:window on:message={handleMessage} />
 
 <nav>
     {#if $width > 700}
@@ -145,22 +160,24 @@
 
     <!-- <button on:click={()=>{item = proceduralWorld.getAssetData(); console.log(proceduralWorld.getAssetData())}} style='margin: 0 0 0 10px;'>Create new world</button> -->
     <h2 style='margin: 0 0 0 10px; height: 40px;'>Asset Options</h2>
+
     <div class='setupsContainer'>
+        <p style='margin-left: 10px;'>id: {$selectedAsset.id}</p> 
     <div class='setupsBlock'>
         <h3 style='margin-top: 0px;'>Position</h3>
         <p>Change position of the asset</p>
         <div class='inputsGroup'>
             <div class='inputContainer'>
                 <label for='xPos'>X</label>
-                <input name='xPos' bind:this={assetX} id='xPos' type='text' value={$selectedAsset.x} on:change={()=>{$selectedAsset.x = parseInt(assetX.value); console.log(assetX.value); $selectedAsset.x > 20 ? $selectedAsset.x = 20 : $selectedAsset.x = $selectedAsset.x; $selectedAsset.x < 0 ? $selectedAsset.x = 0 : $selectedAsset.x = $selectedAsset.x; assetX.value = $selectedAsset.x; proceduralWorld.setAssetPosition()}} />
+                <input name='xPos' bind:this={assetX} id='xPos' type='text' value={$selectedAsset.position.x} on:change={()=>{$selectedAsset.position.x = parseInt(assetX.value); $selectedAsset.position.x > 20 ? $selectedAsset.position.x = 20 : $selectedAsset.position.x = $selectedAsset.position.x; $selectedAsset.position.x < 0 ? $selectedAsset.position.x = 0 : $selectedAsset.position.x = $selectedAsset.position.x; assetX.value = $selectedAsset.position.x; proceduralWorld.setAssetPosition()}} />
             </div>
             <div class='inputContainer'>
                 <label for='yPos'>Y</label>
-                <input name='yPos' bind:this={assetY} id='yPos' type='text' value={$selectedAsset.y} on:change={()=>{$selectedAsset.y = parseInt(assetY.value); $selectedAsset.y > 20 ? $selectedAsset.y = 20 : $selectedAsset.y = $selectedAsset.y; $selectedAsset.y < 0 ? $selectedAsset.y = 0 : $selectedAsset.y = $selectedAsset.y; assetY.value = $selectedAsset.y; proceduralWorld.setAssetPosition()}} />
+                <input name='yPos' bind:this={assetY} id='yPos' type='text' value={$selectedAsset.position.y} on:change={()=>{$selectedAsset.position.y = parseInt(assetY.value); $selectedAsset.position.y > 20 ? $selectedAsset.position.y = 20 : $selectedAsset.position.y = $selectedAsset.position.y; $selectedAsset.position.y < 0 ? $selectedAsset.position.y = 0 : $selectedAsset.position.y = $selectedAsset.position.y; assetY.value = $selectedAsset.position.y; proceduralWorld.setAssetPosition()}} />
             </div>
             <div class='inputContainer'>
                 <label for='zPos'>Z</label>
-                <input name='zPos' bind:this={assetZ} id='zPos' type='text' value={$selectedAsset.z} on:change={()=>{$selectedAsset.z = parseInt(assetZ.value); $selectedAsset.z > 20 ? $selectedAsset.z = 20 : $selectedAsset.z = $selectedAsset.z; $selectedAsset.z < 0 ? $selectedAsset.z = 1 : $selectedAsset.z = $selectedAsset.z; assetZ.value = $selectedAsset.z; proceduralWorld.setAssetPosition()}} />
+                <input name='zPos' bind:this={assetZ} id='zPos' type='text' value={$selectedAsset.position.z} on:change={()=>{$selectedAsset.position.z = parseInt(assetZ.value); $selectedAsset.position.z > 20 ? $selectedAsset.position.z = 20 : $selectedAsset.position.z = $selectedAsset.position.z; $selectedAsset.position.z < 0 ? $selectedAsset.position.z = 1 : $selectedAsset.position.z = $selectedAsset.position.z; assetZ.value = $selectedAsset.position.z; proceduralWorld.setAssetPosition()}} />
             </div>
         </div>
     </div>
@@ -171,15 +188,15 @@
         <div class='inputsGroup'>
             <div class='inputContainer'>
                 <label for='xRot'>X</label>
-                <input name='xRot' bind:this={assetXRot} id='xRot' type='text' value={Math.floor(($selectedAsset.rotX * 180)/Math.PI)} on:change={()=>{$selectedAsset.rotX = parseInt(assetXRot.value) * Math.PI / 180; proceduralWorld.setAssetRotation()}} />
+                <input name='xRot' bind:this={assetXRot} id='xRot' type='text' value={Math.floor(($selectedAsset.rotation.x * 180)/Math.PI)} on:change={()=>{$selectedAsset.rotation.x = parseInt(assetXRot.value) * Math.PI / 180; proceduralWorld.setAssetRotation()}} />
             </div>
             <div class='inputContainer'>
                 <label for='yRot'>Y</label>
-                <input name='yRot' bind:this={assetYRot} id='yRot' type='text' value={Math.floor(($selectedAsset.rotY * 180)/Math.PI)} on:change={()=>{$selectedAsset.rotY = parseInt(assetYRot.value) * Math.PI / 180; proceduralWorld.setAssetRotation()}} />
+                <input name='yRot' bind:this={assetYRot} id='yRot' type='text' value={Math.floor(($selectedAsset.rotation.y * 180)/Math.PI)} on:change={()=>{$selectedAsset.rotation.y = parseInt(assetYRot.value) * Math.PI / 180; proceduralWorld.setAssetRotation()}} />
             </div>
             <div class='inputContainer'>
                 <label for='zRot'>Z</label>
-                <input name='zRot' bind:this={assetZRot} id='zRot' type='text' value={Math.floor(($selectedAsset.rotZ * 180)/Math.PI)} on:change={()=>{$selectedAsset.rotZ = parseInt(assetZRot.value) * Math.PI / 180; proceduralWorld.setAssetRotation()}} />
+                <input name='zRot' bind:this={assetZRot} id='zRot' type='text' value={Math.floor(($selectedAsset.rotation.z * 180)/Math.PI)} on:change={()=>{$selectedAsset.rotation.z = parseInt(assetZRot.value) * Math.PI / 180; proceduralWorld.setAssetRotation()}} />
             </div>
         </div>
     </div>
@@ -189,8 +206,8 @@
         <p>Change color of the asset</p>
         <div class='colorInputsGroup'>
             <div class='colorInputContainer'>
-                <label for='assetColor'>{$selectedAsset.assetColor}</label>
-                <input bind:this={assetColor} name='assetColor' id='assetColor' type='color' value='{$selectedAsset.assetColor}' on:change={()=>{$selectedAsset.assetColor = assetColor.value; assetColorValue = assetColor.value; proceduralWorld.setAssetColor()}} />
+                <label for='assetColor'>{$selectedAsset.color}</label>
+                <input bind:this={assetColor} name='assetColor' id='assetColor' type='color' value='{$selectedAsset.color}' on:change={()=>{$selectedAsset.color = assetColor.value; assetColorValue = assetColor.value; proceduralWorld.setAssetColor()}} />
             </div>
         </div>
     </div>
@@ -201,12 +218,12 @@
         <!-- <div class='inputsGroup'>
             <div class='inputContainer'>
                 <label for='assetLoop'>function loop()</label>
-                <input bind:this={assetLoop} name='assetLoop' id='assetLoop' type='text' value='{$selectedAsset.loop}' on:change={()=>{$selectedAsset.loop = assetLoop.value; }} />
+                <input bind:this={assetLoop} name='assetLoop' id='assetLoop' type='text' value='{$selectedAsset.userLoopCode}' on:change={()=>{$selectedAsset.userLoopCode = assetLoop.value; }} />
             </div>
         </div> -->
 
         <div style='height: 200px'>
-            <WorldsCodeEditor fileName='script.js' readOnly='{false}' editorText='{$selectedAsset.loop}'/>
+            <WorldsCodeEditor bind:this={worldsCodeEditor} fileName='script.js' readOnly='{false}' type='loop( )' editorText='{editorLoopValue}'/>
         </div>
     </div>
 
@@ -218,8 +235,9 @@
 </div>
 
 
-<div class='container' style='width: {$width}px; height: {$height}px; background: linear-gradient({bgColor1Value}, {bgColor2Value});'>
-    <Canvas>
+
+<div on:click={()=>{worldsCodeEditor.updateEditorCodeWithSelectedAssetData()}} on:keydown={worldsCodeEditor.updateEditorCodeWithSelectedAssetData()} role='button' tabindex='0' class='container' style='width: {$width}px; height: {$height}px; background: linear-gradient({bgColor1Value}, {bgColor2Value});'>
+    <Canvas >
         <ProceduralWorlds bind:this={proceduralWorld} widthNum = {x} depthNum = {z} heightNum = {y}/>
     </Canvas>
 </div>
