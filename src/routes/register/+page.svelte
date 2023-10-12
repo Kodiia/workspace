@@ -33,7 +33,7 @@ let password = ''
 
 <style>
     .container{
-        width: min(400px, 100%);
+        width: min(400px, calc(100% - 10px));
         padding: 10px;
         background: linear-gradient(45deg, #ffffff50, #ffffff90);
         backdrop-filter: blur(25px);

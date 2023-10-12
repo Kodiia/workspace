@@ -29,4 +29,14 @@ export let selectedAsset = writable({
     type: 1,
     userLoopCode: ""
 })
+export let worldSelectedAssets = writable([
+    {
+        type: 'asset',
+        number: 0,
+        url: '/nakagin_capsule_center.glb',
+        state: 'selected'
+    },
+])
+
+export let loadedAssetsNumber = writable(0)
 export let assetOptionsPanelDisplay = writable('none')
