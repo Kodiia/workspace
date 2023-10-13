@@ -65,7 +65,7 @@
           });
 
           
-          console.log('text on mount', editorText)
+          //console.log('text on mount', editorText)
   
           const formattedCode = await prettier.format(editorText, formatOptions)
   
@@ -86,7 +86,7 @@
                 // console.log('editor code', $selectedAsset.loop)
 
                 consoleMessages.set([]);
-                
+                console.log($selectedAsset)
                 // editor.setValue(formattedCode)
               }, 500)
           });

@@ -11,6 +11,7 @@
 
     interactivity()
 
+
     useFrame((state, delta) => {
         // rotation += delta
 
@@ -18,7 +19,7 @@
             if(asset.userLoopCode != ''){
                 try {
                     //eval(asset.loop)
-                    const executeUserCode = new Function("object",  [...lib] + asset.userLoopCode);
+                    const executeUserCode = new Function("object",  [...lib].join('\n') + asset.userLoopCode);
                     executeUserCode.call(asset, asset);
                     assetsData = [...assetsData]
                 } catch (error) {
