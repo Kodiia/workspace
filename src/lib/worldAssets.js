@@ -15,11 +15,25 @@ export let availableAssets = [
         type: 'asset',
         number: 1,
         name: 'capsule2',
-        url: '/nakagin_capsule_center_green.glb',
+        url: '/nakagin_capsule_color.glb',
         state: 'notSelected',
         selected: false,
         color: 'green',
-        rotation: {x: 0, y: Math.PI/2 * Math.floor(Math.random()*4), z: 0}
+        getRotation(){
+            return {x: 0, y: Math.PI/2 * Math.floor(Math.random()*4), z: 0}
+        }
+    },
+    {
+        type: 'asset',
+        number: 2,
+        name: 'capsule3',
+        url: '/nakagin_capsule_color_pink_trees.glb',
+        state: 'notSelected',
+        selected: false,
+        color: 'pink',
+        getRotation(){
+            return {x: 0, y: Math.PI/2 * Math.floor(Math.random()*4), z: 0}
+        }
     }
 ]
 

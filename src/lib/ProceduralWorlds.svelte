@@ -98,6 +98,7 @@
                 }
             }
         }
+        $worldData.assetsNumber = assetsData.length
     }
 
     //getAssetsData()
