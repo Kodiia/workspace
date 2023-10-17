@@ -53,7 +53,7 @@
                     asset.mesh = new Mesh(result.scene.children[0].geometry, result.scene.children[0].material)
                 }
         )
-        console.log(asset)
+        // console.log(asset)
     }
 
     for(let asset of availableAssets){
@@ -81,14 +81,16 @@
             for(let j=0; j<cells[i].length; j++){
                 for(let k=0; k<cells[i][j].length; k++){  
                     if(cells[i][j][k].aliveNow){
+                        let selectedAssetNumber = Math.floor(Math.random() * assets.length)
+                        // console.log(assets[selectedAssetNumber].getRotation().y)
                         assetsData = [...assetsData, 
                         new Object3D(
                             idNumber,
-                            cells[i][j][k].asset,
+                            assets[selectedAssetNumber].name,
                             {x: cells[i][j][k].x, y: cells[i][j][k].y, z: cells[i][j][k].z},
-                            {x: 0, y: 0, z: 0},
+                            availableAssets[selectedAssetNumber].getRotation(),
                             'white',
-                            assets.length > 0 ? assets[Math.floor(Math.random() * assets.length)].name : ''
+                            assets[selectedAssetNumber].name
                         )
                     ]
                         idNumber++
@@ -98,7 +100,7 @@
         }
     }
 
-    getAssetsData()
+    //getAssetsData()
 
     function selectAsset(x = 0, y = 0, z = 0){
         let selectedAsset

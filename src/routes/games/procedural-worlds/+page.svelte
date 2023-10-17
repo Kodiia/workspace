@@ -1,6 +1,6 @@
 <script>
     import { Canvas } from '@threlte/core'
-    import TestProceduralWorlds from '$lib/TestProceduralWorlds.svelte';
+    import ProceduralWorlds from '$lib/ProceduralWorlds.svelte';
     import WorldsCodeEditor from '$lib/WorldsCodeEditor.svelte';
     import { width, height, selectedAsset, assetOptionsPanelDisplay, worldData, consoleMessages, worldSelectedAssets, loadedAssetsNumber } from '$lib/store';
     import { availableAssets } from '$lib/worldAssets';
@@ -32,7 +32,7 @@
     function addAsset(number = 0){
         availableAssets[number].selected = true
         selectedAssets.push(availableAssets[number])
-        availableAssets = availableAssets
+        //availableAssets = availableAssets
         selectedAssets = selectedAssets
         $worldSelectedAssets = selectedAssets
     }
@@ -44,7 +44,7 @@
                 selectedAssets.splice(i, 1)
             }
         }
-        availableAssets = availableAssets
+        //availableAssets = availableAssets
         selectedAssets = selectedAssets
         $worldSelectedAssets = selectedAssets
     }
@@ -266,7 +266,7 @@ on:click={()=>{
     worldsCodeEditor.updateEditorCodeWithSelectedAssetData()
     }} role='button' tabindex='0' class='container' style='width: {$width}px; height: {$height}px; background: linear-gradient({bgColor1Value}, {bgColor2Value});'>
     <Canvas >
-        <TestProceduralWorlds bind:this={proceduralWorld} assets = {selectedAssets}/>
+        <ProceduralWorlds bind:this={proceduralWorld} assets = {selectedAssets}/>
     </Canvas>
 </div>
 
