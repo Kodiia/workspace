@@ -43,10 +43,11 @@ export async function load({locals, params}){
                         course: getCourseName(),
                         tutorials: getTutorials()
                     }
-                } else {
-                    // throw redirect(303, '/')
-                    throw error(500, 'Access denied');
                 } 
+                // else {
+                //     // throw redirect(303, '/')
+                //     throw error(500, 'Access denied');
+                // } 
             }
         } else {
             // throw redirect(303, '/')
