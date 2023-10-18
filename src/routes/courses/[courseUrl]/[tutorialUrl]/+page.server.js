@@ -59,10 +59,11 @@ export async function load ({ locals, fetch, params}) {
                 console.log(specialCourse, course.items[0].url)
                   if(specialCourse === course.items[0].url){
                     return serializeNonPOJOs(project)
-                  } else {
-                      // throw redirect(303, '/')
-                      throw error(500, 'Access denied');
                   } 
+                  // else {
+                  //     // throw redirect(303, '/')
+                  //     throw error(500, 'Access denied');
+                  // } 
               }
           } else {
             // throw redirect(303, '/')
