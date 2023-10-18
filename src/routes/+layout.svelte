@@ -36,8 +36,10 @@
 
 <style>
     .layout-container{
+        position: absolute;
+        top: 0;
         width: 100%;
-        min-height: 100vh;
+        min-height: 100%;
         /* height: 100vh;
         overflow: hidden; */
         box-sizing: border-box;

@@ -1,5 +1,6 @@
 <script>
 let password = ''
+let emailField, emailValue = ''
 </script>
 <div class='container'>
     <h2>Get started for free</h2>
@@ -10,7 +11,7 @@ let password = ''
         <label for='email' class='formLabel'>
             <span class='labelSpan'>email</span>
         </label>
-        <input type='email' name='email' class='formInput' />
+        <input type='email' bind:this={emailField} name='email' class='formInput' on:change={()=>{emailValue = emailField.value; emailField.value = emailValue.toLowerCase()}}/>
     </div>
     <div class='formFieldContainer'>
         <label for='password' class='formLabel'>

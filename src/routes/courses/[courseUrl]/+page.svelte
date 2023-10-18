@@ -10,6 +10,7 @@
     let courseName = data.course.items[0].heading
     let courseDescription = data.course.items[0].description
     let courseType = data.course.items[0].type
+    let courseImageUrl = data.course.items[0].imageUrl
 </script>
 
 <div class='container'>
@@ -35,8 +36,8 @@
 
 
 <div class='tutorial-cards-container' style='margin-top: 60px; grid-template-columns: {$width > 900 ? 'repeat(auto-fit, minmax(300px, 1fr))' : '1fr'}'>
-    <div class='descriptionCard' style='grid-column: {$width > 900 ? '1/4' : '1/1'};'>
-        <h2>{courseName}</h2>
+    <div class='descriptionCard' style='background-image: url({courseImageUrl}); grid-column: {$width > 900 ? '1/4' : '1/1'};'>
+        <h2 style='width: {$width > 900 ? '50%' : 'auto'}'>{courseName}</h2>
         <p style='width: {$width > 900 ? '50%' : 'auto'}'>{courseDescription}</p>
     </div>
     {#each tutorials as tutorial}
@@ -125,6 +126,10 @@
     }
     .descriptionCard h2{
         margin-top: 0;
+        color: #f9f9f9;
+        background: #1a1a1a;
+        padding: 10px;
+        border-radius: 10px;
     }
     .descriptionCard p{
         width: 50%;
