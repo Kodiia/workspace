@@ -1,10 +1,14 @@
+import capsule_white_axo from '$lib/images/games/worlds/images/capsule_white_axo.webp'
+import capsule_color_axo from '$lib/images/games/worlds/images/capsule_color_axo.webp'
+import capsule_color_pink_axo from '$lib/images/games/worlds/images/capsule_color_pink_axo.webp'
+
 export let availableAssets = [
     {
         type: 'asset',
         number: 0,
         name: 'capsule1',
         url: '/nakagin_capsule_white.glb',
-        imageUrl: '/worlds/images/capsule_white_axo.webp',
+        imageUrl: capsule_white_axo,
         state: 'selected',
         selected: true,
         color: 'red',
@@ -17,7 +21,7 @@ export let availableAssets = [
         number: 1,
         name: 'capsule2',
         url: '/nakagin_capsule_color.glb',
-        imageUrl: '/worlds/images/capsule_color_axo.webp',
+        imageUrl: capsule_color_axo,
         state: 'notSelected',
         selected: false,
         color: 'green',
@@ -30,7 +34,7 @@ export let availableAssets = [
         number: 2,
         name: 'capsule3',
         url: '/nakagin_capsule_color_pink_trees.glb',
-        imageUrl: '/worlds/images/capsule_color_pink_axo.webp',
+        imageUrl: capsule_color_pink_axo,
         state: 'notSelected',
         selected: false,
         color: 'pink',
@@ -40,4 +44,4 @@ export let availableAssets = [
     }
 ]
 
-console.log(availableAssets[0].getRotation())
+// console.log(availableAssets[0].getRotation())
