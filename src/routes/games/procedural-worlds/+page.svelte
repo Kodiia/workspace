@@ -7,7 +7,7 @@
     import { availableAssets } from '$lib/worldAssets';
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
-    import capsule_white_axo from '$lib/games/worlds/images/capsule_white_axo.webp'
+    
 
     let navMenuDisplay = 'none'
     let mobileMenuDisplay = 'none'
