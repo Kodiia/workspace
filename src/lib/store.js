@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { availableAssets } from './worldAssets';
 
 export let bgColor = writable('195, 48%, 95%');
 export let stylesPanelState = writable(false);
@@ -21,6 +22,7 @@ export let filesPanelDisplay = writable('none')
 export let resourcesPanelDisplay = writable('none')
 
 export let worldData = writable({})
+export let selectedAssets = writable([availableAssets[0]])
 export let selectedAsset = writable({
     color: "#ffffff",
     id: 0,

@@ -1,6 +1,6 @@
 <script>
     import { T, useFrame } from '@threlte/core'
-    import { OrbitControls, interactivity, InstancedMesh, Instance, useGltf, InstancedMeshes, GLTF } from '@threlte/extras'
+    import { OrbitControls, interactivity, InstancedMesh, Instance, useGltf, InstancedMeshes, GLTF, useCursor } from '@threlte/extras'
 	import { scale } from 'svelte/transition';
 	import { Mesh, BufferGeometry, MeshStandardMaterial, AxesHelper, HemisphereLight } from 'three';
     import { loadedAssetsNumber, width, height, selectedAsset, assetOptionsPanelDisplay, worldData, worldSelectedAssets } from '$lib/store';
@@ -14,6 +14,7 @@
 
     useFrame((state, delta) => {
         // rotation += delta
+        orbitControls.update()
 
         for (let asset of assetsData){
             if(asset.userLoopCode != ''){
@@ -29,6 +30,8 @@
         }
     })
 
+    const { onPointerEnter, onPointerLeave } = useCursor('pointer', 'default')
+
     class Object3D {
         constructor(id = 0, type = 0, position = {}, rotation = {}, color = 'white', name = '') {
             this.id = id;
@@ -43,12 +46,17 @@
 
 
     export let assets = []
+    let orbitCamerTargetPoint = [5,0,5]
 
     $loadedAssetsNumber = 0
 
     async function loadAsset(asset){
         let loadedModel = useGltf(asset.url).then(
                 result => {
+                    //result.scene.traverse(function(obj) { obj.frustumCulled = false; });
+                    // console.log(result.scene.traverse(function(obj) { obj.frustumCulled = false; }))
+                    result.scene.frustumCulled = true;
+                    console.log(result.scene.frustumCulled)
                     $loadedAssetsNumber++
                     asset.mesh = new Mesh(result.scene.children[0].geometry, result.scene.children[0].material)
                 }
@@ -89,7 +97,7 @@
                             assets[selectedAssetNumber].name,
                             {x: cells[i][j][k].x, y: cells[i][j][k].y, z: cells[i][j][k].z},
                             availableAssets[selectedAssetNumber].getRotation(),
-                            'white',
+                            '#ffffff',
                             assets[selectedAssetNumber].name
                         )
                     ]
@@ -99,6 +107,9 @@
             }
         }
         $worldData.assetsNumber = assetsData.length
+
+        orbitCamerTargetPoint = [x/1, y, z/1]
+        console.log(orbitCamerTargetPoint)
     }
 
     //getAssetsData()
@@ -159,23 +170,35 @@
     }
 
 
-
+let camera, orbitControls
 </script>
 
 <T.PerspectiveCamera
+bind:ref = {camera}
     makeDefault
-    position={[-10, 0 + 5, -10]}
+    position={[-5, 0 + 10, -5]}
     on:create={({ ref }) => {
-      ref.lookAt(0,0,0)
-    }}
+        ref.lookAt(5,5,5)
+      }}
+    near={0.01}
+    
 >
-<OrbitControls target={[0,0,0]}/>
+<OrbitControls
+maxDistance = {20}
+minDistance = {10}
+enableDamping
+bind:ref = {orbitControls}
+    on:change={(e) => {
+        //console.log(orbitControls)
+       // orbitControls.update()
+    }}
+/>
 </T.PerspectiveCamera>
 
 <T.HemisphereLight args={['white', 'skyblue', 3]}/>
 
 {#if $loadedAssetsNumber === availableAssets.length}
-    {#each availableAssets as availableAsset, i}
+    <!-- {#each availableAssets as availableAsset, i}
         <InstancedMesh 
         limit={10000}
         range={10000}
@@ -194,13 +217,41 @@
                         rotation.y={assetData.rotation.y}
                         rotation.z={assetData.rotation.z}
                         color = {assetData.color}
-                        on:click={(e) => {e.stopPropagation(); $assetOptionsPanelDisplay = 'block'; $selectedAsset = selectAsset(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log($selectedAsset.userLoopCode);  }}
-                        on:pointerover={(e) => {assetData.color = '#ff00ff'; e.stopPropagation()}}
+                        on:click={(e) => {e.stopPropagation(); $assetOptionsPanelDisplay = 'block'; $selectedAsset = selectAsset(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log($selectedAsset.userLoopCode, e);  }}
+                        on:pointerover={onPointerEnter}
+                        on:pointerleave={onPointerLeave}
                         />
                     {/if}
                 {/each}
             {/each}
         </InstancedMesh>
+    {/each} -->
+
+    {#each assets as asset}
+    <InstancedMesh 
+    limit={10000}
+    range={10000}
+    >
+        <T is={asset.mesh.geometry} />
+        <T is={asset.mesh.material} />
+
+        {#each assetsData as assetData}
+            {#if asset.name === assetData.name}
+                <Instance 
+                position.x = {assetData.position.x}
+                position.y = {assetData.position.y}
+                position.z = {assetData.position.z}
+                rotation.x={assetData.rotation.x}
+                rotation.y={assetData.rotation.y}
+                rotation.z={assetData.rotation.z}
+                color = {assetData.color}
+                on:click={(e) => {e.stopPropagation(); $assetOptionsPanelDisplay = 'block'; $selectedAsset = selectAsset(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log($selectedAsset.userLoopCode, e);  }}
+                on:pointerover={onPointerEnter}
+                on:pointerleave={onPointerLeave}
+                />
+            {/if}
+        {/each}
+    </InstancedMesh>
     {/each}
 
 {/if}
@@ -221,3 +272,21 @@
         {/each}
     </InstancedMesh>
 {/each} -->
+
+
+{#each assetsData as assetData}
+<!-- <T.Mesh 
+    position.x = {assetData.position.x}
+    position.y = {assetData.position.y}
+    position.z = {assetData.position.z}
+>
+    <T.BoxGeometry />
+    <T.MeshStandardMaterial />
+  </T.Mesh> -->
+
+  <!-- <GLTF 
+    url={'/nakagin_capsule_white-transformed.glb'}
+    useDraco = {true}
+    position = {[assetData.position.x,0,0]}
+  /> -->
+{/each}

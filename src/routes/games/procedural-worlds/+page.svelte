@@ -1,11 +1,13 @@
 <script>
     import { Canvas } from '@threlte/core'
     import ProceduralWorlds from '$lib/ProceduralWorlds.svelte';
+    import TestMiniWorlds from '$lib/TestMiniWorlds.svelte';
     import WorldsCodeEditor from '$lib/WorldsCodeEditor.svelte';
-    import { width, height, selectedAsset, assetOptionsPanelDisplay, worldData, consoleMessages, worldSelectedAssets, loadedAssetsNumber } from '$lib/store';
+    import { width, height, selectedAsset, selectedAssets, assetOptionsPanelDisplay, worldData, consoleMessages, worldSelectedAssets, loadedAssetsNumber } from '$lib/store';
     import { availableAssets } from '$lib/worldAssets';
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
+    import capsule_white_axo from '$lib/games/worlds/images/capsule_white_axo.webp'
 
     let navMenuDisplay = 'none'
     let mobileMenuDisplay = 'none'
@@ -27,26 +29,30 @@
 
     let worldsCodeEditor
 
-    let selectedAssets = []
+    //$selectedAssets = [...selectedAssets, availableAssets[0]]
 
     function addAsset(number = 0){
         availableAssets[number].selected = true
-        selectedAssets.push(availableAssets[number])
+        // selectedAssets.push(availableAssets[number])
+        $selectedAssets = [...$selectedAssets, availableAssets[number]]
         //availableAssets = availableAssets
-        selectedAssets = selectedAssets
-        $worldSelectedAssets = selectedAssets
+        $selectedAssets = $selectedAssets
+        console.log($selectedAssets)
+        $worldSelectedAssets = $selectedAssets
     }
 
     function removeAsset(number = 0, name = ''){
+        console.log('removing asset', $selectedAssets)
         availableAssets[number].selected = false
-        for (let i=0; i<selectedAssets.length; i++){
-            if(selectedAssets[i].name === name){
-                selectedAssets.splice(i, 1)
+        for (let i=0; i<$selectedAssets.length; i++){
+            if($selectedAssets[i].name === name){
+                $selectedAssets.splice(i, 1)
             }
         }
         //availableAssets = availableAssets
-        selectedAssets = selectedAssets
-        $worldSelectedAssets = selectedAssets
+        $selectedAssets = $selectedAssets
+        $worldSelectedAssets = $selectedAssets
+        console.log('removing asset', $selectedAssets)
     }
 </script>
 
@@ -117,7 +123,7 @@
     <div class='setupsContainer'>
     <div class='statisticsContainer' style='margin-top: 0px;'>
         <p style='margin-left: 10px;'>Assets number: {$worldData.assetsNumber}</p>
-        <!-- <p style='margin-left: 10px;'> assets loaded: {$loadedAssetsNumber}</p> -->
+        
         
         <div class='setupsBlock'>
             <h3 style='margin-top: 0px;'>World size</h3>
@@ -159,7 +165,9 @@
             <p>Choose assets to create the world with.</p>
             <div class='assetsGroup'>
                 {#each availableAssets as asset, i}
-                    <button on:click={()=>{availableAssets[i].selected === false ? addAsset( i ) : removeAsset( i, asset.name)}}> {asset.name} {i} {asset.selected}</button>
+                    <button class="assetContainer" style="background-image: url({asset.imageUrl}); border: {availableAssets[i].selected === false ? '2px solid #4233fb10' : '2px solid #4233fb'}" 
+                    on:click={()=>{console.log(availableAssets[i].selected); availableAssets[i].selected === false ? addAsset( i ) : removeAsset( i, asset.name)}}
+                    ><p>{i}</p></button>
                 {/each}
             </div>
         </div>
@@ -180,7 +188,7 @@
     </button>
     
 
-    <!-- <button on:click={()=>{item = proceduralWorld.getAssetData(); console.log(proceduralWorld.getAssetData())}} style='margin: 0 0 0 10px;'>Create new world</button> -->
+    
     <h2 style='margin: 0 0 0 10px; height: 40px;'>Asset Options</h2>
 
     <div class='setupsContainer'>
@@ -237,12 +245,6 @@
     <div class='setupsBlock'>
         <h3 style='margin-top: 0px;'>Behavior</h3>
         <p>Change behavior of the asset</p>
-        <!-- <div class='inputsGroup'>
-            <div class='inputContainer'>
-                <label for='assetLoop'>function loop()</label>
-                <input bind:this={assetLoop} name='assetLoop' id='assetLoop' type='text' value='{$selectedAsset.userLoopCode}' on:change={()=>{$selectedAsset.userLoopCode = assetLoop.value; }} />
-            </div>
-        </div> -->
 
         <div style='height: 200px'>
             <WorldsCodeEditor bind:this={worldsCodeEditor} fileName='script.js' readOnly='{false}' type='loop( )' editorText='{editorLoopValue}'/>
@@ -265,10 +267,17 @@ on:click={()=>{
     on:keydown={()=>{
     worldsCodeEditor.updateEditorCodeWithSelectedAssetData()
     }} role='button' tabindex='0' class='container' style='width: {$width}px; height: {$height}px; background: linear-gradient({bgColor1Value}, {bgColor2Value});'>
-    <Canvas >
+    <!-- <Canvas >
         <ProceduralWorlds bind:this={proceduralWorld} assets = {selectedAssets}/>
+        
+    </Canvas> -->
+
+    <Canvas >
+        <TestMiniWorlds bind:this={proceduralWorld}/>
     </Canvas>
 </div>
+
+
 
 
 <style>
@@ -347,13 +356,26 @@ on:click={()=>{
         /* margin-bottom: 20px; */
     }
     .assetContainer{
+        position: relative;
+        padding: 5px;
         width: 100px;
         height: 100px;
         border: 2px solid #4233fb10;
-        background: #ededed;
+        background: #4233fb05;
+        background-size: contain;
+        /* filter: contrast(1.5); */
     }
     .assetContainer:hover{
-        border: 2px solid #4233fb50;
+        background: #4233fb20;
+        background-size: contain;
+    }
+    .assetContainer p{
+        margin: 0 5px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: #4233fb;
+        font-size: 18px;
     }
     .setupsContainer{
         overflow-y: scroll;

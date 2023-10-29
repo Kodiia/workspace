@@ -86,7 +86,7 @@
                 // console.log('editor code', $selectedAsset.loop)
 
                 consoleMessages.set([]);
-                console.log($selectedAsset)
+                //console.log($selectedAsset)
                 // editor.setValue(formattedCode)
               }, 500)
           });

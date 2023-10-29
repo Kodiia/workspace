@@ -1,10 +1,3 @@
-// let cells = []
-
-// let widthNum = 10
-// let depthNum = 10
-// let heightNum = 10
-
-
 function generateCells(widthNum = 2, depthNum = 2, heightNum = 2){
     let cells = []
     for(let i=0; i<widthNum; i++){
@@ -35,7 +28,7 @@ function generateCells(widthNum = 2, depthNum = 2, heightNum = 2){
             }
         }
     }
-    console.log('generated CA world', cells)
+    // console.log('generated CA world', cells)
     return cells
 }
 
@@ -226,7 +219,7 @@ function cellIsAliveNextGeneration(cells){
             }
         }
     }
-    console.log('checking if cell is alive next gen', cells)
+    // console.log('checking if cell is alive next gen', cells)
 }
 
 function resetGeneration(cells){
@@ -237,13 +230,13 @@ function resetGeneration(cells){
             }
         }
     }
-    console.log('updating cell current state with next state', cells)
+    // console.log('updating cell current state with next state', cells)
 }
 
 
 export function updateWorld(widthNum = 10, depthNum = 10, heightNum = 10, gens = 3){
     let cells = generateCells(widthNum, depthNum, heightNum)
-    console.log('updating CA world', cells)
+    // console.log('updating CA world', cells)
     cellIsAliveNextGeneration(cells)
 
     for(let i = 0; i < gens; i++){
