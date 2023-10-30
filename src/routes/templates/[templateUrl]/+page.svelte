@@ -22,11 +22,25 @@
     let resizeHandle, resizeState = false
     
     function resize(event){
-        filesPanelWidth = event.clientX
+        filesPanelWidth = event.clientX + 10
         if (filesPanelWidth < 400){
             filesPanelWidth = 400
             resizeState = false
         }
+    }
+
+    function getProjectPanelWidth(){
+        let projectPanelWidth = $width - 10;
+        if($filesPanelDisplay === 'block'){
+            projectPanelWidth = $width - filesPanelWidth
+        }
+        if($resourcesPanelDisplay === 'block'){
+            projectPanelWidth = $width - 400
+        }
+        if($filesPanelDisplay === 'block' && $resourcesPanelDisplay === 'block'){
+            projectPanelWidth = $width - filesPanelWidth - 400
+        }
+        return projectPanelWidth
     }
 </script>
 
@@ -110,7 +124,7 @@
             <div class='resizeHandle' bind:this = {resizeHandle} on:pointerdown={(e)=>{ resizeState = true }}></div>
         {/if}
     
-        <div style='flex: 1.5; height: 100%; padding: 5px; box-sizing: border-box; margin-left: 0px;' >
+        <div style='flex: 1; height: 100%; padding: 5px; box-sizing: border-box; margin-left: 0px;' >
             <ProjectPanel />
         </div>
 
@@ -225,6 +239,9 @@
         height: 100px;
         background: #4233fb50;
         border-radius: 5px;
+        touch-action: none;
+        pointer-events: auto;
+        text-align: initial;
         /* display: flex;
         flex-direction: column;
         justify-content: space-between;
