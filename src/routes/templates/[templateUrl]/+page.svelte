@@ -19,9 +19,10 @@
     $: filesPanelWidth = $width / 3 
 
     console.log(data)
-    let resizeHandle, resizeState = false
+    let resizeHandle, resizeState = false, resizeCoverDiv
     
     function resize(event){
+        resizeCoverDiv.style.display = 'block'
         filesPanelWidth = event.clientX + 10
         if (filesPanelWidth < 400){
             filesPanelWidth = 400
@@ -44,7 +45,7 @@
     }
 </script>
 
-<svelte:window on:pointermove={(e)=>{if(resizeState){resize(e)}}} on:pointerup={()=>{resizeState = false}}/>
+<svelte:window on:pointermove={(e)=>{if(resizeState){resize(e)}}} on:pointerup={()=>{resizeState = false; resizeCoverDiv.style.display = 'none'}}/>
 
 <nav>
     {#if $width > 700}
@@ -124,7 +125,8 @@
             <div class='resizeHandle' bind:this = {resizeHandle} on:pointerdown={(e)=>{ resizeState = true }}></div>
         {/if}
     
-        <div style='flex: 1; height: 100%; padding: 5px; box-sizing: border-box; margin-left: 0px;' >
+        <div style='flex: 1; height: 100%; padding: 5px; box-sizing: border-box; margin-left: 0px; background: none; position: relative;' >
+            <div bind:this={resizeCoverDiv} style='position: absolute; z-index: 2; top: 5; left: 5; background: #00000005; border-radius: 15px; width: calc(100% - 10px); height: calc(100% - 10px);'></div>
             <ProjectPanel />
         </div>
 
