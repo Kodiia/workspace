@@ -116,7 +116,7 @@
                 <h3 style="margin-top: 0; margin-bottom: 5px;">{projectName}</h3>
             </div>
             {#if $editorState}
-                <div style='height: calc(100% - 3.7rem)'>
+                <div style='height: calc(100% - 55px); background: none;'>
                     <CodeEditor fileName='{$fileToOpen}' readOnly='{false}' editorText='{editorText}'/>
                 </div>
             {:else}

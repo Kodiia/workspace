@@ -10,7 +10,7 @@
     
 </script>
 
-<div class='panel' transition:fade>
+<div class='panel'>
     <button bind:this={button} class="panelButton" on:click={()=>{consolePanelState.set(false);}} >
         <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
     </button>
@@ -28,11 +28,11 @@
 
 <style>
     .panel{
-        position: absolute;
-        bottom: 0;
+        /* position: absolute;
+        bottom: 0; */
         box-sizing: border-box;
         width: 100%;
-        height: 130px;
+        height: 120px;
         background: #fdfdfd;
         background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
         backdrop-filter: blur(25px);

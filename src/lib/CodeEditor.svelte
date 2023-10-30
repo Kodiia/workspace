@@ -124,6 +124,7 @@
 
     
 <main transition:fade style="background: none; height: 100%;">
+  <div style='height: {$consolePanelState && mode==='javascript' && !readOnly ? 'calc(100% - 105px)' : 'calc(100% - 35px)'}; box-shadow: 0 0 10px #3d95ee50; border-radius: 15px; margin-bottom: 10px;'>
     <div class="editorMenu">
       {#if !readOnly}
         <button bind:this={button} class="panelButton" on:click={()=>{editorState.set(false);}} >
@@ -166,14 +167,16 @@
             </div>
         {/if}
     </div>
-    <div style='height: calc(100% - 35px); position: relative;'>
+    <div style='height: {$consolePanelState && mode==='javascript' && !readOnly ? 'calc(100% - 55px)' : 'calc(100% - 0px)'}; position: relative;'>
       <div bind:this={editor} class="editor" style="width: 100%; border-radius: 0 0 15px 15px;" ></div>
-        {#if $consolePanelState && mode==='javascript' && !readOnly}
-        <div style='position: absolute; bottom: 0; width: 100%;'>
+        
+    </div>
+  </div>
+    {#if $consolePanelState && mode==='javascript' && !readOnly}
+        <div style='width: 100%;'>
           <ConsolePanel />
         </div>
-        {/if}
-    </div>
+    {/if}
 </main>
     
 <style>
@@ -186,7 +189,7 @@
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px); */
       border-radius: 15px;
-      box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
+      /* box-shadow: 0 0 10px rgba(60, 150, 238, 0.2); */
       /* padding: 10px; */
       /* margin: 10px; */
       box-sizing: content-box;
