@@ -28,6 +28,7 @@
 
 <style>
     .panel{
+        position: relative;
         /* position: absolute;
         bottom: 0; */
         box-sizing: border-box;

@@ -123,7 +123,7 @@
 
 
     
-<main transition:fade style="background: none; height: 100%;">
+<main style="background: none; height: 100%;">
   <div style='height: {$consolePanelState && mode==='javascript' && !readOnly ? 'calc(100% - 105px)' : 'calc(100% - 35px)'}; box-shadow: 0 0 10px #3d95ee50; border-radius: 15px; margin-bottom: 10px;'>
     <div class="editorMenu">
       {#if !readOnly}
