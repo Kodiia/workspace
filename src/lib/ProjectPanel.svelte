@@ -3,6 +3,8 @@
 
     let userSRCDoc = ''
 
+    
+
     filesLocalCopy.subscribe(value => {
         // console.log('updated')
         userSRCDoc = `<html>
@@ -45,9 +47,11 @@
 
 </script>
 
-<svelte:window on:message={handleMessage} />
+<svelte:window on:message={handleMessage} on:pointerup={()=>{console.log('pointerup')}}/>
 
-<iframe srcDoc="{userSRCDoc}" style="width: 100%; height: 100%; border-radius: 15px; box-sizing: border-box;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  />
+<div style="width: 100%; height: 100%;" on:pointerup={()=>{console.log('pointerup')}}>
+    <iframe srcDoc="{userSRCDoc}" style="width: 100%; height: 100%; border-radius: 15px; box-sizing: border-box;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  />
+</div>
 
 <style>
     .userContainer {

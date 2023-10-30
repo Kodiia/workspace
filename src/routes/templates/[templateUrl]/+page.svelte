@@ -16,8 +16,21 @@
 
     let mobileMenuDisplay = 'none'
 
+    $: filesPanelWidth = $width / 3 
+
     console.log(data)
+    let resizeHandle, resizeState = false
+    
+    function resize(event){
+        filesPanelWidth = event.clientX
+        if (filesPanelWidth < 400){
+            filesPanelWidth = 400
+            resizeState = false
+        }
+    }
 </script>
+
+<svelte:window on:pointermove={(e)=>{if(resizeState){resize(e)}}} on:pointerup={()=>{resizeState = false}}/>
 
 <nav>
     {#if $width > 700}
@@ -87,16 +100,21 @@
     {/if}
     <div class='panelsContainer'>
         
-        <div style='width: 100%; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$filesPanelDisplay}'>
+        <div style='width: {$width > 700 ? filesPanelWidth + 'px' : '100%'}; position: {$width > 700 ? 'relative' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$filesPanelDisplay}'>
             <FilesPanel files='{files}' projectName='{data.template.name}'/>
-        </div>
-    
-        <div style='width: 100%; height: 100%; padding: 5px; box-sizing: border-box;'>
-            <ProjectPanel />
-            <!-- <iframe srcDoc="{userSRCDoc}" style="width: 100%; height: calc({$height}px - 70px); border-radius: 15px;" allow="accelerometer; camera; encrypted-media; display-capture; geolocation; gyroscope; microphone; midi; clipboard-read; clipboard-write; web-share" allowfullscreen="true" allowtransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" name="Kodiia workspace" loading="lazy" title="userDoc" class="userContainer"  /> -->
+
+            
         </div>
 
-        <div style='width: 100%; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$resourcesPanelDisplay};'>
+        {#if $width > 700 && $filesPanelDisplay === 'block'}
+            <div class='resizeHandle' bind:this = {resizeHandle} on:pointerdown={(e)=>{ resizeState = true }}></div>
+        {/if}
+    
+        <div style='flex: 1.5; height: 100%; padding: 5px; box-sizing: border-box; margin-left: 0px;' >
+            <ProjectPanel />
+        </div>
+
+        <div style='width: {$width > 700 ? '400px' : '100%'}; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$resourcesPanelDisplay};'>
             <ResourcesPanel steps='{data.template.hints}' mode='template' URLtoShare='{$page.url.href}' />
         </div>
 
@@ -116,7 +134,7 @@
         height: calc(100% - 50px);
         display: flex;
         align-items: center;
-        justify-content: center;
+        /* justify-content: center; */
         /* padding: 10px; */
         /* grid-auto-columns: 1fr; */
         /* display: grid;
@@ -201,4 +219,43 @@
         background: none;
         transform: scale(1.1);
     }
+    .resizeHandle{
+        /* flex: 0 0 20px; */
+        width: 5px;
+        height: 100px;
+        background: #4233fb50;
+        border-radius: 5px;
+        /* display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        background: none; */
+
+        /* position: absolute;
+        top: 0;
+		right: 0; */
+		/* margin-right: -20px; */
+		/* width: 20px;
+		height: 100%;
+		background: grey; */
+		cursor: ew-resize;
+    }
+    /* .resizeButton{
+        width: 20px;
+        height: 100px;
+        border: none;
+        border-radius: 10px;
+        background: #4233fb50;
+        color: #f9f9f9;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        touch-action: none;
+    }
+    .resizeButton:hover{
+        background: #4233fb;
+    } */
 </style>

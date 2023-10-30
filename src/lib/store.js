@@ -20,6 +20,7 @@ export let editorState = writable(false)
 export let filesPanelState = writable(true), docsPanelState = writable(true), stepsPanelState = writable(true), resourcesPanelState = writable(true);
 export let filesPanelDisplay = writable('none')
 export let resourcesPanelDisplay = writable('none')
+export let resizeState = writable(false)
 
 export let worldData = writable({})
 export let selectedAssets = writable([availableAssets[0]])
