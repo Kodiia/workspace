@@ -29,10 +29,14 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@codemirror/lang-javascript": "^6.2.1",
+		"@codemirror/lint": "github:codemirror/lint",
 		"@threlte/core": "^6.1.0",
 		"@threlte/extras": "^5.7.0",
 		"brace": "^0.11.1",
+		"codemirror": "^6.0.1",
 		"jszip": "^3.10.1",
+		"monaco-editor": "^0.44.0",
 		"node-fetch": "^3.3.2",
 		"pocketbase": "^0.16.0",
 		"three": "^0.155.0"

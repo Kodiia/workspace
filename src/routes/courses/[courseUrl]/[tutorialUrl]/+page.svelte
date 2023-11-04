@@ -105,7 +105,7 @@
     <div class='panelsContainer' on:pointerup={()=>{drag = false; console.log(drag)}}>
         
         <div style='width: {$width > 700 ? filesPanelWidth + 'px' : '100%'}; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$filesPanelDisplay}'>
-            <FilesPanel files='{files}' projectName='{data.tutorial.heading}'/>
+            <FilesPanel files='{files}' projectName='{data.tutorial.heading}' editorType = 'default'/>
         </div>
 
         {#if $width > 700 && $filesPanelDisplay === 'block'}

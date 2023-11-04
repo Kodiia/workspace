@@ -3,10 +3,13 @@
     import { filesLocalCopy, fileToOpen, editorState, width, height, leftPanelWidthSetByUser, filesPanelDisplay } from '$lib/store'
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
+    import CodeEditorMonaco from '$lib/CodeEditorMonaco.svelte';
+    import CodeEditorCodeMirror from '$lib/CodeEditorCodeMirror.svelte';
     import JSZip from 'jszip';
 
     export let files
     export let projectName
+    export let editorType = 'default'
 
     let editorText = 'hi'
     function getFileText(){
@@ -117,7 +120,12 @@
             </div>
             {#if $editorState}
                 <div style='height: calc(100% - 55px); background: none;'>
-                    <CodeEditor fileName='{$fileToOpen}' readOnly='{false}' editorText='{editorText}'/>
+                    {#if editorType === 'default'}
+                        <CodeEditor fileName='{$fileToOpen}' readOnly='{false}' editorText='{editorText}'/> 
+                    {:else}
+                        <CodeEditorMonaco fileName='{$fileToOpen}' readOnly='{false}' editorText='{editorText}'/> 
+                    <!--<CodeEditorCodeMirror /> -->
+                    {/if}
                 </div>
             {:else}
                 <p>Click files to open</p>

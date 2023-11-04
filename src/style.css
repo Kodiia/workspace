@@ -74,3 +74,20 @@ code{
     font-family: 'Source Code Pro', monospace !important;
     font-size: 1rem !important;
   }
+
+  .monaco-scrollable-element > .scrollbar > .slider{
+    border-radius: 15px;
+    background: #4233fb50 !important;
+  }
+
+  .vs{
+    border-left: 1px solid #1a1a1a10 !important;
+  }
+
+  .monaco-editor canvas{
+    opacity: 0.5;
+  }
+
+  .cm-editor{
+    height: 100%;
+  }

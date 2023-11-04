@@ -161,7 +161,7 @@
                 <button class="smallMenuButton" on:click={()=>{editor.redo()}}>redo</button>
                 <button class="smallMenuButton" on:click={async ()=>{const formattedCode = await prettier.format(editor.getValue(), formatOptions); editor.setValue(formattedCode)}}>prettify</button>
                 {#if mode==='javascript'}
-                  <button class="smallMenuButton" on:click={()=>{consolePanelState.set(true)}}>console</button>
+                  <button class="smallMenuButton" on:click={()=>{consolePanelState.set(true); editor.resize()}}>console</button>
                 {/if}
                 <!-- <button class="smallMenuButton" on:click={max}>{maxButtonText}</button> -->
             </div>
@@ -233,6 +233,7 @@
     } 
 
     .editor{
+      position: absolute;
       height: 100%;
       background: #fdfdfd;
       /* background: linear-gradient(45deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.55)); */

@@ -18,8 +18,8 @@ export let fileToOpen = writable('index.html')
 export let editorState = writable(false)
 
 export let filesPanelState = writable(true), docsPanelState = writable(true), stepsPanelState = writable(true), resourcesPanelState = writable(true);
-export let filesPanelDisplay = writable('none')
-export let resourcesPanelDisplay = writable('none')
+export let filesPanelDisplay = writable('block')
+export let resourcesPanelDisplay = writable('block')
 export let resizeState = writable(false)
 
 export let worldData = writable({})
