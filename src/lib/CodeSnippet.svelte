@@ -6,6 +6,8 @@
     import html from 'highlight.js/lib/languages/xml';
     import css from 'highlight.js/lib/languages/css';
     hljs.registerLanguage('javascript', javascript);
+    hljs.registerLanguage('html', html);
+    hljs.registerLanguage('css', css);
 
     import * as prettier from 'prettier';
     import parserBabel from "prettier/plugins/babel";
