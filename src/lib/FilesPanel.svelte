@@ -225,11 +225,15 @@
         .downloadButton{
             margin-top: 20px;
             background: none;
-            border: 2px solid #4233fb;
-            color: #4233fb;
+            border: none;
+            color: #3d95ee;
+            font-family: Roboto, sans-serif;
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-top: 20px;
+            padding: 0 10px 5px 0px;
         }
         .downloadButton:hover{
-            background: #4233fb;
-            color: #fdfdfd;
+            text-decoration: underline;
         }
     </style>

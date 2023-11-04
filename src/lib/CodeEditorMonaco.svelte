@@ -177,7 +177,10 @@
 
         <div class="editor" bind:this={editorContainer} style='height: {$consolePanelState && mode==='javascript' && !readOnly ? 'calc(100% - 70px)' : 'calc(100% - 70px)'}'>
             {#if !editorCreated}
-            <p class='editorLoadingText'>loading editor...</p>
+            <div class='editorLoaderContainer'>
+                <div class='editorLoader'></div>
+                <p class='editorLoadingText'>loading editor...</p>
+            </div>
             {/if}
         </div>
         
@@ -201,6 +204,7 @@
         height: 100%;
         border-radius: 15px;
         box-shadow: 0 0 10px #3d95ee50;
+        position: relative;
     }
     .editor {
         width: 100%;
@@ -214,13 +218,34 @@
         border-top: 1px solid #1a1a1a20;
         border-radius: 0 0 15px 15px;
     }
-    .editorLoadingText{
+    .editorLoaderContainer{
         width: 100%;
-        padding-top: 20px;
-        margin: 0;
+        height: 100%;
         display: flex;
         justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
+    .editorLoadingText{
+        margin: 0;
+    }
+    .editorLoader{
+        width: 20px;
+        height: 20px;
+        border: 2px solid;
+        border-radius: 50%;
+        border-color: #1a1a1a transparent;
+        animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
 
     .panelButton{
       position: absolute;
@@ -279,7 +304,4 @@
       text-decoration: underline;
     }
 
-    .monaco-scrollable-element editor-scrollable vs-dark .slider{
-        border-radius: 15px !important;
-    }
 </style>

@@ -50,7 +50,8 @@
         <img src={monster} alt='monster funny' />
             <div>
             <p>Hello! Thank you for being here! Kodiia is currently undergoing active development, so there may be things where certain features do not function as intended. In fact, it's possible that none of the features will work as expected. If you come across any unusual behavior on this platform, please do not hesitate to contact us at <span>info@kodiia.com</span>.</p>
-            <p>💜💜💜</p>
+            <!-- <p>💜💜💜</p> -->
+            <p>Best, <br>Stepan from Kodiia</p>
         </div>
     </div>
     

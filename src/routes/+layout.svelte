@@ -26,11 +26,22 @@
 {#if $navigating}
     <!-- <div class='loader'></div>
     <h3>Loading...</h3> -->
-    <div style='display: flex; justify-content: center; align-items: center; width: {$width}px; height: {$height}px;'>
+    <!-- <div style='display: flex; justify-content: center; align-items: center; width: {$width}px; height: {$height}px;'>
         <div class='logo-card' style='background: url({kodiiaLogo}); background-position: center; background-repeat: no-repeat; background-size: 65px;'></div>
+    </div> -->
+    <div class='loaderContainer'>
+        <div class='loader'></div>
+        <p class='loaderText'>loading...</p>
     </div>
 {:else}
-    <slot />
+    {#if $width > 0}
+        <slot />
+    {:else}
+        <div class='loaderContainer'>
+            <div class='loader'></div>
+            <p class='loaderText'>loading...</p>
+        </div>
+    {/if}
 {/if}
 </div>
 
@@ -82,5 +93,35 @@
             transform: rotateZ(-5deg);
         }
     }
+
+    .loaderContainer{
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .loaderText{
+        margin: 0;
+    }
+    .loader{
+        width: 20px;
+        height: 20px;
+        margin: 10px;
+        border: 2px solid;
+        border-radius: 50%;
+        border-color: #1a1a1a transparent;
+        animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
 
 </style>
