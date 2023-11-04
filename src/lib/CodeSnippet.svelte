@@ -1,5 +1,5 @@
 <script>
-    import Prism from 'prismjs';
+
     import hljs from 'highlight.js/lib/core';
     import 'highlight.js/styles/vs.min.css';
     import javascript from 'highlight.js/lib/languages/javascript';
