@@ -3,6 +3,7 @@
     import { filesLocalCopy, fileToOpen, editorState, width, height, rightPanelWidthSetByUser, resourcesPanelDisplay } from '$lib/store'
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
+    import CodeSnippet from '$lib/CodeSnippet.svelte';
 
     export let docsHTML = ''
     export let steps = ''
@@ -131,9 +132,10 @@
                         {/if}
                         
                         {#if step.code != 'false'}
-                            <div style='height: calc(({step.codeLines} * 1.3rem) + 55px)'>
-                                <CodeEditor fileName='{step.mode}' readOnly='{true}' editorText='{step.code}'/>
-                            </div>
+                            
+                            <!-- <CodeEditor fileName='{step.mode}' readOnly='{true}' editorText='{step.code}'/> -->
+                            <CodeSnippet fileName='{step.mode}' code='{step.code}' />
+                            
                         {/if}
                         
                     </details>
@@ -265,7 +267,7 @@
             border-radius: 15px;
             box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
             padding: 15px;
-            padding-bottom: 35px;
+            /* padding-bottom: 35px; */
             margin-bottom: 10px;
             /* margin: 0 10px 10px 0; */
             box-sizing: border-box;
