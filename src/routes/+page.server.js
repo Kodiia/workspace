@@ -28,6 +28,18 @@ export async function load({locals}){
         }
     }
 
+    const getChallenges = async () =>{
+
+        try{
+            const challenges = await locals.pb.collection('challenges').getList(1, 20, { '$autoCancel': false }
+            );
+            return serializeNonPOJOs(challenges)
+        } catch (err){
+            console.log(err)
+            throw error(err.status, err.message);
+        }
+    }
+
     const getTutorials = async () =>{
 
         try{
@@ -43,6 +55,7 @@ export async function load({locals}){
     return {
         projects: getProjects(),
         tutorials: getTutorials(),
-        courses: getCourses()
+        courses: getCourses(),
+        challenges: getChallenges()
     }
 }

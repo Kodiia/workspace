@@ -14,6 +14,7 @@
     // let description = data.result.items[0].project_description
     let tutorials = data.tutorials.items
     let courses = data.courses.items
+    let challenges = data.challenges.items
 
 </script>
 
@@ -53,6 +54,28 @@
             <!-- <p>💜💜💜</p> -->
             <p>Best, <br>Stepan from Kodiia</p>
         </div>
+    </div>
+
+    <h2>Challenges</h2>
+    <p>Unleash your inner developer on thrilling quests that push the limits of design, all in the spirit of fun and exploration.</p>
+    <div class='tutorial-cards-container'>
+        {#each challenges as challenge}
+            {#if challenge.type === 'open'}
+                <ProjectCard title={challenge.heading} description={challenge.description} link='challenges/{challenge.id}' />
+            {/if}
+        {/each}
+
+        {#if data.user}
+            {#each challenges as challenge}
+                {#if challenge.type === 'special' && data.user.specialChallenges.specialChallenges != null}
+                    {#each data.user.specialChallenges.specialChallenges as specialChallenge}
+                        {#if specialChallenge === challenge.url}
+                            <ProjectCard title={challenge.heading} description={challenge.description} link='courses/{challenge.url}' />
+                        {/if}
+                    {/each}
+                {/if}
+            {/each}
+        {/if}
     </div>
     
     <h2>Courses</h2>
