@@ -76,7 +76,7 @@
         <button class="smallMenuButton" on:click={copy}>{copyButtonText}</button>
       </div>
     </div>
-    <pre class='codeSnippet' bind:this = {codeContainer} data-lang={mode}></pre>
+    <pre class='codeSnippet' bind:this = {codeContainer} data-lang='text/{mode}'></pre>
     <div class='snippetBottom'></div>
   </div>
   
