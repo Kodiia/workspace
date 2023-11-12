@@ -44,16 +44,11 @@
 
     onMount(async ()=>{
       monaco = await import('monaco-editor');
-      monaco.editor.setTheme('vs-dark')
+      monaco.editor.setTheme('vs-light')
 
       formatText(code).then( result =>{
-        
-        
-      monaco.editor.colorize(result, mode, { })
-      .then(html =>  codeContainer.innerHTML = html);
-
-        // codeContainer.innerHTML = result
-        // monaco.editor.colorizeElement(codeContainer, { theme: 'vs-light'})
+        monaco.editor.colorize(result, mode, { })
+        .then(html =>  codeContainer.innerHTML = html);
       })
     })
 
