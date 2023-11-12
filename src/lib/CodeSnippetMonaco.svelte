@@ -46,7 +46,7 @@
       monaco = await import('monaco-editor');
 
       formatText(code).then( result =>{
-        codeContainer.innerHTML = result
+        codeContainer.innerHTML = `${result}`
         monaco.editor.colorizeElement(codeContainer, { theme: 'vs-light'})
       })
     })
