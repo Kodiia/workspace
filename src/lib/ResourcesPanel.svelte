@@ -4,6 +4,7 @@
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
     import CodeSnippet from '$lib/CodeSnippet.svelte';
+    import CodeSnippetMonaco from '$lib/CodeSnippetMonaco.svelte';
 
     export let docsHTML = ''
     export let steps = ''
@@ -134,7 +135,8 @@
                         {#if step.code != 'false'}
                             
                             <!-- <CodeEditor fileName='{step.mode}' readOnly='{true}' editorText='{step.code}'/> -->
-                            <CodeSnippet fileName='{step.mode}' code='{step.code}' />
+                            <!-- <CodeSnippet fileName='{step.mode}' code='{step.code}' /> -->
+                            <CodeSnippetMonaco fileName='{step.mode}' code='{step.code}' />
                             
                         {/if}
                         
@@ -170,7 +172,8 @@
                         {/if}
                         {#if hint.code != 'false'}
                             <div style='height: calc(({hint.codeLines} * 1.3rem) + 55px)'>
-                                <CodeEditor fileName='{hint.mode}' readOnly='{true}' editorText='{hint.code}'/>
+                                <!-- <CodeEditor fileName='{hint.mode}' readOnly='{true}' editorText='{hint.code}'/> -->
+                                <CodeSnippetMonaco fileName='{hint.mode}' code='{hint.code}' />
                             </div>
                         {/if}
                         

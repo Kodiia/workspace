@@ -77,9 +77,7 @@
             },
             automaticLayout: true
         });
-        console.log(editorCreated)
         editorCreated = true
-        console.log(editorCreated)
 
         editor.onDidChangeModelContent(function (e) {
             console.log(e);

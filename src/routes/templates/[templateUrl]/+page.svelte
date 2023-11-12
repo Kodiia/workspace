@@ -19,6 +19,8 @@
     $: filesPanelWidth = $width / 3 
 
     console.log(data)
+    $editorState = false
+
     let resizeHandle, resizeState = false, resizeCoverDiv
     
     function resize(event){

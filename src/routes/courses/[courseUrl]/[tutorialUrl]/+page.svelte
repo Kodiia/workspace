@@ -29,6 +29,8 @@
     // let resourcesPanelDisplay = 'none'
     // console.log($page)
 
+    $editorState = false
+
     let drag = false
 </script>
 
