@@ -44,14 +44,19 @@
 
     onMount(async ()=>{
       monaco = await import('monaco-editor');
+      monaco.editor.setTheme('vs-dark')
 
       formatText(code).then( result =>{
-        codeContainer.innerHTML = `${result}`
-        monaco.editor.colorizeElement(codeContainer, { theme: 'vs-light'})
+        
+        
+      monaco.editor.colorize(result, mode, { })
+      .then(html =>  codeContainer.innerHTML = html);
+
+        // codeContainer.innerHTML = result
+        // monaco.editor.colorizeElement(codeContainer, { theme: 'vs-light'})
       })
     })
 
-    
 
     let copyButtonText = "copy"
     function copy() {
