@@ -1,11 +1,22 @@
 <script>
     import monster from '$lib/images/monster_01.webp'
+
+    export let errorCode = 500
+    export let errorMessage = 'Access denied'
 </script>
 <div class=' container' >
     <img src={monster} alt='monster' />
     <h2>Ooops... Something went wrong!</h2>
-    <p>Try going back to Home page.</p>
-    <a href='/'>Go back to Home page</a>
+    <p>Error: {errorCode} - {errorMessage}</p>
+
+    {#if errorCode === 500}
+    <p>Try going back to <a href='/'>Home</a> page. <br>Or check if you are logged in.</p>
+    {/if}
+
+    {#if errorCode === 403}
+    <p>Something is wrong with the server. We are alredy investigating this. Please, come back later!</p>
+    {/if}
+    
 </div>
 
 <style>
@@ -29,21 +40,20 @@
     a{
         /* width: 200px;
         height: 50px; */
-        display: inline-block;
-        text-decoration: none;
-        padding: 0px 10px;
+        /* display: inline-block; */
+        text-decoration: underline;
+        /* padding: 0px 10px;
         border: 2px solid #4233fb;
-        border-radius: 2rem;
+        border-radius: 2rem; */
         background: none;
-        color: #4233fb;
+        color: #3d95ee;
         font-size: 1.2rem;
         font-family: 'Montserrat', sans-serif;
-        margin-top: 15px;
+        /* margin-top: 15px; */
         box-sizing: border-box;
     }
     a:hover{
-        background: #4233fb;
-        color: #f9f9f9;
+        /* text-decoration: underline; */
         cursor: pointer;
     }
 </style>
