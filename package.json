@@ -39,6 +39,7 @@
 		"jszip": "^3.10.1",
 		"monaco-editor": "^0.44.0",
 		"node-fetch": "^3.3.2",
+		"p5": "^1.8.0",
 		"pocketbase": "^0.16.0",
 		"three": "^0.155.0"
 	}
