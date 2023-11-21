@@ -33,6 +33,7 @@ export async function load({locals}){
         try{
             const challenges = await locals.pb.collection('challenges').getList(1, 20, { '$autoCancel': false }
             );
+            console.log(challenges.items[0].images[0])
             return serializeNonPOJOs(challenges)
         } catch (err){
             console.log(err)

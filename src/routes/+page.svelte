@@ -4,6 +4,8 @@
     import { width, height, stylesPanelState } from '$lib/store'
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import monster from '$lib/images/start_page_image.webp'
+	import { getImageUrl } from "$lib/utils.js";
+	import { json } from "@sveltejs/kit";
 
     export let data
     // console.log(data.projects.items, data.tutorials.items)

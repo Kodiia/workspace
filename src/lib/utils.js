@@ -12,6 +12,16 @@ export const serializeNonPOJOs = (obj) => {
 	// return structuredClone(obj)
 };
 
+export const getImageUrl = (collectionName, recordId, fileName) => {
+    try {
+        const url = `api/files/${collectionName}/${recordId}/${fileName}`
+        return url
+    } catch (err) {
+        console.log(err)
+        throw error(err.status, err.message);
+    }
+}
+
 // export const generateUsername = (name) => {
 // 	const id = randomBytes(2).toString('hex');
 // 	return `${name.slice(0, 5)}${id}`;
