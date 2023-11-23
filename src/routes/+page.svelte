@@ -18,6 +18,25 @@
     let courses = data.courses.items
     let challenges = data.challenges.items
 
+    let url = 'api/images/challenges/2wutinmmyx1w81r/ascii_art_DRudwkPigG.webp'
+
+    let image
+    async function getImage(url = ''){
+        const response = await fetch(url)
+        const blob = await response.blob()
+        const blobUrl = URL.createObjectURL(blob);
+        console.log(url, response, blob, blobUrl);
+        // image.src = blobUrl
+        return blobUrl
+    }
+
+    const fetchImage = (async () => {
+		const response = await fetch(url)
+    return await response.json()
+	})()
+
+
+
 </script>
 
 <div class='container'>
@@ -59,6 +78,7 @@
     </div>
 
     <h2>Challenges</h2>
+    <img bind:this={image} src='{url}' alt='test' />
     <p>Unleash your inner developer on thrilling quests that push the limits of design, all in the spirit of fun and exploration.</p>
     <div class='tutorial-cards-container'>
         {#each challenges as challenge}
