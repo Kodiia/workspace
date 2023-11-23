@@ -15,6 +15,7 @@
 <svelte:head>
     <title>Kodiia Workspace</title>
     <meta name="online workspace to learn programming and build projects">
+    <script async src="https://analytics.eu.umami.is/script.js" data-website-id="890ca547-7612-43ff-ae55-27e28af65147"></script>
 </svelte:head>
 
 <svelte:window bind:innerWidth bind:innerHeight />
