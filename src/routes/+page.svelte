@@ -78,7 +78,7 @@
     </div>
 
     <h2>Challenges</h2>
-    <img bind:this={image} src='{url}' alt='test' />
+    <!-- <img bind:this={image} src='{url}' alt='test' /> -->
     <p>Unleash your inner developer on thrilling quests that push the limits of design, all in the spirit of fun and exploration.</p>
     <div class='tutorial-cards-container'>
         {#each challenges as challenge}
