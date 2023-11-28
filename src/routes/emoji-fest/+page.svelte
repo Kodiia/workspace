@@ -2,6 +2,10 @@
   import { onMount } from 'svelte';
 import {width, height} from '$lib/store'
 import { createSVG } from '$lib/createSVG'
+
+import kodiia_logo_bw from '$lib/logos/kodiia_logo_color.svg'
+import brainhub_logo from '$lib/logos/brainhub_logo.png'
+
 let script = `let sketch = function (p) {
   let faces = ["🦄", "👻", "🤓", "🍩"];
 
@@ -167,15 +171,16 @@ box-sizing: border-box;'>
 <div class='container'>
 
   <div class='logosContainer'>
-    <h2>brainhub</h2>
-    <h2>kodiia</h2>
+    <img src={brainhub_logo} alt='brainhub logo' width='135'/>
+    <img src={kodiia_logo_bw} alt='kodiia logo' width='70'/>
   </div>
     <div class='scriptContainer' bind:this={scriptContainer}>
         <iframe srcDoc={code} sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-downloads allow-presentation" title='code'/>
     </div>
     <div class='headerContainer'>
       <h1>Emoji Fest | 05.12-15.12</h1>
-      <button class='subscribeButtonWhite'>Оставить заявку</button>
+      <p class='infoText'>Свяжитесь c Вашим менеджером в Brainhub  для записи на курс</p>
+      <!-- <button class='subscribeButtonWhite'>Оставить заявку</button> -->
     </div>
     <div>
       <h2>Как устроен курс</h2>
@@ -275,9 +280,16 @@ box-sizing: border-box;'>
     <div class='subscribeDataContainer'>
       <h2>Записаться на курс</h2>
       <div class='footerContainer'>
-      <button class='subscribeButtonWhite'>Оставить заявку</button>
+      <!-- <button class='subscribeButtonWhite'>Оставить заявку</button> -->
+      <p class='infoText'>Свяжитесь c Вашим менеджером в Brainhub для записи на курс</p>
       <h2>Emoji Fest | 05.12-15.12</h2>
       </div>
+    </div>
+
+    <div class='logosContainer'>
+      <!-- <img src={brainhub_logo} alt='brainhub logo' width='135'/>
+      <img src={kodiia_logo_bw} alt='kodiia logo' width='70'/> -->
+      <p>Ждем Вас на занятиях! 💜</p>
     </div>
 </div>
 </div>
@@ -407,6 +419,14 @@ box-sizing: border-box;'>
       grid-template-columns: 1fr;
       gap: 10px;
     }
+    }
+
+    .infoText{
+      width: 50%;
+      border: 1px dashed #f9f9f9;
+      border-radius: 10px;
+      padding: 5px;
+
     }
 
     .subscribeButton{
