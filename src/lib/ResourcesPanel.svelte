@@ -146,11 +146,11 @@
                         {/if}
 
                         {#if step.resources}
-                            {#each step.resources as resource}
-                                <div class='resourcesTextContainer'>
+                            <div class='resourcesTextContainer'>
+                                {#each step.resources as resource}    
                                     <button class='resourceButton' on:click={()=>{copyResourcesText(resource)}}>{resource}</button>
-                                </div>
-                            {/each}
+                                {/each}
+                            </div>
                         {/if}
                         
                     </details>
@@ -357,7 +357,7 @@
 
         .resourcesTextContainer{
             display: grid;
-            grid-template-columns: repeat(50px);
+            grid-template-columns: repeat(auto-fill, 50px);
             gap: 10px;
         }
         .resourceButton{
@@ -365,7 +365,7 @@
             padding: 5px;
             width: 50px;
             height: 50px;
-            font-size: 40px;
+            font-size: 30px;
             background-color: #f9f9f9;
             border: 1px solid #4233fb20;
             border-radius: 10px;
