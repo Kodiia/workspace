@@ -147,7 +147,9 @@
 
                         {#if step.resources}
                             {#each step.resources as resource}
-                                <button class='resourceButton' on:click={()=>{copyResourcesText(resource)}}>{resource}</button>
+                                <div class='resourcesTextContainer'>
+                                    <button class='resourceButton' on:click={()=>{copyResourcesText(resource)}}>{resource}</button>
+                                </div>
                             {/each}
                         {/if}
                         
@@ -351,6 +353,26 @@
             width: 100%;
             max-width: 700px;
             border-radius: 10px;
+        }
+
+        .resourcesTextContainer{
+            display: grid;
+            grid-template-columns: repeat(50px);
+            gap: 10px;
+        }
+        .resourceButton{
+            margin: 0;
+            padding: 5px;
+            width: 50px;
+            height: 50px;
+            font-size: 40px;
+            background-color: #f9f9f9;
+            border: 1px solid #4233fb20;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .resourceButton:hover{
+            background-color: #4233fb20;
         }
         
     </style>
