@@ -56,6 +56,11 @@
         }
     }
 
+    function copyResourcesText(text = '') {
+        let textToCopy = text;
+        navigator.clipboard.writeText(textToCopy);
+    }
+
 </script>
 
 {#if $resourcesPanelDisplay === 'block'}
@@ -138,6 +143,12 @@
                             <!-- <CodeSnippet fileName='{step.mode}' code='{step.code}' /> -->
                             <CodeSnippetMonaco fileName='{step.mode}' code='{step.code}' />
                             
+                        {/if}
+
+                        {#if step.resources}
+                            {#each step.resources as resource}
+                                <button class='resourceButton' on:click={()=>{copyResourcesText(resource)}}>{resource}</button>
+                            {/each}
                         {/if}
                         
                     </details>
