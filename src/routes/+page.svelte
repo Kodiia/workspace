@@ -212,6 +212,10 @@
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         grid-gap: 10px;
     }
+    .tutorial-cards-container{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
     .smallMenuButton {
       background: none;
       border: none;
