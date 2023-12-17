@@ -3,7 +3,7 @@
     export let description = 'Description'
     export let topics = ''
     export let link = ''
-    export let imageUrl = '/api/images/creativeCoding_ITMO/g8032lhrh4r4sm4/random_walker_class_zLWDoZizxp.webp'
+    export let imageUrl = '/api/images/courses/8vuzxx3aug1e42w/caYTNNOM8q7V_wHy79LH0FW.webp'
     // export let src = ''
     // let imagePath = 'https:/'
 

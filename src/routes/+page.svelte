@@ -59,7 +59,7 @@
 
     <h2>Challenges</h2>
     <p>Unleash your inner developer on thrilling quests that push the limits of design, all in the spirit of fun and exploration.</p>
-    <div class='tutorial-cards-container'>
+    <div class='challenges-cards-container'>
         {#each challenges as challenge}
             {#if challenge.type === 'open'}
                 <ProjectCard title={challenge.heading} description={challenge.description} link='challenges/{challenge.id}' imageUrl = '{challenge.stepsJSON.steps[0].imageUrl}' />
@@ -205,7 +205,7 @@
         padding: 60px 10px 10px 10px;
         overflow-y: auto;
     }
-    .template-cards-container, .tutorial-cards-container{
+    .template-cards-container, .tutorial-cards-container, .challenges-cards-container{
         margin-left: auto;
         margin-right: auto;
         display: grid;
@@ -215,6 +215,10 @@
     .tutorial-cards-container{
         display: grid;
         grid-template-columns: 1fr;
+    }
+    .challenges-cards-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));;
     }
     .smallMenuButton {
       background: none;
