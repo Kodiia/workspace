@@ -14,7 +14,8 @@ export let availableAssets = [
         color: 'red',
         getRotation(){
             return {x: 0, y: Math.PI/2 * Math.floor(Math.random()*4), z: 0}
-        }
+        },
+        speed: 0
     },
     {
         type: 'asset',
@@ -27,7 +28,8 @@ export let availableAssets = [
         color: 'green',
         getRotation(){
             return {x: 0, y: Math.PI/2 * Math.floor(Math.random()*4), z: 0}
-        }
+        },
+        speed: 0
     },
     {
         type: 'asset',
@@ -40,7 +42,8 @@ export let availableAssets = [
         color: 'pink',
         getRotation(){
             return {x: 0, y: Math.PI/2 * Math.floor(Math.random()*4), z: 0}
-        }
+        },
+        speed: 0
     }
 ]
 

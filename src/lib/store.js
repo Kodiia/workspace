@@ -23,6 +23,7 @@ export let resourcesPanelDisplay = writable('block')
 export let resizeState = writable(false)
 
 export let worldData = writable({})
+export let worldType = writable('flat')
 export let selectedAssets = writable([availableAssets[0]])
 export let selectedAsset = writable({
     color: "#ffffff",
@@ -30,6 +31,7 @@ export let selectedAsset = writable({
     position: {x: 0, y: 0, z: 0},
     rotation: {x: 0, y: 0, z: 0},
     type: 1,
+    speed: 0,
     userLoopCode: ""
 })
 export let worldSelectedAssets = writable([

@@ -4,7 +4,7 @@
   import { updateWorld } from './worldCAcaves';
   import { availableAssets } from './worldAssets';
   import { Mesh, BufferGeometry, MeshStandardMaterial, AxesHelper, HemisphereLight } from 'three';
-  import { loadedAssetsNumber, selectedAssets, selectedAsset, assetOptionsPanelDisplay, worldData } from './store';
+  import { loadedAssetsNumber, selectedAssets, selectedAsset, assetOptionsPanelDisplay, worldData, worldType } from './store';
   import { lib } from './worldLib';
 
   let libCommands = []
@@ -58,21 +58,75 @@
   
 
   class Object3D {
-        constructor(id = 0, position = {}, rotation = {}, name = '', color = '#ffffff' ) {
+        constructor(id = 0, position = {}, rotation = {}, name = '', color = '#ffffff', speed = 0 ) {
           this.id = id;
           this.position = position;
           this.rotation = rotation;
           this.name = name;
           this.color = color;
-          this.userLoopCode = ''
+          this.userLoopCode = '';
+          this.speed = speed;
         }
     }
   
+  function createFlatWorld(x = 5, y = 5){
+    let cells = []
+    for(let i=0; i<x; i++){
+        cells[i] = []
+        for(let j=0; j<y; j++){
+            cells[i][j] = []
+            for(let k=0; k<1; k++){
+              cells[i][j][k] = {
+                aliveNow: true,
+                aliveNext: false,
+                liveNeighbors: 0,
+                x: i,
+                y: k, 
+                z: j,
+              }
+            }
+        }
+    }
+
+    return cells
+  }
+
+  function createHillsWorld(x = 5, y = 5){
+    let cells = []
+    for(let i=0; i<x; i++){
+        cells[i] = []
+        for(let j=0; j<y; j++){
+            cells[i][j] = []
+            for(let k=0; k<1; k++){
+              cells[i][j][k] = {
+                aliveNow: true,
+                aliveNext: false,
+                liveNeighbors: 0,
+                x: i,
+                y: Math.floor(Math.floor(Math.sin(i) + Math.cos(j))*1), 
+                z: j,
+              }
+            }
+        }
+    }
+
+    return cells
+  }
+
   let assetsData = []
   export function getAssetsData(x = 10, y = 10, z = 10, gens = 3){
     assetsData = []
     //console.log($selectedAssets)
-    let cells = updateWorld(x, y, z, gens)
+    let cells
+    if($worldType === 'flat'){
+      cells = createFlatWorld(x, y)
+    }
+    if($worldType === 'hill'){
+      cells = createHillsWorld(x, y)
+    }
+    if($worldType === 'cave'){
+      cells = updateWorld(x, y, z, gens)
+    }
     let id = 0
     for(let i=0; i<cells.length; i++){
       for(let j=0; j<cells[i].length; j++){
@@ -86,7 +140,9 @@
               id,
               {x: cells[i][j][k].x, y: cells[i][j][k].y, z: cells[i][j][k].z},
               availableAssets[selectedAssetNumber].getRotation(),
-              $selectedAssets[selectedAssetNumber].name
+              $selectedAssets[selectedAssetNumber].name,
+              '#ffffff',
+              $selectedAssets[selectedAssetNumber].speed,
             )
             ]
             id++;
@@ -157,6 +213,16 @@
     assetsData = [...assetsData]
   }
 
+  export function setAssetSpeed(){
+    console.log('speed', $selectedAsset)
+    for (let asset of assetsData){
+        if(asset.position.x === $selectedAsset.position.x && asset.position.y === $selectedAsset.position.y && asset.position.z === $selectedAsset.position.z){
+            asset.speed = $selectedAsset.speed
+        }
+    }
+    assetsData = [...assetsData]
+  }
+
 </script>
 
 
@@ -169,7 +235,7 @@
   near={0.01}
 >
   <OrbitControls
-    maxDistance = {20}
+    maxDistance = {40}
     minDistance = {10}
     target = {[5,5,5]}
   />
@@ -203,7 +269,7 @@
                 rotation.y = {assetData.rotation.y}
                 rotation.z = {assetData.rotation.z}
                 color = {assetData.color}
-                on:click={(e) => {e.stopPropagation(); $assetOptionsPanelDisplay = 'block'; $selectedAsset = selectAsset(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log($selectedAsset.userLoopCode, e);}}
+                on:click={(e) => {e.stopPropagation(); $assetOptionsPanelDisplay = 'block'; $selectedAsset = selectAsset(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log($selectedAsset.userLoopCode, $selectedAsset.speed);}}
                 on:create = {()=>{}}
                 on:pointerover={onPointerEnter}
                 on:pointerleave={onPointerLeave}

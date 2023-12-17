@@ -4,7 +4,7 @@
     import TestMiniWorlds from '$lib/TestMiniWorlds.svelte';
     import WorldsCodeEditor from '$lib/WorldsCodeEditor.svelte';
     import CodeSnippetMonaco from '$lib/CodeSnippetMonaco.svelte';
-    import { width, height, selectedAsset, selectedAssets, assetOptionsPanelDisplay, worldData, consoleMessages, worldSelectedAssets, loadedAssetsNumber, worldResourcesPanelDisplay } from '$lib/store';
+    import { width, height, selectedAsset, selectedAssets, assetOptionsPanelDisplay, worldData, worldType, consoleMessages, worldSelectedAssets, loadedAssetsNumber, worldResourcesPanelDisplay } from '$lib/store';
     import { availableAssets } from '$lib/worldAssets';
     import { lib } from '$lib/worldLib';
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
@@ -15,7 +15,7 @@
     let mobileMenuDisplay = 'none'
     let optionsPanelDisplay = 'block'
 
-    let worldX, worldY, worldZ, assetX, assetY, assetZ, assetXRot, assetYRot, assetZRot, assetLoop
+    let worldX, worldY, worldZ, assetX, assetY, assetZ, assetXRot, assetYRot, assetZRot, assetLoo, assetSpeed
     let x = 10, y = 10, z = 10
     let bgColor1, bgColor1Value = '#bdcdd9', bgColor2, bgColor2Value = '#6a82b4'
     let assetColor, assetColorValue = '#ffffff'
@@ -164,6 +164,16 @@
             </div>
         </div>
 
+        <div class='setupsBlock'>
+            <h3 style='margin-top: 0px;'>World Type</h3>
+            <p>Choose world type.</p>
+            <div class='assetsGroup'>
+                <button class="assetContainer" style="border: {$worldType === 'flat' ? '2px solid #4233fb' : '2px solid #4233fb10'}" on:click={()=>{$worldType = 'flat'}}>Flat</button>
+                <button class="assetContainer" style="border: {$worldType === 'hill' ? '2px solid #4233fb' : '2px solid #4233fb10'}" on:click={()=>{$worldType = 'hill'}}>Hill</button>
+                <button class="assetContainer" style="border: {$worldType === 'cave' ? '2px solid #4233fb' : '2px solid #4233fb10'}" on:click={()=>{$worldType = 'cave'}}>Cave</button>
+            </div>
+        </div>
+
 
         <div class='setupsBlock'>
             <h3 style='margin-top: 0px;'>World assets</h3>
@@ -248,6 +258,15 @@
     </div>
 
     <div class='setupsBlock'>
+        <h3 style='margin-top: 0px;'>Speed</h3>
+        <p>Change the asset speed property value.</p>
+        <div class='inputContainer'>
+            <label for='speed'>Speed</label>
+            <input name='speed' bind:this={assetSpeed} id='speed' type='text' value='{$selectedAsset.speed}' on:change={()=>{$selectedAsset.speed = parseFloat(assetSpeed.value); proceduralWorld.setAssetSpeed()}} />
+        </div>
+    </div>
+
+    <div class='setupsBlock'>
         <h3 style='margin-top: 0px;'>Behavior</h3>
         <p>Change behavior of the asset</p>
 
@@ -265,13 +284,24 @@
 </div>
 
 <div class='resourcesPanel' style='display: {$worldResourcesPanelDisplay}; width: {$width > 700 ? "400px" : "calc(100% - 10px)"}; height: calc({$height}px - 60px);'>
+    <button class="panelButton" on:click={()=>{$worldResourcesPanelDisplay = 'none';}} >    
+        <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
+    </button>
+    
+
+    
+    <h2 style='margin: 0 0 0 10px; height: 40px;'>Resources</h2>
+
+    <div class='setupsContainer' style='height: calc(100% - 50px);'>
     {#each lib as command}
     <details>
         <summary>{command.name}</summary>
+        <p>{command.description}</p>
         <CodeSnippetMonaco fileName='.js' code='{command.use}' />
     </details>
         
     {/each}
+    </div>
 </div>
 
 
@@ -397,6 +427,7 @@ on:click={()=>{
         border: 2px solid #4233fb10;
         background: #4233fb05;
         background-size: contain;
+        color: #4233fb;
         /* filter: contrast(1.5); */
     }
     .assetContainer:hover{
