@@ -37,8 +37,8 @@
 </nav>
 
 
-<div class='tutorial-cards-container' style='margin-top: 60px; grid-template-columns: {$width > 900 ? 'repeat(auto-fit, minmax(300px, 1fr))' : '1fr'}'>
-    <div class='descriptionCard' style='background-image: url({courseImageUrl}); grid-column: {$width > 900 ? '1/4' : '1/1'};'>
+<div class='tutorial-cards-container' style='margin-top: 60px; grid-template-columns: {$width > 900 ? 'repeat(auto-fit, minmax(400px, 1fr))' : '1fr'}'>
+    <div class='descriptionCard' style='background-image: url({courseImageUrl}); grid-column: {$width > 900 ? '1/3' : '1/1'};'>
         <h2 style='width: {$width > 900 ? '50%' : 'auto'}'>{courseName}</h2>
         <p style='width: {$width > 900 ? '50%' : 'auto'}'>{courseDescription}</p>
     </div>
