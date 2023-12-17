@@ -66,34 +66,15 @@
         margin-top: 0;
     }
     a{
-    /* width: 200px;
-    height: 50px; */
-    /* width: 100%;
-    max-width: 200px; */
-    /* width: auto; */
+    width: fit-content;
     text-decoration: none;
-    /* text-align: center; */
-    /* padding: 0.4rem 1rem; */
-    /* border: 2px solid #4233fb;
-    border-radius: 2rem; */
     background: none;
     color: #3d95ee;
     font-size: 1.2rem;
     font-family: 'Montserrat', sans-serif;
-    /* margin-top: auto; */
-    /* position: absolute;
-    bottom: 5px; */
     box-sizing: border-box;
     }
     a:hover{
-        /* background: #4233fb;
-        color: #f9f9f9;
-        cursor: pointer; */
         text-decoration: underline;
     }
-    /* .linkContainer{
-        width: 100%;
-        margin-top: auto;
-        margin-bottom: 10px;
-    } */
 </style>
