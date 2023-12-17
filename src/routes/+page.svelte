@@ -62,7 +62,7 @@
     <div class='tutorial-cards-container'>
         {#each challenges as challenge}
             {#if challenge.type === 'open'}
-                <ProjectCard title={challenge.heading} description={challenge.description} link='challenges/{challenge.id}' />
+                <ProjectCard title={challenge.heading} description={challenge.description} link='challenges/{challenge.id}' imageUrl = '{challenge.stepsJSON.steps[0].imageUrl}' />
             {/if}
         {/each}
 
@@ -71,7 +71,7 @@
                 {#if challenge.type === 'special' && data.user.specialChallenges.specialChallenges != null}
                     {#each data.user.specialChallenges.specialChallenges as specialChallenge}
                         {#if specialChallenge === challenge.url}
-                            <ProjectCard title={challenge.heading} description={challenge.description} link='courses/{challenge.url}' />
+                            <ProjectCard title={challenge.heading} description={challenge.description} link='courses/{challenge.url}' imageUrl = '{challenge.stepsJSON.steps[0].imageUrl}'/>
                         {/if}
                     {/each}
                 {/if}
@@ -84,7 +84,7 @@
     <div class='tutorial-cards-container'>
         {#each courses as course}
             {#if course.type === 'open'}
-                <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
+                <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' imageUrl = '{course.imageUrl}'/>
             {/if}
         {/each}
 
@@ -93,7 +93,7 @@
                 {#if course.type === 'special' && data.user.specialCourses.specialCourses != null}
                     {#each data.user.specialCourses.specialCourses as specialCourse}
                         {#if specialCourse === course.url}
-                            <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
+                            <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' imageUrl = '{course.imageUrl}'/>
                         {/if}
                     {/each}
                 {/if}
@@ -111,7 +111,7 @@
     <p>Start building a project on your own.</p>
     <div class='template-cards-container'>
         {#each projects as project}
-            <ProjectCard title={project.name} description={project.description} topics='' link='templates/{project.id}' />
+            <ProjectCard title={project.name} description={project.description} topics='' link='templates/{project.id}' imageUrl = '{project.imageUrl}'/>
         {/each}
     </div>
 </div>

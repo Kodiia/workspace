@@ -3,8 +3,10 @@
     import ProceduralWorlds from '$lib/ProceduralWorlds.svelte';
     import TestMiniWorlds from '$lib/TestMiniWorlds.svelte';
     import WorldsCodeEditor from '$lib/WorldsCodeEditor.svelte';
-    import { width, height, selectedAsset, selectedAssets, assetOptionsPanelDisplay, worldData, consoleMessages, worldSelectedAssets, loadedAssetsNumber } from '$lib/store';
+    import CodeSnippetMonaco from '$lib/CodeSnippetMonaco.svelte';
+    import { width, height, selectedAsset, selectedAssets, assetOptionsPanelDisplay, worldData, consoleMessages, worldSelectedAssets, loadedAssetsNumber, worldResourcesPanelDisplay } from '$lib/store';
     import { availableAssets } from '$lib/worldAssets';
+    import { lib } from '$lib/worldLib';
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
     
@@ -70,6 +72,7 @@
             </a>
             <button class='smallMenuButton' on:click={()=>{optionsPanelDisplay === 'none' ? optionsPanelDisplay = 'block' : optionsPanelDisplay = 'none'}}>World Options</button>
             <button class='smallMenuButton' on:click={()=>{$assetOptionsPanelDisplay === 'none' ? $assetOptionsPanelDisplay = 'block' : $assetOptionsPanelDisplay = 'none'}}>Asset Options</button>
+            <button class='smallMenuButton' on:click={()=>{$worldResourcesPanelDisplay === 'none' ? $worldResourcesPanelDisplay = 'block' : $worldResourcesPanelDisplay = 'none'}}>Resources</button>
             <a class='smallMenuButton' href='/'>Home</a>
             <!-- {#if data.user}
             <form action='/logout' method='POST'>
@@ -108,6 +111,8 @@
         <hr style='display: {mobileMenuDisplay}; margin: 0;'>
         <div class='mobileMenu' style='display: {mobileMenuDisplay}; height: calc({$height}px - 60px);'>
             <button class='smallMenuButton' style='padding: 5px 10px;' on:click={()=>{optionsPanelDisplay === 'none' ? optionsPanelDisplay = 'block' : optionsPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}>World Options</button>
+            <button class='smallMenuButton' style='padding: 5px 10px;' on:click={()=>{$assetOptionsPanelDisplay === 'none' ? $assetOptionsPanelDisplay = 'block' : $assetOptionsPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}>Asset Options</button>
+            <button class='smallMenuButton' style='padding: 5px 10px;' on:click={()=>{$worldResourcesPanelDisplay === 'none' ? $worldResourcesPanelDisplay = 'block' : $worldResourcesPanelDisplay = 'none'}}>Resources</button>
             <a class='smallMenuButton' style='padding: 5px 10px;' href='/'>Home</a>
         </div>
 
@@ -259,6 +264,16 @@
 
 </div>
 
+<div class='resourcesPanel' style='display: {$worldResourcesPanelDisplay}; width: {$width > 700 ? "400px" : "calc(100% - 10px)"}; height: calc({$height}px - 60px);'>
+    {#each lib as command}
+    <details>
+        <summary>{command.name}</summary>
+        <CodeSnippetMonaco fileName='.js' code='{command.use}' />
+    </details>
+        
+    {/each}
+</div>
+
 
 <div 
 on:click={()=>{
@@ -266,15 +281,20 @@ on:click={()=>{
     }} 
     on:keydown={()=>{
     worldsCodeEditor.updateEditorCodeWithSelectedAssetData()
-    }} role='button' tabindex='0' class='container' style='width: {$width}px; height: {$height}px; background: linear-gradient({bgColor1Value}, {bgColor2Value});'>
+    }} 
+    role='button' tabindex='0' class='container' style='width: {$width}px; height: {$height}px; '>
     <!-- <Canvas >
         <ProceduralWorlds bind:this={proceduralWorld} assets = {selectedAssets}/>
         
     </Canvas> -->
 
-    <Canvas >
-        <TestMiniWorlds bind:this={proceduralWorld}/>
-    </Canvas>
+    <div class='canvasContainer' style='background: linear-gradient({bgColor1Value}, {bgColor2Value});'>
+        <Canvas >
+            <TestMiniWorlds bind:this={proceduralWorld}/>
+        </Canvas>
+    </div>
+
+    
 </div>
 
 
@@ -331,7 +351,21 @@ on:click={()=>{
         background: none;
         transform: scale(1.1);
     }
-    .optionsPanel, .assetOptionsPanel{
+    .container{
+        background: rgb(189, 205, 217);
+        filter: contrast(1.3);
+        position: relative;
+        display: flex;
+    }
+    .canvasContainer{
+        width: 100%;
+        height: 100%;
+    }
+    /* .resourcesPanel{
+        width: 400px;
+        height: 100%;
+    } */
+    .optionsPanel, .assetOptionsPanel, .resourcesPanel{
         width: 400px;
         margin: 5px;
         height: 100%;
@@ -346,7 +380,7 @@ on:click={()=>{
         box-sizing: border-box;
         z-index: 2;
     }
-    .assetOptionsPanel{
+    .resourcesPanel{
         right: 0;
     }
     .assetsGroup{
@@ -489,10 +523,7 @@ on:click={()=>{
         /* width: 100%; */
         padding: 0px;
     }
-    .container{
-        background: rgb(189, 205, 217);
-        filter: contrast(1.3);
-    }
+    
     .panelButton{
         position: absolute;
         top: 5px;
@@ -534,5 +565,36 @@ on:click={()=>{
         color: white;
         box-shadow: 0 0 10px #3d95ee50;
     }
+
+    details{
+        /* width: 100%; */
+        background: #fdfdfd;
+        color: #1a1a1a;
+        border: 1px solid #f9f9f9;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
+        padding: 15px;
+        /* padding-bottom: 35px; */
+        margin-left: 5px;
+        margin-bottom: 10px;
+        /* margin: 0 10px 10px 0; */
+        box-sizing: border-box;
+
+        display: flex;
+        align-items: center;
+        /* transform: scale(1.0); */
+        }
+        details:hover{
+            background: #f9f9f9;
+            border: 1px solid #4233fb20;
+            /* transform: scale(1.025); */
+        }
+        details summary{
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            font-size: 1.17rem;
+        }
+
 
 </style>

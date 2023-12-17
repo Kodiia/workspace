@@ -7,13 +7,18 @@
   import { loadedAssetsNumber, selectedAssets, selectedAsset, assetOptionsPanelDisplay, worldData } from './store';
   import { lib } from './worldLib';
 
+  let libCommands = []
+  for(let command of lib){
+    libCommands.push(command.code)
+  }
+
   interactivity()
   useFrame((state, delta) => {
     for (let asset of assetsData){
       if(asset.userLoopCode != ''){
         try {
           //eval(asset.loop)
-          const executeUserCode = new Function("object",  [...lib].join('\n') + asset.userLoopCode);
+          const executeUserCode = new Function("object",  [...libCommands].join('\n') + asset.userLoopCode);
           executeUserCode.call(asset, asset);
           assetsData = [...assetsData]
           } catch (error) {
@@ -173,10 +178,10 @@
 <T.HemisphereLight args={['white', 'skyblue', 3]}/>
 
 
-<T.Mesh>
+<!-- <T.Mesh>
   <T.BoxGeometry args={[1, 1, 1]} />
   <T.MeshBasicMaterial color="red" />
-</T.Mesh>
+</T.Mesh> -->
 
 {#if $loadedAssetsNumber === availableAssets.length}
 {#each $selectedAssets as asset}

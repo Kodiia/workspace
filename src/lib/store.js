@@ -43,3 +43,4 @@ export let worldSelectedAssets = writable([
 
 export let loadedAssetsNumber = writable(0)
 export let assetOptionsPanelDisplay = writable('none')
+export let worldResourcesPanelDisplay = writable('none')

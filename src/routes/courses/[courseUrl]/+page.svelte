@@ -11,6 +11,8 @@
     let courseDescription = data.course.items[0].description
     let courseType = data.course.items[0].type
     let courseImageUrl = data.course.items[0].imageUrl
+
+    console.log(tutorials[0].stepsJSON.steps[0].imageUrl)
 </script>
 
 <div class='container'>
@@ -42,7 +44,7 @@
     </div>
     {#each tutorials as tutorial}
         {#if tutorial.type === 'open'}
-            <ProjectCard title={tutorial.heading} description={tutorial.description} link='{$page.url.pathname}/{tutorial.id}' />
+            <ProjectCard title={tutorial.heading} description={tutorial.description} link='{$page.url.pathname}/{tutorial.id}' imageUrl='{tutorial.stepsJSON.steps[0].imageUrl}'/>
         {/if}
     {/each}
 </div>
