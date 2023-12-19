@@ -59,6 +59,13 @@
         $worldSelectedAssets = $selectedAssets
         console.log('removing asset', $selectedAssets)
     }
+
+    let textAreaValue
+    function setTextAreaValue(string = ''){
+        textAreaValue.value = "assetsData: " + JSON.stringify(string).
+        replace(/\\r/g, '\r').
+        replace(/\\n/g, '\n')
+    }
 </script>
 
 {#if $loadedAssetsNumber < availableAssets.length}
@@ -202,8 +209,8 @@
     <div style='height: 60px; display: flex; justify-content: space-between; align-items: center;'>
         <button id='createButton' on:click={()=>{proceduralWorld.getAssetsData(x, z, y)}} style='margin: 20px 0 0 10px;'>Create World</button>
         <form method='POST' action='?/updateProject' enctype='multipart/form-data'>
-           <textarea name='assetsDataJSON' value='{"assetsData: " + JSON.stringify($worldData.assets, null, 2) }' style='display: none'></textarea>
-           <button formaction="?/updateProject" style='margin-top: 20px; margin-right: 15px;' on:click={()=>{console.log(JSON.stringify($worldData.assets))}}>Save World</button>
+           <textarea name='assetsDataJSON' bind:this={textAreaValue} value='' style='display: none'></textarea>
+           <button formaction="?/updateProject" style='margin-top: 20px; margin-right: 15px;' on:click={()=>{setTextAreaValue($worldData.assets); console.log(JSON.stringify($worldData.assets))}}>Save World</button>
         </form>
     </div>
 </div>
