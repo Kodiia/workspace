@@ -36,6 +36,10 @@ export async function load ({ locals, fetch, params}) {
             throw error(err.status, err.message);
         }
 
+        return {
+            success: true
+        }
+
         // throw redirect(303, `/games/procedural-worlds/${params.projectId}`)
     }
   }
