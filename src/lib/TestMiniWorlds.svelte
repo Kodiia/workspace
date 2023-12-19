@@ -209,6 +209,7 @@
 
     assetsData = [...assetsData]
     $worldData.assetsNumber = assetsData.length
+    $worldData.assets = assetsData
   }
 
 
