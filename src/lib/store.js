@@ -24,7 +24,7 @@ export let resizeState = writable(false)
 
 export let worldData = writable({})
 export let worldType = writable('flat')
-export let selectedAssets = writable([availableAssets[0]])
+export let selectedAssets = writable([availableAssets[3]])
 export let selectedAsset = writable({
     color: "#ffffff",
     id: 0,
@@ -38,11 +38,12 @@ export let worldSelectedAssets = writable([
     {
         type: 'asset',
         number: 0,
-        url: '/nakagin_capsule_center.glb',
+        url: '/cube_white.glb',
         state: 'selected'
     },
 ])
 
 export let loadedAssetsNumber = writable(0)
 export let assetOptionsPanelDisplay = writable('none')
-export let worldResourcesPanelDisplay = writable('none')
+export let worldResourcesPanelDisplay = writable('block')
+export let worldAddAsset = writable(false)

@@ -4,8 +4,11 @@
   import { updateWorld } from './worldCAcaves';
   import { availableAssets } from './worldAssets';
   import { Mesh, BufferGeometry, MeshStandardMaterial, AxesHelper, HemisphereLight } from 'three';
-  import { loadedAssetsNumber, selectedAssets, selectedAsset, assetOptionsPanelDisplay, worldData, worldType } from './store';
+  import { loadedAssetsNumber, selectedAssets, selectedAsset, assetOptionsPanelDisplay, worldData, worldType, worldAddAsset } from './store';
   import { lib } from './worldLib';
+
+  export let startAssets = ''
+  console.log(startAssets)
 
   let libCommands = []
   for(let command of lib){
@@ -33,7 +36,7 @@
 
   $loadedAssetsNumber = 0
 
-  const gltf = useGltf('/nakagin_capsule_white.glb', {
+  const gltf = useGltf('/cube_white.glb', {
     useDraco: true
   }).then(result =>{
     mesh = result
@@ -114,7 +117,33 @@
   }
 
   let assetsData = []
-  export function getAssetsData(x = 10, y = 10, z = 10, gens = 3){
+  // if(startAssets){
+  //   assetsData = startAssets.assetsData
+  //   console.log(startAssets.assetsData)
+  // }
+
+  function updateInitialWorld(){
+    for(let asset of startAssets.assetsData){
+      assetsData = [...assetsData,
+      new Object3D(
+              asset.id,
+              {x: asset.position.x, y: asset.position.y, z: asset.position.z},
+              asset.rotation,
+              asset.name,
+              asset.color,
+              asset.speed,
+            )
+    ]
+    }
+    console.log(assetsData)
+  }
+
+  if(startAssets.assetsData){
+  updateInitialWorld()
+  }
+
+
+  export function getAssetsData(x = 5, y = 5, z = 5, gens = 3){
     assetsData = []
     //console.log($selectedAssets)
     let cells
@@ -150,10 +179,12 @@
         }
       }
     }
+    //console.log(assetsData[0])
     $worldData.assetsNumber = assetsData.length
+    $worldData.assets = assetsData
   }
 
-  getAssetsData()
+  //getAssetsData()
   // console.log(assetsData)
 
   // console.log(assetsData)
@@ -177,6 +208,7 @@
     }
 
     assetsData = [...assetsData]
+    $worldData.assetsNumber = assetsData.length
   }
 
 
@@ -221,6 +253,61 @@
         }
     }
     assetsData = [...assetsData]
+  }
+
+  function addAsset(intPointX = 0, intPointY = 0, intPointZ = 0, objectX = 0, objectY = 0, objectZ = 0){
+    let selectedAssetNumber = 3
+    console.log(intPointX - objectX)
+    let newX = 0, newY = 0, newZ = 0
+    if( intPointX - objectX === -0.5 ){
+      newX = objectX - 1
+      newY = objectY
+      newZ = objectZ
+    }
+    if( intPointX - objectX === 0.5 ){
+      newX = objectX + 1
+      newY = objectY
+      newZ = objectZ
+    }
+    if( intPointY - objectY === -0.5 ){
+      newX = objectX
+      newY = objectY - 1
+      newZ = objectZ
+    }
+    if( intPointY - objectY === 0.5 ){
+      newX = objectX
+      newY = objectY + 1
+      newZ = objectZ
+    }
+    if( intPointZ - objectZ === -0.5 ){
+      newX = objectX
+      newY = objectY
+      newZ = objectZ - 1
+    }
+    if( intPointZ - objectZ === 0.5 ){
+      newX = objectX
+      newY = objectY
+      newZ = objectZ + 1
+    }
+          
+    assetsData = [...assetsData,
+    new Object3D(
+      assetsData.length,
+      {x: newX, y: newY, z: newZ},
+      availableAssets[selectedAssetNumber].getRotation(),
+      availableAssets[selectedAssetNumber].name,
+      '#ffffff',
+      availableAssets[selectedAssetNumber].speed,
+      )
+    ]
+    // for (let asset of assetsData){
+    //     if(asset.position.x === x && asset.position.y === y && asset.position.z === z){
+          
+    //     }
+    // }
+    assetsData = [...assetsData]
+    $worldData.assetsNumber = assetsData.length
+    $worldData.assets = assetsData
   }
 
 </script>
@@ -269,7 +356,14 @@
                 rotation.y = {assetData.rotation.y}
                 rotation.z = {assetData.rotation.z}
                 color = {assetData.color}
-                on:click={(e) => {e.stopPropagation(); $assetOptionsPanelDisplay = 'block'; $selectedAsset = selectAsset(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); console.log($selectedAsset.userLoopCode, $selectedAsset.speed);}}
+                on:click={(e) => {
+                  e.stopPropagation(); 
+                  if ( $worldAddAsset === false ){ $assetOptionsPanelDisplay = 'block' }; 
+                  $selectedAsset = selectAsset(e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); 
+                  //addAsset(e.intersections[0].object.position.x + e.normal.z, e.intersections[0].object.position.y + e.normal.y, e.intersections[0].object.position.z + e.normal.x); 
+                  if ( $worldAddAsset === true ){ addAsset(e.point.x, e.point.y, e.point.z, e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); };
+                  console.log(e.point, $selectedAsset.userLoopCode, $selectedAsset.speed);
+                  }}
                 on:create = {()=>{}}
                 on:pointerover={onPointerEnter}
                 on:pointerleave={onPointerLeave}

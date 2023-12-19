@@ -36,9 +36,21 @@ export const lib = [
         code: 'let moveZ = function(num = 0) { object.position.z += num; };'
     },
     {
+        name: 'moveXBetween',
+        description: 'Move along X axis between two values.',
+        use: 'moveXBetween(1, 10)',
+        code: 'let moveXBetween = function(pointA = 0, pointB = 0) { object.position.x += object.speed; if (object.position.x > pointB || object.position.x < pointA){object.speed = -object.speed}};'
+    },
+    {
         name: 'moveYBetween',
         description: 'Move along Y axis between two values.',
         use: 'moveYBetween(1, 10)',
         code: 'let moveYBetween = function(pointA = 0, pointB = 0) { object.position.y += object.speed; if (object.position.y > pointB || object.position.y < pointA){object.speed = -object.speed}};'
+    },
+    {
+        name: 'moveZBetween',
+        description: 'Move along Z axis between two values.',
+        use: 'moveZBetween(1, 10)',
+        code: 'let moveZBetween = function(pointA = 0, pointB = 0) { object.position.z += object.speed; if (object.position.z > pointB || object.position.z < pointA){object.speed = -object.speed}};'
     }
 ]

@@ -10,6 +10,9 @@
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
     
+    export let data
+
+    console.log(data, data.world.background)
 
     let navMenuDisplay = 'none'
     let mobileMenuDisplay = 'none'
@@ -196,8 +199,12 @@
         
     </div>
     </div>
-    <div style='height: 60px;'>
+    <div style='height: 60px; display: flex; justify-content: space-between; align-items: center;'>
         <button id='createButton' on:click={()=>{proceduralWorld.getAssetsData(x, z, y)}} style='margin: 20px 0 0 10px;'>Create World</button>
+        <form method='POST' action='?/updateProject' enctype='multipart/form-data'>
+           <textarea name='assetsData' value='{$worldData.assets}' style='display: none'></textarea>
+           <button formaction="?/updateProject" style='margin-top: 20px; margin-right: 15px;'>Save World</button>
+        </form>
     </div>
 </div>
 
@@ -326,7 +333,7 @@ on:click={()=>{
 
     <div class='canvasContainer' style='background: linear-gradient({bgColor1Value}, {bgColor2Value});'>
         <Canvas >
-            <TestMiniWorlds bind:this={proceduralWorld}/>
+            <TestMiniWorlds bind:this={proceduralWorld} startAssets='{data.world.assetsDataJSON}'/>
         </Canvas>
     </div>
 
