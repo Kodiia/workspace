@@ -27,14 +27,15 @@ export async function load ({ locals, fetch, params}) {
   export  const actions = {
     updateProject: async ( { request, locals, params } ) =>{
         const formData = await request.formData()
-        console.log(formData)
+        
         try{
             await locals.pb.collection('testWorldsProjects').update(params.projectId, formData)
+            console.log(formData)
         } catch (err){
             console.log(err)
             throw error(err.status, err.message);
         }
 
-        throw redirect(303, `/games/procedural-worlds/${params.projectId}`)
+        // throw redirect(303, `/games/procedural-worlds/${params.projectId}`)
     }
   }
