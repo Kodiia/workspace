@@ -62,8 +62,9 @@
 
     let textAreaValue
     function setTextAreaValue(string = ''){
-        let object = { "assetsData" : string }
-        textAreaValue.value = JSON.stringify(object)
+        let assetsDataObject = { "assetsData" : string }
+        textAreaValue.value = JSON.stringify(assetsDataObject)
+        console.log(assetsDataObject)
         // .replace(/\\r/g, '\r')
         // .replace(/\\n/g, '\n')
     }
