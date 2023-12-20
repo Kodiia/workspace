@@ -364,6 +364,7 @@
                   //addAsset(e.intersections[0].object.position.x + e.normal.z, e.intersections[0].object.position.y + e.normal.y, e.intersections[0].object.position.z + e.normal.x); 
                   if ( $worldAddAsset === true ){ addAsset(e.point.x, e.point.y, e.point.z, e.intersections[0].object.position.x, e.intersections[0].object.position.y, e.intersections[0].object.position.z); };
                   console.log(e.point, $selectedAsset.userLoopCode, $selectedAsset.speed);
+                  console.log($worldData.assets)
                   }}
                 on:create = {()=>{}}
                 on:pointerover={onPointerEnter}
