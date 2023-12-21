@@ -29,7 +29,7 @@ export async function load ({ locals, fetch, params}) {
         const formData = await request.formData()
 
         const assetsData = formData.get('assetsDataJSON')
-        const assetsDataObject = { "assetsData" : assetsData }
+        const assetsDataObject = { "assetsData" : JSON.stringify(assetsData) }
         const assetsDataJSON = JSON.stringify(assetsDataObject)
         console.log( assetsData, assetsDataObject, assetsDataJSON)
 
