@@ -31,7 +31,8 @@ export async function load ({ locals, fetch, params}) {
         const assetsData = formData.get('assetsDataJSON')
         const assetsDataObject = { "assetsData" : assetsData }
         const assetsDataJSON = JSON.stringify(assetsDataObject)
-        
+        console.log( assetsData, assetsDataObject, assetsDataJSON)
+
         formData.set("assetsDataJSON", assetsDataJSON);
         
         try{
