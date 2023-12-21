@@ -211,7 +211,7 @@
     <div style='height: 60px; display: flex; justify-content: space-between; align-items: center;'>
         <button id='createButton' on:click={()=>{proceduralWorld.getAssetsData(x, z, y)}} style='margin: 20px 0 0 10px;'>Create World</button>
         <form method='POST' action='?/updateProject' enctype='multipart/form-data'>
-           <textarea name='assetsDataJSON' bind:this={textAreaValue} value='{$worldData.assets}' style='display: none'></textarea>
+           <textarea name='assetsDataJSON' value='{$worldData.assets}' style='display: block'></textarea>
            <textarea name='assetsData' value='{JSON.stringify($worldData.assets)}' style='display: none'></textarea>
            <!-- <button formaction="?/updateProject" style='margin-top: 20px; margin-right: 15px;' on:click={()=>{setTextAreaValue($worldData.assets); console.log(JSON.stringify($worldData.assets))}}>Save World</button> -->
            <button formaction="?/updateProject" style='margin-top: 20px; margin-right: 15px;'>Save World</button>
