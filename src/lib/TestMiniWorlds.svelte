@@ -61,14 +61,14 @@
   
 
   class Object3D {
-        constructor(id = 0, position = {}, rotation = {}, name = '', color = '#ffffff', speed = 0 ) {
+        constructor(id = 0, position = {}, rotation = {}, name = '', color = '#ffffff', speed = 0, userLoopCode = '' ) {
           this.id = id;
           this.position = position;
           this.rotation = rotation;
           this.name = name;
           this.color = color;
-          this.userLoopCode = '';
           this.speed = speed;
+          this.userLoopCode = userLoopCode;
         }
     }
   
@@ -221,6 +221,7 @@
         }
     }
     assetsData = [...assetsData]
+    $worldData.assets = assetsData
   }
 
   export function setAssetPosition(){
@@ -232,6 +233,7 @@
         }
     }
     assetsData = [...assetsData]
+    $worldData.assets = assetsData
   }
 
   export function setAssetRotation(){
@@ -244,6 +246,7 @@
         }
     }
     assetsData = [...assetsData]
+    $worldData.assets = assetsData
   }
 
   export function setAssetSpeed(){
@@ -254,6 +257,7 @@
         }
     }
     assetsData = [...assetsData]
+    $worldData.assets = assetsData
   }
 
   function addAsset(intPointX = 0, intPointY = 0, intPointZ = 0, objectX = 0, objectY = 0, objectZ = 0){
