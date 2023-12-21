@@ -14,6 +14,10 @@
 
     console.log(data, data.world.background)
 
+    if(data.world.assetsDataJSON){
+        $worldData.assets = data.world.assetsDataJSON
+    }
+
     let navMenuDisplay = 'none'
     let mobileMenuDisplay = 'none'
     let optionsPanelDisplay = 'block'
