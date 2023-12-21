@@ -15,7 +15,7 @@
     console.log(data, data.world.background)
 
     if(data.world.assetsDataJSON){
-        $worldData.assets = data.world.assetsDataJSON
+        $worldData.assets = data.world.assetsData
     }
 
     let navMenuDisplay = 'none'
