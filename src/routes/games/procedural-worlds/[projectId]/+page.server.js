@@ -28,12 +28,12 @@ export async function load ({ locals, fetch, params}) {
     updateProject: async ( { request, locals, params } ) =>{
         const formData = await request.formData()
 
-        const assetsData = formData.get('assetsDataJSON')
-        const assetsDataObject = { "assetsData" : JSON.stringify(assetsData) }
-        const assetsDataJSON = JSON.stringify(assetsDataObject)
-        console.log( assetsData, assetsDataObject, assetsDataJSON)
+        // const assetsData = formData.get('assetsDataJSON')
+        // const assetsDataObject = { "assetsData" : assetsData }
+        // const assetsDataJSON = JSON.stringify(assetsDataObject)
+        // console.log( assetsData, assetsDataObject, assetsDataJSON )
 
-        formData.set("assetsDataJSON", assetsDataJSON);
+        // formData.set("assetsDataJSON", assetsDataJSON);
         
         try{
             await locals.pb.collection('testWorldsProjects').update(params.projectId, formData)
