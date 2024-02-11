@@ -38,6 +38,7 @@
         backdrop-filter: blur(25px);
         -webkit-backdrop-filter: blur(25px);
         border-radius: 10px;
+        border: 2px solid #fdfdfd;
         box-shadow: 0 0 10px #3d95ee50;
         padding: 5px;
         /* margin: 10px; */
@@ -47,7 +48,8 @@
         /* flex-direction: column; */
     }
     .card-container:hover{
-        background: #f9f9f9;
+        /* background: #f9f9f9; */
+        border: 2px solid #4233fb50;
     }
     .imageContainer{
         width: 100%;

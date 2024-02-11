@@ -4,6 +4,7 @@
     import { width, height, stylesPanelState } from '$lib/store'
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import monster from '$lib/images/start_page_image.webp'
+    import discord_invite from '$lib/images/discord_invite.webp'
 	import { getImageUrl } from "$lib/utils.js";
 	import { json } from "@sveltejs/kit";
 
@@ -49,11 +50,11 @@
 <!-- <h1 style='margin-top: 70px;'>What code will you write?</h1> -->
 <div class='scrollable-container'>
     <div class='warning' style='flex-direction: {$width < 700 ? "column" : "row"};'>
-        <img src={monster} alt='monster funny' />
+        <img src={discord_invite} alt='monster funny' />
             <div>
-            <p>Hello! Thank you for being here! Kodiia is currently undergoing active development, so there may be things where certain features do not function as intended. In fact, it's possible that none of the features will work as expected. If you come across any unusual behavior on this platform, please do not hesitate to contact us at <span>info@kodiia.com</span>.</p>
+            <p>Hello! Thanks for being here! <br><br>I hope you'll have a great time exploring challenges, following tutorials, and creating your projects. <br><br>Kodiia is currently under active development, so some features may not work as intended. In fact, none of the features may work as expected. If you notice anything unusual or have any questions, feel free to reach us on our <a href='https://discord.gg/ma9Uadag3Z' target='_blank'>Discord server</a>.</p>
             <!-- <p>💜💜💜</p> -->
-            <p>Best, <br>Stepan from Kodiia</p>
+            <p>Have a great day! ✨ <br><br>Best, <br>Stepan</p>
         </div>
     </div>
 
@@ -134,18 +135,25 @@
     .warning{
         margin-top: 0px;
         padding: 10px;
-        background: #fdfdfd;
+        background: #060b25;
+        color: #f9f9f9;
         border-radius: 10px;
-        box-shadow: 0 0 10px #3d95ee50;
+        box-shadow: 0 0 10px #3d95ee90;
         display: flex;
+        align-items: center;
+
+        font-family: 'Source Code Pro', sans-serif;
+
+        box-sizing: border-box;
     }
     .warning img {
         width: 200px;
         height: 200px;
         padding-right: 10px;
+        border-radius: 50%;
     }
-    .warning span{
-        color: #4233fb;
+    .warning span, .warning a{
+        color: #3d95ee;
         font-weight: 500;
     }
     .panelsContainer{
@@ -218,7 +226,7 @@
     }
     .challenges-cards-container{
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));;
     }
     .smallMenuButton {
       background: none;
