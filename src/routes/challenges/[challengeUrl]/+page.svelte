@@ -8,6 +8,7 @@
     import { page } from '$app/stores';
 	import StylesPanel from '$lib/StylesPanel.svelte';
     import ProjectPanel from '$lib/ProjectPanel.svelte';
+    import NavPanel from '$lib/NavPanel.svelte';
     
     export let data
     console.log(data.challenge.stepsJSON)
@@ -50,7 +51,7 @@
 
 <svelte:window on:pointermove={(e)=>{if(resizeState){resize(e)}}} on:pointerup={()=>{resizeState = false; resizeCoverDiv.style.display = 'none'}}/>
 
-<nav>
+<!-- <nav>
     {#if $width > 700}
         <div class='desktopMenu' style='height: 50px;'>
             <a href='https://kodiia.com'>
@@ -107,7 +108,9 @@
             {/if}
         </div>
     {/if}
-</nav>
+</nav> -->
+
+<NavPanel data={data}/>
 
 <div class='container' style='width: {$width}px; height:{$height}px;'>
     

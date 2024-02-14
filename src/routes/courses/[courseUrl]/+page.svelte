@@ -4,6 +4,7 @@
     import StylesPanel from "$lib/StylesPanel.svelte";
     import { width, height, stylesPanelState } from '$lib/store'
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
+    import NavPanel from '$lib/NavPanel.svelte';
 
     export let data
     let tutorials = data.tutorials.items
@@ -16,7 +17,7 @@
 </script>
 
 <div class='container'>
-<nav>
+<!-- <nav>
     <div class='desktopMenu'>
         <a href='https://kodiia.com'>
             <img src={kodiia_logo_bw} alt='logo' width='70'>
@@ -34,8 +35,9 @@
             <a class='smallMenuButton' href='/login'>Log In</a>
         {/if}
     </div>
-</nav>
+</nav> -->
 
+<NavPanel data={data} />
 
 <div class='tutorial-cards-container' style='margin-top: 60px; grid-template-columns: {$width > 900 ? 'repeat(auto-fit, minmax(400px, 1fr))' : '1fr'}'>
     <div class='descriptionCard' style='background-image: url({courseImageUrl}); grid-column: {$width > 900 ? '1/3' : '1/1'};'>

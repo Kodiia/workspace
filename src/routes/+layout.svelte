@@ -1,5 +1,5 @@
 <script>
-    import { width, height, bgColor } from '$lib/store'
+    import { width, height, bgColor, textColor } from '$lib/store'
     import { navigating } from '$app/stores'
     import '../style.css' 
     import paths from '$lib/images/paths.svg'
@@ -23,7 +23,7 @@
 
 
 <!-- <div class='layout-container' style='width: {$width}px; height: {$height}px; background-image: url({paths}); background-size: 100px; background-color: hsl({$bgColor}); overflow: none;'> -->
-<div class='layout-container' style='background-color: hsl({$bgColor});'>
+<div class='layout-container' style='background-color: hsl({$bgColor}); color: hsl({$textColor});'>
 {#if $navigating}
     <!-- <div class='loader'></div>
     <h3>Loading...</h3> -->
@@ -31,7 +31,7 @@
         <div class='logo-card' style='background: url({kodiiaLogo}); background-position: center; background-repeat: no-repeat; background-size: 65px;'></div>
     </div> -->
     <div class='loaderContainer'>
-        <div class='loader'></div>
+        <div class='loader' style='border-color: hsl({$textColor}) transparent'></div>
         <p class='loaderText'>loading...</p>
     </div>
 {:else}
@@ -60,6 +60,8 @@
         flex-direction: column;
         align-items: center;
         justify-content: center; */
+
+        transition: all 0.5s;
     }
     /* .loader{
         width: 50px;

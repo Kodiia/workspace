@@ -38,7 +38,7 @@ button:hover{
 
 code{
   padding: 0 3px;
-  background: #dedede;
+  background: #808080;
   box-sizing: border-box;
   border-radius: 5px;
   font-family: 'Source Code Pro', monospace !important;
@@ -61,7 +61,7 @@ code{
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: rgba(66, 51, 251, 0.2);
+    background: rgba(66, 51, 251, 0.5);
     border-radius: 5px;
   }
   

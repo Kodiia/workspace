@@ -1,5 +1,5 @@
 <script>
-    import { fileToOpen } from '$lib/store'
+    import { fileToOpen, bgColor, textColor, secondaryColor } from '$lib/store'
     import { getFileLogoURL } from '$lib/utils'
     
 
@@ -9,9 +9,10 @@
     let logoPath = getFileLogoURL(fileType)
 
     let button
+    let isHovered = false;
 </script>
 
-<button bind:this={button} on:click={()=> { $fileToOpen = nameWithoutFileId }}>
+<button bind:this={button} on:click={()=> { $fileToOpen = nameWithoutFileId }} style='background-color: hsl({$secondaryColor}); color: hsl({$textColor}); border-color: hsl({isHovered ? '245, 96%, 85%, 50%' : $secondaryColor}); box-shadow: {isHovered ? "0 0 15px #3d95ee90" : "0 0 10px #3d95ee50"};' on:pointerenter={()=>{isHovered = !isHovered}} on:pointerleave={()=>{isHovered = !isHovered}}>
     <img src='{logoPath}' alt='logo' />
     <p>{nameWithoutFileId}</p>
 </button>
@@ -37,6 +38,8 @@
         cursor: pointer;
 
         /* transform: scale(1.0); */
+
+        transition: all 0.25s;
     }
     button:hover{
         background: #f9f9f9;

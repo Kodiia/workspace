@@ -1,5 +1,6 @@
 <script>
     import ProjectCard from "$lib/ProjectCard.svelte";
+    import NavPanel from "$lib/NavPanel.svelte";
     import StylesPanel from "$lib/StylesPanel.svelte";
     import { width, height, stylesPanelState } from '$lib/store'
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
@@ -10,7 +11,7 @@
 </script>
 
 <div class='container'>
-<nav>
+<!-- <nav>
     <div class='desktopMenu'>
         <a href='https://kodiia.com'>
             <img src={kodiia_logo_bw} alt='logo' width='70'>
@@ -28,7 +29,9 @@
             <a class='smallMenuButton' href='/login'>Log In</a>
         {/if}
     </div>
-</nav>
+</nav> -->
+
+<NavPanel data={data}/>
 
 <h2 style='margin-top: 70px'>Templates</h2>
 <p>Start building a project on your own.</p>

@@ -1,7 +1,10 @@
 import { writable } from 'svelte/store';
 import { availableAssets } from './worldAssets';
 
-export let bgColor = writable('0, 0%, 98%');
+export let theme = writable('dark');
+export let bgColor = writable('0, 0%, 10%');
+export let textColor = writable('0, 0%, 98%');
+export let secondaryColor = writable('0, 0%, 0%');
 export let stylesPanelState = writable(false);
 
 export let consolePanelState = writable(false);

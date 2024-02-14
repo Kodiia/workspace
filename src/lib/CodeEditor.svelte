@@ -8,7 +8,7 @@
   import parserCSS from "prettier/plugins/postcss";
 
     
-    import { filesLocalCopy, editorState, consolePanelState, consoleMessages } from './store';
+    import { filesLocalCopy, editorState, consolePanelState, consoleMessages, bgColor, textColor } from './store';
     import { getFileLogoURL } from '$lib/utils'
     // import {editorState, filesData, CSSthemeClass, userSRCDoc} from "./stores";
     

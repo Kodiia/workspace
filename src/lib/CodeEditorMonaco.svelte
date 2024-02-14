@@ -13,7 +13,7 @@
     import parserEstree from "prettier/plugins/estree";
     import parserCSS from "prettier/plugins/postcss";
 
-    import {height, editorState, consolePanelState, consoleMessages, filesLocalCopy} from '$lib/store'
+    import {height, editorState, consolePanelState, consoleMessages, filesLocalCopy, theme, bgColor, textColor} from '$lib/store'
     import {getFileLogoURL} from '$lib/utils'
 
 	let editorContainer;
@@ -65,12 +65,17 @@
                 return new editorWorker();
             }
         };
+        
+        let editorTheme = 'vs-dark'
+        $theme === 'dark' ? editorTheme = 'vs-dark' : editorTheme = 'vs-light'
+        
 
         Monaco = await import('monaco-editor');
         editor = Monaco.editor.create(editorContainer, {
             value: editorText,
             language: mode,
-            theme: 'vs-light',
+            fontSize: 14,
+            theme: editorTheme,
             scrollbar: {
                 verticalScrollbarSize: 5,
                 horizontalScrollbarSize: 5
@@ -87,6 +92,15 @@
               consoleMessages.set([]);
             }, 500)
         });
+
+        theme.subscribe(()=>{
+            if($theme === 'dark'){
+                Monaco.editor.setTheme('vs-dark')
+            } else {
+                Monaco.editor.setTheme('vs-light')
+            }
+           
+        })
 
         console.log(editor)
 
@@ -143,9 +157,9 @@
 
 <div class='container' style='height: {$height - 120}px'>
     
-    <div class='editorContainer' style='height: {$consolePanelState && mode==='javascript' && !readOnly ? "calc(100% - 130px)" : "calc(100% - 0px)"}'>
+    <div class='editorContainer' style='height: {$consolePanelState && mode==='javascript' && !readOnly ? "calc(100% - 130px)" : "calc(100% - 0px)"}; background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor});'>
         
-        <div class='editorMenu'>
+        <div class='editorMenu' style='background: hsl({$bgColor}); color: hsl({$textColor});'>
             {#if !readOnly}
                 <button bind:this={button} class="panelButton" on:click={()=>{editorState.set(false);}} >
                     <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
@@ -175,14 +189,14 @@
 
         <div class="editor" bind:this={editorContainer} style='height: {$consolePanelState && mode==='javascript' && !readOnly ? 'calc(100% - 70px)' : 'calc(100% - 70px)'}'>
             {#if !editorCreated}
-            <div class='editorLoaderContainer'>
-                <div class='editorLoader'></div>
+            <div class='editorLoaderContainer' style='background: hsl({$bgColor}); color: hsl({$textColor});'>
+                <div class='editorLoader' style='border-color: hsl({$textColor}) transparent'></div>
                 <p class='editorLoadingText'>loading editor...</p>
             </div>
             {/if}
         </div>
         
-        <div class='editorBottom'></div>
+        <div class='editorBottom' style='background: hsl({$bgColor}); color: hsl({$textColor}); '></div>
 
         
     </div>
@@ -211,7 +225,7 @@
         background: #fdfdfd;
     }
     .editorBottom{
-        height: 15px;
+        /* height: 15px; */
         background: #fdfdfd;
         border-top: 1px solid #1a1a1a20;
         border-radius: 0 0 15px 15px;
@@ -290,7 +304,7 @@
     .smallMenuButton {
       background: none;
       border: none;
-      color: #1a1a1a;
+      color: #3d95ee;
       font-family: Roboto, sans-serif;
       font-size: 1rem;
       font-weight: 300;

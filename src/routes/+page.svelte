@@ -1,4 +1,5 @@
 <script>
+    import NavPanel from "$lib/NavPanel.svelte";
     import ProjectCard from "$lib/ProjectCard.svelte";
     import StylesPanel from "$lib/StylesPanel.svelte";
     import { width, height, stylesPanelState } from '$lib/store'
@@ -21,7 +22,8 @@
 </script>
 
 <div class='container'>
-<nav>
+    <NavPanel data={data} />
+<!-- <nav>
     <div class='desktopMenu'>
         <a href='https://kodiia.com'>
             <img src={kodiia_logo_bw} alt='logo' width='70'>
@@ -38,7 +40,7 @@
             <a class='smallMenuButton' href='/login'>Log In</a>
         {/if}
     </div>
-</nav>
+</nav> -->
 
 {#if $stylesPanelState}
     <div style='position: absolute; top: 0px; right: 0px; padding: 0px; width: min(300px, 100%);'>
@@ -138,7 +140,7 @@
         background: #060b25;
         color: #f9f9f9;
         border-radius: 10px;
-        box-shadow: 0 0 10px #3d95ee90;
+        box-shadow: 0 0 10px #3d95ee;
         display: flex;
         align-items: center;
 
@@ -175,30 +177,8 @@
         justify-content: center;
         align-items: center; */
     }
-    nav{
-        position: fixed;
-        top:0;
-        left: 0;
-        min-height: 50px;
-        width: 100%;
-        box-sizing: border-box;
-        border-radius: 0 0 10px 10px;
-        background: #fdfdfd;
-        background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        padding: 0 20px;
-        margin: 0px 0px 10px 0px;
-        box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        z-index: 2;
-    }
-    .desktopMenu{
-        display: flex;
-        align-items: center;
-    }
+
+    
     h1{
         text-align: center;
     }
@@ -217,17 +197,17 @@
         margin-left: auto;
         margin-right: auto;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         grid-gap: 10px;
     }
-    .tutorial-cards-container{
+    /* .tutorial-cards-container{
         display: grid;
         grid-template-columns: 1fr;
     }
     .challenges-cards-container{
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));;
-    }
+    } */
     .smallMenuButton {
       background: none;
       border: none;

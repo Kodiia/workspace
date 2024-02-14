@@ -14,6 +14,8 @@
 
     import {getFileLogoURL} from '$lib/utils'
 
+    import { theme, bgColor, textColor } from '$lib/store'
+ 
     export let fileName = 'index.html'
     let mode = fileName.split('.')[1]
     let parserMode = mode
@@ -43,8 +45,11 @@
     let monaco;
 
     onMount(async ()=>{
+      let editorTheme = 'vs-dark'
+        $theme === 'dark' ? editorTheme = 'vs-dark' : editorTheme = 'vs-light'
+
       monaco = await import('monaco-editor');
-      monaco.editor.setTheme('vs-light')
+      monaco.editor.setTheme(editorTheme)
 
       formatText(code).then( result =>{
         monaco.editor.colorize(result, mode, { })
@@ -63,11 +68,20 @@
         }, 1500);
     }
 
+    // theme.subscribe(()=>{
+    //         if($theme === 'dark'){
+    //             monaco.editor.setTheme('vs-dark')
+    //         } else {
+    //             monaco.editor.setTheme('vs-light')
+    //         }
+           
+    //     })
+
 </script>
 
 
-<div class='codeSnippetContainer' >
-    <div class='snippetMenu'>
+<div class='codeSnippetContainer' style='background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor});'>
+    <div class='snippetMenu' style='background: hsl({$bgColor}); color: hsl({$textColor});'>
       <div style="display: flex; justify-content: center; align-items: center;">
         <img src="{logoPath}" width="20" height="20" style="margin-right: 0px;" alt="file logo">
         <h5>{fileName}</h5>
@@ -77,7 +91,7 @@
       </div>
     </div>
     <pre class='codeSnippet' bind:this = {codeContainer} data-lang='text/{mode}'></pre>
-    <div class='snippetBottom'></div>
+    <div class='snippetBottom' style='background: hsl({$bgColor}); color: hsl({$textColor});'></div>
   </div>
   
   <style>
@@ -127,7 +141,7 @@
   .smallMenuButton {
         background: none;
         border: none;
-        color: #1a1a1a;
+        color: #3d95ee;
         font-family: Roboto, sans-serif;
         font-size: 1rem;
         font-weight: 300;

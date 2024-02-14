@@ -1,4 +1,10 @@
-export function createSVG(containerElement, id = 'card', SVGscale = 1, width = 200, height = 200, cutHeight = 20, strokeColor = 'black', fillColor = 'black', contourState = false){
+<script>
+	import { onMount } from "svelte";
+
+  import { width } from '$lib/store';
+
+    let container 
+    function createSVG(width = 200, height = 200, cutHeight = 20, strokeColor = 'black', fillColor = 'blue', contourState = false, containerElement = '', id = 'card', SVGscale = 1){
     let container = document.createElement('div')
     container.id = id;
     container.style.position = 'absolute';
@@ -261,23 +267,23 @@ export function createSVG(containerElement, id = 'card', SVGscale = 1, width = 2
     linePath.setAttribute('stroke', strokeColor);
     linePath.setAttribute('fill-rule', 'evenodd');
     
-    if(contourState){
-      linePath.setAttribute(
-        'd',
-        setTopCoordinatesString(topCoords, containerWidth, containerHeight, boxWidth, boxHeight, containerOffset, radius) + setBottomCoordinatesString(bottomCoords, containerWidth, containerHeight, boxWidth, boxHeight, containerOffset, radius) + setFrameCoordinates(containerWidth, containerHeight)
-      );
-    }else{
-      linePath.setAttribute(
-        'd',
-        setTopCoordinatesString(topCoords, containerWidth, containerHeight, boxWidth, boxHeight, containerOffset, radius) + setBottomCoordinatesString(bottomCoords, containerWidth, containerHeight, boxWidth, boxHeight, containerOffset, radius)// + setFrameCoordinates(containerWidth, containerHeight)
-      );
-    }
-    linePath.setAttribute('stroke-linecap', 'round');
-    linePath.setAttribute('stroke-linejoin', 'round');
-    linePath.setAttribute('stroke-width', '1');
+    // if(contourState){
+    //   linePath.setAttribute(
+    //     'd',
+    //     setTopCoordinatesString(topCoords, containerWidth, containerHeight, boxWidth, boxHeight, containerOffset, radius) + setBottomCoordinatesString(bottomCoords, containerWidth, containerHeight, boxWidth, boxHeight, containerOffset, radius) + setFrameCoordinates(containerWidth, containerHeight)
+    //   );
+    // }else{
+    //   linePath.setAttribute(
+    //     'd',
+    //     setTopCoordinatesString(topCoords, containerWidth, containerHeight, boxWidth, boxHeight, containerOffset, radius) + setBottomCoordinatesString(bottomCoords, containerWidth, containerHeight, boxWidth, boxHeight, containerOffset, radius)// + setFrameCoordinates(containerWidth, containerHeight)
+    //   );
+    // }
+    // linePath.setAttribute('stroke-linecap', 'round');
+    // linePath.setAttribute('stroke-linejoin', 'round');
+    // linePath.setAttribute('stroke-width', '1');
   
-    group.appendChild(linePath)
-    line.appendChild(group);
+    // group.appendChild(linePath)
+    // line.appendChild(group);
     
   //   const image = document.createElementNS('http://www.w3.org/2000/svg', 'image')
   //   image.setAttribute('href', 'http://placekitten.com/600/400')
@@ -287,5 +293,35 @@ export function createSVG(containerElement, id = 'card', SVGscale = 1, width = 2
     // container.appendChild(line)
     // containerElement.appendChild(container)
 
-    return line
+    let pathData = setTopCoordinatesString(topCoords, containerWidth, containerHeight, boxWidth, boxHeight, containerOffset, radius) + setBottomCoordinatesString(bottomCoords, containerWidth, containerHeight, boxWidth, boxHeight, containerOffset, radius)// + setFrameCoordinates(containerWidth, containerHeight)
+
+    return pathData
   }
+
+
+export let imageUrl = '/api/images/courses/8vuzxx3aug1e42w/caYTNNOM8q7V_wHy79LH0FW.webp'
+
+let containerWidth = 200
+let SVGpath
+
+onMount(()=>{
+  SVGpath = createSVG(containerWidth, containerWidth, 20)
+})
+
+width.subscribe(()=>{
+  SVGpath = createSVG(containerWidth, containerWidth, 20)
+})
+  
+</script>
+
+<div bind:this = {container} bind:clientWidth={containerWidth} style='width: 100%'>
+    <svg width='100%' height='100%' viewBox='0 0 200 200'>
+        <g>
+            <path d={SVGpath} fill='#0000ff00'></path>
+        </g>
+    </svg>
+    
+    <div style='position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background: grey; background-image: url({imageUrl}); background-size: cover; background-position: center; clip-path: path("{SVGpath}");'>
+
+    </div>
+</div>
