@@ -38,9 +38,9 @@
                 {/if}
 
                 {#if $page.route.id == '/challenges/[challengeUrl]' || $page.route.id == '/templates/[templateUrl]' || $page.route.id == '/courses/[courseUrl]/[tutorialUrl]'}
-                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block'; $resourcesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Files</button>
+                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block';}}'>Files</button>
         
-                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$resourcesPanelDisplay = 'block'; $filesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Resources</button>
+                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$resourcesPanelDisplay = 'block';}}'>Resources</button>
                 {/if}
                 {#if data.user}
                 <form action='/logout' method='POST'>
