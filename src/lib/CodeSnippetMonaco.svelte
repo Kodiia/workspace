@@ -80,8 +80,8 @@
 </script>
 
 
-<div class='codeSnippetContainer' style='background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor});'>
-    <div class='snippetMenu' style='background: hsl({$bgColor}); color: hsl({$textColor});'>
+<div class='codeSnippetContainer' style='background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
+    <div class='snippetMenu' style='background: hsl({$bgColor}); color: hsl({$textColor}); border-bottom: 1px solid hsl({$textColor + ', 20%'})'>
       <div style="display: flex; justify-content: center; align-items: center;">
         <img src="{logoPath}" width="20" height="20" style="margin-right: 0px;" alt="file logo">
         <h5>{fileName}</h5>
@@ -91,7 +91,7 @@
       </div>
     </div>
     <pre class='codeSnippet' bind:this = {codeContainer} data-lang='text/{mode}'></pre>
-    <div class='snippetBottom' style='background: hsl({$bgColor}); color: hsl({$textColor});'></div>
+    <div class='snippetBottom' style='background: hsl({$bgColor}); color: hsl({$textColor}); border-top: 1px solid hsl({$textColor + ', 20%'})'></div>
   </div>
   
   <style>

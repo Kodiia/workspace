@@ -157,9 +157,9 @@
 
 <div class='container' style='height: {$height - 120}px'>
     
-    <div class='editorContainer' style='height: {$consolePanelState && mode==='javascript' && !readOnly ? "calc(100% - 130px)" : "calc(100% - 0px)"}; background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor});'>
+    <div class='editorContainer' style='height: {$consolePanelState && mode==='javascript' && !readOnly ? "calc(100% - 130px)" : "calc(100% - 0px)"}; background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
         
-        <div class='editorMenu' style='background: hsl({$bgColor}); color: hsl({$textColor});'>
+        <div class='editorMenu' style='background: hsl({$bgColor}); color: hsl({$textColor}); border-bottom:  1px solid hsl({$textColor + ', 20%'})'>
             {#if !readOnly}
                 <button bind:this={button} class="panelButton" on:click={()=>{editorState.set(false);}} >
                     <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
@@ -196,7 +196,7 @@
             {/if}
         </div>
         
-        <div class='editorBottom' style='background: hsl({$bgColor}); color: hsl({$textColor}); '></div>
+        <div class='editorBottom' style='background: hsl({$bgColor}); color: hsl({$textColor}); border-top: 1px solid hsl({$textColor + ', 20%'});'></div>
 
         
     </div>
@@ -219,10 +219,10 @@
         position: relative;
     }
     .editor {
-        width: 100%;
+        width: calc(100% - 1px);
         height: 100%;
         border-radius: 0 0 15px 15px;
-        background: #fdfdfd;
+        /* background: #fdfdfd; */
     }
     .editorBottom{
         /* height: 15px; */
