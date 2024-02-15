@@ -6,7 +6,7 @@
 <div class='container'>
 <div class='card'>
     <img src={monster_email} alt='monster' />
-    <h2>Cool! We have sent you an email!</h2>
+    <h2>Cool! We've sent you an email!</h2>
     <p>Please, check your email and click <b>Verify</b> to activate your account. It usually takes a few minutes for an email to get into your <b>Inbox</b>. If you cant't find it, please, check your <b>Spam</b> folder.</p>
 
     <p>Already verified your email? Click here to <a href='/login' style='color: hsl({$textColor})'>Log In</a></p>
