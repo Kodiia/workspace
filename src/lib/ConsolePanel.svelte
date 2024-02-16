@@ -1,7 +1,7 @@
 <script>
     // import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
-    import { consolePanelState, consoleMessages } from './store';
+    import { consolePanelState, consoleMessages, bgColor, textColor, secondaryColor } from './store';
 
     // export let consoleMessages = []
     let consoleData, button
@@ -10,12 +10,12 @@
     
 </script>
 
-<div class='panel'>
+<div class='panel' style='background: hsl({$secondaryColor}); color: hsl({$textColor});'>
     <button bind:this={button} class="panelButton" on:click={()=>{consolePanelState.set(false);}} >
         <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
     </button>
     <h4 style='margin: 0;'>Console</h4>
-    <div class='consoleDataContainer' bind:this={consoleData}>
+    <div class='consoleDataContainer' bind:this={consoleData} style='background: hsl({$secondaryColor})'>
     {#each $consoleMessages as message}
         {#if message.type === 'text'}
             <p class='text-message'>{message.text}</p>

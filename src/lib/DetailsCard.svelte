@@ -122,7 +122,7 @@
         }
 
         :global(p.dark code) {
-            background: rgb(150, 150, 150); /* default background color */
+            background: rgb(120, 120, 120); /* default background color */
         }
 
         :global(p.light code) {
