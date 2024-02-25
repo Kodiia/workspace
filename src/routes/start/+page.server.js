@@ -1,5 +1,4 @@
 import { error, redirect } from '@sveltejs/kit'
-import { Record } from 'pocketbase';
 
 export const actions = {
     createProject: async ({ locals, request }) => {
@@ -13,14 +12,19 @@ export const actions = {
           });
         formData.append('files', file);
 
+        const file = new File(["body{color:grey;}"], "style.css", {
+            type: "text/plain",
+          });
+        formData.append('files', file);
+
         formData.append('createdBy', locals.user.id)
 
         try {
             const record = await locals.pb.collection('userProjects').create(formData)
-            throw redirect(303, `/myProjects/${record.id}`)
+            throw redirect(303, `/projects/${record.id}`)
         } catch (err) {
             console.log('Error: ', err)
-            throw error(500, 'Something went wrong')
+            throw error(500, err.message)
         }
 
         
