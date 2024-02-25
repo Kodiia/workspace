@@ -12,7 +12,7 @@ export const actions = {
           };
 
         try {
-            await locals.pb.collection('userProjects').create({projectData})
+            await locals.pb.collection('userProjects').create(projectData)
             // await locals.pb.collection('users').requestVerification(body.email)
         } catch (err) {
             console.log('Error: ', err)
