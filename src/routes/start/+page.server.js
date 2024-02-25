@@ -12,10 +12,10 @@ export const actions = {
           });
         formData.append('files', file);
 
-        const file = new File(["body{color:grey;}"], "style.css", {
+        const fileCSS = new File(["body{color:grey;}"], "style.css", {
             type: "text/plain",
           });
-        formData.append('files', file);
+        formData.append('files', fileCSS);
 
         formData.append('createdBy', locals.user.id)
 
