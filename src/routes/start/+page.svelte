@@ -19,7 +19,7 @@
 <div class='container' style='background: hsl({$secondaryColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
     <h2>My next <span class='randomWordSpan'>{randomAdjective()}</span> web project is...</h2>
     
-    <form action='?/login' method='POST' class='formContainer'>
+    <form action='?/createProject' method='POST' class='formContainer'>
     <div class='formFieldContainer'>
         <label for='name' class='formLabel'>
             <span class='labelSpan'>project name</span>

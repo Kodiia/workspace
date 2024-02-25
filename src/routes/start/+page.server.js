@@ -1,7 +1,7 @@
 import { error, redirect } from '@sveltejs/kit'
 
 export const actions = {
-    register: async ({ locals, request }) => {
+    createProject: async ({ locals, request }) => {
         const body = Object.fromEntries(await request.formData())
 
         const projectData = {
