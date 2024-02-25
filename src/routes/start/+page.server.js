@@ -12,7 +12,7 @@ export const actions = {
           });
         formData.append('files', file);
 
-        formData.append('createdBy', "RELATION_RECORD_ID")
+        formData.append('createdBy', locals.user.id)
 
         try {
             await locals.pb.collection('userProjects').create(formData)
