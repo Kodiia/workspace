@@ -1,8 +1,10 @@
 <script>
-let password = ''
-let emailField, emailValue = ''
+    import {secondaryColor, textColor} from '$lib/store'
+    let password = ''
+    let emailField, emailValue = ''
 </script>
-<div class='container'>
+
+<div class='container' style='background: hsl({$secondaryColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
     <h2>Get started for free</h2>
     <p>Or <a href='/login'>log in</a> if you already have an account.</p>
 
@@ -36,16 +38,19 @@ let emailField, emailValue = ''
     .container{
         width: min(400px, calc(100% - 10px));
         padding: 10px;
-        background: linear-gradient(45deg, #ffffff50, #ffffff90);
+        background: linear-gradient(45deg, #ffffff10, #ffffff10);
         backdrop-filter: blur(25px);
         -webkit-backdrop-filter: blur(25px);
         border: 1px solid #ffffff90;
         border-radius: 15px;
-        box-shadow: 0 0 10px #4233fb20;
+        box-shadow: 0 0 10px #3d95ee50;
         box-sizing: border-box;
         margin-left: auto;
         margin-right: auto;
         margin-top: 50px;
+        margin-bottom: 50px;
+
+
     }
     .formFieldContainer{
         display: flex;
@@ -53,7 +58,7 @@ let emailField, emailValue = ''
         margin: 10px 0;
     }
     a{
-        color: #4233fb;
+        color: #3d95ee;
     }
     h2{
         margin: 0;
@@ -68,7 +73,7 @@ let emailField, emailValue = ''
         transform: scale(1.01);
     }
     .submitButton:disabled{
-        background: lightgrey;
+        background: rgb(150,150,150);
         border: none;
         cursor: default;
         transform: scale(1.0);

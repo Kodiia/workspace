@@ -1,8 +1,10 @@
 <script>
+    import {secondaryColor, textColor} from '$lib/store'
+
     export let form
 
 </script>
-<div class='container'>
+<div class='container' style='background: hsl({$secondaryColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
     <h2>Log in to Kodiia</h2>
     <p>Or <a href='/register'>sing up for free</a> if you don't have an account.</p>
 
@@ -42,10 +44,11 @@
         -webkit-backdrop-filter: blur(25px);
         border: 1px solid #ffffff90;
         border-radius: 15px;
-        box-shadow: 0 0 10px #4233fb20;
+        box-shadow: 0 0 10px #3d95ee50;
         margin-left: auto;
         margin-right: auto;
         margin-top: 50px;
+        margin-bottom: 50px;
     }
     .formFieldContainer{
         display: flex;
@@ -53,7 +56,7 @@
         margin: 10px 0;
     }
     a{
-        color: #4233fb;
+        color: #3d95ee;
     }
     h2{
         margin: 0;

@@ -1,8 +1,10 @@
 <script>
+    import {secondaryColor, textColor} from '$lib/store'
+
     export let form
 
 </script>
-<div class='container'>
+<div class='container' style='background: hsl({$secondaryColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
     <h2>Reset your password</h2>
     <p>We'll send you an email with a link to reset your password.</p>
 
@@ -36,10 +38,11 @@
         -webkit-backdrop-filter: blur(25px);
         border: 1px solid #ffffff90;
         border-radius: 15px;
-        box-shadow: 0 0 10px #4233fb20;
+        box-shadow: 0 0 10px #3d95ee50;
         margin-left: auto;
         margin-right: auto;
         margin-top: 50px;
+        margin-bottom: 50px;
     }
     .formFieldContainer{
         display: flex;

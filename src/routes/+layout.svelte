@@ -31,7 +31,7 @@
         <div class='logo-card' style='background: url({kodiiaLogo}); background-position: center; background-repeat: no-repeat; background-size: 65px;'></div>
     </div> -->
     <div class='loaderContainer'>
-        <div class='loader' style='border-color: hsl({$textColor}) transparent'></div>
+        <div class='loader' style='border-color: hsl({$textColor}) transparent;'></div>
         <p class='loaderText'>loading...</p>
     </div>
 {:else}
@@ -39,7 +39,7 @@
         <slot />
     {:else}
         <div class='loaderContainer'>
-            <div class='loader'></div>
+            <div class='loader' style='border-color: hsl({$textColor}) transparent;'></div>
             <p class='loaderText'>loading...</p>
         </div>
     {/if}
