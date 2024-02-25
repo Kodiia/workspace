@@ -1,4 +1,5 @@
 import { error, redirect } from '@sveltejs/kit'
+import { Record } from 'pocketbase';
 
 export const actions = {
     createProject: async ({ locals, request }) => {
@@ -15,12 +16,13 @@ export const actions = {
         formData.append('createdBy', locals.user.id)
 
         try {
-            await locals.pb.collection('userProjects').create(formData)
+            const record = await locals.pb.collection('userProjects').create(formData)
+            throw redirect(303, '/myProjects/' + record.id)
         } catch (err) {
             console.log('Error: ', err)
             throw error(500, 'Something went wrong')
         }
 
-        throw redirect(303, '/email-check')
+        
     }
 }
