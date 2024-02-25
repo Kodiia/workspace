@@ -21,10 +21,10 @@ export const actions = {
 
         try {
             const record = await locals.pb.collection('userProjects').create(formData)
-            throw redirect(303, `/projects/${record.id}`)
+            throw redirect(303, `https://kodiia.me/projects/${record.id}`)
         } catch (err) {
             console.log('Error: ', err)
-            throw error(500, err.message)
+            throw error(500, 'Something went wrong')
         }
 
         
