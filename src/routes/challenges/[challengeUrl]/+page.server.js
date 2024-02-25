@@ -1,12 +1,6 @@
 import { DB_URL } from '$env/static/private'
 import { error } from '@sveltejs/kit';
 import { serializeNonPOJOs } from '$lib/utils';
-// const fetch = require('node-fetch')
-
-// let id = ''
-// projectId.subscribe(value => {
-//   id = value
-// })
 
 export async function load ({ locals, fetch, params}) {
     //console.log(params)
