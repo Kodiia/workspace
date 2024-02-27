@@ -1,11 +1,36 @@
 <script>
     import {bgColor, secondaryColor, textColor} from '$lib/store'
     import NavPanel from '$lib/NavPanel.svelte';
+    import { getFileLogoURL } from '$lib/utils'
+
     export let form
     export let data
 
-    let libraries = []
-    let availableLibraries = ['p5.js', 'three.js', 'brain.js']
+    let selectedLibrary = 'p5.js'
+    let availableLibraries = [
+        {
+            name: 'basic',
+            logos: ['html', 'css', 'js'],
+            size: 30
+        }, 
+        {
+            name: 'p5.js',
+            logos: ['p5js'],
+            size: 40
+        },
+        {
+            name: 'three.js',
+            logos: ['threejs'],
+            size: 30
+        },
+        {
+            name: 'brain.js',
+            logos: ['brainjs'],
+            size: 30
+        }
+    ]
+    // let logoPath = getFileLogoURL(fileType)
+    
     function randomAdjective(){
         let words = ['awesome', 'dazzling', 'cool', 'stunning']
         let word = words[Math.floor(Math.random()*words.length)]
@@ -16,38 +41,56 @@
 
 <NavPanel data={data}/>
 
-<div class='container' style='background: hsl({$secondaryColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
-    <h2>My next <span class='randomWordSpan'>{randomAdjective()}</span> web project is...</h2>
+<div class='container'>
+    <h2>Start your next <span class='randomWordSpan'>{randomAdjective()}</span> web project.</h2>
     
     <form action='?/createProject' method='POST' class='formContainer'>
-    <div class='formFieldContainer'>
-        <label for='name' class='formLabel'>
-            <span class='labelSpan'>project name</span>
-        </label>
-        <input type='text' name='name' class='formInput' value='Shiny Unicorn' style='background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ", 20%"});'/>
-    </div>
-    <div class='formFieldContainer'>
-        <p style='margin-top: 0; margin-bottom: 5px;'>add libraries</p>
-        <div class='buttonsContainer'>
-            {#each availableLibraries as lib}
-                <button type="button" class='libraryButton' style='background: {libraries.includes(lib) ? "#3d95ee" : "none"}; color: hsl({libraries.includes(lib) ? "0, 0%, 98%" : "210, 84%, 59%"});' 
-                on:click={() => {
-                    libraries = libraries.includes(lib) ? libraries.filter((item) => item !== lib) : [...libraries, lib];
-                    console.log(libraries)
-                    }}>
-                {lib}
-                </button>
-            {/each}
+        <div class='formFieldContainer'>
+            <p style='margin-top: 0; margin-bottom: 5px;'>Choose a template</p>
+            <div class='templatesContainer'>
+                {#each availableLibraries as lib}
+                <div class='buttonWrapper' style='background: {selectedLibrary === lib.name ? "linear-gradient(#3d95ee, #4233fb)" : "linear-gradient(#3d95ee50, #4233fb50)"}; box-shadow: {selectedLibrary === lib.name ? "0 0 10px #3d95ee" : "none"};'>
+                    <button type="button" class='libraryButton' style='background:  hsl({$secondaryColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ", 20%"}); animation: {selectedLibrary === lib.name ? "1s infinite blink" : "none"};' 
+                    on:click={() => {
+                        selectedLibrary = lib.name
+                        // libraries = libraries.includes(lib) ? libraries.filter((item) => item !== lib) : [...libraries, lib];
+                        // console.log(libraries)
+                        }}>
+                        <div class='logosContainer' style='background: none;'>
+                            {#each lib.logos as logo}
+                                <img src={getFileLogoURL(logo)} alt='logo' style='width: {lib.size + 'px'}'/>    
+                            {/each}
+                        </div>
+                        <div class='libraryNameWrapper'>
+                            {lib.name}
+                        </div>
+                    </button>
+                </div>
+                {/each}
+            </div>
+            <input type='text' name='template' class='formInput' value='{selectedLibrary}' style='display: none;'/>
+            
         </div>
-        
+    
+        <div class='formFieldContainer'>
+            <div style='display:flex; align-items: last baseline;'>
+                <div style='box-sizing: border-box; margin-right: 5px;'>
+                <label for='name' class='formLabel'>
+                    <span class='labelSpan'>Enter a project name</span>
+                </label>
+                <input type='text' name='name' class='formInput' value='Shiny Unicorn' style='background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ", 20%"}); width: 100%;'/>
+                </div>
+            <button type='submit' class='submitButton' disabled='{data.user ? false : true}'>Create</button>
+        </div>
     </div>
+   
     
         
-    <div class='formFieldContainer'>
-        <button type='submit' class='submitButton' disabled='{data.user ? false : true}'>Create</button>
-    </div>
+    <!-- <div class='formFieldContainer'>
+        
+    </div> -->
 
-    <p style='margin: 0;'>Please, <a href='/register'>Sign Up</a> or <a href='/login'>Log In</a> to create project<br> or continue to other resources.</p>
+    <p style='margin: 0; text-align: center;'><a href='/register'>Sign Up</a> or <a href='/login'>Log In</a> to create and save projects.</p>
 
     </form>
 
@@ -57,23 +100,21 @@
         <a href='/templates'>Sandbox</a>
     </details> -->
 
-    <div class='optionsContainer'>
+    <!-- <div class='optionsContainer'>
         <a href='/challenges'>Challenges</a>
         <a href='/templates'>Sandbox</a>
-    </div>
+    </div> -->
 
 </div>
 
 <style>
     .container{
-        width: min(400px, calc(100% - 10px));
+        width: min(415px, calc(100% - 10px));
         padding: 10px;
-        background: linear-gradient(45deg, #ffffff50, #ffffff90);
+        background: none;
         backdrop-filter: blur(25px);
         -webkit-backdrop-filter: blur(25px);
-        border: 1px solid #ffffff90;
-        border-radius: 15px;
-        box-shadow: 0 0 10px #3d95ee50;
+        border: none;
         margin-left: auto;
         margin-right: auto;
         margin-top: 60px;
@@ -84,24 +125,29 @@
         flex-direction: column;
         margin: 10px 0;
     }
+    .labelSpan{
+
+    }
     a{
         color: #3d95ee;
     }
     h2{
         margin: 0;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
+        font-weight: 300;
+        text-align: center;
     }
 
     .submitButton{
-        width: 200px;
+        width: fit-content;
         height: 50px;
         background: radial-gradient(circle, #3d95ee, #4233fb);
         color: #f9f9f9;
         margin-top: 10px;
         transform: scale(1.0);
         border: 2px solid #4233fb00;
-        border-radius: 25px;
-        margin: 10px auto;
+        border-radius: 10px;
+        margin: 10px auto 0 auto;
         transition: all 0.25s;
     }
     .submitButton:hover{
@@ -122,6 +168,13 @@
         font-family: "Source Code Pro", sans-serif;
         font-size: 1.2rem;
     }
+    input{
+        height: 50px;
+        box-sizing: border-box;
+        margin-top: 15px;
+        margin-right: 5px;
+        transition: all 0.25s;
+    }
     input:focus{
         border: 1px solid #3d95ee;
     }
@@ -129,38 +182,75 @@
         padding-bottom: 10px;
     }
     .randomWordSpan{
-        background: radial-gradient(circle, #3d95ee, #4233fb);
+        background: linear-gradient(45deg, #3d95ee, #4233fb);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
+        font-weight: 500;
+        letter-spacing: -1px;
     }
 
-    .buttonsContainer {
-        display: block;
+    .templatesContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 100px);
+        gap: 5px;
+        margin-top: 10px;;
+    }
+
+    .buttonWrapper{
+        width: 100px;
+        height: 100px;
+        padding: 1px;
+        border-radius: 10px;
+        transition: all 0.25s;
+        box-sizing: border-box;
     }
 
     .libraryButton{
-        width: fit-content;
-        padding: 5px;
-        border: 1px solid #3d95ee;
+        width: 100%;
+        height: 100%;
+        padding: 2px 1px 1px 1px;
         margin-right: 5px;
-    }
-
-    .optionsContainer{
-        display: flex;
-        justify-content: space-around;
-        padding: 20px 0 10px 0;
-    }
-
-    .optionsContainer a{
-        text-decoration: none;
-        background: #4233fb;
-        padding: 10px;
-        color: #f9f9f9;
-        border-radius: 10px;
         transition: all 0.25s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
     }
-    .optionsContainer a:hover{
-        box-shadow: 0 0 10px #3d95ee;
+
+    .libraryNameWrapper{
+        height: 30%;
+        width: 100%;
+        padding: 5px;
+        border-radius: 9px;
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        box-sizing: border-box;
+    }
+
+    .logosContainer{
+        height: 55%;
+        display: flex;
+        align-items: end;
+    }
+
+    .logosContainer img{
+        width: 30px;
+        height: 30px;
+    }
+
+
+    @keyframes blink {
+        0%{
+            filter: drop-shadow(0 0 0px #3d95ee);
+        }
+        50%{
+            filter: drop-shadow(0 0 10px #3d95ee);
+        }
+        100%{
+            filter: drop-shadow(0 0 0px #3d95ee);
+        }
     }
 </style>

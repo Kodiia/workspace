@@ -16,7 +16,7 @@
             $textColor = '0, 0%, 10%'
         } else {
             $theme = 'dark';
-            $bgColor = '0, 0%, 10%';
+            $bgColor = '0, 0%, 15%';
             $secondaryColor = '0, 0%, 0%'
             $textColor = '0, 0%, 98%'
         }

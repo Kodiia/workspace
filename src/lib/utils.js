@@ -4,6 +4,9 @@ import jsSVG from '$lib/logos/js.svg'
 import mdSVG from '$lib/logos/md.svg'
 import txtSVG from '$lib/logos/txt.svg'
 import svelteSVG from '$lib/logos/svelte.svg'
+import threejsSVG from '$lib/logos/threejs.svg'
+import p5jsSVG from '$lib/logos/p5js.svg'
+import brainjsSVG from '$lib/logos/brainjs.svg'
 
 // const { randomBytes } = await import('node:crypto');
 
@@ -52,6 +55,18 @@ export const getFileLogoURL = (fileType) => {
 
         case 'svelte':
         logoPath = svelteSVG
+        break;
+
+        case 'threejs':
+        logoPath = threejsSVG
+        break;
+
+        case 'p5js':
+        logoPath = p5jsSVG
+        break;
+
+        case 'brainjs':
+        logoPath = brainjsSVG
         break;
     }
     console.log(htmlSVG, logoPath)
