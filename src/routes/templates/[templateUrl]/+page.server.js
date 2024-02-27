@@ -12,23 +12,6 @@ export async function load ({ locals, fetch, params}) {
     //console.log(params)
     let templateUrl = params.templateUrl
 
-    // const getTemplate = async () =>{
-      
-
-    //     try{
-    //         const courseData = await locals.pb.collection('courses').getList(1, 20, { 
-    //             '$autoCancel': false,
-    //             filter: `url = "${courseUrl}"` }
-    //         );
-    //         return serializeNonPOJOs(courseData)
-    //     } catch (err){
-    //         console.log(err)
-    //         throw error(err.status, err.message);
-    //     }
-    // }
-
-    // let course = await getCourseName()
-  
     let filesData = []
     let tutorialSteps
     const fetchFile = async (url) => {
@@ -53,28 +36,8 @@ export async function load ({ locals, fetch, params}) {
           )
         }
 
-        // if(course.items[0].type === 'special'){
-        //   if(typeof locals.user != 'undefined'){
-        //       for(let specialCourse of locals.user.specialCourses.specialCourses){
-        //         console.log(specialCourse, course.items[0].url)
-        //           if(specialCourse === course.items[0].url){
-        //             return serializeNonPOJOs(project)
-        //           } else {
-        //               // throw redirect(303, '/')
-        //               throw error(500, 'Access denied');
-        //           } 
-        //       }
-        //   } else {
-        //     // throw redirect(303, '/')
-        //     throw error(500, 'Access denied');
-        //   }
-        // } else {
-        //   return serializeNonPOJOs(project)
-        // }
-
         return serializeNonPOJOs(project)
         
-
       } catch (err){
         console.log(err)
         throw error(err.status, err.message);
