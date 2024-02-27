@@ -62,7 +62,7 @@ export const actions = {
         const getTemplate = async () =>{
 
             try{
-                const template = await locals.pb.collection('projects').getFirstListItem(`name="p5.js"`);
+                const template = await locals.pb.collection('projects').getFirstListItem(`name="${body.template}"`);
                 console.log(template.id)
                 return template.id
             } catch (err){
