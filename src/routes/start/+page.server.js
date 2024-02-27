@@ -116,15 +116,6 @@ export const actions = {
               });
             formData.append('files', newFile);
         }
-        // const file = new File(["<html><head><title>Your Project</title></head><body><h1>Welcome to Your Project</h1></body></html>"], "index.html", {
-        //     type: "text/plain",
-        //   });
-        // formData.append('files', file);
-
-        // const fileCSS = new File(["body{color:grey;}"], "style.css", {
-        //     type: "text/plain",
-        //   });
-        // formData.append('files', fileCSS);
 
         formData.append('createdBy', locals.user.id)
 

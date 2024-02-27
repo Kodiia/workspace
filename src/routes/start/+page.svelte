@@ -6,7 +6,7 @@
     export let form
     export let data
 
-    let selectedLibrary = 'p5.js'
+    let selectedLibrary = 'basic'
     let availableLibraries = [
         {
             name: 'basic',
