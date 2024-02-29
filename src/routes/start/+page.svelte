@@ -77,7 +77,7 @@
             
         </div>
     
-        {#if !data.user}
+        {#if data.user}
         <div class='formFieldContainer'>
             <div style='display:flex; align-items: last baseline;'>
                 <!-- <div style='box-sizing: border-box; margin-right: 5px;'>
