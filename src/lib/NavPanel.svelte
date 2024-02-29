@@ -1,7 +1,7 @@
 <script>
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
-    import { bgColor, textColor, secondaryColor, theme, width, height, resourcesPanelDisplay, filesPanelDisplay, stylesPanelState } from "./store"
+    import { bgColor, textColor, secondaryColor, primaryColor, accentColor, theme, width, height, resourcesPanelDisplay, filesPanelDisplay, stylesPanelState } from "./store"
     import { page } from '$app/stores';
 
     console.log($page)
@@ -14,11 +14,15 @@
             $bgColor = '0, 0%, 98%';
             $secondaryColor = '0, 0%, 100%'
             $textColor = '0, 0%, 10%'
+            $primaryColor = '155, 70%, 45%'
+            $accentColor = '80, 95%, 40%'
         } else {
             $theme = 'dark';
-            $bgColor = '0, 0%, 15%';
-            $secondaryColor = '0, 0%, 0%'
+            $bgColor = '0, 0%, 5%';
+            $secondaryColor = '0, 0%, 15%'
             $textColor = '0, 0%, 98%'
+            $primaryColor = '155, 70%, 55%'
+            $accentColor = '80, 95%, 60%'
         }
     }
 

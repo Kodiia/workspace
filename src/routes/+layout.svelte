@@ -52,15 +52,8 @@
         top: 0;
         width: 100%;
         min-height: 100%;
-        /* height: 100vh;
-        overflow: hidden; */
+        display: flex;
         box-sizing: border-box;
-        /* padding: 10px; */
-        /* display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center; */
-
         transition: all 0.5s;
     }
     /* .loader{

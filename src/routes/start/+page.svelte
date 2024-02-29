@@ -1,5 +1,5 @@
 <script>
-    import {bgColor, secondaryColor, textColor} from '$lib/store'
+    import {bgColor, secondaryColor, textColor, primaryColor, accentColor} from '$lib/store'
     import NavPanel from '$lib/NavPanel.svelte';
     import { getFileLogoURL } from '$lib/utils'
 
@@ -32,24 +32,29 @@
     // let logoPath = getFileLogoURL(fileType)
     
     function randomAdjective(){
-        let words = ['awesome', 'dazzling', 'cool', 'stunning']
+        let words = ['creative', 'procedural', 'generative', 'computational']
         let word = words[Math.floor(Math.random()*words.length)]
         return word
     }
 
+    
+
 </script>
 
-<NavPanel data={data}/>
+<!-- <svelte:window on:pointermove={moveDots}></svelte:window> -->
 
-<div class='container'>
-    <h2>Start your next <span class='randomWordSpan'>{randomAdjective()}</span> web project.</h2>
+<NavPanel data={data}/>
+<!-- style='background-image: radial-gradient(circle, hsl({$primaryColor + ', 20%'}) 1px, transparent 2px);' -->
+<div class='container' style='background: radial-gradient(circle, hsl({$primaryColor + ", 50%"}), transparent 65%), radial-gradient(circle, hsl({$accentColor + ", 20%"}) 5%, transparent 30%);'>
+    
+    <h2>Your next <span class='randomWordSpan' style='background: linear-gradient(45deg, hsl({$primaryColor}), hsl({$accentColor})) text;'>{randomAdjective()}</span> web project starts here.</h2>
     
     <form action='?/createProject' method='POST' class='formContainer'>
         <div class='formFieldContainer'>
-            <p style='margin-top: 0; margin-bottom: 5px;'>Choose a template</p>
+            <p style='margin-top: 0; margin-bottom: 5px; text-align: center;'>Choose a template</p>
             <div class='templatesContainer'>
                 {#each availableLibraries as lib}
-                <div class='buttonWrapper' style='background: {selectedLibrary === lib.name ? "linear-gradient(#3d95ee, #4233fb)" : "linear-gradient(#3d95ee50, #4233fb50)"}; box-shadow: {selectedLibrary === lib.name ? "0 0 10px #3d95ee" : "none"};'>
+                <div class='buttonWrapper' style='background: {selectedLibrary === lib.name ? `linear-gradient(hsl(${$primaryColor}), hsl(${$accentColor}))` : `linear-gradient(hsl(${$primaryColor + ', 20%'}), hsl(${$accentColor + ', 20%'}))`}; box-shadow: {selectedLibrary === lib.name ? `0 0 10px hsl(${$primaryColor})` : "none"};'>
                     <button type="button" class='libraryButton' style='background:  hsl({$secondaryColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ", 20%"}); animation: {selectedLibrary === lib.name ? "1s infinite blink" : "none"};' 
                     on:click={() => {
                         selectedLibrary = lib.name
@@ -72,17 +77,23 @@
             
         </div>
     
+        {#if !data.user}
         <div class='formFieldContainer'>
             <div style='display:flex; align-items: last baseline;'>
-                <div style='box-sizing: border-box; margin-right: 5px;'>
+                <!-- <div style='box-sizing: border-box; margin-right: 5px;'>
                 <label for='name' class='formLabel'>
                     <span class='labelSpan'>Enter a project name</span>
                 </label>
                 <input type='text' name='name' class='formInput' value='Shiny Unicorn' style='background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ", 20%"}); width: 100%;'/>
-                </div>
-            <button type='submit' class='submitButton' disabled='{data.user ? false : true}'>Create</button>
+                </div> -->
+                <button type='submit' class='submitButton' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));' disabled='{data.user ? false : true}'>Create</button>
+            </div>
+        
         </div>
-    </div>
+        {:else}
+            <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));'>Open sandbox</a>
+            <p style='margin: 0; text-align: center;'><a href='/register' style='color: hsl({$textColor});'>Sign Up</a> or <a href='/login' style='color: hsl({$textColor});'>Log In</a> to create and save projects.</p>
+        {/if}
    
     
         
@@ -90,46 +101,55 @@
         
     </div> -->
 
-    <p style='margin: 0; text-align: center;'><a href='/register'>Sign Up</a> or <a href='/login'>Log In</a> to create and save projects.</p>
+    
 
     </form>
-
-    <!-- <details>
-        <summary>Resources</summary>
-        <a href='/challenges'>Challenges</a>
-        <a href='/templates'>Sandbox</a>
-    </details> -->
-
-    <!-- <div class='optionsContainer'>
-        <a href='/challenges'>Challenges</a>
-        <a href='/templates'>Sandbox</a>
-    </div> -->
 
 </div>
 
 <style>
     .container{
         width: min(415px, calc(100% - 10px));
-        padding: 10px;
-        background: none;
+        padding: 60px 10px;
+        background-size: 20px 20px;
+        background-repeat: repeat;
         backdrop-filter: blur(25px);
         -webkit-backdrop-filter: blur(25px);
         border: none;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 60px;
-        margin-bottom: 50px;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        position: relative;
     }
+
+    .dot{
+        width: 2px;
+        height: 2px;
+    }
+
+    .dotsContainer{
+        display: flex;
+        /* position: absolute; */
+        width: 100%;
+        height: 100%;
+        transition: all 0.25s;
+        margin: auto;
+        z-index: -1;
+    }
+    
     .formFieldContainer{
         display: flex;
         flex-direction: column;
         margin: 10px 0;
     }
+
     .labelSpan{
 
     }
+
     a{
         color: #3d95ee;
+        transition: all 0.25s;
     }
     h2{
         margin: 0;
@@ -138,16 +158,33 @@
         text-align: center;
     }
 
+    .sandboxButton{
+        display: flex;
+        width: fit-content;
+        height: 30px;
+        background: linear-gradient(45deg, #3d95ee, #4233fb);
+        padding: 10px;
+        border-radius: 10px;
+        margin: 40px auto;
+        text-decoration: none;
+        color: #1a1a1a;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.25s;
+    }
+    .sandboxButton:hover{
+        box-shadow: 0 0 15px hsl(155, 95%, 35%);
+    }
+
     .submitButton{
         width: fit-content;
         height: 50px;
         background: radial-gradient(circle, #3d95ee, #4233fb);
-        color: #f9f9f9;
-        margin-top: 10px;
+        color: #1a1a1a;
         transform: scale(1.0);
         border: 2px solid #4233fb00;
         border-radius: 10px;
-        margin: 10px auto 0 auto;
+        margin: 30px auto 0 auto;
         transition: all 0.25s;
     }
     .submitButton:hover{
@@ -192,6 +229,7 @@
 
     .templatesContainer {
         display: grid;
+        justify-content: center;
         grid-template-columns: repeat(auto-fit, 100px);
         gap: 5px;
         margin-top: 10px;;

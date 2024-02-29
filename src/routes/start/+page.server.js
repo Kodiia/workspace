@@ -106,9 +106,13 @@ export const actions = {
     
               const filesData = await getTemplateFiles(selectedTemplateId)
 
-              
+            const  adjectives = ["Brave", "Crumpy", "Fierce", "Golden", "Happy", "Icy"]
+            const  nouns = ["Salt", "Leopard", "Bear", "Dragon", "Eagle", "Fox", "Automata", "Noise", "Randomness"]
+            
+        const projectName = adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + nouns[Math.floor(Math.random() * nouns.length)]
+
         const formData = new FormData();
-        formData.append('name', body.name);
+        formData.append('name', projectName);
 
         for (let file of filesData){
             const newFile = new File([file.data], file.name, {
