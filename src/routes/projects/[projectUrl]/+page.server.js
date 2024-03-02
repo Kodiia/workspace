@@ -87,8 +87,9 @@ export async function load ({ locals, fetch, params}) {
 
   export const actions = {
     saveProject: async ({locals, request}) => {
-      const body = Object.fromEntries(await request.formData())
-      const bodyArray = Object.keys(await request.formData())
+      const form = await request.formData()
+      const body = Object.fromEntries(form)
+      const bodyArray = Object.keys(form)
 
       console.log(body)
       console.log(bodyArray)
