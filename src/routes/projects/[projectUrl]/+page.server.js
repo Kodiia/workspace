@@ -89,21 +89,27 @@ export async function load ({ locals, fetch, params}) {
     saveProject: async ({locals, request}) => {
       const form = await request.formData()
       const body = Object.fromEntries(form)
-      const bodyArray = Object.keys(body)
+      const bodyKeysArray = Object.keys(body)
+      const bodyValuesArray = Object.values(body)
 
-      console.log(body)
-      console.log(bodyArray)
+      console.log(bodyKeysArray)
+      console.log(bodyValuesArray)
 
-      const formFieldsNumber = Object.keys(await request.formData()).length
+      const formFieldsNumber = bodyKeysArray.length
 
       const formData = new FormData();
       formData.append('name', body.name);
 
-      // for(let i=0; i<formFieldsNumber; i++){
-
-      // }
-
-      
+      for(let i=1; i<formFieldsNumber; i++){
+        if(bodyKeysArray[i] != 'projectName'){
+          const fileName = bodyKeysArray[i]
+          const fileData = bodyValuesArray[i].toString()
+          const newFile = new File([fileName], fileData, {
+            type: "text/plain",
+          });
+        formData.append('files', newFile);
+        }
+      }
 
       // let record
       // try {

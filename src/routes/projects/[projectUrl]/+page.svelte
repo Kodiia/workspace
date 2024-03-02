@@ -106,8 +106,7 @@
                         </div>
 
                         {#each $filesLocalCopy as file, i}
-                            <input type='text' name='fileName{i}' value='{file.fileName}' style='display: none;' />
-                            <input type='text' name='fileData{i}' value='{file.fileData}' style='display: none;' />
+                            <input type='text' name='{file.fileName}' value='{file.fileData}' style='display: none;' />
                         {/each}
                         
                             <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
