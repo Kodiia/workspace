@@ -89,7 +89,7 @@ export async function load ({ locals, fetch, params}) {
     saveProject: async ({locals, request}) => {
       const form = await request.formData()
       const body = Object.fromEntries(form)
-      const bodyArray = Object.keys(form)
+      const bodyArray = Object.keys(body)
 
       console.log(body)
       console.log(bodyArray)
