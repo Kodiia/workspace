@@ -111,14 +111,14 @@ export async function load ({ locals, fetch, params}) {
         }
       }
 
-      // let record
-      // try {
-      //   record = await locals.pb.collection('userProjects').update(formData)
-      // } catch (err) {
-      //   console.log('Error: ', err)
-      //   throw error(500, 'Something went wrong')
-      // }
+      let record
+      try {
+        record = await locals.pb.collection('userProjects').update(formData)
+      } catch (err) {
+        console.log('Error: ', err)
+        throw error(500, 'Something went wrong')
+      }
 
-      // throw redirect(303, `/projects/${record.id}`)
+      throw redirect(303, `/projects/${record.id}`)
     }
   }
