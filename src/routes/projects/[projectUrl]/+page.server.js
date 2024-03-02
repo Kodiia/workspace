@@ -98,7 +98,7 @@ export async function load ({ locals, fetch, params}) {
       const formFieldsNumber = bodyKeysArray.length
 
       const formData = new FormData();
-      formData.append('name', body.name);
+      formData.append('name', body.projectName);
 
       for(let i=1; i<formFieldsNumber; i++){
         if(bodyKeysArray[i] != 'projectName'){
@@ -113,6 +113,10 @@ export async function load ({ locals, fetch, params}) {
 
       let record
       try {
+        await locals.pb.collection('userProjects').update(params.projectUrl, {
+          'files': null,
+        });
+        
         record = await locals.pb.collection('userProjects').update(params.projectUrl, formData)
       } catch (err) {
         console.log('Error: ', err)
