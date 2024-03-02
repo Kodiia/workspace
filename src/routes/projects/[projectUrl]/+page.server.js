@@ -86,7 +86,7 @@ export async function load ({ locals, fetch, params}) {
   }
 
   export const actions = {
-    saveProject: async ({locals, request}) => {
+    saveProject: async ({locals, params, request}) => {
       const form = await request.formData()
       const body = Object.fromEntries(form)
       const bodyKeysArray = Object.keys(body)
@@ -113,7 +113,7 @@ export async function load ({ locals, fetch, params}) {
 
       let record
       try {
-        record = await locals.pb.collection('userProjects').update(formData)
+        record = await locals.pb.collection('userProjects').update(params.projectUrl, formData)
       } catch (err) {
         console.log('Error: ', err)
         throw error(500, 'Something went wrong')
