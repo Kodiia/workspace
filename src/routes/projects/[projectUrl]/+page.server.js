@@ -104,7 +104,7 @@ export async function load ({ locals, fetch, params}) {
         if(bodyKeysArray[i] != 'projectName'){
           const fileName = bodyKeysArray[i]
           const fileData = bodyValuesArray[i].toString()
-          const newFile = new File([fileName], fileData, {
+          const newFile = new File([fileData], fileName, {
             type: "text/plain",
           });
         formData.append('files', newFile);
