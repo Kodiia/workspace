@@ -122,7 +122,7 @@
     <div class='panelsContainer'>
         
         <div style='width: {$width > 700 ? filesPanelWidth + 'px' : '100%'}; position: {$width > 700 ? 'relative' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$filesPanelDisplay}'>
-            <FilesPanel files='{files}' projectName='{data.tutorial.heading}' editorType = 'monaco'/>
+            <FilesPanel files='{data.files}' projectName='{data.tutorial.heading}' editorType = 'monaco'/>
         </div>
 
         {#if $width > 700 && $filesPanelDisplay === 'block'}

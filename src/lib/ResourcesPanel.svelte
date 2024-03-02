@@ -1,6 +1,6 @@
 <script>
     import { fade } from 'svelte/transition';
-    import { filesLocalCopy, fileToOpen, editorState, width, height, rightPanelWidthSetByUser, resourcesPanelDisplay, textColor, secondaryColor, bgColor } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, rightPanelWidthSetByUser, resourcesPanelDisplay, textColor, secondaryColor, bgColor, primaryColor } from '$lib/store'
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditor from '$lib/CodeEditor.svelte';
     import CodeSnippet from '$lib/CodeSnippet.svelte';
@@ -67,9 +67,9 @@
 </script>
 
 {#if $resourcesPanelDisplay === 'block'}
-<div class='panel' style='height: calc({$height}px - 60px); background: hsl({$bgColor});'>
+<div class='panel' style='height: calc({$height}px - 60px); background: hsl({$bgColor}); border: 1px solid hsl({$textColor + ', 20%'})'>
     <button bind:this={button} class="panelButton" on:click={()=>{$resourcesPanelDisplay = 'none';}} >
-        <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke: hsl({$textColor});stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke: hsl({$textColor});stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
     </button>
     <!-- <button bind:this={button} class="panelButton" on:click={changePanelState} 
     on:pointerover={()=>{
@@ -133,12 +133,12 @@
                 <h3>🐈</h3>
                 <p>If you found this tutorial helpful, please consider sharing it with others who may find it useful as well.</p>
                 <div class='socialLinks'>
-                <button id="copyURL" style="width: 30px; height: 30px; border: none; border-radius: 15px; background: #4233fb; padding: 0; margin-left: 5px; cursor: pointer; display: flex; justify-content: center; align-items: center;" on:click={()=>{navigator.clipboard.writeText(window.location.href);}}>
+                <button id="copyURL" style="width: 30px; height: 30px; border: none; border-radius: 15px; background: hsl({$primaryColor + ', 50%'}); padding: 0; margin-left: 5px; cursor: pointer; display: flex; justify-content: center; align-items: center;" on:click={()=>{navigator.clipboard.writeText(window.location.href);}}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 137.58 137.58"><title>copy link</title><path d="M70.31,90A23.85,23.85,0,0,1,58.24,83.4" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M58.24,83.4Q41,66.2,58.24,49" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M58.24,49,91.18,16.05" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M91.18,16.05q17.2-17.21,34.41,0" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M125.59,16.05q17.21,17.2,0,34.41" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M125.59,50.46,104.87,70.87" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M36.36,70.87,15.22,92" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M15.22,92q-17.21,17.2,0,34.42" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M15.22,126.42q17.21,17.2,34.41,0" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M49.63,126.42,82.57,93.48" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M82.57,93.48q17.21-17.2,0-34.41" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M82.57,59.07A23.78,23.78,0,0,0,70.5,52.49" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/></svg>
                 </button>
                 <a style="width: 30px; height: 30px; border: none; background: none; padding: 0; margin-left: 10px;" href="https://t.me/share/url?url={URLtoShare}%2F&text=Kodiia.com&utm_source=share2" target="_blank" rel="noreferrer">
                     <svg width="30" height="30" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M25.675 0.58252C11.5378 0.58252 0.0742188 12.0461 0.0742188 26.1891C0.0742188 40.3263 11.532 51.7841 25.6635 51.7841H25.6865C39.818 51.7841 51.2758 40.3263 51.2758 26.1891C51.2758 12.0461 39.8123 0.58252 25.675 0.58252Z" fill="#4233fb"/>
+                    <path d="M25.675 0.58252C11.5378 0.58252 0.0742188 12.0461 0.0742188 26.1891C0.0742188 40.3263 11.532 51.7841 25.6635 51.7841H25.6865C39.818 51.7841 51.2758 40.3263 51.2758 26.1891C51.2758 12.0461 39.8123 0.58252 25.675 0.58252Z" fill="hsl({$primaryColor + ', 50%'})"/>
                     <path d="M36.3843 15.7006L12.0687 24.9093C10.7376 25.2937 10.7835 26.6076 11.7646 26.9231L17.8579 28.828L20.1873 35.9769C20.4685 36.7572 20.7037 37.0556 21.1856 37.0613C21.6963 37.0671 21.8913 36.8835 22.4192 36.413C23.0388 35.8335 23.9798 34.9155 25.4658 33.4697L31.8058 38.1515C32.9705 38.7941 33.8139 38.4613 34.1065 37.0671L38.0769 17.4104C38.5014 15.7006 37.4974 15.1957 36.3843 15.7006ZM18.816 28.3862L32.6664 19.6939C33.3492 19.2349 33.5614 19.7455 33.2573 20.1013L21.7594 30.446L21.1684 35.6097L18.816 28.3919V28.3862Z" fill="white"/>
                     </svg>
                 </a>
@@ -157,12 +157,12 @@
                 <h3>🐈</h3>
                 <p>If you found this template helpful, please consider sharing it with others who may find it useful as well.</p>
                 <div class='socialLinks'>
-                <button id="copyURL" style="width: 30px; height: 30px; border: none; border-radius: 15px; background: #4233fb; padding: 0; margin-left: 5px; cursor: pointer; display: flex; justify-content: center; align-items: center;" on:click={()=>{navigator.clipboard.writeText(window.location.href);}}>
+                <button id="copyURL" style="width: 30px; height: 30px; border: none; border-radius: 15px; background: hsl({$primaryColor + ', 50%'}); padding: 0; margin-left: 5px; cursor: pointer; display: flex; justify-content: center; align-items: center;" on:click={()=>{navigator.clipboard.writeText(window.location.href);}}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 137.58 137.58"><title>copy link</title><path d="M70.31,90A23.85,23.85,0,0,1,58.24,83.4" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M58.24,83.4Q41,66.2,58.24,49" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M58.24,49,91.18,16.05" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M91.18,16.05q17.2-17.21,34.41,0" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M125.59,16.05q17.21,17.2,0,34.41" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M125.59,50.46,104.87,70.87" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M36.36,70.87,15.22,92" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M15.22,92q-17.21,17.2,0,34.42" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M15.22,126.42q17.21,17.2,34.41,0" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M49.63,126.42,82.57,93.48" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M82.57,93.48q17.21-17.2,0-34.41" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/><path d="M82.57,59.07A23.78,23.78,0,0,0,70.5,52.49" transform="translate(-1.62 -2.44)" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:10px"/></svg>
                 </button>
                 <a style="width: 30px; height: 30px; border: none; background: none; padding: 0; margin-left: 10px;" href="https://t.me/share/url?url={URLtoShare}%2F&text=Kodiia.com&utm_source=share2" target="_blank" rel="noreferrer">
                     <svg width="30" height="30" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M25.675 0.58252C11.5378 0.58252 0.0742188 12.0461 0.0742188 26.1891C0.0742188 40.3263 11.532 51.7841 25.6635 51.7841H25.6865C39.818 51.7841 51.2758 40.3263 51.2758 26.1891C51.2758 12.0461 39.8123 0.58252 25.675 0.58252Z" fill="#4233fb"/>
+                    <path d="M25.675 0.58252C11.5378 0.58252 0.0742188 12.0461 0.0742188 26.1891C0.0742188 40.3263 11.532 51.7841 25.6635 51.7841H25.6865C39.818 51.7841 51.2758 40.3263 51.2758 26.1891C51.2758 12.0461 39.8123 0.58252 25.675 0.58252Z" fill="hsl({$primaryColor + ', 50%'})"/>
                     <path d="M36.3843 15.7006L12.0687 24.9093C10.7376 25.2937 10.7835 26.6076 11.7646 26.9231L17.8579 28.828L20.1873 35.9769C20.4685 36.7572 20.7037 37.0556 21.1856 37.0613C21.6963 37.0671 21.8913 36.8835 22.4192 36.413C23.0388 35.8335 23.9798 34.9155 25.4658 33.4697L31.8058 38.1515C32.9705 38.7941 33.8139 38.4613 34.1065 37.0671L38.0769 17.4104C38.5014 15.7006 37.4974 15.1957 36.3843 15.7006ZM18.816 28.3862L32.6664 19.6939C33.3492 19.2349 33.5614 19.7455 33.2573 20.1013L21.7594 30.446L21.1684 35.6097L18.816 28.3919V28.3862Z" fill="white"/>
                     </svg>
                 </a>
@@ -183,7 +183,7 @@
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border-radius: 15px;
-            box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
+            /* box-shadow: 0 0 10px rgba(60, 150, 238, 0.3); */
             padding: 15px;
             /* margin: 10px; */
             box-sizing: border-box;
@@ -267,5 +267,8 @@
             cursor: pointer;
         }
         
+        h3 {
+            font-weight: 300;
+        }
         
     </style>

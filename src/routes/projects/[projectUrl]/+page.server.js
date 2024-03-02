@@ -1,5 +1,5 @@
 import { DB_URL } from '$env/static/private'
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { serializeNonPOJOs } from '$lib/utils';
 
 export async function load ({ locals, fetch, params}) {
@@ -78,9 +78,40 @@ export async function load ({ locals, fetch, params}) {
 
 
       return {
-        tutorial: getProjectFiles(params.projectUrl),
+        project: getProjectFiles(params.projectUrl),
         type: 'project',
         files: filesData
       }
   
+  }
+
+  export const actions = {
+    saveProject: async ({locals, request}) => {
+      const body = Object.fromEntries(await request.formData())
+      const bodyArray = Object.keys(await request.formData())
+
+      console.log(body)
+      console.log(bodyArray)
+
+      const formFieldsNumber = Object.keys(await request.formData()).length
+
+      const formData = new FormData();
+      formData.append('name', body.name);
+
+      // for(let i=0; i<formFieldsNumber; i++){
+
+      // }
+
+      
+
+      // let record
+      // try {
+      //   record = await locals.pb.collection('userProjects').update(formData)
+      // } catch (err) {
+      //   console.log('Error: ', err)
+      //   throw error(500, 'Something went wrong')
+      // }
+
+      // throw redirect(303, `/projects/${record.id}`)
+    }
   }

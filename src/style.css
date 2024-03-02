@@ -48,8 +48,8 @@ code{
 
 /* width */
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
   
     /* height: 0.5em; */
   }
@@ -62,13 +62,13 @@ code{
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: rgba(66, 51, 251, 0.5);
+    background: hsl(155, 70%, 55%, 50%);
     border-radius: 5px;
   }
   
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(66, 51, 251, 1);
+    background: hsl(155, 70%, 55%, 100%);
   }
 
   .ace_editor{
@@ -78,7 +78,7 @@ code{
 
   .monaco-scrollable-element > .scrollbar > .slider{
     border-radius: 15px;
-    background: #4233fb50 !important;
+    background: hsl(155, 70%, 55%, 50%) !important;
   }
 
   .vs{

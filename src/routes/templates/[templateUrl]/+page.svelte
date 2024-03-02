@@ -12,6 +12,8 @@
     
     export let data
 
+    console.log(data)
+
     let files = data.template.files
     $filesLocalCopy = data.files
 
@@ -121,7 +123,7 @@
     <div class='panelsContainer'>
         
         <div style='width: {$width > 700 ? filesPanelWidth + 'px' : '100%'}; position: {$width > 700 ? 'relative' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$filesPanelDisplay}'>
-            <FilesPanel files='{files}' projectName='{data.template.name}' editorType = 'monaco'/>
+            <FilesPanel files='{data.files}' projectName='{data.template.name}' editorType = 'monaco'/>
 
             
         </div>

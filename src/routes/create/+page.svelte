@@ -54,23 +54,21 @@
             <p style='margin-top: 0; margin-bottom: 5px; text-align: center;'>Choose a template</p>
             <div class='templatesContainer'>
                 {#each availableLibraries as lib}
-                <div class='buttonWrapper' style='background: {selectedLibrary === lib.name ? `linear-gradient(hsl(${$primaryColor}), hsl(${$accentColor}))` : `linear-gradient(hsl(${$primaryColor + ', 20%'}), hsl(${$accentColor + ', 20%'}))`}; box-shadow: {selectedLibrary === lib.name ? `0 0 10px hsl(${$primaryColor})` : "none"};'>
-                    <button type="button" class='libraryButton' style='background:  hsl({$secondaryColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ", 20%"}); animation: {selectedLibrary === lib.name ? "1s infinite blink" : "none"};' 
-                    on:click={() => {
-                        selectedLibrary = lib.name
-                        // libraries = libraries.includes(lib) ? libraries.filter((item) => item !== lib) : [...libraries, lib];
-                        // console.log(libraries)
-                        }}>
-                        <div class='logosContainer' style='background: none;'>
-                            {#each lib.logos as logo}
-                                <img src={getFileLogoURL(logo)} alt='logo' style='width: {lib.size + 'px'}'/>    
-                            {/each}
-                        </div>
-                        <div class='libraryNameWrapper'>
-                            {lib.name}
-                        </div>
-                    </button>
-                </div>
+                    <div class='buttonWrapper' style='background: {selectedLibrary === lib.name ? `linear-gradient(hsl(${$primaryColor}), hsl(${$accentColor}))` : `linear-gradient(hsl(${$primaryColor + ', 20%'}), hsl(${$accentColor + ', 20%'}))`}; box-shadow: {selectedLibrary === lib.name ? `0 0 10px hsl(${$primaryColor})` : "none"};'>
+                        <button type="button" class='libraryButton' style='background:  hsl({$secondaryColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ", 20%"}); animation: {selectedLibrary === lib.name ? "1s infinite blink" : "none"};' 
+                        on:click={() => {
+                            selectedLibrary = lib.name
+                            }}>
+                            <div class='logosContainer' style='background: none;'>
+                                {#each lib.logos as logo}
+                                    <img src={getFileLogoURL(logo)} alt='logo' style='width: {lib.size + 'px'}'/>    
+                                {/each}
+                            </div>
+                            <div class='libraryNameWrapper'>
+                                {lib.name}
+                            </div>
+                        </button>
+                    </div>
                 {/each}
             </div>
             <input type='text' name='template' class='formInput' value='{selectedLibrary}' style='display: none;'/>

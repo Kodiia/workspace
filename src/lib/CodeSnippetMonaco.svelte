@@ -14,7 +14,7 @@
 
     import {getFileLogoURL} from '$lib/utils'
 
-    import { theme, bgColor, textColor } from '$lib/store'
+    import { theme, bgColor, textColor, secondaryColor } from '$lib/store'
  
     export let fileName = 'index.html'
     let mode = fileName.split('.')[1]
@@ -80,14 +80,14 @@
 </script>
 
 
-<div class='codeSnippetContainer' style='background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
+<div class='codeSnippetContainer' style='background: hsl({$secondaryColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
     <div class='snippetMenu' style='background: hsl({$bgColor}); color: hsl({$textColor}); border-bottom: 1px solid hsl({$textColor + ', 20%'})'>
       <div style="display: flex; justify-content: center; align-items: center;">
         <img src="{logoPath}" width="20" height="20" style="margin-right: 0px;" alt="file logo">
         <h5>{fileName}</h5>
       </div>
       <div style="display: flex; align-items: center;">
-        <button class="smallMenuButton" on:click={copy}>{copyButtonText}</button>
+        <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={copy}>{copyButtonText}</button>
       </div>
     </div>
     <pre class='codeSnippet' bind:this = {codeContainer} data-lang='text/{mode}'></pre>
@@ -99,12 +99,11 @@
       height: 100%;
       background: #fdfdfd;
       font-family: 'Consolas','Source Code Pro', monospace !important;
-      font-size: 1rem;
       
       display: flex;
       flex-direction: column;
   
-      box-shadow: 0 0 10px #3d95ee50;
+      /* box-shadow: 0 0 10px #3d95ee50; */
       border-radius: 10px;
   }
   .codeSnippet{
@@ -112,6 +111,7 @@
     white-space: pre;
     overflow-x: auto;
     margin: 0;
+    font-size: 14px;
     }
   
   .snippetMenu{
@@ -127,8 +127,9 @@
         box-sizing: border-box;
       }
       .snippetMenu h5{
+        font-family: Roboto, sans-serif;
         margin: 5px;
-        font-weight: 500;
+        font-weight: 300;
       }
   
       .snippetBottom{

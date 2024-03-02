@@ -1,5 +1,5 @@
 <script>
-    import { theme, textColor, secondaryColor } from "./store";
+    import { theme, bgColor, primaryColor, textColor, secondaryColor } from "./store";
     import CodeSnippetMonaco from "./CodeSnippetMonaco.svelte";
 
     export let id = 0    
@@ -14,7 +14,7 @@
 
 </script>
 
-<details style='background-color: hsl({$secondaryColor}); color: hsl({$textColor}); border-color: hsl({isHovered ? '245, 96%, 85%, 50%' : $secondaryColor}); box-shadow: {isHovered ? "0 0 15px #3d95ee90" : "0 0 10px #3d95ee50"};' on:pointerenter={()=>{isHovered = !isHovered}} on:pointerleave={()=>{isHovered = !isHovered}}>
+<details style='background-color: hsl({$bgColor}); color: hsl({$textColor}); border: none; border-bottom: 1px solid hsl({isHovered ? $primaryColor : $textColor + ', 20%'});' on:pointerenter={()=>{isHovered = !isHovered}} on:pointerleave={()=>{isHovered = !isHovered}}>
     <summary>{id}. {step.step ? step.step : step.hint }</summary>
     {#if step.imageUrl}
     <div class='stepImageContainer'>
@@ -47,14 +47,14 @@
 <style>
     details{
             width: 100%;
-            background: #fdfdfd;
+            /* background: #fdfdfd; */
             /* background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px); */
             color: #1a1a1a;
-            border: 1px solid #f9f9f9;
-            border-radius: 15px;
-            box-shadow: 0 0 10px rgba(60, 150, 238, 0.2);
+            /* border: 1px solid #f9f9f9; */
+            /* border-radius: 15px; */
+            /* box-shadow: 0 0 10px rgba(60, 150, 238, 0.2); */
             padding: 15px;
             /* padding-bottom: 35px; */
             margin-bottom: 10px;
@@ -64,13 +64,13 @@
             display: flex;
             align-items: center;
             /* transform: scale(1.0); */
-            transition: all 0.5s;
+            /* transition: all 0.25s; */
         }
         
         details summary{
             cursor: pointer;
             font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
+            font-weight: 300;
             font-size: 1.17rem;
         }
 

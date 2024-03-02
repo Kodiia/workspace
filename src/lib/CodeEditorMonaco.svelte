@@ -155,14 +155,14 @@
 	}
 </script>
 
-<div class='container' style='height: {$height - 120}px'>
+<div class='container' style='height: {$height - 135}px'>
     
     <div class='editorContainer' style='height: {$consolePanelState && mode==='javascript' && !readOnly ? "calc(100% - 130px)" : "calc(100% - 0px)"}; background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
         
         <div class='editorMenu' style='background: hsl({$bgColor}); color: hsl({$textColor}); border-bottom:  1px solid hsl({$textColor + ', 20%'})'>
             {#if !readOnly}
                 <button bind:this={button} class="panelButton" on:click={()=>{editorState.set(false);}} >
-                    <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke:#4233fb;stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke: hsl({$textColor});stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke: hsl({$textColor});stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
                 </button>
             {/if}
             <div style="display: flex; justify-content: center; align-items: center;">
@@ -171,16 +171,16 @@
             </div>
             {#if readOnly}
                 <div style="display: flex; align-items: center;">
-                    <button class="smallMenuButton" on:click={copy}>{copyButtonText}</button>
+                    <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={copy}>{copyButtonText}</button>
                 </div>
             {:else}
                 <div style="display: flex; align-items: center;">
-                    <button class="smallMenuButton" on:click={paste}>paste</button>
-                    <button class="smallMenuButton" on:click={()=>{undo()}}>undo</button>
-                    <button class="smallMenuButton" on:click={()=>{redo()}}>redo</button>
-                    <button class="smallMenuButton" on:click={async ()=>{formatText(editor.getValue()).then(result => {editor.setValue(result)})}}>prettify</button>
+                    <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={paste}>paste</button>
+                    <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={()=>{undo()}}>undo</button>
+                    <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={()=>{redo()}}>redo</button>
+                    <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={async ()=>{formatText(editor.getValue()).then(result => {editor.setValue(result)})}}>prettify</button>
                     {#if mode==='javascript'}
-                    <button class="smallMenuButton" on:click={()=>{consolePanelState.set(true);}}>console</button>
+                    <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={()=>{consolePanelState.set(true);}}>console</button>
                     {/if}
                     <!-- <button class="smallMenuButton" on:click={max}>{maxButtonText}</button> -->
                 </div>
@@ -215,7 +215,6 @@
     .editorContainer{
         height: 100%;
         border-radius: 15px;
-        box-shadow: 0 0 10px #3d95ee50;
         position: relative;
     }
     .editor {
@@ -298,7 +297,8 @@
     }
     .editorMenu h5{
       margin: 5px;
-      font-weight: 500;
+      /* font-family: Montserrat, sans-serif; */
+      font-weight: 300;
     }
 
     .smallMenuButton {
