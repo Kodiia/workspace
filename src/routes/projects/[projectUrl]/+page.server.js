@@ -103,7 +103,7 @@ export async function load ({ locals, fetch, params}) {
       for(let i=1; i<formFieldsNumber; i++){
         if(bodyKeysArray[i] != 'projectName'){
           const fileName = bodyKeysArray[i]
-          const fileData = bodyValuesArray[i].toString()
+          const fileData = bodyValuesArray[i]
           const newFile = new File([fileData], fileName, {
             type: "text/plain",
           });
@@ -116,7 +116,7 @@ export async function load ({ locals, fetch, params}) {
         await locals.pb.collection('userProjects').update(params.projectUrl, {
           'files': null,
         });
-        
+
         record = await locals.pb.collection('userProjects').update(params.projectUrl, formData)
       } catch (err) {
         console.log('Error: ', err)
