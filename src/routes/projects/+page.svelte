@@ -6,7 +6,7 @@
     import NavPanel from "$lib/NavPanel.svelte";
 
     export let data
-    let courses = data.courses
+    let projects = data.projects
     console.log(data.user)
     //console.log(data.user, data.user.specialCourses, data.user.specialCourses[0], data.user.specialCourses.specialCourses[0], courses)
 </script>
@@ -17,8 +17,9 @@
 <h3 style='margin-top: 70px'>Projects</h3>
 <!-- <p>Follow step-by-step tutorials.</p> -->
 <div class='tutorial-cards-container'>
-    {#each courses as course}
-        <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' />
+    {#each projects as project}
+        <h3>{project.name}</h3>
+        <!-- <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' /> -->
     {/each}
 </div>
 
