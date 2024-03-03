@@ -41,11 +41,16 @@
                 <a class='smallMenuButton' style='padding: 10px;' href='/'>Home</a>
                 {/if}
 
-                {#if $page.route.id == '/challenges/[challengeUrl]' || $page.route.id == '/templates/[templateUrl]' || $page.route.id == '/courses/[courseUrl]/[tutorialUrl]' || $page.route.id == '/projects/[projectUrl]'}
+                {#if $page.route.id == '/challenges/[challengeUrl]' || $page.route.id == '/templates/[templateUrl]' || $page.route.id == '/courses/[courseUrl]/[tutorialUrl]' || $page.route.id == '/projects/[projectUrl]/edit'}
                 <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block';}}'>Files</button>
-        
                 <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$resourcesPanelDisplay = 'block';}}'>Resources</button>
                 {/if}
+
+                {#if $page.route.id == '/projects/[projectUrl]'}
+                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block';}}'>Files</button>
+                {/if}
+
+
                 {#if data.user}
                 <form action='/logout' method='POST'>
                     <button type='submit' class='smallMenuButton'>Log Out</button>
@@ -61,7 +66,7 @@
     {:else}
         <div style='width: 100%; display: flex; align-items: center; justify-content: space-between;'>
             <a href='https://kodiia.com'>
-                <img src={kodiia_logo_bw_small} style='filter: {$theme === 'dark' ? "invert(1)" : "invert(0)"};' alt='logo' width='20'>
+                <img src={kodiia_logo_bw} style='filter: {$theme === 'dark' ? "invert(1)" : "invert(0)"};' alt='logo' width='70'>
             </a>
 
             <button class='menuButton' on:click={()=>{mobileMenuDisplay === 'none' ? mobileMenuDisplay = 'block' : mobileMenuDisplay = 'none'}}>
@@ -84,9 +89,13 @@
             <a class='smallMenuButton' style='padding: 10px;' href='/'>Home</a>
             {/if}
 
-            {#if $page.route.id == '/challenges/[challengeUrl]' || $page.route.id == '/templates/[templateUrl]' || $page.route.id == '/courses/[courseUrl]/[tutorialUrl]'}
+            {#if $page.route.id == '/challenges/[challengeUrl]' || $page.route.id == '/templates/[templateUrl]' || $page.route.id == '/courses/[courseUrl]/[tutorialUrl]' || $page.route.id == '/projects/[projectUrl]/edit'}
                 <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block'; $resourcesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Files</button>
                 <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$resourcesPanelDisplay = 'block'; $filesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Resources</button>
+            {/if}
+
+            {#if $page.route.id == '/projects/[projectUrl]/edit'}
+                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block'; mobileMenuDisplay = 'none'}}'>Files</button>
             {/if}
 
             {#if data.user}

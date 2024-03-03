@@ -6,10 +6,10 @@
     export let form
     export let data
 
-    let selectedLibrary = 'basic'
+    let selectedLibrary = 'static'
     let availableLibraries = [
         {
-            name: 'basic',
+            name: 'static',
             logos: ['html', 'css', 'js'],
             size: 30
         }, 
@@ -27,12 +27,22 @@
             name: 'brain.js',
             logos: ['brainjs'],
             size: 30
+        },
+        {
+            name: 'CA p5.js',
+            logos: ['p5js'],
+            size: 30
+        },
+        {
+            name: 'noise 2D',
+            logos: ['p5js'],
+            size: 30
         }
     ]
     // let logoPath = getFileLogoURL(fileType)
     
     function randomAdjective(){
-        let words = ['creative', 'procedural', 'generative', 'computational']
+        let words = ['creative', 'procedural', 'generative', 'computational', 'art', 'simulation', 'game', 'cutting-edge', 'disruptive']
         let word = words[Math.floor(Math.random()*words.length)]
         return word
     }

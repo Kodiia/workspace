@@ -83,9 +83,10 @@
                 
                     <!-- <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div> -->
                     <div class='contentContainer'>
+                        <form action='?/saveProject' method='POST' class='formContainer'>
                         <div>
-                            <h3 style="margin: 0; font-weight: 300; height: 50px;">{projectName}</h3>
-                            <!-- <input type='text' name='projectName' class='formInput' value='{projectName}' style='background: hsl({$secondaryColor}); color: hsl({$textColor});'/> -->
+                            <!-- <h3 style="margin-top: 0; margin-bottom: 5px;">{projectName}</h3> -->
+                            <input type='text' name='projectName' class='formInput' value='{projectName}' style='background: hsl({$secondaryColor}); color: hsl({$textColor});'/>
                         </div>
                         <div class='filesAndEditorWrapper'>
                             {#if $editorState}
@@ -104,6 +105,22 @@
                             {/if}
                         </div>
 
+                        {#each $filesLocalCopy as file, i}
+                            <textarea name='{file.fileName}' value='{file.fileData}' style='display: none;' />
+                        {/each}
+                        
+                        <div class='bottomButtonsWrapper'>
+                            <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
+                                <button on:click={downloadFiles} style='background: hsl({$bgColor}); color: hsl({$textColor});'>Download</button>
+                            </div>
+                            <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
+                                <button type='submit' style='background: hsl({$bgColor}); color: hsl({$textColor});' >Save</button>
+                            </div>
+                            <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
+                                <button style='background: hsl({$primaryColor}); color: hsl({$bgColor});' >Run &#9656;</button>
+                            </div>
+                        </div>
+                        </form>
                     </div>    
                 
                 </div>
@@ -120,6 +137,9 @@
             <ProjectPanel />
         </div>
 
+        <!-- <div style='width: {$width > 700 ? '400px' : '100%'}; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$resourcesPanelDisplay};'>
+            <ResourcesPanel steps='{data.project.hints}' mode='template' URLtoShare='{$page.url.href}' />
+        </div> -->
     </div>
 
 </div>
@@ -136,6 +156,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    .formContainer{
+        height: 100%;
     }
     .resizeHandle{
         width: 5px;
@@ -193,13 +216,61 @@
             height: 100%;
         }
         .filesAndEditorWrapper{
-            height: calc(100% - 50px);
+            height: calc(100% - 100px);
             overflow-y: scroll;
         }
         .filesContainer{
             width: 100%;
         }
+        .downloadButton{
+            margin-top: 20px;
+            background: none;
+            border: none;
+            font-family: Roboto, sans-serif;
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-top: 20px;
+            padding: 0 10px 5px 0px;
 
+        }
+        .downloadButton:hover{
+            text-decoration: underline;
+        }
+        .formInput{
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #1a1a1a20;
+        font-family: "Source Code Pro", sans-serif;
+        font-size: 1.2rem;
+    }
+    input{
+        width: calc(100% - 20px);
+        height: 40px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        margin-right: 5px;
+        transition: all 0.25s;
+    }
+    input:focus{
+        border: 1px solid #3d95ee;
+    }
 
+    .bottomButtonsWrapper{
+        width: 100%;
+        display: flex;
+    }
+    .buttonWrapper{
+        width: fit-content;
+        height: 40px;
+        margin: 10px 10px 0 0;
+        padding: 2px;
+        box-sizing: border-box;
+        border-radius: 10px;
+    }
+    .buttonWrapper button{
+        background: none;
+        border: none;
+        border-radius: 8px;
+    }
 
 </style>
