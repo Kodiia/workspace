@@ -124,10 +124,8 @@
     .container{
         width: min(415px, calc(100% - 10px));
         padding: 60px 10px;
-        background-size: 20px 20px;
-        background-repeat: repeat;
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
+        /* background-size: 20px 20px;
+        background-repeat: repeat; */
         border: none;
         margin: auto;
         display: flex;
@@ -201,9 +199,7 @@
         transition: all 0.25s;
     }
     .submitButton:hover{
-        border: 1px solid #3d95ee;
-        box-shadow: 0 0 10px #3d95ee;
-        background: radial-gradient(circle, #3d95ee, #4233fb);
+        box-shadow: 0 0 15px hsl(155, 95%, 35%);
     }
     .submitButton:disabled{
         background: rgba(150,150,150, 50%);

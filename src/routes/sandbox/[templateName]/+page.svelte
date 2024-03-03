@@ -1,5 +1,5 @@
 <script>
-    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay, textColor } from '$lib/store'
     import FilesPanel from '$lib/FilesPanel.svelte';
     import ResourcesPanel from '$lib/ResourcesPanel.svelte';
     import { page } from '$app/stores';
@@ -50,7 +50,7 @@
         </div>
 
         {#if $width > 700 && $filesPanelDisplay === 'block'}
-            <div class='resizeHandle' bind:this = {resizeHandle} on:pointerdown={(e)=>{ resizeState = true }}></div>
+        <div class='resizeHandle' style='background: hsl({$textColor + ', 20%'});' bind:this = {resizeHandle} on:pointerdown={(e)=>{ resizeState = true }}></div>
         {/if}
     
         <div style='flex: 1; height: 100%; padding: 5px; box-sizing: border-box; margin-left: 0px; background: none; position: relative;' >
@@ -82,7 +82,7 @@
     
     .resizeHandle{
         width: 5px;
-        height: 100px;
+        height: calc(100% - 10px);
         background: #4233fb50;
         border-radius: 5px;
         touch-action: none;
