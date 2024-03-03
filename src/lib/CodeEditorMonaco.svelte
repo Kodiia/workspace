@@ -119,11 +119,14 @@
     function updateFileData(fileNameLocal = '', value = ''){
         for (let file of $filesLocalCopy){
             if (file.fileName === fileNameLocal ){
-              $filesLocalCopy = [...$filesLocalCopy, 
-              file.fileData = value
-            ]
+                file.fileData = value
+                $filesLocalCopy = [...$filesLocalCopy]
+            //   $filesLocalCopy = [...$filesLocalCopy, 
+            //   file.fileData = value
+            // ]
             }
         }
+        console.log('files are here: ',$filesLocalCopy)
     }
 
     async function paste(){
