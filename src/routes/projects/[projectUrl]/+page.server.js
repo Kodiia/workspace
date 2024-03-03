@@ -92,6 +92,7 @@ export async function load ({ locals, fetch, params}) {
       const bodyKeysArray = Object.keys(body)
       const bodyValuesArray = Object.values(body)
 
+      console.log(body)
       console.log(bodyKeysArray)
       console.log(bodyValuesArray)
 
