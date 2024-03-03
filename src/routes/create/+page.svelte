@@ -55,7 +55,7 @@
 
 <NavPanel data={data}/>
 <!-- style='background-image: radial-gradient(circle, hsl({$primaryColor + ', 20%'}) 1px, transparent 2px);' -->
-<div class='container' style='background: radial-gradient(circle, hsl({$primaryColor + ", 50%"}), transparent 65%), radial-gradient(circle, hsl({$accentColor + ", 20%"}) 5%, transparent 30%);'>
+<div class='container' style='background: radial-gradient(circle, hsl({$primaryColor + ", 50%"}), transparent 225px), radial-gradient(circle, hsl({$accentColor + ", 20%"}) 15px, transparent 80px);'>
     
     <h2>Your next <span class='randomWordSpan' style='background: linear-gradient(45deg, hsl({$primaryColor}), hsl({$accentColor})) text;'>{randomAdjective()}</span> web project starts here.</h2>
     
