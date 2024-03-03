@@ -106,11 +106,11 @@
                         </div>
 
                         {#each $filesLocalCopy as file, i}
-                            <input type='text' name='{file.fileName}' value='{file.fileData}' style='display: none;' />
+                            <textarea name='{file.fileName}' value='{file.fileData}' style='display: none;' />
                         {/each}
                         
                             <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
-                                <button type='submit' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Save</button>
+                                <button type='submit' style='background: hsl({$bgColor}); color: hsl({$textColor});' >Save</button>
                             </div>
                         </form>
                     </div>    
