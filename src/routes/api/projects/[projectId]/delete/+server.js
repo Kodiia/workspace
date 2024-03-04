@@ -6,7 +6,7 @@ export async function DELETE({locals, params}){
 
     if(locals.user){
         try {
-            await locals.pb.collection('userProjects').delete(`${projectId}`)
+            await locals.pb.collection('userProjects').delete(`"${projectId}"`)
 
             throw redirect( 303, '/projects')
         } catch (err){
