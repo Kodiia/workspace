@@ -2,9 +2,9 @@ import { error, redirect } from '@sveltejs/kit';
 
 export async function DELETE({locals, params}){
     const projectId = params.projectId
-    const project = await locals.pb.collection('userProjects').getOne(`${projectId}`)
+    // const project = await locals.pb.collection('userProjects').getOne(`${projectId}`)
 
-    if(locals.user.id === project.createdBy){
+    if(locals.user){
         try {
             await locals.pb.collection('userProjects').delete(`${projectId}`)
 

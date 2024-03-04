@@ -23,5 +23,12 @@ export async function load ({ locals, fetch, params}) {
       }
   
   }
+//   export const actions = {
+//     saveProject: async ({locals, params, request}) => {
+//         const form = await request.formData()
+//         const body = Object.fromEntries(form)
+
+//     }
+//   }
 
   

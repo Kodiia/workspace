@@ -18,6 +18,8 @@
     {#each projects as project}
         <div class='projectWrapper' style='border: none; border-bottom: hsl({$textColor + ',20%'})'>
             <h3>{project.name}</h3>
+            <p>{project.updated}</p>
+            <a href='/projects/{project.id}/edit'>Edit</a>
             <a href='/api/projects/{project.id}/delete'>Delete</a>
         </div>
         <!-- <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' /> -->
