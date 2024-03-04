@@ -1,4 +1,3 @@
-import { DB_URL } from '$env/static/private'
 import { error, redirect } from '@sveltejs/kit';
 import { serializeNonPOJOs } from '$lib/utils';
 

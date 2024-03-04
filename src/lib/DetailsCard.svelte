@@ -55,7 +55,7 @@
             /* border: 1px solid #f9f9f9; */
             /* border-radius: 15px; */
             /* box-shadow: 0 0 10px rgba(60, 150, 238, 0.2); */
-            padding: 15px;
+            padding: 15px 10px 15px 0;
             /* padding-bottom: 35px; */
             margin-bottom: 10px;
             /* margin: 0 10px 10px 0; */

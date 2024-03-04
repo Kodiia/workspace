@@ -184,7 +184,7 @@
             -webkit-backdrop-filter: blur(25px);
             border-radius: 15px;
             /* box-shadow: 0 0 10px rgba(60, 150, 238, 0.3); */
-            padding: 15px;
+            padding: 10px;
             /* margin: 10px; */
             box-sizing: border-box;
             transition: width 0.25s;
@@ -225,7 +225,7 @@
             width: 100%;
             height: calc(100% - 3rem);
             overflow-y: scroll;
-            padding: 10px;
+            padding-right: 5px;
             box-sizing: border-box;
         }
         
