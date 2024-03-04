@@ -7,8 +7,6 @@
 
     export let data
     let projects = data.projects
-    console.log(data.user)
-    //console.log(data.user, data.user.specialCourses, data.user.specialCourses[0], data.user.specialCourses.specialCourses[0], courses)
 </script>
 
 <div class='container'>
