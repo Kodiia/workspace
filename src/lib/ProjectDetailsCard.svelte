@@ -47,6 +47,7 @@
         justify-content: center;
         align-items: center;
         margin-left: 5px;
+        box-sizing: border-box;
     }
     h3{
         font-weight: 300;
