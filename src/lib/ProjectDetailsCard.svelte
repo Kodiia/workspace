@@ -2,6 +2,8 @@
     import {bgColor, textColor, primaryColor, accentColor} from '$lib/store'
     export let project = {}
 
+    let isHovered = false
+
     function getProjectEditDate(){
         const dbDate = project.updated
         const date = dbDate.split('.')[0]
@@ -10,20 +12,20 @@
     }
 </script>
 
-<div class='projectWrapper' style='border: none; border-bottom: hsl({$textColor + ', 20%'})'>
+<div class='projectWrapper' style='border: none; border-bottom: {isHovered ? `1px solid hsl(${$textColor + ', 20%'})` : `1px solid hsl(${$primaryColor})`};' on:pointerover={()=>{isHovered = true}} on:pointerleave={()=>{isHovered = false}}>
     <div>
         <h3>{project.name}</h3>
         <!-- <p class='editDateText'>{getProjectEditDate}</p> -->
-        <code>{getProjectEditDate()}</code>
+        <code style="color: hsl({$textColor});">{getProjectEditDate()}</code>
     </div>
     <div class='buttonsMenu'>
-        <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}, hsl({$accentColor})))'>
+        <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
             <a href='/projects/{project.id}/edit' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));'>Edit</a>
         </div>
         <form action='?/deleteProject' method='POST' >
             <!-- <a href='/api/projects/{project.id}/delete'>Delete</a> -->
             <input type='hidden' name='projectId' value='{project.id}' />
-            <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}, hsl({$accentColor})))'>
+            <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
                 <button type='submit' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Delete</button>
             </div>
         </form>
@@ -50,12 +52,16 @@
     a, button{
         width: fit-content;
         color: #1a1a1a;
+        text-decoration: none;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 10px;
         margin-right: 5px;
+        border: none;
         border-radius: 10px;
+        box-sizing: border-box;
+
     }
     a:hover{
         box-shadow: 0 0 15px hsl(155, 95%, 35%);
