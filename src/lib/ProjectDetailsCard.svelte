@@ -12,11 +12,11 @@
     }
 </script>
 
-<div class='projectWrapper' style='border: none; border-bottom: {isHovered ? `1px solid hsl(${$textColor + ', 20%'})` : `1px solid hsl(${$primaryColor})`};' on:pointerover={()=>{isHovered = true}} on:pointerleave={()=>{isHovered = false}}>
+<div class='projectWrapper' style='border: none; border-bottom: {isHovered ? `1px solid hsl(${$primaryColor})` : `1px solid hsl(${$textColor + ', 20%'})`};' on:pointerover={()=>{isHovered = true}} on:pointerleave={()=>{isHovered = false}}>
     <div>
         <h3>{project.name}</h3>
         <!-- <p class='editDateText'>{getProjectEditDate}</p> -->
-        <code style="color: hsl({$textColor});">{getProjectEditDate()}</code>
+        <code style="background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});">{getProjectEditDate()}</code>
     </div>
     <div class='buttonsMenu'>
         <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
@@ -37,6 +37,7 @@
         background: none;
         display: flex;
         justify-content: space-between;
+        padding: 10px 0;
     }
     .buttonWrapper{
         height: 50px;
@@ -45,9 +46,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-left: 5px;
     }
     h3{
         font-weight: 300;
+        margin: 0;
     }
     a, button{
         width: fit-content;
@@ -57,11 +60,9 @@
         justify-content: center;
         align-items: center;
         padding: 10px;
-        margin-right: 5px;
         border: none;
-        border-radius: 10px;
+        border-radius: 8px;
         box-sizing: border-box;
-
     }
     a:hover{
         box-shadow: 0 0 15px hsl(155, 95%, 35%);
