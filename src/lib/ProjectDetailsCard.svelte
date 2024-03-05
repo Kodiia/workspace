@@ -2,7 +2,7 @@
     import {bgColor, textColor, primaryColor, accentColor} from '$lib/store'
     export let project = {}
 
-    let isHovered = false
+    let isHovered = false, isLinkHovered = false
 
     function getProjectEditDate(){
         const dbDate = project.updated
@@ -12,16 +12,16 @@
     }
 </script>
 
-<div class='projectWrapper' style='border: none; border-bottom: {isHovered ? `1px solid hsl(${$primaryColor})` : `1px solid hsl(${$textColor + ', 20%'})`}; box-shadow: 0 0 10px {isHovered ? `hsl(${$primaryColor})` : "none"}' on:pointerover={()=>{isHovered = true}} on:pointerleave={()=>{isHovered = false}}>
+<div class='projectWrapper' style='border: none; border-bottom: {isHovered ? `1px solid hsl(${$primaryColor})` : `1px solid hsl(${$textColor + ', 20%'})`};' on:pointerover={()=>{isHovered = true}} on:pointerleave={()=>{isHovered = false}}>
     <div>
         <h3>{project.name}</h3>
         <!-- <p class='editDateText'>{getProjectEditDate}</p> -->
         <code style="background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});">{getProjectEditDate()}</code>
     </div>
     <div class='buttonsMenu'>
-        <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
-            <a href='/projects/{project.id}/edit' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));'>Edit</a>
-        </div>
+        
+        <a href='/projects/{project.id}/edit' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor})); box-shadow: {isLinkHovered ? `0 0 10px hsl(${$primaryColor})` : "none"}' on:pointerover={()=>{isLinkHovered = true}} on:pointerleave={()=>{isLinkHovered = false}}>Edit</a>
+        
         <form action='?/deleteProject' method='POST' >
             <!-- <a href='/api/projects/{project.id}/delete'>Delete</a> -->
             <input type='hidden' name='projectId' value='{project.id}' />
