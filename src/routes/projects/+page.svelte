@@ -20,7 +20,11 @@
             <h3>{project.name}</h3>
             <p>{project.updated}</p>
             <a href='/projects/{project.id}/edit'>Edit</a>
-            <a href='/api/projects/{project.id}/delete'>Delete</a>
+            <form action='?/deleteProject' method='POST' >
+                <!-- <a href='/api/projects/{project.id}/delete'>Delete</a> -->
+                <input type='hidden' name='projectId' value='{project.id}' />
+                <button type='submit'>Delete</button>
+            </form>
         </div>
         <!-- <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' /> -->
     {/each}

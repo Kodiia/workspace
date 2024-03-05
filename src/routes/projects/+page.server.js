@@ -23,12 +23,25 @@ export async function load ({ locals, fetch, params}) {
       }
   
   }
-//   export const actions = {
-//     saveProject: async ({locals, params, request}) => {
-//         const form = await request.formData()
-//         const body = Object.fromEntries(form)
+  export const actions = {
+    deleteProject: async ({locals, params, request}) => {
+        const form = await request.formData()
+        const body = Object.fromEntries(form)
 
-//     }
-//   }
+        const projectId = body.projectId
+
+        try {
+            const result = await locals.pb.collection('userProjects').delete(projectId)
+
+            throw redirect( 303, '/projects')
+
+            // return new Response(JSON.stringify(result), {status: 200})
+                
+        } catch (err){
+            console.log(err)
+            throw error(err.status, err.message);
+        }  
+    }
+  }
 
   
