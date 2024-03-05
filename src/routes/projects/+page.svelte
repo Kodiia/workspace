@@ -17,16 +17,6 @@
     <div class='projectsContainer'>
         {#each projects as project}
             <ProjectDetailsCard project={project} />
-            <!-- <div class='projectWrapper' style='border: none; border-bottom: hsl({$textColor + ', 20%'})'>
-                <h3>{project.name}</h3>
-                <p>{project.updated}</p>
-                <a href='/projects/{project.id}/edit'>Edit</a>
-                <form action='?/deleteProject' method='POST' >
-                    <input type='hidden' name='projectId' value='{project.id}' />
-                    <button type='submit'>Delete</button>
-                </form>
-            </div> -->
-            <!-- <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' /> -->
         {/each}
     </div>
 {:else}
