@@ -33,7 +33,7 @@ export async function load ({ locals, fetch, params}) {
         try {
             const result = await locals.pb.collection('userProjects').delete(projectId)
 
-            throw redirect( 303, '/projects')
+            // throw redirect( 303, '/projects')
 
             // return new Response(JSON.stringify(result), {status: 200})
                 
