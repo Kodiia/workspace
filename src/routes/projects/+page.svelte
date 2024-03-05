@@ -1,6 +1,5 @@
 <script>
-    import ProjectCard from "$lib/ProjectCard.svelte";
-    import StylesPanel from "$lib/StylesPanel.svelte";
+    import ProjectDetailsCard from "$lib/ProjectDetailsCard.svelte";
     import { textColor } from '$lib/store'
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import NavPanel from "$lib/NavPanel.svelte";
@@ -14,22 +13,25 @@
 
 <h3 style='margin-top: 70px;'>Projects</h3>
 <!-- <p>Follow step-by-step tutorials.</p> -->
-<div class='projectsContainer'>
-    {#each projects as project}
-        <div class='projectWrapper' style='border: none; border-bottom: hsl({$textColor + ',20%'})'>
-            <h3>{project.name}</h3>
-            <p>{project.updated}</p>
-            <a href='/projects/{project.id}/edit'>Edit</a>
-            <form action='?/deleteProject' method='POST' >
-                <!-- <a href='/api/projects/{project.id}/delete'>Delete</a> -->
-                <input type='hidden' name='projectId' value='{project.id}' />
-                <button type='submit'>Delete</button>
-            </form>
-        </div>
-        <!-- <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' /> -->
-    {/each}
-</div>
-
+{#if projects}
+    <div class='projectsContainer'>
+        {#each projects as project}
+            <ProjectDetailsCard project={project} />
+            <!-- <div class='projectWrapper' style='border: none; border-bottom: hsl({$textColor + ', 20%'})'>
+                <h3>{project.name}</h3>
+                <p>{project.updated}</p>
+                <a href='/projects/{project.id}/edit'>Edit</a>
+                <form action='?/deleteProject' method='POST' >
+                    <input type='hidden' name='projectId' value='{project.id}' />
+                    <button type='submit'>Delete</button>
+                </form>
+            </div> -->
+            <!-- <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' /> -->
+        {/each}
+    </div>
+{:else}
+    <p>Seems like you don't have any projects yet. How about creating one?</p>
+{/if}
 </div>
 
 <style>
