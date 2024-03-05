@@ -301,7 +301,7 @@
 
 export let imageUrl = '/api/images/courses/8vuzxx3aug1e42w/caYTNNOM8q7V_wHy79LH0FW.webp'
 
-let containerWidth = 200
+export let containerWidth = 200
 let SVGpath
 
 onMount(()=>{
@@ -315,7 +315,7 @@ width.subscribe(()=>{
 </script>
 
 <div bind:this = {container} bind:clientWidth={containerWidth} style='width: 100%'>
-    <svg width='100%' height='100%' viewBox='0 0 200 200'>
+    <svg width='100%' height='100%' viewBox='0 0 {containerWidth} {containerWidth}'>
         <g>
             <path d={SVGpath} fill='#0000ff00'></path>
         </g>

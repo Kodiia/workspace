@@ -64,7 +64,7 @@
             display: flex;
             align-items: center;
             /* transform: scale(1.0); */
-            /* transition: all 0.25s; */
+            transition: all 0.25s;
         }
         
         details summary{

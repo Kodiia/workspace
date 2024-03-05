@@ -37,7 +37,7 @@
         display: flex;
         align-items: center;
         cursor: pointer;
-        transition: all 0s;
+        transition: all 0.25s;
     }
     button:hover{
         background: #f9f9f9;

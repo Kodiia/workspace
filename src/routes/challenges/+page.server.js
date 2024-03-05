@@ -16,9 +16,6 @@ export async function load({locals}){
     }
 
     let challenges = await getChallenges()
-    // console.log(courses.items, locals.user)
-    // console.log(course.items[0].type, typeof locals.user, locals.user.specialCourses.specialCourses)
-
     let availableChallenges = []
 
     for(let challenge of challenges.items){

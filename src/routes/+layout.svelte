@@ -54,7 +54,7 @@
         min-height: 100%;
         display: flex;
         box-sizing: border-box;
-        transition: all 0.5s;
+        transition: all 0.25s;
     }
     /* .loader{
         width: 50px;

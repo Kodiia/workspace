@@ -187,7 +187,7 @@
             padding: 10px;
             /* margin: 10px; */
             box-sizing: border-box;
-            transition: width 0.25s;
+            transition: all 0.25s;
         }
         .panelButton{
             position: absolute;
