@@ -6,7 +6,10 @@ export async function load ({ locals, fetch, params}) {
     const getProjects = async () => {
         if(locals.user){
             try{
-                const projects = await locals.pb.collection('userProjects').getFullList({filter: `createdBy = "${locals.user.id}"`});
+                const projects = await locals.pb.collection('userProjects').getFullList({
+                    filter: `createdBy = "${locals.user.id}"`, 
+                    sort: '-created'
+                });
 
                 return serializeNonPOJOs(projects)
             } catch (err){

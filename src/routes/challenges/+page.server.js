@@ -6,7 +6,7 @@ export async function load({locals}){
     const getChallenges = async () =>{
 
         try{
-            const challenges = await locals.pb.collection('challenges').getList(1, 20, { '$autoCancel': false }
+            const challenges = await locals.pb.collection('challenges').getList(1, 20, { '$autoCancel': false, sort: '-created' }
             );
             return serializeNonPOJOs(challenges)
         } catch (err){

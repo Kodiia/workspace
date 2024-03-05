@@ -12,7 +12,7 @@
     }
 </script>
 
-<div class='projectWrapper' style='border: none; border-bottom: {isHovered ? `1px solid hsl(${$primaryColor})` : `1px solid hsl(${$textColor + ', 20%'})`};' on:pointerover={()=>{isHovered = true}} on:pointerleave={()=>{isHovered = false}}>
+<div class='projectWrapper' style='border: none; border-bottom: {isHovered ? `1px solid hsl(${$primaryColor})` : `1px solid hsl(${$textColor + ', 20%'})`}; box-shadow: 0 0 10px {isHovered ? `hsl(${$primaryColor})` : "none"}' on:pointerover={()=>{isHovered = true}} on:pointerleave={()=>{isHovered = false}}>
     <div>
         <h3>{project.name}</h3>
         <!-- <p class='editDateText'>{getProjectEditDate}</p> -->
@@ -64,14 +64,9 @@
         border: none;
         border-radius: 8px;
         box-sizing: border-box;
-    }
-    a:hover{
-        box-shadow: 0 0 15px hsl(155, 95%, 35%);
+        transition: all 0.25s;
     }
     .buttonsMenu{
         display: flex;
     }
-    /* .editDateText{
-        font-size:
-    } */
 </style>
