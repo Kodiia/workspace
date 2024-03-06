@@ -1,5 +1,5 @@
 <script>
-    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay, bgColor, textColor, primaryColor, secondaryColor, accentColor } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay, bgColor, textColor, primaryColor, secondaryColor, accentColor, runCode } from '$lib/store'
     import ProjectPanel from '$lib/ProjectPanel.svelte';
     import NavPanel from '$lib/NavPanel.svelte';
     import FilesPanel from '$lib/FilesPanel.svelte';
@@ -117,7 +117,7 @@
                                 <button type='submit' style='background: hsl({$bgColor}); color: hsl({$textColor});' >Save</button>
                             </div>
                             <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
-                                <button style='background: hsl({$primaryColor}); color: hsl({$bgColor});' >Run &#9656;</button>
+                                <button style='display: flex; align-items: center; width: 100px; height: 35px; background: hsl({$primaryColor}); color: hsl({$bgColor});' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run ▶' : 'Stop ◼'}</button>
                             </div>
                         </div>
                         </form>
@@ -222,20 +222,7 @@
         .filesContainer{
             width: 100%;
         }
-        .downloadButton{
-            margin-top: 20px;
-            background: none;
-            border: none;
-            font-family: Roboto, sans-serif;
-            font-size: 1.2rem;
-            font-weight: 300;
-            margin-top: 20px;
-            padding: 0 10px 5px 0px;
 
-        }
-        .downloadButton:hover{
-            text-decoration: underline;
-        }
         .formInput{
         padding: 10px;
         border-radius: 10px;

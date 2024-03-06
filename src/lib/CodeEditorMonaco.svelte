@@ -13,7 +13,7 @@
     import parserEstree from "prettier/plugins/estree";
     import parserCSS from "prettier/plugins/postcss";
 
-    import {height, editorState, consolePanelState, consoleMessages, filesLocalCopy, theme, bgColor, textColor} from '$lib/store'
+    import {height, editorState, consolePanelState, consoleMessages, filesLocalCopy, theme, bgColor, textColor, runCode} from '$lib/store'
     import {getFileLogoURL} from '$lib/utils'
 
 	let editorContainer;
@@ -45,6 +45,12 @@
        let formattedEditorText = await prettier.format(text, formatOptions)
        return formattedEditorText
     }
+
+    runCode.subscribe(async ()=>{
+        const formattedCode = await prettier.format(editor.getValue(), formatOptions)
+        updateFileData(fileName, formattedCode);
+        consoleMessages.set([]);
+    })
 
 
     onMount(async () => {
@@ -85,12 +91,7 @@
         editorCreated = true
 
         editor.onDidChangeModelContent(function (e) {
-            console.log(e);
-            setTimeout(async ()=>{
-              const formattedCode = await prettier.format(editor.getValue(), formatOptions)
-              updateFileData(fileName, formattedCode);
-              consoleMessages.set([]);
-            }, 500)
+            $runCode = false;
         });
 
         theme.subscribe(()=>{
@@ -158,7 +159,7 @@
 	}
 </script>
 
-<div class='container' style='height: {$height - 135}px'>
+<div class='container' style='height: {$height - 185}px'>
     
     <div class='editorContainer' style='height: {$consolePanelState && mode==='javascript' && !readOnly ? "calc(100% - 130px)" : "calc(100% - 0px)"}; background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
         

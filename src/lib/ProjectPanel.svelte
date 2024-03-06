@@ -1,5 +1,5 @@
 <script>
-    import { width, height, filesLocalCopy, consoleMessages, textColor } from '$lib/store'
+    import { width, height, filesLocalCopy, consoleMessages, textColor, runCode } from '$lib/store'
 
     let userSRCDoc = ''
 
@@ -32,9 +32,11 @@
     }) 
 
     function getFileContents(fileToSearch){
-        for(let file of $filesLocalCopy){
-            if(file.fileName === fileToSearch){
-                return file.fileData   
+        if($runCode === true){
+            for(let file of $filesLocalCopy){
+                if(file.fileName === fileToSearch){
+                    return file.fileData   
+                }
             }
         }
     }

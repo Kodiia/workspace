@@ -21,6 +21,7 @@ export let projectId = writable('')
 export let filesLocalCopy = writable([])
 export let fileToOpen = writable('index.html')
 export let editorState = writable(false)
+export let runCode = writable(false)
 
 export let filesPanelState = writable(true), docsPanelState = writable(true), stepsPanelState = writable(true), resourcesPanelState = writable(true);
 export let filesPanelDisplay = writable('block')
