@@ -11,7 +11,7 @@
 <div class='container'>
     <h3 style='margin-top: 70px'>Tutorials</h3>
     <div class='tutorial-cards-container'>
-    {#each data.tutorials.items as tutorial}
+    {#each data.tutorials as tutorial}
         <!-- <h3>{tutorial.heading}</h3> -->
         <InfoCard title={tutorial.heading} description={tutorial.description} link='challenges/{tutorial.id}' imageUrl = '{tutorial.stepsJSON.steps[0].imageUrl}' subHeading={tutorial.courseName}/>
     {/each}

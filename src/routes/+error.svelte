@@ -10,7 +10,10 @@
 <style>
     .container{
         width: 100%;
+        height: fit-content;
+        margin: auto;
         display: flex;
         justify-content: center;
+        margin: auto;
     }
 </style>
