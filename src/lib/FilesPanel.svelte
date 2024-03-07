@@ -133,9 +133,10 @@
                 <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
                     <button on:click={downloadFiles} style='background: hsl({$bgColor}); color: hsl({$textColor});'>Download</button>
                 </div>
-                <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
-                    <button style='display: flex; align-items: center; width: 100px; height: 35px; background: hsl({$primaryColor}); color: hsl({$bgColor});' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run ▶' : 'Stop ◼'}</button>
-                </div>
+                <button style='display: flex; align-items: center; width: 100px; height: 40px; background: hsl({$primaryColor}); color: #1a1a1a; margin-top: 10px; border: none;' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run ▶' : 'Stop ◼'}</button>
+                <!-- <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
+                    <button style='display: flex; align-items: center; width: 100px; height: 40px; background: hsl({$primaryColor}); color: hsl({$bgColor});' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run ▶' : 'Stop ◼'}</button>
+                </div> -->
             </div>
         </div>    
     
