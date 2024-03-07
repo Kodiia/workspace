@@ -208,8 +208,8 @@
 
         }
         .downloadButton:hover{
-            text-decoration: underline; */
-        }
+            text-decoration: underline; 
+        }*/
 
         h3{
             font-weight: 300;
