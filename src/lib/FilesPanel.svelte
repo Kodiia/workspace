@@ -2,9 +2,7 @@
     import { fade } from 'svelte/transition';
     import { filesLocalCopy, fileToOpen, editorState, width, height, leftPanelWidthSetByUser, filesPanelDisplay, bgColor, textColor, primaryColor, accentColor, runCode } from '$lib/store'
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
-    import CodeEditor from '$lib/CodeEditor.svelte';
     import CodeEditorMonaco from '$lib/CodeEditorMonaco.svelte';
-    import CodeEditorCodeMirror from '$lib/CodeEditorCodeMirror.svelte';
     import JSZip from 'jszip';
 
     export let files
@@ -130,13 +128,10 @@
                 
             </div>
             <div class='bottomButtonsWrapper'>
-                <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
-                    <button on:click={downloadFiles} style='background: hsl({$bgColor}); color: hsl({$textColor});'>Download</button>
-                </div>
-                <button style='display: flex; align-items: center; width: 100px; height: 40px; background: hsl({$primaryColor}); color: #1a1a1a; margin-top: 10px; border: none;' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run ▶' : 'Stop ◼'}</button>
                 <!-- <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
-                    <button style='display: flex; align-items: center; width: 100px; height: 40px; background: hsl({$primaryColor}); color: hsl({$bgColor});' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run ▶' : 'Stop ◼'}</button>
+                    <button on:click={downloadFiles} style='background: hsl({$bgColor}); color: hsl({$textColor});'>Download</button>
                 </div> -->
+                <button style='display: flex; align-items: center; width: 100px; height: 40px; background: hsl({$primaryColor}); color: #1a1a1a; margin-top: 10px; border: none;' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run ▶' : 'Stop ◼'}</button>
             </div>
         </div>    
     

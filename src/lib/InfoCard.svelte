@@ -9,6 +9,7 @@
     export let link = ''
     export let imageUrl = '/api/images/courses/8vuzxx3aug1e42w/caYTNNOM8q7V_wHy79LH0FW.webp'
     export let date = ''
+    export let subHeading = ''
 
     let isHovered = false, isLinkHovered = false;
 
@@ -29,7 +30,12 @@
     {/if}
     <div class='textContainer'>
         <h3>{title}</h3>
-        <code style="width: fit-content; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});">{getChallengeCreateDate()}</code>
+        {#if subHeading}
+            <code style="width: fit-content; padding: 5px; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});">{subHeading}</code>
+        {/if}
+        {#if date}
+            <code style="width: fit-content; padding: 5px; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});">{getChallengeCreateDate()}</code>
+        {/if}
         <p>{description}</p>
         {#if topics}
         <p>✔️ Topics: <b>{topics}</b></p>
