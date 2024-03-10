@@ -179,12 +179,12 @@
                 </div>
             {:else}
                 <div style="display: flex; align-items: center;">
-                    <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={paste}>paste</button>
-                    <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={()=>{undo()}}>undo</button>
-                    <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={()=>{redo()}}>redo</button>
-                    <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={async ()=>{formatText(editor.getValue()).then(result => {editor.setValue(result)})}}>prettify</button>
+                    <button class="smallMenuButton" type="button" style='color: hsl({$textColor});' on:click={paste}>paste</button>
+                    <button class="smallMenuButton" type="button" style='color: hsl({$textColor});' on:click={()=>{undo()}}>undo</button>
+                    <button class="smallMenuButton" type="button" style='color: hsl({$textColor});' on:click={()=>{redo()}}>redo</button>
+                    <button class="smallMenuButton" type="button" style='color: hsl({$textColor});' on:click={async ()=>{formatText(editor.getValue()).then(result => {editor.setValue(result)})}}>prettify</button>
                     {#if mode==='javascript'}
-                    <button class="smallMenuButton" style='color: hsl({$textColor});' on:click={()=>{consolePanelState.set(true);}}>console</button>
+                    <button class="smallMenuButton" type="button" style='color: hsl({$textColor});' on:click={()=>{consolePanelState.set(true);}}>console</button>
                     {/if}
                     <!-- <button class="smallMenuButton" on:click={max}>{maxButtonText}</button> -->
                 </div>

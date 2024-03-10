@@ -56,7 +56,7 @@ code{
   
   /* Track */
   ::-webkit-scrollbar-track {
-    background: rgba(66, 51, 251, 0.05);
+    background: hsl(155, 70%, 55%, 2%);
     border-radius: 5px;
   }
   

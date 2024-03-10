@@ -45,6 +45,10 @@ export const getFileLogoURL = (fileType) => {
         logoPath = jsSVG
         break;
 
+        case 'javascript':
+        logoPath = jsSVG
+        break;
+
         case 'md':
         logoPath = mdSVG
         break;

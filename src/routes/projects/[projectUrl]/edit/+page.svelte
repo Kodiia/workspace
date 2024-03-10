@@ -4,6 +4,7 @@
     import NavPanel from '$lib/NavPanel.svelte';
     import FilesPanel from '$lib/FilesPanel.svelte';
     import ResourcesPanel from '$lib/ResourcesPanel.svelte';
+    import ResourcesHubPanel from '$lib/ResourcesHubPanel.svelte';
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditorMonaco from '$lib/CodeEditorMonaco.svelte';
     import JSZip from 'jszip';
@@ -111,12 +112,12 @@
                         
                         <div class='bottomButtonsWrapper'>
                             <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
-                                <button on:click={downloadFiles} style='background: hsl({$bgColor}); color: hsl({$textColor});'>Download</button>
+                                <button type="button" on:click={downloadFiles} style='background: hsl({$bgColor}); color: hsl({$textColor});'>Download</button>
                             </div>
                             <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
                                 <button type='submit' style='background: hsl({$bgColor}); color: hsl({$textColor});' >Save</button>
                             </div>
-                            <button style='display: flex; align-items: center; width: 100px; height: 40px; margin-top: 10px; background: hsl({$primaryColor}); color: #1a1a1a;' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run ▶' : 'Stop ◼'}</button>
+                            <button type="button" style='border: none; display: flex; justify-content: center; align-items: center; width: 100px; height: 40px; margin-top: 10px; background: hsl({$primaryColor}); color: #1a1a1a;' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run' : 'Stop'}</button>
                             <!-- <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
                                 <button style='display: flex; align-items: center; width: 100px; height: 35px; background: hsl({$primaryColor}); color: hsl({$bgColor});' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run ▶' : 'Stop ◼'}</button>
                             </div> -->
@@ -138,9 +139,10 @@
             <ProjectPanel />
         </div>
 
-        <!-- <div style='width: {$width > 700 ? '400px' : '100%'}; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$resourcesPanelDisplay};'>
-            <ResourcesPanel steps='{data.project.hints}' mode='template' URLtoShare='{$page.url.href}' />
-        </div> -->
+        <div style='width: {$width > 700 ? '400px' : '100%'}; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$resourcesPanelDisplay};'>
+            <!-- <ResourcesPanel steps='{data.project.hints}' mode='template' URLtoShare='{$page.url.href}' /> -->
+            <ResourcesHubPanel />
+        </div>
     </div>
 
 </div>
