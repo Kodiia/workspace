@@ -3,21 +3,25 @@
     import { getFileLogoURL } from '$lib/utils'
     import { bgColor, textColor, height, resourcesPanelDisplay } from "./store";
     import DetailsCard from "./DetailsCard.svelte";
+    import DetailsDocsCard from "./DetailsDocsCard.svelte";
     import PuzzlePieceSvg from "./PuzzlePieceSVG.svelte";
     // let data
     let tutorialsListData = null, challengesListData = null;
-    let tutorialData = null, challengeData = null;
+    let tutorialData = null, challengeData = null, docsData = null;
     let button, dataPanelDisplay = 'none';
 
-    async function fetchData(type = '', id = ''){
+    async function fetchData(type = '', idOrDocsType = ''){
         dataPanelDisplay = 'block';
-        let data = await fetch(`/api/${type}/${id}`)
+        let data = await fetch(`/api/${type}/${idOrDocsType}`)
         switch (type){
             case 'tutorials':
                 tutorialData = await data.json();
             break;
             case 'challenges':
                 challengeData = await data.json();
+            break;
+            case 'docs':
+                docsData = await data.json();
             break;
         }
         
@@ -45,7 +49,27 @@
 
     <h3 style='color: hsl({$textColor}); margin: 0; height: 40px;'>Resources</h3>
     <div class='container'>
-            <!-- <PuzzlePieceSvg /> -->
+        <details style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'});'>
+            <summary>Docs</summary>
+                <div style='width: 100%; display: flex; flex-direction: column; border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); padding: 10px 0;'>
+                    <div style='display: flex; width: 100%;'>
+                        <img src={getFileLogoURL('html')} alt='logo' style='width: 20px'/>        
+                        <h3 style='margin: 0 5px; color: hsl({$textColor});'>html</h3>
+                    </div>
+                    <!-- <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{challenge.date}</code> -->
+                    <button class='tutorialFetchButton' style='color: hsl({$textColor});' on:click={()=>{tutorialData = null; challengeData = null; fetchData('docs', 'html')}}>more &gt;</button>
+                </div>
+
+                <div style='width: 100%; display: flex; flex-direction: column; border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); padding: 10px 0;'>
+                    <div style='display: flex; width: 100%;'>
+                        <img src={getFileLogoURL('css')} alt='logo' style='width: 20px'/>        
+                        <h3 style='margin: 0 5px; color: hsl({$textColor});'>css</h3>
+                    </div>
+                    <!-- <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{challenge.date}</code> -->
+                    <button class='tutorialFetchButton' style='color: hsl({$textColor});' on:click={()=>{tutorialData = null; challengeData = null; fetchData('docs', 'css')}}>more &gt;</button>
+                </div>
+        </details>
+
         {#if challengesListData}
             <details style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'});'>
                 <summary>Challenges</summary>
@@ -114,7 +138,15 @@
                         <DetailsCard id={i} step={step} />
                         <!-- <h3>{tutorialData.heading}</h3> -->
                     {/each}
-                    </div>    
+                    </div>  
+                    {:else if docsData != undefined}
+                        <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{docsData[0].technology}</h3>
+                        <div class='stepsWrapper'>
+                            {#each docsData as docData, i}
+                                <DetailsDocsCard id={i} docData={docData} />
+                                <!-- <h3>{tutorialData.heading}</h3> -->
+                            {/each}
+                        </div>    
                 {:else}
                     <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
                 {/if}
