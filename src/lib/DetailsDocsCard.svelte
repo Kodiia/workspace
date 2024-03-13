@@ -1,11 +1,10 @@
 <script>
     import { theme, bgColor, primaryColor, textColor, secondaryColor } from "./store";
     import CodeSnippetMonaco from "./CodeSnippetMonaco.svelte";
+    import { getFileLogoURL } from '$lib/utils'
 
     export let id = 0    
     export let docData = ''
-
-    console.log(docData)
 
     let isHovered = false;
 
@@ -17,7 +16,13 @@
 </script>
 
 <details style='background-color: hsl({$bgColor}); color: hsl({$textColor}); border: none; border-bottom: 1px solid hsl({isHovered ? $primaryColor : $textColor + ', 20%'});' on:pointerenter={()=>{isHovered = !isHovered}} on:pointerleave={()=>{isHovered = !isHovered}}>
-    <summary>{id}. {docData.heading}</summary>
+    <summary>
+        <div class='summaryWrapper'>
+            <!-- {id}.  -->
+            <img src={getFileLogoURL(docData.technology)} alt='logo' style='width: 20px; margin-right: 5px;'/>
+            {docData.heading}
+        </div>
+    </summary>
     <!-- {#if step.imageUrl}
     <div class='stepImageContainer'>
         <img src='{step.imageUrl}' alt='{step.imageText}' class='stepImage' />
@@ -27,11 +32,15 @@
     <!-- {#if step.link ? step.link : step.linkUrl }
         <a href='{step.link ? step.link : step.linkUrl}' target='_blank' class='link'>{step.linkText}</a>
     {/if} -->
+    {#each docData.snippet as snippet}
+        {#if snippet.description}
+            <p class='{$theme}'>{@html snippet.description}</p>
+        {/if}
+        {#if snippet.code}
+            <CodeSnippetMonaco fileName='{snippet.fileType}' code='{snippet.code}' />
+        {/if}
+    {/each}
     
-    {#if docData.snippet.code != 'false'}
-        <CodeSnippetMonaco fileName='{docData.fileName}' code='{docData.snippet.code}' />
-        
-    {/if}
 
     <!-- {#if step.resources}
         <div class='resourcesTextContainer'>
@@ -54,12 +63,31 @@
             display: flex;
             align-items: center;
             transition: all 0.25s;
+
+            font-size: 1rem;
         }
         
-        details summary{
+        details > summary{
             cursor: pointer;
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
+            font-size: 1.17rem;
+            list-style-type: none;
+            display: flex;
+            justify-content: space-between;
+        }
+        .summaryWrapper{
+            display: flex;
+            align-items: center;
+        }
+
+        details > summary::after {
+            content: '+';
+            font-size: 1.17rem;
+        }
+
+        details[open] > summary::after {
+            content: '-';
             font-size: 1.17rem;
         }
 

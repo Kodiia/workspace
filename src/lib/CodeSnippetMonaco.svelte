@@ -105,6 +105,7 @@
   
       /* box-shadow: 0 0 10px #3d95ee50; */
       border-radius: 10px;
+      transition: all 0.25s;
   }
   .codeSnippet{
     padding: 10px;
@@ -117,7 +118,7 @@
   .snippetMenu{
         position: relative;
         background: #fdfdfd;
-        border-radius: 15px 15px 0 0;
+        border-radius: 10px 10px 0 0;
         border-bottom: 1px solid #dfdfdf;
         display: flex;
         flex-direction: column;
@@ -125,6 +126,7 @@
         /* height: 55px; */
         padding: 0 20px 0 10px;
         box-sizing: border-box;
+        transition: all 0.25s;
       }
       .snippetMenu h5{
         font-family: Roboto, sans-serif;
@@ -136,7 +138,8 @@
           height: 15px;
           background: #fdfdfd;
           border-top: 1px solid #1a1a1a20;
-          border-radius: 0 0 15px 15px;
+          border-radius: 0 0 10px 10px;
+          transition: all 0.25s;
       }
   
   .smallMenuButton {

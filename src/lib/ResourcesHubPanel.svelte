@@ -1,14 +1,24 @@
 <script>
     import { onMount } from "svelte";
     import { getFileLogoURL } from '$lib/utils'
-    import { bgColor, textColor, height, resourcesPanelDisplay } from "./store";
+    import { bgColor, textColor, secondaryColor, primaryColor, accentColor, height, resourcesPanelDisplay } from "./store";
     import DetailsCard from "./DetailsCard.svelte";
     import DetailsDocsCard from "./DetailsDocsCard.svelte";
     import PuzzlePieceSvg from "./PuzzlePieceSVG.svelte";
     // let data
     let tutorialsListData = null, challengesListData = null;
     let tutorialData = null, challengeData = null, docsData = null;
+    let searchInput, searchData = null;
     let button, dataPanelDisplay = 'none';
+
+    let technologies = [
+        {name: 'html', isHovered: false, heading: 'HTML', description: 'HyperText Markup Language is the markup language used to create web pages.'}, 
+        {name: 'css', isHovered: false, heading: 'CSS', description: 'Cascading Style Sheets is a stylesheet language used to describe the styling of an HTML document.'}, 
+        {name: 'javascript', isHovered: false, heading: 'JavaScript', description: 'JavaScript is a dynamic, interpreted programming language primarily used for enhancing interactivity and functionality on web pages.'}, 
+        {name: 'p5js', isHovered: false, heading: 'p5.js', description: 'p5.js is a JavaScript library designed for creative coding.'}, 
+        {name: 'threejs', isHovered: false, heading: 'three.js', description: 'Three.js is a JavaScript library used to create and display animated 3D computer graphics in a web browser using WebGL.'}, 
+        {name: 'brainjs', isHovered: false, heading: 'brain.js', description: 'Brain.js is a JavaScript library designed for neural networking.'}
+    ]
 
     async function fetchData(type = '', idOrDocsType = ''){
         dataPanelDisplay = 'block';
@@ -25,6 +35,13 @@
             break;
         }
         
+    }
+
+    async function fetchSearchRequest(query = ''){
+        console.log(query)
+        let data = await fetch(`/api/search/${query}`)
+        searchData = await data.json();
+        console.log(searchData)
     }
 
     onMount(()=>{
@@ -48,29 +65,33 @@
     </button>
 
     <h3 style='color: hsl({$textColor}); margin: 0; height: 40px;'>Resources</h3>
+    <div class='searchInputContainer'>
+        <input bind:this = {searchInput} style='background: hsl({$secondaryColor}); color: hsl({$textColor});' placeholder='Ask anything. What are you stuck on?' />
+        <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
+            <button type="button" on:click={()=>{tutorialData = null; challengeData = null; docsData = null; searchData = null; fetchSearchRequest(searchInput.value); dataPanelDisplay = 'block';}} style='background: hsl({$bgColor}); color: hsl({$textColor});'>Search</button>
+        </div>
+    </div>
     <div class='container'>
+        
+
+        {#if dataPanelDisplay === 'none'}
+
+        {#if challengesListData && tutorialsListData}
         <details style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'});'>
             <summary>Docs</summary>
-                <div style='width: 100%; display: flex; flex-direction: column; border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); padding: 10px 0;'>
-                    <div style='display: flex; width: 100%;'>
-                        <img src={getFileLogoURL('html')} alt='logo' style='width: 20px'/>        
-                        <h3 style='margin: 0 5px; color: hsl({$textColor});'>html</h3>
-                    </div>
-                    <!-- <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{challenge.date}</code> -->
-                    <button class='tutorialFetchButton' style='color: hsl({$textColor});' on:click={()=>{tutorialData = null; challengeData = null; fetchData('docs', 'html')}}>more &gt;</button>
+            <div style='width: 100%; display: flex; flex-direction: column; border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); padding: 10px 0;'>
+            {#each technologies as technology}
+                <div style='display: flex; width: 100%;'>
+                    <button class='tutorialFetchButton' style='color: hsl({$textColor}); border-bottom: 1px solid hsl({technology.isHovered ? $primaryColor : $textColor + ', 20%'})' on:click={()=>{tutorialData = null; challengeData = null; docsData = null; searchData = null; fetchData('docs', technology.name)}} on:pointerenter={()=>{technology.isHovered = true}} on:pointerleave={()=>{technology.isHovered = false}}>
+                        <img src={getFileLogoURL(technology.name)} alt='logo' style='width: 20px'/>        
+                        <p style='margin: 0 5px; color: hsl({$textColor});'>{technology.heading}</p>
+                        <div style='border-radius: 5px; padding: 5px; font-size: 1rem; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'><p style='font-family: Source Code Pro, sans-serif; margin: 0;'>{technology.description}</p></div>
+                    </button>
                 </div>
-
-                <div style='width: 100%; display: flex; flex-direction: column; border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); padding: 10px 0;'>
-                    <div style='display: flex; width: 100%;'>
-                        <img src={getFileLogoURL('css')} alt='logo' style='width: 20px'/>        
-                        <h3 style='margin: 0 5px; color: hsl({$textColor});'>css</h3>
-                    </div>
-                    <!-- <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{challenge.date}</code> -->
-                    <button class='tutorialFetchButton' style='color: hsl({$textColor});' on:click={()=>{tutorialData = null; challengeData = null; fetchData('docs', 'css')}}>more &gt;</button>
-                </div>
+            {/each}
+        </div>
         </details>
 
-        {#if challengesListData}
             <details style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'});'>
                 <summary>Challenges</summary>
                 {#each challengesListData as challenge}
@@ -83,18 +104,11 @@
 
                         <h3 style='margin: 0; color: hsl({$textColor});'>{challenge.heading}</h3>
                         <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{challenge.date}</code>
-                        <button class='tutorialFetchButton' style='color: hsl({$textColor});' on:click={()=>{tutorialData = null; challengeData = null; fetchData('challenges', challenge.id)}}>more &gt;</button>
+                        <button class='tutorialFetchButton' style='color: hsl({$textColor});' on:click={()=>{tutorialData = null; challengeData = null; searchData = null; docsData = null; fetchData('challenges', challenge.id)}}>more &gt;</button>
                     </div>
                 {/each}
             </details>
-        {:else}
-            <div class='loaderDiv' style='background: hsl({$textColor + ', 20%'})'>
-                <!-- <PuzzlePieceSvg /> -->
-            </div>
-        {/if}
 
-        {#if dataPanelDisplay === 'none'}
-            {#if tutorialsListData}
             <details style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); margin-bottom: 10px;'>
                 <summary>Tutorials</summary>
                 {#each tutorialsListData as tutorial}
@@ -107,16 +121,15 @@
 
                         <h3 style='margin: 0; color: hsl({$textColor});'>{tutorial.heading}</h3>
                         <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{tutorial.courseName}</code>
-                        <button class='tutorialFetchButton' style='color: hsl({$textColor});' on:click={()=>{challengeData = null; tutorialData = null; fetchData('tutorials', tutorial.id)}}>more &gt;</button>
+                        <button class='tutorialFetchButton' style='color: hsl({$textColor});' on:click={()=>{challengeData = null; tutorialData = null; searchData = null; docsData = null; fetchData('tutorials', tutorial.id)}}>more &gt;</button>
                     </div>
                 {/each}
             </details>
-            {:else}
-                <div class='loaderDiv' style='width: 80%; background: hsl({$textColor + ', 20%'})'>
-                <!-- <PuzzlePieceSvg /> -->
-                </div>
-            {/if}
-
+        {:else}
+            <div class='loaderDiv' style='background: hsl({$textColor + ', 20%'})'></div>
+            <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
+            <div class='loaderDiv' style='width: 70%; background: hsl({$textColor + ', 20%'})'></div>
+        {/if}
             
         {:else}
             <div class='dataPanel' style='display: {dataPanelDisplay}; background: hsl({$bgColor}); border: 1px solid hsl({$textColor + ", 20%"});'>
@@ -124,31 +137,43 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width='10' height='10' viewBox="0 0 19.02 19.02"><title>icon_quit</title><line x1="0.5" y1="0.5" x2="18.52" y2="18.52" style="fill:none;stroke: hsl({$textColor});stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/><line x1="0.5" y1="18.52" x2="18.52" y2="0.5" style="fill:none;stroke: hsl({$textColor});stroke-linecap:round;stroke-linejoin:round; stroke-width: 3;"/></svg>
                 </button>
                 {#if tutorialData != undefined}
-                <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{tutorialData.heading}</h3>
-                <div class='stepsWrapper'>
-                    {#each tutorialData.stepsJSON.steps as step, i}
-                        <DetailsCard id={i} step={step} />
-                        <!-- <h3>{tutorialData.heading}</h3> -->
-                    {/each}
+                    <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{tutorialData.heading}</h3>
+                    <div class='stepsWrapper'>
+                        {#each tutorialData.stepsJSON.steps as step, i}
+                            <DetailsCard id={i} step={step} />
+                            <!-- <h3>{tutorialData.heading}</h3> -->
+                        {/each}
                     </div>    
                 {:else if challengeData != undefined}
-                <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{challengeData.heading}</h3>
-                <div class='stepsWrapper'>
-                    {#each challengeData.stepsJSON.steps as step, i}
-                        <DetailsCard id={i} step={step} />
-                        <!-- <h3>{tutorialData.heading}</h3> -->
-                    {/each}
+                    <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{challengeData.heading}</h3>
+                    <div class='stepsWrapper'>
+                        {#each challengeData.stepsJSON.steps as step, i}
+                            <DetailsCard id={i} step={step} />
+                            <!-- <h3>{tutorialData.heading}</h3> -->
+                        {/each}
                     </div>  
-                    {:else if docsData != undefined}
-                        <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{docsData[0].technology}</h3>
-                        <div class='stepsWrapper'>
-                            {#each docsData as docData, i}
-                                <DetailsDocsCard id={i} docData={docData} />
-                                <!-- <h3>{tutorialData.heading}</h3> -->
+                {:else if docsData != undefined}
+                    <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{docsData[0].technology}</h3>
+                    <div class='stepsWrapper'>
+                        {#each docsData as docData, i}
+                            <DetailsDocsCard id={i} docData={docData} />                                <!-- <h3>{tutorialData.heading}</h3> -->
+                        {/each}
+                    </div>    
+                {:else if searchData != undefined}
+                    <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{searchInput.value}</h3>
+                    <div class='stepsWrapper'>
+                        {#if searchData.items.length > 0}
+                            {#each searchData.items as result, i}
+                                <DetailsDocsCard id={i} docData={result} />
                             {/each}
-                        </div>    
+                        {:else}
+                            <p>Nothing is found. Try another query.</p>
+                        {/if}
+                    </div>  
                 {:else}
                     <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
+                    <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
+                    <div class='loaderDiv' style='width: 70%; background: hsl({$textColor + ', 20%'})'></div>
                 {/if}
 
             </div>
@@ -206,9 +231,44 @@
             width: 100%;
             height: 100%;
         }
+        input{
+            width: 100%;
+            height: 40px;
+            box-sizing: border-box;
+            margin: 0;
+            transition: all 0.25s;
+            font-family: Source Code Pro, sans-serif;
+            font-size: 1rem;
+            border: none;
+            border-radius: 10px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        .searchInputContainer{
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .buttonWrapper{
+            width: fit-content;
+            height: 40px;
+            margin: 0 0 0 10px;
+            padding: 2px;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+        .buttonWrapper button{
+            background: none;
+            border: none;
+            border-radius: 8px;
+        }
+    
         .container{
             width: 100%;
-            height: calc(100% - 40px);
+            height: calc(100% - 90px);
             padding-right: 5px;
             box-sizing: border-box;
             position: relative;
@@ -232,6 +292,7 @@
             border-radius: 10px;
             padding: 10px;
             box-sizing: border-box;
+            transition: all 0.25s;
         }
         .stepsWrapper{
             width: 100%;
@@ -245,10 +306,15 @@
         }
         .tutorialFetchButton{
             border: none;
-            width: fit-content;
+            width: 100%;
             margin: 0;
-            padding: 0;
-            text-decoration: underline;
+            padding: 10px 0;
+            text-align: left;
+            /* display: flex;
+            align-items: center; */
+            font-family: Montserrat, sans-serif;
+            border-radius: 0;
+            box-sizing: border-box;
         }
         .tutorialFetchButton:hover{
             background: none;
