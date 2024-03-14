@@ -73,6 +73,5 @@ export const getFileLogoURL = (fileType) => {
         logoPath = brainjsSVG
         break;
     }
-    console.log(htmlSVG, logoPath)
 	return logoPath
 }

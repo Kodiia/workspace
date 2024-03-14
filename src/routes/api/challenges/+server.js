@@ -14,7 +14,7 @@ export async function GET({locals}){
                     heading: challenge.heading,
                     date: challenge.updated,
                     id: challenge.id,
-                    // technologies: challenge.technologies.technologies
+                    technologies: challenge.technologies.technologies
                 })
             }
             // for(let tutorial of tutorialsObject.items){

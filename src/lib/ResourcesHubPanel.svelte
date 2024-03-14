@@ -41,15 +41,21 @@
         console.log(query)
         let data = await fetch(`/api/search/${query}`)
         searchData = await data.json();
-        console.log(searchData)
+        console.log(searchData.docsSearchResult)
     }
 
     onMount(()=>{
         async function fetchAllData(){
             let tutorialsData = await fetch(`/api/tutorials/`)
             tutorialsListData = await tutorialsData.json();
+            for(let data of tutorialsListData){
+                data.isHovered = false
+            }
             let challengesData = await fetch(`/api/challenges/`)
             challengesListData = await challengesData.json();
+            for(let data of challengesListData){
+                data.isHovered = false
+            }
         }
         fetchAllData()
     })
@@ -95,34 +101,38 @@
             <details style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'});'>
                 <summary>Challenges</summary>
                 {#each challengesListData as challenge}
-                    <div style='width: 100%; display: flex; flex-direction: column; border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); padding: 10px 0;'>
-                        <!-- <div class='logosContainer' style='background: none;'>
-                        {#each tutorial.technologies as technology}
-                            <img src={getFileLogoURL(technology)} alt='logo' style='width: 20px'/>        
-                        {/each}
-                        </div> -->
-
-                        <h3 style='margin: 0; color: hsl({$textColor});'>{challenge.heading}</h3>
-                        <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{challenge.date}</code>
-                        <button class='tutorialFetchButton' style='color: hsl({$textColor});' on:click={()=>{tutorialData = null; challengeData = null; searchData = null; docsData = null; fetchData('challenges', challenge.id)}}>more &gt;</button>
-                    </div>
+                   
+                        <button class='tutorialFetchButton' style='color: hsl({$textColor}); border-bottom: 1px solid hsl({challenge.isHovered ? $primaryColor : $textColor + ', 20%'});' 
+                        on:click={()=>{tutorialData = null; challengeData = null; searchData = null; docsData = null; fetchData('challenges', challenge.id)}} 
+                        on:pointerenter={()=>{challenge.isHovered = true}} 
+                        on:pointerleave={()=>{challenge.isHovered = false}}
+                        >
+                            {#each challenge.technologies as technology}
+                            <img src={getFileLogoURL(technology)} alt='logo' style='width: 20px'/> 
+                            {/each}
+                            <h3 style='margin: 0; color: hsl({$textColor});'>{challenge.heading}</h3>
+                            <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{challenge.date}</code>
+                        </button>
+                    
                 {/each}
             </details>
 
             <details style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); margin-bottom: 10px;'>
                 <summary>Tutorials</summary>
                 {#each tutorialsListData as tutorial}
-                    <div style='width: 100%; display: flex; flex-direction: column; border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); padding: 10px 0;'>
-                        <div class='logosContainer' style='background: none;'>
+                    <button class='tutorialFetchButton' style='color: hsl({$textColor}); border-bottom: 1px solid hsl({tutorial.isHovered ? $primaryColor : $textColor + ', 20%'});' 
+                    on:click={()=>{challengeData = null; tutorialData = null; searchData = null; docsData = null; fetchData('tutorials', tutorial.id)}}
+                    on:pointerenter={()=>{tutorial.isHovered = true}} 
+                    on:pointerleave={()=>{tutorial.isHovered = false}}
+                    >
+                    <div class='logosContainer' style='background: none;'>
                         {#each tutorial.technologies as technology}
                             <img src={getFileLogoURL(technology)} alt='logo' style='width: 20px'/>        
                         {/each}
-                        </div>
-
-                        <h3 style='margin: 0; color: hsl({$textColor});'>{tutorial.heading}</h3>
-                        <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{tutorial.courseName}</code>
-                        <button class='tutorialFetchButton' style='color: hsl({$textColor});' on:click={()=>{challengeData = null; tutorialData = null; searchData = null; docsData = null; fetchData('tutorials', tutorial.id)}}>more &gt;</button>
                     </div>
+                    <h3 style='margin: 0; color: hsl({$textColor});'>{tutorial.heading}</h3>
+                    <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{tutorial.courseName}</code>
+                    </button>
                 {/each}
             </details>
         {:else}
@@ -156,17 +166,34 @@
                     <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{docsData[0].technology}</h3>
                     <div class='stepsWrapper'>
                         {#each docsData as docData, i}
-                            <DetailsDocsCard id={i} docData={docData} />                                <!-- <h3>{tutorialData.heading}</h3> -->
+                            <DetailsDocsCard id={i} docData={docData} />                           
                         {/each}
                     </div>    
                 {:else if searchData != undefined}
                     <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{searchInput.value}</h3>
                     <div class='stepsWrapper'>
-                        {#if searchData.items.length > 0}
-                            {#each searchData.items as result, i}
+                        {#if searchData.docsSearchResult.items.length > 0}
+                            {#each searchData.docsSearchResult.items as result, i}
                                 <DetailsDocsCard id={i} docData={result} />
                             {/each}
-                        {:else}
+                        {/if}
+                        {#if searchData.challengesSearchResult.length > 0}
+                        {#each searchData.challengesSearchResult as challenge, i}
+                            <button class='tutorialFetchButton' style='color: hsl({$textColor}); border-bottom: 1px solid hsl({challenge.isHovered ? $primaryColor : $textColor + ', 20%'});' 
+                            on:click={()=>{tutorialData = null; challengeData = null; searchData = null; docsData = null; fetchData('challenges', challenge.id)}} 
+                            on:pointerenter={()=>{challenge.isHovered = true}} 
+                            on:pointerleave={()=>{challenge.isHovered = false}}
+                            >
+                                {#each challenge.technologies as technology}
+                                <img src={getFileLogoURL(technology)} alt='logo' style='width: 20px'/> 
+                                {/each}
+                                <h3 style='margin: 0; color: hsl({$textColor});'>{challenge.heading}</h3>
+                                <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{challenge.date}</code>
+                            </button>
+                            <!-- <h3>{challenge.heading}{challenge.technologies}</h3> -->
+                        {/each}
+                        {/if}
+                        {#if searchData.docsSearchResult.items.length === 0 && searchData.challengesSearchResult.length === 0 }
                             <p>Nothing is found. Try another query.</p>
                         {/if}
                     </div>  

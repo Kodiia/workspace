@@ -66,7 +66,7 @@
     
     <form action='?/createProject' method='POST' class='formContainer'>
         <div class='formFieldContainer'>
-            <p style='margin-top: 0; margin-bottom: 5px; text-align: center;'>Choose a template</p>
+            <p style='margin-top: 0; margin-bottom: 5px; text-align: center;'>Select a template</p>
             <div class='templatesContainer'>
                 {#each availableLibraries as lib}
                     <div class='buttonWrapper' style='background: {selectedLibrary === lib.name ? `linear-gradient(hsl(${$primaryColor}), hsl(${$accentColor}))` : `linear-gradient(hsl(${$primaryColor + ', 20%'}), hsl(${$accentColor + ', 20%'}))`}; box-shadow: {selectedLibrary === lib.name ? `0 0 10px hsl(${$primaryColor})` : "none"};'>
@@ -99,12 +99,22 @@
                 </label>
                 <input type='text' name='name' class='formInput' value='Shiny Unicorn' style='background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ", 20%"}); width: 100%;'/>
                 </div> -->
-                <button type='submit' class='submitButton' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));' disabled='{data.user ? false : true}'>Create</button>
+                <div class='sandboxButtonWrapper' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));'>
+                    <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
+                </div>
+                <p>or</p>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; margin-top: 0;' disabled='{data.user ? false : true}'>Create</button>
             </div>
         
         </div>
         {:else}
-            <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));'>Open sandbox</a>
+            <div style='display: flex; align-items: center;'>
+                <div class='sandboxButtonWrapper' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));'>
+                    <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
+                </div>
+                <p>or</p>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; margin-top: 0;' disabled='{data.user ? false : true}'>Create</button>
+            </div>
             <p style='margin: 0; text-align: center;'><a href='/register' style='color: hsl({$textColor});'>Sign Up</a> or <a href='/login' style='color: hsl({$textColor});'>Log In</a> to create and save projects.</p>
         {/if}
    
@@ -169,14 +179,23 @@
         text-align: center;
     }
 
+    .sandboxButtonWrapper{
+        height: 50px;
+        padding: 2px;
+        margin: 40px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+
     .sandboxButton{
         display: flex;
         width: fit-content;
-        height: 30px;
-        background: linear-gradient(45deg, #3d95ee, #4233fb);
-        padding: 10px;
-        border-radius: 10px;
-        margin: 40px auto;
+        height: 100%;
+        padding: 0 5px;
+        border-radius: 8px;
         text-decoration: none;
         color: #1a1a1a;
         justify-content: center;

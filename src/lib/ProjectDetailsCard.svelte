@@ -40,7 +40,7 @@
         padding: 10px 0;
     }
     .buttonWrapper{
-        height: 50px;
+        height: 40px;
         padding: 2px;
         border-radius: 10px;
         display: flex;
@@ -55,6 +55,7 @@
     }
     a, button{
         width: fit-content;
+        height: 100%;
         color: #1a1a1a;
         text-decoration: none;
         display: flex;
