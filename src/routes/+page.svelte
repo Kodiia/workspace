@@ -1,244 +1,322 @@
 <script>
-    import NavPanel from "$lib/NavPanel.svelte";
-    import ProjectCard from "$lib/ProjectCard.svelte";
-    import StylesPanel from "$lib/StylesPanel.svelte";
-    import { width, height, stylesPanelState } from '$lib/store'
-    import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
-    import monster from '$lib/images/start_page_image.webp'
-    import discord_invite from '$lib/images/discord_invite.webp'
-	import { getImageUrl } from "$lib/utils.js";
-	import { json } from "@sveltejs/kit";
+    import {bgColor, secondaryColor, textColor, primaryColor, accentColor} from '$lib/store'
+    import NavPanel from '$lib/NavPanel.svelte';
+    import { getFileLogoURL } from '$lib/utils'
 
+    export let form
     export let data
-    // console.log(data.projects.items, data.tutorials.items)
-    // console.log(data.user)
 
-    let projects = data.projects.items
-    // let title = data.result.items[0].project_name
-    // let description = data.result.items[0].project_description
-    let tutorials = data.tutorials.items
-    let courses = data.courses.items
-    let challenges = data.challenges.items
+    let selectedLibrary = 'static'
+    let availableLibraries = [
+        {
+            name: 'static',
+            logos: ['html', 'css', 'js'],
+            size: 30
+        }, 
+        {
+            name: 'p5.js',
+            logos: ['p5js'],
+            size: 40
+        },
+        {
+            name: 'three.js',
+            logos: ['threejs'],
+            size: 30
+        },
+        {
+            name: 'brain.js',
+            logos: ['brainjs'],
+            size: 30
+        },
+        {
+            name: 'CA p5.js',
+            logos: ['p5js'],
+            size: 30
+        },
+        {
+            name: 'noise',
+            logos: ['p5js'],
+            size: 30
+        },
+        {
+            name: 'noise 2D',
+            logos: ['p5js'],
+            size: 30
+        }
+    ]
+    // let logoPath = getFileLogoURL(fileType)
+    
+    function randomAdjective(){
+        let words = ['creative', 'procedural', 'generative', 'computational', 'art', 'simulation', 'game', 'cutting-edge', 'disruptive']
+        let word = words[Math.floor(Math.random()*words.length)]
+        return word
+    }
+
+    
+
 </script>
 
-<div class='container'>
-    <NavPanel data={data} />
-<!-- <nav>
-    <div class='desktopMenu'>
-        <a href='https://kodiia.com'>
-            <img src={kodiia_logo_bw} alt='logo' width='70'>
-        </a>
-    </div>
-    <div class='desktopMenu'>
-        {#if data.user}
-        <form action='/logout' method='POST'>
-            <button type='submit' class='smallMenuButton'>Log Out</button>
-        </form>
-            <button class="smallMenuButton" on:click='{()=>{stylesPanelState.set(true)}}'>Set theme</button>
-        {:else}
-            <a class='smallMenuButton' href='/register'>Sign Up</a>
-            <a class='smallMenuButton' href='/login'>Log In</a>
-        {/if}
-    </div>
-</nav> -->
+<!-- <svelte:window on:pointermove={moveDots}></svelte:window> -->
 
-{#if $stylesPanelState}
-    <div style='position: absolute; top: 0px; right: 0px; padding: 0px; width: min(300px, 100%);'>
-        <StylesPanel />
-    </div>
-{/if}
-
-<!-- <p>{innerWidth}{innerHeight}{$width}{$height}</p> -->
-<!-- <h1 style='margin-top: 70px;'>What code will you write?</h1> -->
-<div class='scrollable-container'>
-    <div class='warning' style='flex-direction: {$width < 700 ? "column" : "row"};'>
-        <img src={discord_invite} alt='monster funny' />
-            <div>
-            <p>Hello! Thanks for being here! <br><br>I hope you'll have a great time exploring challenges, following tutorials, and creating your projects. <br><br>Kodiia is currently under active development, so some features may not work as intended. In fact, none of the features may work as expected. If you notice anything unusual or have any questions, feel free to reach us on our <a href='https://discord.gg/ma9Uadag3Z' target='_blank'>Discord server</a>.</p>
-            <!-- <p>💜💜💜</p> -->
-            <p>Have a great day! ✨ <br><br>Best, <br>Stepan</p>
-        </div>
-    </div>
-
-    <h2>Challenges</h2>
-    <p>Unleash your inner developer on thrilling quests that push the limits of design, all in the spirit of fun and exploration.</p>
-    <div class='challenges-cards-container'>
-        {#each challenges as challenge}
-            {#if challenge.type === 'open'}
-                <ProjectCard title={challenge.heading} description={challenge.description} link='challenges/{challenge.id}' imageUrl = '{challenge.stepsJSON.steps[0].imageUrl}' />
-            {/if}
-        {/each}
-
-        {#if data.user}
-            {#each challenges as challenge}
-                {#if challenge.type === 'special' && data.user.specialChallenges.specialChallenges != null}
-                    {#each data.user.specialChallenges.specialChallenges as specialChallenge}
-                        {#if specialChallenge === challenge.url}
-                            <ProjectCard title={challenge.heading} description={challenge.description} link='courses/{challenge.url}' imageUrl = '{challenge.stepsJSON.steps[0].imageUrl}'/>
-                        {/if}
-                    {/each}
-                {/if}
-            {/each}
-        {/if}
-    </div>
+<NavPanel data={data}/>
+<!-- style='background-image: radial-gradient(circle, hsl({$primaryColor + ', 20%'}) 1px, transparent 2px);' -->
+<div class='container' style='background: radial-gradient(circle, hsl({$primaryColor + ", 50%"}), transparent 215px), radial-gradient(circle, hsl({$accentColor + ", 20%"}) 15px, transparent 80px);'>
     
-    <h2>Courses</h2>
-    <p>Follow step-by-step tutorials.</p>
-    <div class='tutorial-cards-container'>
-        {#each courses as course}
-            {#if course.type === 'open'}
-                <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' imageUrl = '{course.imageUrl}'/>
-            {/if}
-        {/each}
-
+    <h2>Your next <span class='randomWordSpan' style='background: linear-gradient(45deg, hsl({$primaryColor}), hsl({$accentColor})) text;'>{randomAdjective()}</span> web project starts here.</h2>
+    
+    <form action='?/createProject' method='POST' class='formContainer'>
+        <div class='formFieldContainer'>
+            <p style='margin-top: 0; margin-bottom: 5px; text-align: center;'>Select a template</p>
+            <div class='templatesContainer'>
+                {#each availableLibraries as lib}
+                    <div class='buttonWrapper' style='background: {selectedLibrary === lib.name ? `linear-gradient(hsl(${$primaryColor}), hsl(${$accentColor}))` : `linear-gradient(hsl(${$primaryColor + ', 20%'}), hsl(${$accentColor + ', 20%'}))`}; box-shadow: {selectedLibrary === lib.name ? `0 0 10px hsl(${$primaryColor})` : "none"};'>
+                        <button type="button" class='libraryButton' style='background:  hsl({$secondaryColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ", 20%"}); animation: {selectedLibrary === lib.name ? "1s infinite blink" : "none"};' 
+                        on:click={() => {
+                            selectedLibrary = lib.name
+                            }}>
+                            <div class='logosContainer' style='background: none;'>
+                                {#each lib.logos as logo}
+                                    <img src={getFileLogoURL(logo)} alt='logo' style='width: {lib.size + 'px'}'/>    
+                                {/each}
+                            </div>
+                            <div class='libraryNameWrapper'>
+                                {lib.name}
+                            </div>
+                        </button>
+                    </div>
+                {/each}
+            </div>
+            <input type='text' name='template' class='formInput' value='{selectedLibrary}' style='display: none;'/>
+            
+        </div>
+    
         {#if data.user}
-            {#each courses as course}
-                {#if course.type === 'special' && data.user.specialCourses.specialCourses != null}
-                    {#each data.user.specialCourses.specialCourses as specialCourse}
-                        {#if specialCourse === course.url}
-                            <ProjectCard title={course.heading} description={course.description} link='courses/{course.url}' imageUrl = '{course.imageUrl}'/>
-                        {/if}
-                    {/each}
-                {/if}
-            {/each}
+        <div class='formFieldContainer'>
+            <div style='display:flex; align-items: last baseline;'>
+                <!-- <div style='box-sizing: border-box; margin-right: 5px;'>
+                <label for='name' class='formLabel'>
+                    <span class='labelSpan'>Enter a project name</span>
+                </label>
+                <input type='text' name='name' class='formInput' value='Shiny Unicorn' style='background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ", 20%"}); width: 100%;'/>
+                </div> -->
+                <div class='sandboxButtonWrapper' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));'>
+                    <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
+                </div>
+                <p>or</p>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; margin-top: 0;' disabled='{data.user ? false : true}'>Create</button>
+            </div>
+        
+        </div>
+        {:else}
+            <div style='display: flex; align-items: center;'>
+                <div class='sandboxButtonWrapper' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));'>
+                    <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
+                </div>
+                <p>or</p>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; margin-top: 0;' disabled='{data.user ? false : true}'>Create</button>
+            </div>
+            <p style='margin: 0; text-align: center;'><a href='/register' style='color: hsl({$textColor});'>Sign Up</a> or <a href='/login' style='color: hsl({$textColor});'>Log In</a> to create and save projects.</p>
         {/if}
-    </div>
-
-    <!-- <h2>Apps</h2>
-    <p>The Apps section is a treasure trove of prototypes of games and complex systems controlled by cellular automata and other algorithms. This section showcases real-life examples of what can be built with procedural design techniques, and it's created with a goal to be the perfect place for creative developers to explore, experiment, and push the boundaries of what's possible.</p>
-    <div class='tutorial-cards-container'>
-        <ProjectCard title='Procedural World' description='A procedural world generator that is powered by a 3D cellular automata system. Create an intricate procedural world that is both dynamic and engaging. Join us on a journey through a world that is truly alive!' link='games/procedural-worlds' />
+   
+    
+        
+    <!-- <div class='formFieldContainer'>
+        
     </div> -->
 
-    <h2>Templates</h2>
-    <p>Start building a project on your own.</p>
-    <div class='template-cards-container'>
-        {#each projects as project}
-            <ProjectCard title={project.name} description={project.description} topics='' link='templates/{project.id}' imageUrl = '{project.imageUrl}'/>
-        {/each}
-    </div>
-</div>
-
-<!-- <div class='panelsContainer' style='height: calc({$height}px - 70px);'>
     
-</div> -->
+
+    </form>
+
 </div>
 
 <style>
     .container{
-        margin-left: auto;
-        margin-right: auto;
-        /* margin-top: 10px;
-        margin-bottom: 10px; */
-        width: min(100%, 1044px);
-        /* height: 100vh; */
+        width: min(415px, calc(100% - 10px));
+        padding: 60px 10px;
+        /* background-size: 20px 20px;
+        background-repeat: repeat; */
+        border: none;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
         position: relative;
     }
-    .warning{
-        margin-top: 0px;
-        padding: 10px;
-        background: #060b25;
-        color: #f9f9f9;
-        border-radius: 10px;
-        box-shadow: 0 0 10px #3d95ee;
+
+    .dot{
+        width: 2px;
+        height: 2px;
+    }
+
+    .dotsContainer{
         display: flex;
-        align-items: center;
-
-        font-family: 'Source Code Pro', sans-serif;
-
-        box-sizing: border-box;
+        /* position: absolute; */
+        width: 100%;
+        height: 100%;
+        transition: all 0.25s;
+        margin: auto;
+        z-index: -1;
     }
-    .warning img {
-        width: 200px;
-        height: 200px;
-        padding-right: 10px;
-        border-radius: 50%;
-    }
-    .warning span, .warning a{
-        color: #3d95ee;
-        font-weight: 500;
-    }
-    .panelsContainer{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        background: #fdfdfd;
-        background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.15));
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border-radius: 15px;
-        box-shadow: 0 0 10px rgba(60, 150, 238, 0.3);
-        /* margin: 10px; */
-        box-sizing: border-box;
-        /* display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center; */
-    }
-
     
-    h1{
-        text-align: center;
+    .formFieldContainer{
+        display: flex;
+        flex-direction: column;
+        margin: 10px 0;
+    }
+
+    .labelSpan{
+
+    }
+
+    a{
+        color: #3d95ee;
+        transition: all 0.25s;
     }
     h2{
-        margin-left: 0px;
-    }
-    
-    .scrollable-container{
-        box-sizing: border-box;
-        width: 100%;
-        /* height: calc(100% - 4em); */
-        padding: 60px 10px 10px 10px;
-        overflow-y: auto;
-    }
-    .template-cards-container, .tutorial-cards-container, .challenges-cards-container{
-        margin-left: auto;
-        margin-right: auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        grid-gap: 10px;
-    }
-    /* .tutorial-cards-container{
-        display: grid;
-        grid-template-columns: 1fr;
-    }
-    .challenges-cards-container{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));;
-    } */
-    .smallMenuButton {
-      background: none;
-      border: none;
-      color: #1a1a1a;
-      font-family: Roboto, sans-serif;
-      font-weight: 300;
-      font-size: 1rem;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      padding: 0 20px 0 0;
-    }
-    .smallMenuButton:hover {
-      background: none;
-      border: none;
-      font-family: Roboto, sans-serif;
-      font-weight: 300;
-      font-size: 1rem;
-      color: #3d95ee;
-      text-decoration: underline;
-      display: flex;
-      align-items: center;
-    }
-    .sign-in-button{
-        margin-right: 5px;
-        height: 30px;
-        border-radius: 15px;
-        padding: 0 10px;
-        display: flex;
+        margin: 0;
+        margin-bottom: 30px;
+        font-weight: 300;
         text-align: center;
+    }
+
+    .sandboxButtonWrapper{
+        height: 50px;
+        padding: 2px;
+        margin: 40px auto;
+        display: flex;
         justify-content: center;
         align-items: center;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+
+    .sandboxButton{
+        display: flex;
+        width: fit-content;
+        height: 100%;
+        padding: 0 5px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #1a1a1a;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.25s;
+    }
+    .sandboxButton:hover{
+        box-shadow: 0 0 15px hsl(155, 95%, 35%);
+    }
+
+    .submitButton{
+        width: fit-content;
+        height: 50px;
+        background: radial-gradient(circle, #3d95ee, #4233fb);
+        color: #1a1a1a;
+        transform: scale(1.0);
+        border: 2px solid #4233fb00;
+        border-radius: 10px;
+        margin: 30px auto 0 auto;
+        transition: all 0.25s;
+    }
+    .submitButton:hover{
+        box-shadow: 0 0 15px hsl(155, 95%, 35%);
+    }
+    .submitButton:disabled{
+        background: rgba(150,150,150, 50%);
+        border: none;
+        box-shadow: none;
+        cursor: default;
+    }
+    .formInput{
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #1a1a1a20;
+        font-family: "Source Code Pro", sans-serif;
+        font-size: 1.2rem;
+    }
+    input{
+        height: 50px;
+        box-sizing: border-box;
+        margin-top: 15px;
+        margin-right: 5px;
+        transition: all 0.25s;
+    }
+    input:focus{
+        border: 1px solid #3d95ee;
+    }
+    label{
+        padding-bottom: 10px;
+    }
+    .randomWordSpan{
+        background: linear-gradient(45deg, #3d95ee, #4233fb);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 500;
+        letter-spacing: -1px;
+    }
+
+    .templatesContainer {
+        display: grid;
+        justify-content: center;
+        grid-template-columns: repeat(auto-fit, 100px);
+        gap: 5px;
+        margin-top: 10px;;
+    }
+
+    .buttonWrapper{
+        width: 100px;
+        height: 100px;
+        padding: 1px;
+        border-radius: 10px;
+        transition: all 0.25s;
+        box-sizing: border-box;
+    }
+
+    .libraryButton{
+        width: 100%;
+        height: 100%;
+        padding: 2px 1px 1px 1px;
+        margin-right: 5px;
+        transition: all 0.25s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .libraryNameWrapper{
+        height: 30%;
+        width: 100%;
+        padding: 5px;
+        border-radius: 9px;
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        box-sizing: border-box;
+    }
+
+    .logosContainer{
+        height: 55%;
+        display: flex;
+        align-items: end;
+    }
+
+    .logosContainer img{
+        width: 30px;
+        height: 30px;
+    }
+
+
+    @keyframes blink {
+        0%{
+            filter: drop-shadow(0 0 0px #3d95ee);
+        }
+        50%{
+            filter: drop-shadow(0 0 10px #3d95ee);
+        }
+        100%{
+            filter: drop-shadow(0 0 0px #3d95ee);
+        }
     }
 </style>

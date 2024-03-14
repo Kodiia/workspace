@@ -1,62 +1,87 @@
-//import { pb } from "../db/db"
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit'
+import { DB_URL } from '$env/static/private'
 import { serializeNonPOJOs } from '$lib/utils';
 
-export async function load({locals}){
 
-    const getProjects = async () =>{
 
-        try{
-            const projects = await locals.pb.collection('projects').getList(1, 20, { '$autoCancel': false }
-            );
-            return serializeNonPOJOs(projects)
-        } catch (err){
-            console.log(err)
-            throw error(err.status, err.message);
+export const actions = {
+    createProject: async ({ locals, request }) => {
+        const body = Object.fromEntries(await request.formData())
+
+        const getTemplate = async () =>{
+
+            try{
+                const template = await locals.pb.collection('projects').getFirstListItem(`name="${body.template}"`);
+                console.log(template.id)
+                return template.id
+            } catch (err){
+                console.log(err)
+                throw error(err.status, err.message);
+            }
         }
-    }
+        const selectedTemplateId = await getTemplate()
+        
+        
+            const fetchFile = async (url) => {
+                const res = await fetch(url)
+                const data = res.text()
+                return data
+            }
+    
+            const getTemplateFiles = async (id) => { 
+                const filesData = []
+                try{
+                  const project = await locals.pb.collection('projects').getOne(id)
+          
+                  for (let file of project.files){
+                    let url = `${DB_URL}/api/files/projects/${selectedTemplateId}/${file}`
+                    await fetchFile(url).then(result => {filesData.push(
+                      {
+                        name: file.split('_')[0] + '.' + file.split('.')[1],
+                        data: result
+                      }
+                      )
+                    }
+                    )
+                  }
+    
+                return filesData
+                  
+                } catch (err){
+                  console.log(err)
+                  throw error(err.status, err.message);
+                }
+              }
+    
+              const filesData = await getTemplateFiles(selectedTemplateId)
 
-    const getCourses = async () =>{
+            const  adjectives = ["Brave", "Crumpy", "Fierce", "Golden", "Happy", "Icy"]
+            const  nouns = ["Salt", "Leopard", "Bear", "Dragon", "Eagle", "Fox", "Automata", "Noise", "Randomness"]
+            
+        const projectName = adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + nouns[Math.floor(Math.random() * nouns.length)]
 
-        try{
-            const courses = await locals.pb.collection('courses').getList(1, 20, { '$autoCancel': false }
-            );
-            return serializeNonPOJOs(courses)
-        } catch (err){
-            console.log(err)
-            throw error(err.status, err.message);
+        const formData = new FormData();
+        formData.append('name', projectName);
+
+        for (let file of filesData){
+            const newFile = new File([file.data], file.name, {
+                type: "text/plain",
+              });
+            formData.append('files', newFile);
         }
-    }
 
-    const getChallenges = async () =>{
+        formData.append('createdBy', locals.user.id)
 
-        try{
-            const challenges = await locals.pb.collection('challenges').getList(1, 20, { '$autoCancel': false }
-            );
-            console.log(challenges.items[0].images[0])
-            return serializeNonPOJOs(challenges)
-        } catch (err){
-            console.log(err)
-            throw error(err.status, err.message);
+        let record
+        try {
+            record = await locals.pb.collection('userProjects').create(formData)
+        } catch (err) {
+            console.log('Error: ', err)
+            throw error(500, 'Something went wrong')
         }
-    }
 
-    const getTutorials = async () =>{
+        throw redirect(303, `/projects/${record.id}`)
 
-        try{
-            const tutorials = await locals.pb.collection('tutorials').getList(1, 20, { '$autoCancel': false }
-            );
-            return serializeNonPOJOs(tutorials)
-        } catch (err){
-            console.log(err)
-            throw error(err.status, err.message);
-        }
-    }
-
-    return {
-        projects: getProjects(),
-        tutorials: getTutorials(),
-        courses: getCourses(),
-        challenges: getChallenges()
+        
     }
 }
