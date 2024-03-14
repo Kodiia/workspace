@@ -9,30 +9,41 @@ export async function GET({locals}){
             const tutorialsObject = serializeNonPOJOs(tutorials)
 
             let availableTutorials = []
-            for(let tutorial of tutorialsObject.items){
-                availableTutorials.push({
-                    heading: tutorial.heading,
-                    courseName: tutorial.courseName,
-                    id: tutorial.id,
-                    technologies: tutorial.technologies.technologies
-                })
-            }
             // for(let tutorial of tutorialsObject.items){
-            //     if(tutorial.courseType === 'special'){
-            //         for(let specialCourse of locals.user.specialCourses.specialCourses){
-            //             if(specialCourse === tutorial.courseSpecialName){
-            //                 availableTutorials.push(
-            //                     {
-            //                         heading: tutorial.heading,
-            //                         courseName: tutorial.courseName
-            //                     }
-            //                     )
-            //             } 
-            //         }
-            //     } else {
-            //         availableTutorials.push(tutorial)
-            //     }
+            //     availableTutorials.push({
+            //         heading: tutorial.heading,
+            //         courseName: tutorial.courseName,
+            //         id: tutorial.id,
+            //         technologies: tutorial.technologies.technologies
+            //     })
             // }
+            for(let tutorial of tutorialsObject.items){
+                if(tutorial.courseType === 'special'){
+                    if(typeof locals.user != 'undefined'){
+                        for(let specialCourse of locals.user.specialCourses.specialCourses){
+                            if(specialCourse === tutorial.courseSpecialName){
+                                availableTutorials.push(
+                                    {
+                                        heading: tutorial.heading,
+                                        courseName: tutorial.courseName,
+                                        id: tutorial.id,
+                                        technologies: tutorial.technologies.technologies
+                                    }
+                                    )
+                            } 
+                        }
+                    }
+                } else {
+                    availableTutorials.push(
+                        {
+                        heading: tutorial.heading,
+                        courseName: tutorial.courseName,
+                        id: tutorial.id,
+                        technologies: tutorial.technologies.technologies
+                    }
+                    )
+                }
+            }
 
             // return new Response (JSON.stringify(availableTutorials))
             return new Response (JSON.stringify(availableTutorials))

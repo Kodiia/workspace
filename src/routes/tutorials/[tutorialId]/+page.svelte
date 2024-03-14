@@ -11,6 +11,7 @@
     import NavPanel from '$lib/NavPanel.svelte';
 
     export let data
+    console.log(data)
 
     // let files = data.files
     $filesLocalCopy = data.files
