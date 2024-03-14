@@ -13,7 +13,7 @@
     export let data
     console.log(data)
 
-    // let files = data.files
+    let files = data.files
     $filesLocalCopy = data.files
 
     let filesPanelWidth = $width / 3 

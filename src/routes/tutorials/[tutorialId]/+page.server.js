@@ -48,8 +48,8 @@ export async function load ({ locals, fetch, params}) {
         if(tutorial.courseType === 'special'){
           if(typeof locals.user != 'undefined'){
               for(let specialCourse of locals.user.specialCourses.specialCourses){
-                console.log(specialCourse, tutorial.specialCourseName)
-                  if(specialCourse === tutorial.specialCourseName){
+                console.log(specialCourse, tutorial.courseSpecialName)
+                  if(specialCourse === tutorial.courseSpecialName){
                     return serializeNonPOJOs(tutorial)
                   } 
               }
