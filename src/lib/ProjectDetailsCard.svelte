@@ -69,5 +69,6 @@
     }
     .buttonsMenu{
         display: flex;
+        height: 40px;
     }
 </style>

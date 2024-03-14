@@ -14,7 +14,7 @@
         {#if data.tutorials.length > 0}
             {#each data.tutorials as tutorial}
                 <!-- <h3>{tutorial.heading}</h3> -->
-                <InfoCard title={tutorial.heading} description={tutorial.description} link='challenges/{tutorial.id}' imageUrl = '{tutorial.stepsJSON.steps[0].imageUrl}' subHeading={tutorial.courseName}/>
+                <InfoCard title={tutorial.heading} description={tutorial.description} link='tutorials/{tutorial.id}' imageUrl = '{tutorial.stepsJSON.steps[0].imageUrl}' subHeading={tutorial.courseName}/>
             {/each}
             {:else}
                 <p>Nothing is here yet...</p>

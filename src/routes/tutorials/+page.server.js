@@ -13,13 +13,13 @@ export async function load({locals}){
 
             let availableTutorials = []
             for(let tutorial of tutorialsObject.items){
-                if(tutorial.courseType === 'special'){
+                if(tutorial.courseType === 'special' && locals.user){
                     for(let specialCourse of locals.user.specialCourses.specialCourses){
                         if(specialCourse === tutorial.courseSpecialName){
                             availableTutorials.push(tutorial)
                         } 
                     }
-                } else {
+                } else if(tutorial.courseType === 'open'){
                     availableTutorials.push(tutorial)
                 }
             }
