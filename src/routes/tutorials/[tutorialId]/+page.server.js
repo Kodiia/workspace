@@ -50,7 +50,7 @@ export async function load ({ locals, fetch, params}) {
               for(let specialCourse of locals.user.specialCourses.specialCourses){
                 console.log(specialCourse, tutorial.specialCourseName)
                   if(specialCourse === tutorial.specialCourseName){
-                    return serializeNonPOJOs(project)
+                    return serializeNonPOJOs(tutorial)
                   } 
               }
           } else {
