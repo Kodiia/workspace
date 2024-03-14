@@ -12,7 +12,7 @@
 
     export let data
 
-    let files = data.tutorial.files
+    // let files = data.files
     $filesLocalCopy = data.files
 
     let filesPanelWidth = $width / 3 
