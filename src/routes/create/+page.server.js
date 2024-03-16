@@ -6,58 +6,36 @@ import { serializeNonPOJOs } from '$lib/utils';
 
 export const actions = {
     createProject: async ({ locals, request }) => {
+
+      try{
         const body = Object.fromEntries(await request.formData())
+        const template = await locals.pb.collection('projects').getFirstListItem(`name="${body.template}"`);
+        // const selectedTemplateId = template.id
+        console.log(template.id)
 
-        const getTemplate = async () =>{
-
-            try{
-                const template = await locals.pb.collection('projects').getFirstListItem(`name="${body.template}"`);
-                console.log(template.id)
-                return template.id
-            } catch (err){
-                console.log(err)
-                throw error(err.status, err.message);
-            }
+        const fetchFile = async (url = '') => {
+          const res = await fetch(url)
+          const data = res.text()
+          return data
         }
-        const selectedTemplateId = await getTemplate()
-        
-        
-            const fetchFile = async (url = '') => {
-                const res = await fetch(url)
-                const data = res.text()
-                return data
-            }
-    
-            const getTemplateFiles = async (id) => { 
-                const filesData = []
-                try{
-                  const project = await locals.pb.collection('projects').getOne(id)
-          
-                  for (let file of project.files){
-                    let url = `${DB_URL}/api/files/projects/${selectedTemplateId}/${file}`
-                    await fetchFile(url).then(result => {filesData.push(
-                      {
-                        name: file.split('_')[0] + '.' + file.split('.')[1],
-                        data: result
-                      }
-                      )
-                    }
-                    )
-                  }
-    
-                return filesData
-                  
-                } catch (err){
-                  console.log(err)
-                  throw error(err.status, err.message);
-                }
-              }
-    
-              const filesData = await getTemplateFiles(selectedTemplateId)
 
-            const  adjectives = ["Brave", "Crumpy", "Fierce", "Golden", "Happy", "Icy"]
-            const  nouns = ["Salt", "Leopard", "Bear", "Dragon", "Eagle", "Fox", "Lemur", "Automata", "Noise", "Randomness"]
-            
+        const project = await locals.pb.collection('projects').getOne(template.id)
+        const filesData = []
+
+        for (let file of project.files){
+          let url = `${DB_URL}/api/files/projects/${selectedTemplateId}/${file}`
+          await fetchFile(url).then(result => {filesData.push(
+            {
+              name: file.split('_')[0] + '.' + file.split('.')[1],
+              data: result
+            }
+            )
+          }
+          )
+        }
+
+        const  adjectives = ["Brave", "Crumpy", "Fierce", "Golden", "Happy", "Icy"]
+        const  nouns = ["Salt", "Leopard", "Bear", "Dragon", "Eagle", "Fox", "Lemur", "Automata", "Noise", "Randomness"]    
         const projectName = adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + nouns[Math.floor(Math.random() * nouns.length)]
 
         const formData = new FormData();
@@ -72,13 +50,93 @@ export const actions = {
 
         formData.append('createdBy', locals.user.id)
 
-        try {
-            const record = await locals.pb.collection('userProjects').create(formData)
-            console.log(`/projects/${record.id}/edit/`)
-            throw redirect(303, `/projects/${record.id}/edit/`)
-        } catch (err) {
-            console.log('Error: ', err)
-            throw error(500, 'Something went wrong')
-        }
+        const record = await locals.pb.collection('userProjects').create(formData)
+        console.log('New record: ' + record.id)
+
+        throw redirect(303, `/projects/${record.id}/edit/`)
+
+      } catch (err) {
+        console.log('Error: ', err)
+        throw error(500, 'Something went wrong')
+      }
+
+    
+        
+
+        // const getTemplate = async () =>{
+
+        //     try{
+        //         const template = await locals.pb.collection('projects').getFirstListItem(`name="${body.template}"`);
+        //         console.log(template.id)
+        //         return template.id
+        //     } catch (err){
+        //         console.log(err)
+        //         throw error(err.status, err.message);
+        //     }
+        // }
+        // const selectedTemplateId = await getTemplate()
+        
+        
+            // const fetchFile = async (url = '') => {
+            //     const res = await fetch(url)
+            //     const data = res.text()
+            //     return data
+            // }
+    
+            // const getTemplateFiles = async (id) => { 
+            //     const filesData = []
+            //     try{
+            //       const project = await locals.pb.collection('projects').getOne(id)
+          
+            //       for (let file of project.files){
+            //         let url = `${DB_URL}/api/files/projects/${selectedTemplateId}/${file}`
+            //         await fetchFile(url).then(result => {filesData.push(
+            //           {
+            //             name: file.split('_')[0] + '.' + file.split('.')[1],
+            //             data: result
+            //           }
+            //           )
+            //         }
+            //         )
+            //       }
+    
+            //     return filesData
+                  
+            //     } catch (err){
+            //       console.log(err)
+            //       throw error(err.status, err.message);
+            //     }
+            //   }
+    
+            //   const filesData = await getTemplateFiles(selectedTemplateId)
+
+        //     const  adjectives = ["Brave", "Crumpy", "Fierce", "Golden", "Happy", "Icy"]
+        //     const  nouns = ["Salt", "Leopard", "Bear", "Dragon", "Eagle", "Fox", "Lemur", "Automata", "Noise", "Randomness"]
+            
+        // const projectName = adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + nouns[Math.floor(Math.random() * nouns.length)]
+
+        // const formData = new FormData();
+        // formData.append('name', projectName);
+
+        // for (let file of filesData){
+        //     const newFile = new File([file.data], file.name, {
+        //         type: "text/plain",
+        //       });
+        //     formData.append('files', newFile);
+        // }
+
+        // formData.append('createdBy', locals.user.id)
+
+        // let record = ''
+        // try {
+        //     record = await locals.pb.collection('userProjects').create(formData)
+        //     console.log(`/projects/${record.id}/edit/`)
+            
+        // } catch (err) {
+        //     console.log('Error: ', err)
+        //     throw error(500, 'Something went wrong')
+        // }
+
+        // throw redirect(303, `/projects/${record.id}/edit/`)
     }
 }
