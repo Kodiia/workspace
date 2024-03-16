@@ -80,7 +80,14 @@ export const actions = {
             throw error(500, 'Something went wrong')
         }
 
-        throw redirect(303, `/projects/${record.id}/edit`)
+        // throw redirect(303, `/projects/${record.id}/edit`)
+
+        const response = {
+          buttonText: 'Creating',
+          redirectUrl: `/projects/${record.id}/edit`
+      };
+
+      throw { response, status: 303 };
 
         
     }
