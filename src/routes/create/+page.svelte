@@ -99,7 +99,7 @@
                 <p>or</p>
                 <form action='?/createProject' method='POST' class='formContainer'>
                     <input type='text' name='template' class='formInput' value='{selectedLibrary}' style='display: none;'/>
-                    <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; ' disabled='{data.user ? false : true}'>Create</button>
+                    <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor + ', 20%'}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; ' disabled='{data.user ? false : true}'>Create</button>
                 </form>
             </div>
         
