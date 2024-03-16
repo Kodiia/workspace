@@ -106,7 +106,7 @@
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
-                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{data.user ? false : true}' on:click={()=>{isCreatingProject = true}}>{isCreatingProject ? 'Create' : `<div class='loader'></div>`}</button>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{isCreatingProject ? true : false}' on:click={()=>{isCreatingProject = true}}>{isCreatingProject ? 'Create' : 'Creating'}</button>
             </div>
         
         </div>
@@ -116,7 +116,7 @@
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
-                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{data.user ? false : true}' on:click={()=>{isCreatingProject = true}}>{isCreatingProject ? 'Create' : `<div class='loader'></div>`}</button>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{true}'>Create</button>
             </div>
             <p style='margin: 0; text-align: center;'><a href='/register' style='color: hsl({$textColor});'>Sign Up</a> or <a href='/login' style='color: hsl({$textColor});'>Log In</a> to create and save projects.</p>
         {/if}

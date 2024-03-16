@@ -95,14 +95,20 @@
             <a class='smallMenuButton' style='padding: 10px;' href='/'>Home</a>
             {/if}
 
+            <a class='smallMenuButton' style='padding: 10px;' href='/tutorials'>Tutorials</a>
+            <a class='smallMenuButton' style='padding: 10px;' href='/challenges'>Challenges</a>
+            {#if data.user}
+            <a class='smallMenuButton' href='/projects'>Projects</a>
+            {/if}
+
             {#if $page.route.id == '/challenges/[challengeUrl]' || $page.route.id == '/templates/[templateUrl]' || $page.route.id == '/courses/[courseUrl]/[tutorialUrl]' || $page.route.id == '/projects/[projectUrl]/edit' || $page.route.id == '/sandbox/[templateName]'}
                 <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block'; $resourcesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Files</button>
                 <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$resourcesPanelDisplay = 'block'; $filesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Resources</button>
             {/if}
 
-            {#if $page.route.id == '/projects/[projectUrl]/edit'}
+            <!-- {#if $page.route.id == '/projects/[projectUrl]/edit'}
                 <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block'; mobileMenuDisplay = 'none'}}'>Files</button>
-            {/if}
+            {/if} -->
 
             {#if data.user}
                 <form action='/logout' method='POST'>
@@ -159,6 +165,13 @@
     .desktopMenu{
         display: flex;
         align-items: center;
+    }
+    .mobileMenu{
+        width: 100%;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        box-sizing: border-box;
     }
 
     .menuButton{
