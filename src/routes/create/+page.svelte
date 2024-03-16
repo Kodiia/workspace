@@ -97,7 +97,7 @@
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
-                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; margin-top: 0;' disabled='{data.user ? false : true}'>Create</button>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; ' disabled='{data.user ? false : true}'>Create</button>
             </div>
         
         </div>
@@ -107,16 +107,10 @@
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
-                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; margin-top: 0;' disabled='{data.user ? false : true}'>Create</button>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; ' disabled='{data.user ? false : true}'>Create</button>
             </div>
             <p style='margin: 0; text-align: center;'><a href='/register' style='color: hsl({$textColor});'>Sign Up</a> or <a href='/login' style='color: hsl({$textColor});'>Log In</a> to create and save projects.</p>
         {/if}
-   
-    
-        
-    <!-- <div class='formFieldContainer'>
-        
-    </div> -->
 
     
 
@@ -208,7 +202,7 @@
         transform: scale(1.0);
         border: 2px solid #4233fb00;
         border-radius: 10px;
-        margin: 30px auto 0 auto;
+        margin: 40px auto 0 auto;
         transition: all 0.25s;
     }
     .submitButton:hover{

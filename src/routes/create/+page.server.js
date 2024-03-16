@@ -22,7 +22,7 @@ export const actions = {
         const selectedTemplateId = await getTemplate()
         
         
-            const fetchFile = async (url) => {
+            const fetchFile = async (url = '') => {
                 const res = await fetch(url)
                 const data = res.text()
                 return data
@@ -80,7 +80,9 @@ export const actions = {
             throw error(500, 'Something went wrong')
         }
 
-        throw redirect(303, `/projects/${record.id}/edit`)
+        console.log(`/projects/${record.id}/edit/`)
+
+        throw redirect(303, `/projects/${record.id}/edit/`)
 
         
     }
