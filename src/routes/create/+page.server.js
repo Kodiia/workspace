@@ -11,7 +11,7 @@ export const actions = {
         const body = Object.fromEntries(await request.formData())
         const template = await locals.pb.collection('projects').getFirstListItem(`name="${body.template}"`);
         // const selectedTemplateId = template.id
-        console.log(template.id)
+        console.log('Template: ' + template.id)
 
         const fetchFile = async (url = '') => {
           const res = await fetch(url)
