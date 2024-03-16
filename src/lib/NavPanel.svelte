@@ -98,7 +98,7 @@
             <a class='smallMenuButton' style='padding: 10px;' href='/tutorials'>Tutorials</a>
             <a class='smallMenuButton' style='padding: 10px;' href='/challenges'>Challenges</a>
             {#if data.user}
-            <a class='smallMenuButton' href='/projects'>Projects</a>
+            <a class='smallMenuButton' style='padding: 10px;' href='/projects'>Projects</a>
             {/if}
 
             {#if $page.route.id == '/challenges/[challengeUrl]' || $page.route.id == '/templates/[templateUrl]' || $page.route.id == '/courses/[courseUrl]/[tutorialUrl]' || $page.route.id == '/projects/[projectUrl]/edit' || $page.route.id == '/sandbox/[templateName]'}
