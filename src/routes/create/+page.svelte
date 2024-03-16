@@ -89,6 +89,7 @@
             
             
         </div>
+        
     
         {#if data.user}
         <div class='formFieldContainer'>
@@ -102,7 +103,6 @@
                     <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor + ', 20%'}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; ' disabled='{data.user ? false : true}'>Create</button>
                 </form>
             </div>
-        
         </div>
         {:else}
             <div style='display: flex; align-items: center;'>
