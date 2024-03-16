@@ -64,7 +64,7 @@
     
     <h2>Your next <span class='randomWordSpan' style='background: linear-gradient(45deg, hsl({$primaryColor}), hsl({$accentColor})) text;'>{randomAdjective()}</span> web project starts here.</h2>
     
-    <form action='?/createProject' method='POST' class='formContainer'>
+    
         <div class='formFieldContainer'>
             <p style='margin-top: 0; margin-bottom: 5px; text-align: center;'>Select a template</p>
             <div class='templatesContainer'>
@@ -86,7 +86,7 @@
                     </div>
                 {/each}
             </div>
-            <input type='text' name='template' class='formInput' value='{selectedLibrary}' style='display: none;'/>
+            
             
         </div>
     
@@ -97,7 +97,10 @@
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
-                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; ' disabled='{data.user ? false : true}'>Create</button>
+                <form action='?/createProject' method='POST' class='formContainer'>
+                    <input type='text' name='template' class='formInput' value='{selectedLibrary}' style='display: none;'/>
+                    <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; ' disabled='{data.user ? false : true}'>Create</button>
+                </form>
             </div>
         
         </div>
@@ -107,14 +110,17 @@
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
-                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; ' disabled='{data.user ? false : true}'>Create</button>
+                <form action='?/createProject' method='POST' class='formContainer'>
+                    <input type='text' name='template' class='formInput' value='{selectedLibrary}' style='display: none;'/>
+                    <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'}; ' disabled='{data.user ? false : true}'>Create</button>
+                </form>
             </div>
             <p style='margin: 0; text-align: center;'><a href='/register' style='color: hsl({$textColor});'>Sign Up</a> or <a href='/login' style='color: hsl({$textColor});'>Log In</a> to create and save projects.</p>
         {/if}
 
     
 
-    </form>
+
 
 </div>
 
