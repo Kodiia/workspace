@@ -53,7 +53,8 @@ export const actions = {
         const record = await locals.pb.collection('userProjects').create(formData)
         console.log(record)
 
-        throw redirect(303, `/projects/${record.id}/edit`)
+        // throw redirect(303, `/projects/${record.id}/edit`)
+        throw redirect(303, `/projects`)
 
       } catch (err) {
         console.log('Error: ', err)
