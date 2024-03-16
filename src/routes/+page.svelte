@@ -7,6 +7,7 @@
     export let data
 
     let buttonText = 'Create'
+    let isCreatingProject = false
 
     let selectedLibrary = 'static'
     let availableLibraries = [
@@ -105,7 +106,7 @@
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
-                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{data.user ? false : true}'>{buttonText}</button>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{data.user ? false : true}' on:click={()=>{isCreatingProject = true}}>{isCreatingProject ? 'Create' : `<div class='loader'></div>`}</button>
             </div>
         
         </div>
@@ -115,7 +116,7 @@
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
-                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{data.user ? false : true}'>{buttonText}</button>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{data.user ? false : true}' on:click={()=>{isCreatingProject = true}}>{isCreatingProject ? 'Create' : `<div class='loader'></div>`}</button>
             </div>
             <p style='margin: 0; text-align: center;'><a href='/register' style='color: hsl({$textColor});'>Sign Up</a> or <a href='/login' style='color: hsl({$textColor});'>Log In</a> to create and save projects.</p>
         {/if}
@@ -308,6 +309,25 @@
         width: 30px;
         height: 30px;
     }
+
+    .loader{
+        width: 20px;
+        height: 20px;
+        margin: 10px;
+        border: 2px solid;
+        border-radius: 50%;
+        border-color: #1a1a1a transparent;
+        animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
 
 
     @keyframes blink {
