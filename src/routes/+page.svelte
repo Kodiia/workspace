@@ -96,17 +96,11 @@
         {#if data.user}
         <div class='formFieldContainer'>
             <div style='display:flex; align-items: last baseline;'>
-                <!-- <div style='box-sizing: border-box; margin-right: 5px;'>
-                <label for='name' class='formLabel'>
-                    <span class='labelSpan'>Enter a project name</span>
-                </label>
-                <input type='text' name='name' class='formInput' value='Shiny Unicorn' style='background: hsl({$bgColor}); color: hsl({$textColor}); border: 1px solid hsl({$textColor + ", 20%"}); width: 100%;'/>
-                </div> -->
                 <div class='sandboxButtonWrapper' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));'>
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
-                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{false}' on:click={()=>{isCreatingProject = true}}>{@html isCreatingProject ? `<span class="loader" ></span>` : 'Create'}</button>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{false}' on:click={()=>{isCreatingProject = true}}>{@html isCreatingProject ? `<span class="loader" style="margin: 0;"></span>` : 'Create'}</button>
             </div>
         
         </div>
