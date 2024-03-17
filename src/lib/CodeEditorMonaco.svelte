@@ -90,8 +90,11 @@
         });
         editorCreated = true
 
-        editor.onDidChangeModelContent(function (e) {
+        editor.onDidChangeModelContent(async function (e) {
             $runCode = false;
+            const formattedCode = await prettier.format(editor.getValue(), formatOptions)
+            updateFileData(fileName, formattedCode);
+            // console.log($filesLocalCopy)
         });
 
         theme.subscribe(()=>{
@@ -122,12 +125,9 @@
             if (file.fileName === fileNameLocal ){
                 file.fileData = value
                 $filesLocalCopy = [...$filesLocalCopy]
-            //   $filesLocalCopy = [...$filesLocalCopy, 
-            //   file.fileData = value
-            // ]
             }
         }
-        console.log('files are here: ',$filesLocalCopy)
+        // console.log('files are here: ',$filesLocalCopy)
     }
 
     async function paste(){
