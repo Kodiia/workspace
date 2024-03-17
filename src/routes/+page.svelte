@@ -106,7 +106,7 @@
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
-                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{false}' on:click={()=>{isCreatingProject = true}}>{@html !isCreatingProject ? `<span class="loader" ></span>` : 'Create'}</button>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{false}' on:click={()=>{isCreatingProject = true}}>{@html isCreatingProject ? `<span class="loader" ></span>` : 'Create'}</button>
             </div>
         
         </div>
@@ -221,6 +221,7 @@
         transition: all 0.25s;
         display: flex;
         align-items: center;
+        justify-content: center;
     }
     .submitButton:hover{
         box-shadow: 0 0 15px hsl(155, 95%, 35%);
