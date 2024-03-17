@@ -2,7 +2,7 @@
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
     import { fade } from 'svelte/transition';
-    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay, textColor } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay, textColor, runCode } from '$lib/store'
     import FilesPanel from '$lib/FilesPanel.svelte';
     import ResourcesPanel from '$lib/ResourcesPanel.svelte';
     import { page } from '$app/stores';
@@ -12,7 +12,7 @@
 
     export let data
     console.log(data)
-
+    $runCode = false
     let files = data.files
     $filesLocalCopy = data.files
 

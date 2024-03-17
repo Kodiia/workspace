@@ -11,6 +11,7 @@
     
     export let data
     // console.log(data)
+    $runCode = false
     let isSavingProject = false
     let projectName = data.project.name
     let files = data.project.files

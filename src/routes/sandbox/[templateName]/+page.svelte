@@ -1,5 +1,5 @@
 <script>
-    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay, textColor } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay, textColor, runCode } from '$lib/store'
     import FilesPanel from '$lib/FilesPanel.svelte';
     import ResourcesPanel from '$lib/ResourcesPanel.svelte';
     import { page } from '$app/stores';
@@ -8,6 +8,7 @@
     import NavPanel from '$lib/NavPanel.svelte';
     
     export let data
+    $runCode = false
 
     let files = data.template.files
     $filesLocalCopy = data.files

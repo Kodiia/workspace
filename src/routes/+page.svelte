@@ -3,7 +3,7 @@
     import NavPanel from '$lib/NavPanel.svelte';
     import { getFileLogoURL } from '$lib/utils'
 
-    export let form
+    // export let form
     export let data
 
     let buttonText = 'Create'
@@ -137,29 +137,24 @@
         position: relative;
     }
 
-    .dot{
+    /* .dot{
         width: 2px;
         height: 2px;
     }
 
     .dotsContainer{
         display: flex;
-        /* position: absolute; */
         width: 100%;
         height: 100%;
         transition: all 0.25s;
         margin: auto;
         z-index: -1;
-    }
+    } */
     
     .formFieldContainer{
         display: flex;
         flex-direction: column;
         margin: 10px 0;
-    }
-
-    .labelSpan{
-
     }
 
     a{

@@ -1,7 +1,7 @@
 <script>
     import kodiia_logo_bw from '$lib/logos/kodiia_logo_bw.svg'
     import kodiia_logo_bw_small from '$lib/logos/kodiia_logo_bw_small.svg'
-    import { bgColor, textColor, secondaryColor, primaryColor, accentColor, theme, width, height, resourcesPanelDisplay, filesPanelDisplay, stylesPanelState } from "./store"
+    import { bgColor, textColor, secondaryColor, primaryColor, accentColor, theme, width, height, resourcesPanelDisplay, filesPanelDisplay, stylesPanelState, runCode } from "./store"
     import { page } from '$app/stores';
 
     console.log($page)
@@ -102,7 +102,7 @@
             {/if}
 
             {#if $page.route.id == '/challenges/[challengeUrl]' || $page.route.id == '/templates/[templateUrl]' || $page.route.id == '/courses/[courseUrl]/[tutorialUrl]' || $page.route.id == '/projects/[projectUrl]/edit' || $page.route.id == '/sandbox/[templateName]'}
-                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block'; $resourcesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Files</button>
+                <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block'; $resourcesPanelDisplay = 'none'; mobileMenuDisplay = 'none'; $runCode = false}}'>Files</button>
                 <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$resourcesPanelDisplay = 'block'; $filesPanelDisplay = 'none'; mobileMenuDisplay = 'none'}}'>Resources</button>
             {/if}
 
@@ -157,7 +157,7 @@
       text-decoration: none;
       display: flex;
       align-items: center;
-      padding: 0 20px 0 0;
+      padding: 10px;
     }
     .smallMenuButton:hover {
       text-decoration: underline;

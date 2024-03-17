@@ -1,5 +1,5 @@
 <script>
-    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay, bgColor, textColor, primaryColor, secondaryColor, accentColor } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay, bgColor, textColor, primaryColor, secondaryColor, accentColor, runCode } from '$lib/store'
     import ProjectPanel from '$lib/ProjectPanel.svelte';
     import NavPanel from '$lib/NavPanel.svelte';
     import FilesPanel from '$lib/FilesPanel.svelte';
@@ -9,7 +9,9 @@
     import JSZip from 'jszip';
     
     export let data
-    console.log(data)
+    // console.log(data)
+    $runCode = true
+    $filesPanelDisplay = 'none'
     let projectName = data.project.name
     let files = data.project.files
     $filesLocalCopy = data.files
@@ -104,6 +106,9 @@
                             {/if}
                         </div>
 
+                        <div class='bottomButtonsWrapper'>
+                            <button type="button" style='border: none; display: flex; justify-content: center; align-items: center; width: 100px; height: 40px; margin-top: 10px; background: hsl({$primaryColor}); color: #1a1a1a;' on:click={()=>{$runCode === true ? $runCode = false : $runCode = true}}>{$runCode === false ? 'Run' : 'Stop'}</button>
+                        </div>
                     </div>    
                 
                 </div>
@@ -193,7 +198,7 @@
             height: 100%;
         }
         .filesAndEditorWrapper{
-            height: calc(100% - 50px);
+            height: calc(100% - 100px);
             overflow-y: scroll;
         }
         .filesContainer{

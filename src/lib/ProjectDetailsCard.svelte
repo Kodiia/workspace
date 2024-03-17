@@ -26,7 +26,7 @@
             <!-- <a href='/api/projects/{project.id}/delete'>Delete</a> -->
             <input type='hidden' name='projectId' value='{project.id}' />
             <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
-                <button type='submit' style='background: hsl({$bgColor}); color: hsl({$textColor});' on:click={()=>{isDeletingProject = true}}>{@html isDeletingProject ? `<span class="loader" style="margin: 0; border-color: hsl(${$textColor}) transparent;"></span>` : 'Delete'}</button>
+                <button type='submit' style='background: hsl({$bgColor}); color: hsl({$textColor}); width: 83px;' on:click={()=>{isDeletingProject = true}}>{@html isDeletingProject ? `<span class="loader" style="margin: 0; border-color: hsl(${$textColor}) transparent;"></span>` : 'Delete'}</button>
             </div>
         </form>
     </div>
