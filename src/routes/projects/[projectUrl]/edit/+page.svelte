@@ -116,7 +116,7 @@
                                 <button type="button" on:click={downloadFiles} style='background: hsl({$bgColor}); color: hsl({$textColor});'>Download</button>
                             </div>
                             <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
-                                <button type='submit' style='background: hsl({$bgColor}); color: hsl({$textColor});'  on:click={()=>{isSavingProject = true}}>{@html isSavingProject ? `<span class="loader" style="margin: 0;"></span>` : 'Save'}</button>
+                                <button type='submit' style='background: hsl({$bgColor}); color: hsl({$textColor}); width: 76px;'  on:click={()=>{isSavingProject = true}}>{@html isSavingProject ? `<span class="loader" style="margin: 0; border-color: hsl(${$textColor}) transparent;"></span>` : 'Save'}</button>
                             </div>
                             <button type="button" style='border: none; display: flex; justify-content: center; align-items: center; width: 100px; height: 40px; margin-top: 10px; background: hsl({$primaryColor}); color: #1a1a1a;' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run' : 'Stop'}</button>
                             <!-- <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
@@ -262,6 +262,8 @@
         background: none;
         border: none;
         border-radius: 8px;
+        display: flex;
+        justify-content: center;
     }
 
 </style>
