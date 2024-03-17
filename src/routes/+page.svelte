@@ -106,7 +106,7 @@
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
-                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{false}' on:click={()=>{isCreatingProject = true}}>{isCreatingProject ? 'Creating' : 'Create'}</button>
+                <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{false}' on:click={()=>{isCreatingProject = true}}>{@html !isCreatingProject ? `<span class="loader" ></span>` : 'Create'}</button>
             </div>
         
         </div>
@@ -210,7 +210,7 @@
     }
 
     .submitButton{
-        width: fit-content;
+        width: 100px;
         height: 50px;
         background: radial-gradient(circle, #3d95ee, #4233fb);
         color: #1a1a1a;
@@ -219,6 +219,8 @@
         border-radius: 10px;
         margin: 0 auto;
         transition: all 0.25s;
+        display: flex;
+        align-items: center;
     }
     .submitButton:hover{
         box-shadow: 0 0 15px hsl(155, 95%, 35%);
@@ -228,6 +230,9 @@
         border: none;
         box-shadow: none;
         cursor: default;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .formInput{
         padding: 10px;
@@ -308,16 +313,6 @@
     .logosContainer img{
         width: 30px;
         height: 30px;
-    }
-
-    .loader{
-        width: 20px;
-        height: 20px;
-        margin: 10px;
-        border: 2px solid;
-        border-radius: 50%;
-        border-color: #1a1a1a transparent;
-        animation: rotation 1s linear infinite;
     }
 
     @keyframes rotation {

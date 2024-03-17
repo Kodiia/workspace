@@ -101,7 +101,8 @@
     .loaderText{
         margin: 0;
     }
-    .loader{
+    :global(.loader){
+        displaY: block;
         width: 20px;
         height: 20px;
         margin: 10px;
