@@ -94,16 +94,13 @@
         </div>
     
         {#if data.user}
-        <div class='formFieldContainer'>
-            <div style='display:flex; align-items: last baseline;'>
+            <div style='display:flex; align-items: center;'>
                 <div class='sandboxButtonWrapper' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));'>
                     <a href="/sandbox/{selectedLibrary}" class='sandboxButton' style='background: hsl({$bgColor}); color: hsl({$textColor});'>Open sandbox</a>
                 </div>
                 <p>or</p>
                 <button type='submit' class='submitButton' style='background: {data.user ? `linear-gradient(45deg, hsl(${$primaryColor}) 50%, hsl(${$accentColor}))` : 'lightgrey'};' disabled='{false}' on:click={()=>{isCreatingProject = true}}>{@html isCreatingProject ? `<span class="loader" style="margin: 0;"></span>` : 'Create'}</button>
             </div>
-        
-        </div>
         {:else}
             <div style='display: flex; align-items: center;'>
                 <div class='sandboxButtonWrapper' style='background: linear-gradient(45deg, hsl({$primaryColor}) 50%, hsl({$accentColor}));'>
@@ -216,6 +213,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        box-sizing: border-box;
     }
     .submitButton:hover{
         box-shadow: 0 0 15px hsl(155, 95%, 35%);
