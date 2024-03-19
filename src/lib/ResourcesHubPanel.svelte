@@ -4,7 +4,7 @@
     import { bgColor, textColor, secondaryColor, primaryColor, accentColor, height, resourcesPanelDisplay } from "./store";
     import DetailsCard from "./DetailsCard.svelte";
     import DetailsDocsCard from "./DetailsDocsCard.svelte";
-    import PuzzlePieceSvg from "./PuzzlePieceSVG.svelte";
+    // import PuzzlePieceSvg from "./PuzzlePieceSVG.svelte";
     // let data
     let tutorialsListData = null, challengesListData = null;
     let tutorialData = null, challengeData = null, docsData = null;
@@ -84,7 +84,7 @@
 
         {#if challengesListData && tutorialsListData}
         <details style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'});'>
-            <summary>Docs</summary>
+            <summary>Hints</summary>
             <div style='width: 100%; display: flex; flex-direction: column; border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); padding: 10px 0;'>
             {#each technologies as technology}
                 <div style='display: flex; width: 100%;'>
