@@ -33,6 +33,7 @@
 		"@codemirror/lint": "github:codemirror/lint",
 		"@threlte/core": "^6.1.0",
 		"@threlte/extras": "^5.7.0",
+		"@xenova/transformers": "^2.16.0",
 		"brace": "^0.11.1",
 		"codemirror": "^6.0.1",
 		"highlight.js": "^11.9.0",
@@ -41,6 +42,7 @@
 		"node-fetch": "^3.3.2",
 		"p5": "^1.8.0",
 		"pocketbase": "^0.16.0",
+		"replicate": "^0.29.0",
 		"three": "^0.155.0"
 	}
 }
