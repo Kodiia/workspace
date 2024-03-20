@@ -37,7 +37,7 @@ const output = await replicate.run(
     "mistralai/mistral-7b-v0.1",
     {
       input: {
-        prompt: "how do i make a text paragraph using html tags. provide code example",
+        prompt: params.aiQuery,
         debug: false,
         top_k: -1,
         top_p: 0.95,
