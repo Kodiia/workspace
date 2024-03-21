@@ -2,7 +2,7 @@ import { error, redirect } from '@sveltejs/kit'
 
 export const POST = async ({ locals, params }) => {
     try {
-        await locals.pb.collection('users').confirmVerification(params.token);  
+        locals.pb.collection('users').confirmVerification(params.token);  
         throw redirect(303, '/login')
     } catch (err) {
         console.log('Error: ', err)
