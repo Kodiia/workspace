@@ -44,14 +44,6 @@
         console.log(searchData.docsSearchResult)
     }
 
-    async function fetchAIresponse(query = '') {
-        const data = await fetch(`/api/ai-test/${query}`)
-        const response = await data.json()
-        console.log(response)
-    }
-
-    fetchAIresponse('how do i draw a rectangle in p5.js? provide code example')
-
     onMount(()=>{
         async function fetchAllData(){
             let tutorialsData = await fetch(`/api/tutorials/`)
