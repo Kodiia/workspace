@@ -1,29 +1,29 @@
 <script>
-    import {secondaryColor, textColor} from '$lib/store'
+    import {secondaryColor, textColor, primaryColor} from '$lib/store'
 
     export let form
 
 </script>
-<div class='container' style='background: hsl({$secondaryColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
-    <h2>Log in to Kodiia</h2>
-    <p>Or <a href='/register'>sing up for free</a> if you don't have an account.</p>
+<div class='container'>
+    <h2>Log in</h2>
+    <p style='margin: 10px 0 20px 0;'>or <a href='/register' style='color: hsl({$textColor});'>sing up</a> if you don't have an account.</p>
 
     <form action='?/login' method='POST' class='formContainer'>
     <div class='formFieldContainer'>
         <label for='email' class='formLabel'>
             <span class='labelSpan'>email</span>
         </label>
-        <input type='email' name='email' class='formInput' />
+        <input type='email' name='email' class='formInput' placeholder='your@email.com' style='background: hsl({$secondaryColor}) !important; color: hsl({$textColor}) !important; '/>
     </div>
     <div class='formFieldContainer'>
         <label for='password' class='formLabel'>
             <span class='labelSpan'>password</span>
         </label>
-        <input type='password' name='password' class='formInput' />
+        <input type='password' name='password' class='formInput' placeholder='*******' style='background: hsl({$secondaryColor}) !important; color: hsl({$textColor});'/>
     </div>
-    <a href='/reset-password'>I forgot my password</a>
+    <a href='/reset-password' style='color: hsl({$textColor});'>I forgot my password</a>
     <div class='formFieldContainer'>
-        <button type='submit' class='submitButton'>Log In</button>
+        <button type='submit' class='submitButton' style='background: hsl({$primaryColor}); color: #1a1a1a;'>Log In</button>
     </div>
     
 
@@ -39,16 +39,8 @@
     .container{
         width: min(400px, calc(100% - 10px));
         padding: 10px;
-        background: linear-gradient(45deg, #ffffff50, #ffffff90);
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border: 1px solid #ffffff90;
-        border-radius: 15px;
-        box-shadow: 0 0 10px #3d95ee50;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 50px;
-        margin-bottom: 50px;
+        background: none;
+        margin: auto;
     }
     .formFieldContainer{
         display: flex;
@@ -60,6 +52,15 @@
     }
     h2{
         margin: 0;
+        font-weight: 300;;
+    }
+    label{
+        margin-bottom: 5px;
+    }
+    input{
+        appearance: none;
+        font-family: Source Code Pro, sans-serif;
+        font-size: 1rem;
     }
 
     .submitButton{
@@ -67,9 +68,11 @@
         color: #f9f9f9;
         margin-top: 10px;
         transform: scale(1.0);
+        border: none;
+        width: fit-content;
     }
     .submitButton:hover{
-        transform: scale(1.01);
+        box-shadow: 0 0 10px #33dd99;
     }
     .formInput{
         padding: 10px;

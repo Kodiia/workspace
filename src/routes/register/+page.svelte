@@ -1,56 +1,45 @@
 <script>
-    import {secondaryColor, textColor} from '$lib/store'
-    let password = ''
+    import {secondaryColor, textColor, primaryColor } from '$lib/store'
+    let password = '', confirmPassword = ''
     let emailField, emailValue = ''
 </script>
 
-<div class='container' style='background: hsl({$secondaryColor}); border: 1px solid hsl({$textColor + ', 20%'});'>
+<div class='container'>
     <h2>Get started for free</h2>
-    <p>Or <a href='/login'>log in</a> if you already have an account.</p>
+    <p style='margin: 10px 0 20px 0;'>or <a href='/login' style='color: hsl({$textColor});'>log in</a> if you already have an account.</p>
 
     <form action='?/register' method='POST' class='formContainer'>
     <div class='formFieldContainer'>
         <label for='email' class='formLabel'>
             <span class='labelSpan'>email</span>
         </label>
-        <input type='email' bind:this={emailField} name='email' class='formInput' on:change={()=>{emailValue = emailField.value; emailField.value = emailValue.toLowerCase()}}/>
+        <input type='email' bind:this={emailField} name='email' class='formInput' style='background: hsl({$secondaryColor}) !important; color: hsl({$textColor});' on:change={()=>{emailValue = emailField.value; emailField.value = emailValue.toLowerCase()}}/>
     </div>
     <div class='formFieldContainer'>
         <label for='password' class='formLabel'>
             <span class='labelSpan'>password</span>
         </label>
-        <input bind:value='{password}' type='password' name='password' class='formInput' placeholder='min 8 characters' />
+        <input bind:value='{password}' type='password' name='password' class='formInput' style='background: hsl({$secondaryColor}) !important; color: hsl({$textColor});' placeholder='min 8 characters' />
     </div>
     <div class='formFieldContainer'>
         <label for='passwordConfirm' class='formLabel'>
             <span class='labelSpan'>confirm password</span>
         </label>
-        <input type='password' name='passwordConfirm' class='formInput' />
+        <input type='password' bind:value='{confirmPassword}' name='passwordConfirm' class='formInput' style='background: hsl({$secondaryColor}) !important; color: hsl({$textColor});' />
     </div>
     <div class='formFieldContainer'>
-        <button type='submit' class='submitButton' disabled={password.length >= 8 ? false : true }>Sign Up</button>
+        <button type='submit' class='submitButton' style='background: hsl({$primaryColor}); color: #1a1a1a;' disabled={password.length >= 8 && password === confirmPassword ? false : true }>Sign Up</button>
     </div>
     </form>
-    <p>By signing up for Kodiia, you agree to Kodiia's Terms of Service & Privacy Policy.</p>
+    <p>by signing up, you agree to Kodiia's Terms of Service & Privacy Policy.</p>
 </div>
 
 <style>
     .container{
         width: min(400px, calc(100% - 10px));
         padding: 10px;
-        background: linear-gradient(45deg, #ffffff10, #ffffff10);
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border: 1px solid #ffffff90;
-        border-radius: 15px;
-        box-shadow: 0 0 10px #3d95ee50;
         box-sizing: border-box;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 50px;
-        margin-bottom: 50px;
-
-
+        margin: auto;
     }
     .formFieldContainer{
         display: flex;
@@ -62,21 +51,31 @@
     }
     h2{
         margin: 0;
+        font-weight: 300;
     }
     .submitButton{
         background: #4233fb;
         color: #f9f9f9;
         margin-top: 10px;
         transform: scale(1.0);
+        width: fit-content;
+        border: none;
     }
     .submitButton:hover{
-        transform: scale(1.01);
+        box-shadow: 0 0 10px #33dd99;
     }
     .submitButton:disabled{
         background: rgb(150,150,150);
         border: none;
         cursor: default;
         transform: scale(1.0);
+    }
+    label{
+        margin-bottom: 5px;
+    }
+    input{
+        font-family: Source Code Pro, sans-serif;
+        font-size: 1rem;
     }
     .formInput{
         padding: 10px;
