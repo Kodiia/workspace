@@ -13,10 +13,7 @@ export const actions = {
                 const currentTime = new Date().toISOString();
                 // Update the last login time for the authenticated user
                 await locals.pb.collection("users").update(locals.pb.authStore.model.id, { lastLogin: currentTime });
-                console.log(locals.pb.authStore.model.id, currentTime);
-
-                // Redirect or perform other actions based on the authentication state
-                return redirect(303, '/');
+                console.log(locals.pb.authStore.model.id, currentTime);                
             }else{
                 locals.pb.authStore.clear()
                 return {
@@ -28,5 +25,8 @@ export const actions = {
             console.log('Error: ', err)
             throw error(500, 'Something went wrong while logging in')
         }
+
+        // Redirect or perform other actions based on the authentication state
+        throw redirect(303, '/');
     }
 }
