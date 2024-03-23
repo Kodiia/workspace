@@ -1,4 +1,5 @@
 <script>
+    import { textColor } from '$lib/store'
     import monster from '$lib/images/monster_01.webp'
 
     export let errorCode = 500
@@ -10,7 +11,7 @@
     <p>Error: {errorCode} - {errorMessage}</p>
 
     {#if errorCode === 500}
-    <p>Try going back to <a href='/'>Home</a> page. <br>Or check if you are logged in.</p>
+    <p>Try going back to <a href='/' style='color: {$textColor};'>Home</a> page. <br>Or check if you are logged in.</p>
     {/if}
 
     {#if errorCode === 403}

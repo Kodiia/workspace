@@ -2,10 +2,11 @@
     import {secondaryColor, textColor, primaryColor } from '$lib/store'
     let password = '', confirmPassword = ''
     let emailField, emailValue = ''
+    let submitButtonIsHovered = false
 </script>
 
 <div class='container'>
-    <h2>Get started for free</h2>
+    <h2>Sign Up</h2>
     <p style='margin: 10px 0 20px 0;'>or <a href='/login' style='color: hsl({$textColor});'>log in</a> if you already have an account.</p>
 
     <form action='?/register' method='POST' class='formContainer'>
@@ -27,9 +28,13 @@
         </label>
         <input type='password' bind:value='{confirmPassword}' name='passwordConfirm' class='formInput' style='background: hsl({$secondaryColor}) !important; color: hsl({$textColor});' />
     </div>
+    {#if password.length >= 8 && password != confirmPassword}
+    <p style='color: #ff6f6f'>passwords do not match</p>
+    {/if}
     <div class='formFieldContainer'>
-        <button type='submit' class='submitButton' style='background: hsl({$primaryColor}); color: #1a1a1a;' disabled={password.length >= 8 && password === confirmPassword ? false : true }>Sign Up</button>
+        <button type='submit' class='submitButton' style='background: {password.length >= 8 && password === confirmPassword ? `hsl(${$primaryColor})` : 'grey'}; color: #1a1a1a; box-shadow: {submitButtonIsHovered && password.length >= 8 && password === confirmPassword ? `0 0 10px hsl(${$primaryColor})` : 'none'}' disabled={password.length >= 8 && password === confirmPassword ? false : true } on:pointerover={()=>{submitButtonIsHovered = true}} on:pointerleave={()=>{submitButtonIsHovered = false}}>Sign Up</button>
     </div>
+    
     </form>
     <p>by signing up, you agree to Kodiia's Terms of Service & Privacy Policy.</p>
 </div>

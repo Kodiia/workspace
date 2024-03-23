@@ -5,7 +5,7 @@
 
 </script>
 <div class='container'>
-    <h2>Log in</h2>
+    <h2>Log In</h2>
     <p style='margin: 10px 0 20px 0;'>or <a href='/register' style='color: hsl({$textColor});'>sing up</a> if you don't have an account.</p>
 
     <form action='?/login' method='POST' class='formContainer'>
@@ -81,7 +81,7 @@
     }
 
     .alertContainer{
-        background: rgb(255, 218, 218);
+        background: #ff6f6f;
         padding: 10px;
         border-radius: 10px;;
     }
