@@ -258,6 +258,9 @@
         padding: 2px;
         box-sizing: border-box;
         border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .buttonWrapper button{
         background: none;
@@ -265,6 +268,7 @@
         border-radius: 8px;
         display: flex;
         justify-content: center;
+        align-items: center;
     }
 
 </style>

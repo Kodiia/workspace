@@ -72,10 +72,19 @@
 
     <h3 style='color: hsl({$textColor}); margin: 0; height: 40px;'>Resources</h3>
     <div class='searchInputContainer'>
-        <input bind:this = {searchInput} style='background: hsl({$secondaryColor}); color: hsl({$textColor});' placeholder='Ask anything. What are you stuck on?' />
-        <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
-            <button type="button" on:click={()=>{tutorialData = null; challengeData = null; docsData = null; searchData = null; fetchSearchRequest(searchInput.value); dataPanelDisplay = 'block';}} style='background: hsl({$bgColor}); color: hsl({$textColor});'>Search</button>
-        </div>
+        <form class='searchForm' on:submit|preventDefault={() => {
+            tutorialData = null;
+            challengeData = null;
+            docsData = null;
+            searchData = null;
+            fetchSearchRequest(searchInput.value);
+            dataPanelDisplay = 'block';
+           }}>
+            <input bind:this={searchInput} style='background: hsl({$secondaryColor}); color: hsl({$textColor});' placeholder='Search coding hints' />
+            <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
+               <button type="submit" style='background: hsl({$bgColor}); color: hsl({$textColor});'>Search</button>
+            </div>
+        </form>
     </div>
     <div class='container'>
         
@@ -278,6 +287,10 @@
             height: 40px;
             margin-bottom: 10px;
         }
+        .searchForm{
+            display: flex;
+            width: 100%;
+        }
 
         .buttonWrapper{
             width: fit-content;
@@ -286,11 +299,17 @@
             padding: 2px;
             box-sizing: border-box;
             border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .buttonWrapper button{
             background: none;
             border: none;
             border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     
         .container{

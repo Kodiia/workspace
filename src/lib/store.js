@@ -18,7 +18,26 @@ export let leftPanelWidthSetByUser = writable(0)
 export let rightPanelWidthSetByUser = writable(0)
 
 export let projectId = writable('')
-export let filesLocalCopy = writable([])
+export let filesLocalCopy = writable([
+    {
+        fileName: 'index.html',
+        fileData: `<html>
+        <body></body>
+        <style></style>
+        <script></script>
+        </html>`
+    },
+    {
+        fileName: 'style.css',
+        fileData: `body{
+            background: #33dd99;
+        }`
+    },
+    {
+        fileName: 'script.js',
+        fileData: `console.log('hi')`
+    }
+])
 export let fileToOpen = writable('index.html')
 export let editorState = writable(false)
 export let runCode = writable(false)

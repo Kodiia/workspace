@@ -1,4 +1,5 @@
 <script>
+    import { slide } from 'svelte/transition'
     import {secondaryColor, textColor, primaryColor } from '$lib/store'
     let password = '', confirmPassword = ''
     let emailField, emailValue = ''
@@ -28,9 +29,9 @@
         </label>
         <input type='password' bind:value='{confirmPassword}' name='passwordConfirm' class='formInput' style='background: hsl({$secondaryColor}) !important; color: hsl({$textColor});' />
     </div>
-    {#if password.length >= 8 && password != confirmPassword}
-    <p style='color: #ff6f6f'>passwords do not match</p>
-    {/if}
+        {#if password.length >= 8 && password != confirmPassword}
+        <p style='color: #ff6f6f' transition:slide >passwords do not match</p>
+        {/if}
     <div class='formFieldContainer'>
         <button type='submit' class='submitButton' style='background: {password.length >= 8 && password === confirmPassword ? `hsl(${$primaryColor})` : 'grey'}; color: #1a1a1a; box-shadow: {submitButtonIsHovered && password.length >= 8 && password === confirmPassword ? `0 0 10px hsl(${$primaryColor})` : 'none'}' disabled={password.length >= 8 && password === confirmPassword ? false : true } on:pointerover={()=>{submitButtonIsHovered = true}} on:pointerleave={()=>{submitButtonIsHovered = false}}>Sign Up</button>
     </div>

@@ -299,7 +299,7 @@
     .logosContainer{
         height: 55%;
         display: flex;
-        align-items: end;
+        align-items: flex-end;
     }
 
     .logosContainer img{

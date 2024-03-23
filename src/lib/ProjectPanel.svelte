@@ -1,12 +1,7 @@
 <script>
     import { width, height, filesLocalCopy, consoleMessages, textColor, runCode } from '$lib/store'
 
-    let userSRCDoc = `<html>
-            <body></body>
-            <style>body {background: #33dd9910}</style>
-        </html>`
-
-    
+    let userSRCDoc = ''
 
     filesLocalCopy.subscribe(value => {
         // console.log('updated')
