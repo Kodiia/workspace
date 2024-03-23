@@ -7,6 +7,7 @@ export const actions = {
         try {
             // Authenticate the user
             await locals.pb.collection('users').authWithPassword(body.email, body.password);
+            
 
             // Check if the authentication was successful
             if (locals.pb.authStore.isValid) {
@@ -16,13 +17,15 @@ export const actions = {
                 console.log(locals.pb.authStore.model.id, currentTime);
 
                 // Redirect or perform other actions based on the authentication state
-                throw redirect(303, '/');
+                // throw redirect(303, '/');
             }else{
                 locals.pb.authStore.clear()
                 return {
                     notVerified: true
                 }
             }
+
+            throw redirect(303, '/');
         } catch (err) {
             console.log('Error: ', err)
             throw error(500, 'Something went wrong while logging in')
