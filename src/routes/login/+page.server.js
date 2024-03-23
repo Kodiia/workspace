@@ -5,7 +5,12 @@ export const actions = {
         const body = Object.fromEntries(await request.formData())
 
         try {
-            await locals.pb.collection('users').authWithPassword(body.email, body.password)
+            const user = await locals.pb.collection('users').authWithPassword(body.email, body.password)
+            if (user) {
+                const currentTime = new Date().toISOString();
+                await locals.pb.collection("users").update(user.id, { lastLogin: currentTime });
+             }
+
             if(!locals.pb?.authStore?.model?.verified){
                 locals.pb.authStore.clear()
                 return {
