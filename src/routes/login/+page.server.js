@@ -6,11 +6,13 @@ export const actions = {
 
         try {
             const user = await locals.pb.collection('users').authWithPassword(body.email, body.password)
-            console.log(user)
-            if (user) {
-                const currentTime = new Date().toISOString();
-                await locals.pb.collection("users").update(user.id, { lastLogin: currentTime });
-             }
+            const currentTime = new Date().toISOString();
+            await locals.pb.collection("users").update(user.id, { lastLogin: currentTime });
+            console.log(user.id, currentTime)
+            // if (user) {
+            //     const currentTime = new Date().toISOString();
+            //     await locals.pb.collection("users").update(user.id, { lastLogin: currentTime });
+            //  }
 
             if(!locals.pb?.authStore?.model?.verified){
                 locals.pb.authStore.clear()
