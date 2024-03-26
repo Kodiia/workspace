@@ -75,11 +75,13 @@ export async function load ({ locals, fetch, params}) {
             formData.append('files', newFile);
           }
           if(fileType === 'jpeg'){
-            const fileData = bodyValuesArray[i]
-            const newFile = new File([fileData], fileName, {
-              type: "image/jpeg",
-            });
-            formData.append('files', newFile);
+            const asset = form.get('asset')
+            console.log(form, body, asset)
+            // const fileData = bodyValuesArray[i]
+            // const newFile = new File([fileData], fileName, {
+            //   type: "image/jpeg",
+            // });
+            // formData.append('files', newFile);
           }
         
         }
