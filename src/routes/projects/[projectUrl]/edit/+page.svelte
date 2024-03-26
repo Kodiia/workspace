@@ -100,9 +100,9 @@
                                 <div class='filesContainer'>
                                     <p>Click files to open</p>
                                     {#each data.files as file, index}
-                                        <ProjectFileCard name='{file.fileName}' action={runEditor}/>
+                                        <ProjectFileCard name='{file.fileName}' fileFullName='{file.fileFullName}' filePath='{file.filePath}' action={runEditor}/>
                                     {/each}
-                                    
+                                    <input type='file' name='asset' />
                                 </div>
                                 
                             {/if}

@@ -20,6 +20,8 @@ export async function load ({ locals, fetch, params}) {
           await fetchFile(url).then(result => {filesData.push(
             {
               fileName: file.split('_')[0] + '.' + file.split('.')[1],
+              fileFullName: file,
+              filePath: `/api/assets/${params.projectUrl}/${file}`,
               fileData: result
             }
             )
@@ -59,11 +61,19 @@ export async function load ({ locals, fetch, params}) {
       for(let i=1; i<formFieldsNumber; i++){
         if(bodyKeysArray[i] != 'projectName'){
           const fileName = bodyKeysArray[i]
-          const fileData = bodyValuesArray[i]
-          const newFile = new File([fileData], fileName, {
-            type: "text/plain",
-          });
-        formData.append('files', newFile);
+          const fileType = fileName.split('.')[1]
+          if(fileType != 'jpeg'){
+            const fileData = bodyValuesArray[i]
+            const newFile = new File([fileData], fileName, {
+              type: "text/plain",
+            });
+            formData.append('files', newFile);
+          }
+          if(fileType === 'jpeg'){
+            const asset = formData.get('asset')
+            formData.append('files', asset);
+          }
+        
         }
       }
 

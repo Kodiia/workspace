@@ -1,9 +1,10 @@
 <script>
     import { fileToOpen, bgColor, textColor, secondaryColor, primaryColor } from '$lib/store'
     import { getFileLogoURL } from '$lib/utils'
-    
 
     export let name = 'file name'
+    export let fileFullName = ''
+    export let filePath = ''
     // let containsUnderscore = name.includes("_");
     console.log(name)
     let fileType = name.split('.')[1]
@@ -16,9 +17,20 @@
     export let action = function () {}
 </script>
 
-<button bind:this={button} on:click={()=> { $fileToOpen = name; action(); }} style='background-color: hsl({$bgColor}); color: hsl({$textColor}); border: none; border-bottom: 1px solid hsl({isHovered ? $primaryColor : $textColor + ', 20%'});' on:pointerenter={()=>{isHovered = !isHovered}} on:pointerleave={()=>{isHovered = !isHovered}}>
-    <img src='{logoPath}' alt='logo' />
-    <p>{name}</p>
+<button type='button' bind:this={button} on:click={()=> { 
+    if(fileType != 'jpeg'){
+        $fileToOpen = name; 
+        action();   
+    } 
+    }} style='background-color: hsl({$bgColor}); color: hsl({$textColor}); border: none; border-bottom: 1px solid hsl({isHovered ? $primaryColor : $textColor + ', 20%'});' on:pointerenter={()=>{isHovered = !isHovered}} on:pointerleave={()=>{isHovered = !isHovered}}>
+    
+    {#if fileType === 'jpeg'}
+        <img src='{filePath}' alt='image_file'/>
+        <p>{filePath}</p>
+    {:else}
+        <img src='{logoPath}' alt='logo' />
+        <p>{name}</p>
+    {/if}
 </button>
 
 <style>
