@@ -100,6 +100,8 @@ export async function load ({ locals, fetch, params}) {
           'files': null,
         });
 
+        console.log(formData)
+
         record = await locals.pb.collection('userProjects').update(params.projectUrl, formData)
       } catch (err) {
         console.log('Error: ', err)
