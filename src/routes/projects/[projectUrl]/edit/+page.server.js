@@ -72,7 +72,9 @@ export async function load ({ locals, fetch, params}) {
           
           if(fileName === 'asset'){
             const fileData = bodyValuesArray[i]
-            console.log('image file is here:' + fileData)
+            const asset = form.get('asset')
+            console.log('image file is here: ' + fileData)
+            console.log('asset is here: ' + asset)
             const newFile = new File([fileData], fileName, {
               type: "image",
             });
@@ -84,7 +86,7 @@ export async function load ({ locals, fetch, params}) {
                 type: "text/plain",
               });
               formData.append('files', newFile);
-              console.log('text files are here' + fileData)
+              console.log('text files are here: ' + fileData)
             }
           }
         
