@@ -102,7 +102,7 @@
                                     {#each data.files as file, index}
                                         <ProjectFileCard name='{file.fileName}' fileFullName='{file.fileFullName}' filePath='{file.filePath}' action={runEditor}/>
                                     {/each}
-                                    <input type='file' name='asset' />
+                                    <!-- <input type='file' name='asset' /> -->
                                 </div>
                                 
                             {/if}
