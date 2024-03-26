@@ -86,7 +86,7 @@
                 
                     <!-- <div class='handle' on:pointerdown={()=>{setUserPanelSize = true}} on:pointerup={()=>{setUserPanelSize = false}} on:pointermove={updateUserPanelSize} on:pointerleave={()=>{setUserPanelSize = false}}></div> -->
                     <div class='contentContainer'>
-                        <form action='?/saveProject' method='POST' class='formContainer'>
+                        <form action='?/saveProject' method='POST' class='formContainer' enctype="multipart/form-data">
                         <div>
                             <!-- <h3 style="margin-top: 0; margin-bottom: 5px;">{projectName}</h3> -->
                             <input type='text' name='projectName' class='formInput' value='{projectName}' style='background: hsl({$secondaryColor}); color: hsl({$textColor});'/>
