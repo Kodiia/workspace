@@ -64,7 +64,6 @@ export async function load ({ locals, fetch, params}) {
         if(bodyKeysArray[i] != 'projectName'){
           const fileName = bodyKeysArray[i]
           const fileType = fileName.split('.')[1]
-          console.log(fileType)
           // const fileData = bodyValuesArray[i]
           // const newFile = new File([fileData], fileName, {
           //   type: fileType === 'jpeg' ? 'image/jpeg' : 'text/plain',
@@ -73,9 +72,9 @@ export async function load ({ locals, fetch, params}) {
           
           if(fileName === 'asset'){
             const fileData = bodyValuesArray[i]
-            console.log(fileData)
+            console.log('image file is here:' + fileData)
             const newFile = new File([fileData], fileName, {
-              type: "image/jpeg",
+              type: "image",
             });
             formData.append('files', newFile);
           } else {
@@ -85,7 +84,7 @@ export async function load ({ locals, fetch, params}) {
                 type: "text/plain",
               });
               formData.append('files', newFile);
-              console.log(formData)
+              console.log('text files are here' + fileData)
             }
           }
         
