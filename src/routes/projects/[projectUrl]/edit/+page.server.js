@@ -53,7 +53,7 @@ export async function load ({ locals, fetch, params}) {
       const bodyKeysArray = Object.keys(body)
       const bodyValuesArray = Object.values(body)
 
-      console.log(form, body)
+      // console.log(form, body)
 
       const formFieldsNumber = bodyKeysArray.length
 
@@ -73,8 +73,8 @@ export async function load ({ locals, fetch, params}) {
           if(fileName === 'asset'){
             const fileData = bodyValuesArray[i]
             const asset = form.get('asset')
-            console.log('image file is here: ' + fileData)
-            console.log('asset is here: ' + asset)
+            // console.log('image file is here: ' + fileData)
+            // console.log('asset is here: ' + asset)
             const newFile = new File([fileData], fileName, {
               type: "image/jpeg",
             });
@@ -87,7 +87,7 @@ export async function load ({ locals, fetch, params}) {
               type: "text/plain",
             });
             formData.append('files', newFile);
-            console.log('text files are here: ' + fileData)
+            // console.log('text files are here: ' + fileData)
           }
 
         
@@ -100,7 +100,7 @@ export async function load ({ locals, fetch, params}) {
           'files': null,
         });
 
-        console.log('final form: ' + formData)
+        // console.log('final form: ' + formData)
 
         record = await locals.pb.collection('userProjects').update(params.projectUrl, formData)
       } catch (err) {
