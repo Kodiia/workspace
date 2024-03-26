@@ -80,16 +80,16 @@ export async function load ({ locals, fetch, params}) {
             });
             formData.append('files', newFile);
             // formData.append('files', asset, fileData)
-          } else {
-            if(fileType != 'jpeg'){
-              const fileData = bodyValuesArray[i]
-              const newFile = new File([fileData], fileName, {
-                type: "text/plain",
-              });
-              formData.append('files', newFile);
-              console.log('text files are here: ' + fileData)
-            }
+          } 
+          if(fileName != 'asset'){
+            const fileData = bodyValuesArray[i]
+            const newFile = new File([fileData], fileName, {
+              type: "text/plain",
+            });
+            formData.append('files', newFile);
+            console.log('text files are here: ' + fileData)
           }
+
         
         }
       }
@@ -100,7 +100,7 @@ export async function load ({ locals, fetch, params}) {
           'files': null,
         });
 
-        console.log(formData)
+        console.log('final form: ' + formData)
 
         record = await locals.pb.collection('userProjects').update(params.projectUrl, formData)
       } catch (err) {
