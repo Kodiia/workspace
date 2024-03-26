@@ -53,6 +53,8 @@ export async function load ({ locals, fetch, params}) {
       const bodyKeysArray = Object.keys(body)
       const bodyValuesArray = Object.values(body)
 
+      console.log(form, body)
+
       const formFieldsNumber = bodyKeysArray.length
 
       const formData = new FormData();
