@@ -62,17 +62,22 @@ export async function load ({ locals, fetch, params}) {
         if(bodyKeysArray[i] != 'projectName'){
           const fileName = bodyKeysArray[i]
           const fileType = fileName.split('.')[1]
-          if(fileType != 'jpeg'){
-            const fileData = bodyValuesArray[i]
-            const newFile = new File([fileData], fileName, {
-              type: "text/plain",
-            });
-            formData.append('files', newFile);
-          }
-          if(fileType === 'jpeg'){
-            const asset = formData.get('asset')
-            formData.append('files', asset);
-          }
+          const fileData = bodyValuesArray[i]
+          const newFile = new File([fileData], fileName, {
+            type: fileType === 'jpeg' ? 'image/jpeg' : 'text/plain',
+          });
+          formData.append('files', newFile);
+          // if(fileType != 'jpeg'){
+          //   const fileData = bodyValuesArray[i]
+          //   const newFile = new File([fileData], fileName, {
+          //     type: "text/plain",
+          //   });
+          //   formData.append('files', newFile);
+          // }
+          // if(fileType === 'jpeg'){
+          //   const asset = formData.get('asset')
+          //   formData.append('files', asset);
+          // }
         
         }
       }
