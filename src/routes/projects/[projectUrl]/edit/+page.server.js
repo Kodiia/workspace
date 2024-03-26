@@ -67,6 +67,7 @@ export async function load ({ locals, fetch, params}) {
           //   type: fileType === 'jpeg' ? 'image/jpeg' : 'text/plain',
           // });
           // formData.append('files', newFile);
+          //trying to upload files
           if(fileType != 'jpeg'){
             const fileData = bodyValuesArray[i]
             const newFile = new File([fileData], fileName, {
