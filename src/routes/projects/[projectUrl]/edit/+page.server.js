@@ -78,7 +78,7 @@ export async function load ({ locals, fetch, params}) {
             formData.append('files', newFile);
             console.log(formData)
           }
-          if(fileType === 'asset'){
+          if(fileName === 'asset'){
             // const asset = form.get('asset')
             // console.log('hello', asset)
             // formData.append('files', asset.files[0]);
