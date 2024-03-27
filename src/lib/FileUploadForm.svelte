@@ -9,6 +9,7 @@
        const files = event.dataTransfer.files;
        if (files.length > 0) {
          file = files[0];
+         fileInput.files = event.dataTransfer.files;
          // You can display the file name or any other information here
          console.log('this is from drop: ' + file.name);
        }
@@ -33,7 +34,7 @@
     }
 
     let button
-
+    let isUploadingFile = false
 
    
    </script>
@@ -61,7 +62,7 @@
     <input type="file" name='asset' on:change={handleFileChange} style="display: none;" bind:this={fileInput} />
    </button>
    
-   <button type='submit' class='submitButton' style='color: hsl({$textColor});'>Upload</button>
+   <button type='submit' class='submitButton' style='color: hsl({$textColor});' on:click={()=>{isUploadingFile = true; }}>{@html isUploadingFile ? `<span class="loader" style="margin: 0; border-color: hsl(${$textColor}) transparent;"></span>` : 'Upload'}</button>
     </form>
 </div>
 

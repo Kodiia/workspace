@@ -25,7 +25,7 @@
     }} style='background-color: hsl({$bgColor}); color: hsl({$textColor}); border: none; border-bottom: 1px solid hsl({isHovered ? $primaryColor : $textColor + ', 20%'});' on:pointerenter={()=>{isHovered = !isHovered}} on:pointerleave={()=>{isHovered = !isHovered}}>
     
     {#if fileType === 'jpeg' || fileType === 'jpg' || fileType === 'png' || fileType === 'webp'}
-        <img src='{filePath}' alt='image_file'/>
+        <img src='{filePath + '?thumb=40x40'}' alt='image_file'/>
         <p>{name}</p>
     {:else}
         <img src='{logoPath}' alt='logo' />
