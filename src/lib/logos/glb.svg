@@ -1,0 +1,8 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Top Projection -->
+    <rect x="50" y="50" width="100" height="100" fill="blue" transform="rotate(30) skewX(-30) scale(1, 0.8602)"/>
+    <!-- Side Projection -->
+    <rect x="100" y="50" width="100" height="100" fill="green" transform="rotate(30) skewX(-30) scale(1, 0.8602)"/>
+    <!-- Front Projection -->
+    <rect x="50" y="100" width="100" height="100" fill="red" transform="rotate(30) skewX(-30) scale(1, 0.8602)"/>
+</svg>

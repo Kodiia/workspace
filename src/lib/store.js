@@ -12,6 +12,9 @@ export let stylesPanelState = writable(false);
 export let consolePanelState = writable(false);
 export let consoleMessages = writable([]);
 
+export let fileUploadFormDisplay = writable('none')
+export let assetCardDisplay = writable('none')
+
 export let width = writable(1920)
 export let height = writable(1080)
 export let leftPanelWidthSetByUser = writable(0)

@@ -12,6 +12,7 @@
     import parserHTML from "prettier/plugins/html";
     import parserEstree from "prettier/plugins/estree";
     import parserCSS from "prettier/plugins/postcss";
+    import parserMarkdown from "prettier/plugins/markdown";
 
     import {height, editorState, consolePanelState, consoleMessages, filesLocalCopy, theme, bgColor, textColor, runCode} from '$lib/store'
     import {getFileLogoURL} from '$lib/utils'
@@ -31,6 +32,7 @@
     }
     if (mode == 'md'){
       mode = 'text'
+      parserMode = 'markdown'
     }
     let logoPath = getFileLogoURL(fileName.split('.')[1])
     export let readOnly = false
@@ -38,7 +40,7 @@
 
     const formatOptions = {
           parser: parserMode,
-          plugins: [ parserBabel, parserHTML, parserEstree, parserCSS ]
+          plugins: [ parserBabel, parserHTML, parserEstree, parserCSS, parserMarkdown ]
     }
 
     async function formatText(text = ''){
@@ -121,6 +123,7 @@
     let button
 
     function updateFileData(fileNameLocal = '', value = ''){
+        // console.log(fileNameLocal, value)
         for (let file of $filesLocalCopy){
             if (file.fileName === fileNameLocal ){
                 file.fileData = value

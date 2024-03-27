@@ -1,5 +1,5 @@
 <script>
-    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay, bgColor, textColor, primaryColor, secondaryColor, accentColor, runCode } from '$lib/store'
+    import { filesLocalCopy, fileToOpen, editorState, width, height, docsPanelState, stylesPanelState, filesPanelDisplay, resourcesPanelDisplay, bgColor, textColor, primaryColor, secondaryColor, accentColor, runCode, fileUploadFormDisplay, assetCardDisplay } from '$lib/store'
     import ProjectPanel from '$lib/ProjectPanel.svelte';
     import NavPanel from '$lib/NavPanel.svelte';
     import FilesPanel from '$lib/FilesPanel.svelte';
@@ -7,11 +7,14 @@
     import ResourcesHubPanel from '$lib/ResourcesHubPanel.svelte';
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditorMonaco from '$lib/CodeEditorMonaco.svelte';
+    import FileUploadForm from '$lib/FileUploadForm.svelte';
+    import AssetCard from '$lib/AssetCard.svelte';
     import JSZip from 'jszip';
     
     export let data
     // console.log(data)
     $runCode = false
+    $assetCardDisplay = 'none'
     let isSavingProject = false
     let projectName = data.project.name
     let files = data.project.files
@@ -20,6 +23,7 @@
     $: filesPanelWidth > 0 ? filesPanelWidth : 400
 
     $editorState = false
+    let assetFilePath = '', assetFileName = ''
 
     let button, resizeHandle, resizeState = false, resizeCoverDiv
     let editorText = ''
@@ -94,7 +98,15 @@
                         <div class='filesAndEditorWrapper'>
                             {#if $editorState}
                                 <div style='height: calc(100% - 0px); background: none;'>
-                                        <CodeEditorMonaco fileName='{$fileToOpen}' readOnly='{false}' editorText='{editorText}'/> 
+                                    <CodeEditorMonaco fileName='{$fileToOpen}' readOnly='{false}' editorText='{editorText}'/> 
+                                </div>
+                            {:else if $fileUploadFormDisplay === 'block'}
+                                <div style='height: calc(100% - 0px); background: none;'>
+                                    <FileUploadForm />
+                                </div>
+                            {:else if $assetCardDisplay === 'block'}
+                                <div style='height: calc(100% - 0px); background: none;'>
+                                    <AssetCard filePath={assetFilePath} fileName={assetFileName} />
                                 </div>
                             {:else}
                                 <div class='filesContainer'>
@@ -102,7 +114,17 @@
                                     {#each data.files as file, index}
                                         <ProjectFileCard name='{file.fileName}' fileFullName='{file.fileFullName}' filePath='{file.filePath}' action={runEditor}/>
                                     {/each}
-                                    <input type='file' name='asset' />
+
+                                    {#each data.imageFiles as file, index}
+                                        <ProjectFileCard name='{file.imageFileName}' fileFullName='{file.imageFileFullName}' filePath='{file.imageFilePath}' action={()=>{assetFilePath = file.imageFilePath; assetFileName = file.imageFileName; $assetCardDisplay = 'block';}}/>
+                                    {/each}
+
+                                    {#each data.glbFiles as file, index}
+                                        <ProjectFileCard name='{file.glbFileName}' fileFullName='{file.glbFileFullName}' filePath='{file.glbFilePath}' action={()=>{}}/>
+                                    {/each}
+
+                                    <button type='button' class='addFilesButton' style='color: hsl({$textColor});' on:click={()=>{$fileUploadFormDisplay = 'block'}}>+ Upload assets</button>
+                                    
                                 </div>
                                 
                             {/if}
@@ -125,6 +147,13 @@
                             </div> -->
                         </div>
                         </form>
+
+                        
+
+                        <!-- <form action='?/uploadFile' method='POST' class='formContainer' enctype="multipart/form-data" style='position: absolute; top: 300px;'>
+                            <input type='file' name='asset' />
+                            <button type='submit'>Upload</button>
+                        </form> -->
                     </div>    
                 
                 </div>
@@ -222,7 +251,7 @@
         }
         .filesAndEditorWrapper{
             height: calc(100% - 100px);
-            overflow-y: scroll;
+            overflow-y: auto;
         }
         .filesContainer{
             width: 100%;
@@ -270,6 +299,17 @@
         justify-content: center;
         align-items: center;
         width: 100%;
+    }
+
+    .addFilesButton{
+      height: 40px;
+      border: none;
+      padding: 20px 0;
+      margin-bottom: 20px;
+    }
+    .addFilesButton:hover{
+      background: none;
+      text-decoration: underline;
     }
 
 </style>

@@ -5,15 +5,19 @@ import { serializeNonPOJOs } from '$lib/utils';
 export async function load ({ locals, fetch, params}) {
   
     let filesData = []
+    let imagesData = []
+    let glbData = []
     const fetchFile = async (url) => {
       const res = await fetch(url)
       const data = res.text()
       return data
     }
 
+    const project = await locals.pb.collection('userProjects').getOne(params.projectUrl, { requestKey: null })
+
     const getProjectFiles = async (id) => { 
       try{
-        const project = await locals.pb.collection('userProjects').getOne(id, { requestKey: null })
+
 
         for (let file of project.files){
           let url = `${DB_URL}/api/files/userProjects/${params.projectUrl}/${file}`
@@ -28,6 +32,38 @@ export async function load ({ locals, fetch, params}) {
           }
           )
         }
+
+        for (let imageFile of project.imageFiles){
+          let url = `${DB_URL}/api/files/userProjects/${params.projectUrl}/${imageFile}`
+          await fetchFile(url).then(result => {imagesData.push(
+            {
+              imageFileName: imageFile.split('_')[0] + '.' + imageFile.split('.')[1],
+              imageFileFullName: imageFile,
+              imageFilePath: `/api/assets/${params.projectUrl}/${imageFile}`,
+              imageFileData: result
+            }
+            )
+          }
+          )
+        }
+        // console.log('imagesData ' + imagesData)
+
+        for (let glbFile of project.glbFiles){
+          let url = `${DB_URL}/api/files/userProjects/${params.projectUrl}/${glbFile}`
+          await fetchFile(url).then(result => {glbData.push(
+            {
+              glbFileName: glbFile.split('_')[0] + '.' + glbFile.split('.')[1],
+              glbFileFullName: glbFile,
+              glbFilePath: `/api/assets/${params.projectUrl}/${glbFile}`,
+              glbFileData: result
+            }
+            )
+          }
+          )
+        }
+        // console.log('glbData ' + glbData)
+
+        // console.log(serializeNonPOJOs(project))
         
         return serializeNonPOJOs(project)
 
@@ -37,11 +73,12 @@ export async function load ({ locals, fetch, params}) {
       }
     }
 
-
       return {
         project: getProjectFiles(params.projectUrl),
         type: 'project',
-        files: filesData
+        files: filesData,
+        imageFiles: imagesData,
+        glbFiles:glbData
       }
   
   }
@@ -64,33 +101,12 @@ export async function load ({ locals, fetch, params}) {
         if(bodyKeysArray[i] != 'projectName'){
           const fileName = bodyKeysArray[i]
           const fileType = fileName.split('.')[1]
-          // const fileData = bodyValuesArray[i]
-          // const newFile = new File([fileData], fileName, {
-          //   type: fileType === 'jpeg' ? 'image/jpeg' : 'text/plain',
-          // });
-          // formData.append('files', newFile);
-          
-          if(fileName === 'asset'){
-            const fileData = bodyValuesArray[i]
-            const asset = form.get('asset')
-            // console.log('image file is here: ' + fileData)
-            // console.log('asset is here: ' + asset)
-            const newFile = new File([fileData], fileName, {
-              type: "image/jpeg",
-            });
-            formData.append('files', newFile);
-            // formData.append('files', asset, fileData)
-          } 
-          if(fileName != 'asset'){
-            const fileData = bodyValuesArray[i]
-            const newFile = new File([fileData], fileName, {
-              type: "text/plain",
-            });
-            formData.append('files', newFile);
-            // console.log('text files are here: ' + fileData)
-          }
-
-        
+          const fileData = bodyValuesArray[i]
+          // console.log(fileName + ' ' + fileData)
+          const newFile = new File([fileData], fileName, {
+            type: "text/plain",
+          });
+          formData.append('files', newFile);
         }
       }
 
@@ -103,6 +119,42 @@ export async function load ({ locals, fetch, params}) {
         // console.log('final form: ' + formData)
 
         record = await locals.pb.collection('userProjects').update(params.projectUrl, formData)
+      } catch (err) {
+        console.log('Error: ', err)
+        throw error(500, 'Something went wrong')
+      }
+
+      throw redirect(303, `/projects/${record.id}/edit`)
+    },
+
+    uploadFile: async ({locals, params, request}) => {
+      const form = await request.formData()
+      const asset = form.get('asset')
+      // console.log('uploading this asset: ' + asset)
+
+      
+
+      // console.log(asset)
+      let record
+      try {
+        if(asset){
+          
+          if(asset.type === 'image/jpeg' || asset.type === 'image/png' || asset.type === 'image/webp'){
+            const formData = new FormData()
+            formData.append('imageFiles', asset)
+            // console.log(asset)
+            record = await locals.pb.collection('userProjects').update(params.projectUrl, formData)
+            // console.log(record)
+          }
+
+          if(asset.type === 'application/octet-stream'){
+            const formData = new FormData()
+            formData.append('glbFiles', asset)
+            // console.log(asset)
+            record = await locals.pb.collection('userProjects').update(params.projectUrl, formData)
+            // console.log(record)
+          }
+        }
       } catch (err) {
         console.log('Error: ', err)
         throw error(500, 'Something went wrong')
