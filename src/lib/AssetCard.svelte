@@ -1,11 +1,13 @@
 <script>
-    import { assetCardDisplay, height, textColor } from "./store";
+    import { assetCardDisplay, height, textColor, bgColor, primaryColor, accentColor } from "./store";
     export let filePath = ''
     export let fileName = ''
+    export let fileFullName = ''
 
-    const fileType = fileName.split('.')[-1]
+    let fileType = fileName.split('.')[1]
 
     let copyButtonText = "copy url"
+    let isDeletingFile = false
 
     function copy() {
         let textToCopy = filePath;
@@ -29,8 +31,17 @@
 
     <div class='dataWrapper'>
         <code>{filePath}</code>
+        <div class='imageWrapper'>
+            <img src='{filePath}' alt='asset preview' />
+        </div>
 
-        <img src='{filePath}' alt='asset preview' />
+        <form action='?/deleteFile' method='POST' enctype="multipart/form-data">
+            <input type='hidden' name='fileFullName' value='{fileFullName}' />
+            <input type='hidden' name='fileType' value='{fileType}' />
+        
+            <button type='submit' class='deleteButton' style='background: none; color: hsl({$textColor});' on:click={()=>{isDeletingFile = true; }}>{@html isDeletingFile ? `<span class="loader" style="margin: 0; border-color: hsl(${$textColor}) transparent;"></span>` : 'Delete'}</button>
+
+        </form>
     </div>
    
 </div>
@@ -48,15 +59,21 @@
     .dataWrapper{
         width: 100%;
         height: calc(100% - 60px);
+        display: flex;
+        flex-direction: column;
         overflow-y: scroll;
     }
     h5{
         margin: 0 0 10px 0;
         font-weight: 300;
     }
-    img{
+    .imageWrapper{
         width: calc(100% - 10px);
-        margin-top: 10px;
+        height: autofit;
+        margin-top: auto;
+    }
+    img{
+        width: 100%;
     }
     code{
         width: 100%;
@@ -100,6 +117,14 @@
       }
       .smallMenuButton:hover {
         color: #3d95ee;
+        text-decoration: underline;
+      }
+      .deleteButton{
+        border: none;
+        padding: 0;
+        cursor: pointer;
+      }
+      .deleteButton:hover{
         text-decoration: underline;
       }
 </style>

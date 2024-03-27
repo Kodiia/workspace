@@ -134,7 +134,7 @@ export async function load ({ locals, fetch, params}) {
 
       
 
-      // console.log(asset)
+      console.log(asset)
       let record
       try {
         if(asset){
@@ -144,7 +144,7 @@ export async function load ({ locals, fetch, params}) {
             formData.append('imageFiles', asset)
             // console.log(asset)
             record = await locals.pb.collection('userProjects').update(params.projectUrl, formData)
-            // console.log(record)
+            console.log(record)
           }
 
           if(asset.type === 'application/octet-stream'){
@@ -160,6 +160,31 @@ export async function load ({ locals, fetch, params}) {
         throw error(500, 'Something went wrong')
       }
 
-      throw redirect(303, `/projects/${record.id}/edit`)
+      //throw redirect(303, `/projects/${record.id}/edit`)
+    },
+
+    deleteFile: async ({locals, params, request}) => {
+      const form = await request.formData()
+      const body = Object.fromEntries(form)
+      const fileFullName = body.fileFullName
+
+      console.log(form)
+
+      try {
+          // const result = await locals.pb.collection('userProjects').delete(projectId)                
+          if(body.fileType === 'png' || body.fileType === 'jpg' || body.fileType === 'webp' || body.fileType === 'gif'){
+            const record = await locals.pb.collection('userProjects').update(params.projectUrl, {
+            'imageFiles-': fileFullName,
+            })
+          }
+          if(body.fileType === 'glb'){
+            const record = await locals.pb.collection('userProjects').update(params.projectUrl, {
+            'glbFiles-': fileFullName,
+            })
+          }
+      } catch (err){
+          console.log(err)
+          throw error(err.status, err.message);
+      }  
     }
   }

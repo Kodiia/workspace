@@ -23,7 +23,7 @@
     $: filesPanelWidth > 0 ? filesPanelWidth : 400
 
     $editorState = false
-    let assetFilePath = '', assetFileName = ''
+    let assetFilePath = '', assetFileName = '', assetFileFullName = ''
 
     let button, resizeHandle, resizeState = false, resizeCoverDiv
     let editorText = ''
@@ -106,7 +106,7 @@
                                 </div>
                             {:else if $assetCardDisplay === 'block'}
                                 <div style='height: calc(100% - 0px); background: none;'>
-                                    <AssetCard filePath={assetFilePath} fileName={assetFileName} />
+                                    <AssetCard filePath={assetFilePath} fileName={assetFileName} fileFullName={assetFileFullName}/>
                                 </div>
                             {:else}
                                 <div class='filesContainer'>
@@ -116,7 +116,7 @@
                                     {/each}
 
                                     {#each data.imageFiles as file, index}
-                                        <ProjectFileCard name='{file.imageFileName}' fileFullName='{file.imageFileFullName}' filePath='{file.imageFilePath}' action={()=>{assetFilePath = file.imageFilePath; assetFileName = file.imageFileName; $assetCardDisplay = 'block';}}/>
+                                        <ProjectFileCard name='{file.imageFileName}' fileFullName='{file.imageFileFullName}' filePath='{file.imageFilePath}' action={()=>{assetFilePath = file.imageFilePath; assetFileName = file.imageFileName; assetFileFullName = file.imageFileFullName; $assetCardDisplay = 'block';}}/>
                                     {/each}
 
                                     {#each data.glbFiles as file, index}
