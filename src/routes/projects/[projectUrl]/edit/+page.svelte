@@ -120,7 +120,7 @@
                                     {/each}
 
                                     {#each data.glbFiles as file, index}
-                                        <ProjectFileCard name='{file.glbFileName}' fileFullName='{file.glbFileFullName}' filePath='{file.glbFilePath}' action={()=>{}}/>
+                                        <ProjectFileCard name='{file.glbFileName}' fileFullName='{file.glbFileFullName}' filePath='{file.glbFilePath}' action={()=>{assetFilePath = file.glbFilePath; assetFileName = file.glbFileName; assetFileFullName = file.glbFileFullName; $assetCardDisplay = 'block';}}/>
                                     {/each}
 
                                     <button type='button' class='addFilesButton' style='color: hsl({$textColor});' on:click={()=>{$fileUploadFormDisplay = 'block'}}>+ Upload assets</button>

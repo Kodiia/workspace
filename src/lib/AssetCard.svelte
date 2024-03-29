@@ -1,10 +1,12 @@
 <script>
     import { assetCardDisplay, height, textColor, bgColor, primaryColor, accentColor } from "./store";
+    import glbSVG from "$lib/logos/glb.svg"
     export let filePath = ''
     export let fileName = ''
     export let fileFullName = ''
 
     let fileType = fileName.split('.')[1]
+    console.log(fileName, fileType)
 
     let copyButtonText = "copy url"
     let isDeletingFile = false
@@ -32,7 +34,11 @@
     <div class='dataWrapper'>
         <code>{filePath}</code>
         <div class='imageWrapper'>
-            <img src='{filePath}' alt='asset preview' />
+            {#if fileType === 'glb'}
+                <img src='{glbSVG}' alt='logo'>
+            {:else}
+                <img src='{filePath}' alt='asset preview' />
+            {/if}
         </div>
 
         <form action='?/deleteFile' method='POST' enctype="multipart/form-data">
@@ -59,18 +65,20 @@
     .dataWrapper{
         width: 100%;
         height: calc(100% - 60px);
+        padding-right: 10px;
         display: flex;
         flex-direction: column;
-        overflow-y: scroll;
+        overflow-y: auto;
+        box-sizing: border-box;
     }
     h5{
         margin: 0 0 10px 0;
         font-weight: 300;
     }
     .imageWrapper{
-        width: calc(100% - 10px);
-        height: autofit;
-        margin-top: auto;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: auto;
     }
     img{
         width: 100%;

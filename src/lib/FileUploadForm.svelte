@@ -3,6 +3,7 @@
 
     let file = '';
     let fileInput;
+    let isUploadButtonDisabled = false
    
     function handleDrop(event) {
        event.preventDefault();
@@ -11,7 +12,8 @@
          file = files[0];
          fileInput.files = event.dataTransfer.files;
          // You can display the file name or any other information here
-         console.log('this is from drop: ' + file.name);
+         console.log('this is from drop: ' + file.size);
+         if(file.size > 1000000){isUploadButtonDisabled = true}
        }
     }
    
@@ -29,7 +31,8 @@
        const files = event.target.files;
        if (files.length > 0) {
          file = files[0];
-         console.log('this is file change: ' + file.name);
+         console.log('this is file change: ' + file.size);
+         if(file.size > 1000000){isUploadButtonDisabled = true}
        }
     }
 
@@ -54,15 +57,17 @@
     on:click={()=>{fileInput.click()}}
     style="border: 1px dashed hsl({$textColor + ', 20%'}); color: hsl({$textColor}); background: hsl({$secondaryColor}); "
     >
-    {#if file}
+    {#if file && file.size < 1000000}
       <p>{file.name}</p>
+    {:else if file && file.size < 1000000}
+      <p>Whoa, that's too big!</p>
     {:else}
     Drag and drop your file here or click to browse for a JPEG, PNG, WebP, or GLB file.
     {/if}
     <input type="file" name='asset' on:change={handleFileChange} style="display: none;" bind:this={fileInput} />
    </button>
    
-   <button type='submit' class='submitButton' style='color: hsl({$textColor});' on:click={()=>{isUploadingFile = true; }}>{@html isUploadingFile ? `<span class="loader" style="margin: 0; border-color: hsl(${$textColor}) transparent;"></span>` : 'Upload'}</button>
+   <button type='submit' class='submitButton' style='color: hsl({$textColor});' disabled={isUploadButtonDisabled} on:click={()=>{isUploadingFile = true; }}>{@html isUploadingFile ? `<span class="loader" style="margin: 0; border-color: hsl(${$textColor}) transparent;"></span>` : 'Upload'}</button>
     </form>
 </div>
 

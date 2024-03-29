@@ -42,7 +42,8 @@ export async function load ({ locals, fetch, params}) {
               imageFilePath: `/api/assets/${params.projectUrl}/${imageFile}`,
               imageFileData: result
             }
-            )
+            );
+            //console.log(result.headers.get('content-length'))
           }
           )
         }
