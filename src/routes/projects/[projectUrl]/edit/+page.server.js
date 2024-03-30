@@ -40,7 +40,7 @@ export async function load ({ locals, fetch, params}) {
               imageFileName: imageFile.split('_')[0] + '.' + imageFile.split('.')[1],
               imageFileFullName: imageFile,
               imageFilePath: `/api/assets/${params.projectUrl}/${imageFile}`,
-              imageFileData: result
+              //imageFileData: result
             }
             );
             //console.log(result.headers.get('content-length'))
@@ -56,7 +56,7 @@ export async function load ({ locals, fetch, params}) {
               glbFileName: glbFile.split('_')[0] + '.' + glbFile.split('.')[1],
               glbFileFullName: glbFile,
               glbFilePath: `/api/assets/${params.projectUrl}/${glbFile}`,
-              glbFileData: result
+              //glbFileData: result
             }
             )
           }
@@ -74,8 +74,10 @@ export async function load ({ locals, fetch, params}) {
       }
     }
 
+    // const projectObject = getProjectFiles(params.projectUrl)
+
       return {
-        project: getProjectFiles(params.projectUrl),
+        project: await getProjectFiles(params.projectUrl),
         type: 'project',
         files: filesData,
         imageFiles: imagesData,
