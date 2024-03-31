@@ -3,10 +3,10 @@
     import { getFileLogoURL } from '$lib/utils'
 
     export let name = 'file name'
-    export let fileFullName = ''
+    // export let fileFullName = ''
     export let filePath = ''
     // let containsUnderscore = name.includes("_");
-    console.log(name)
+    // console.log(name)
     let fileType = name.split('.')[1]
     // let nameWithoutFileId = name.split('_')[0] + '.' + fileType
     let logoPath = getFileLogoURL(fileType)

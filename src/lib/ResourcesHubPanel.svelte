@@ -263,10 +263,10 @@
         .panelButton:hover{
             background: #4233fb20;
         }
-        .contentContainer{
+        /* .contentContainer{
             width: 100%;
             height: 100%;
-        }
+        } */
         input{
             width: 100%;
             height: 40px;
@@ -321,10 +321,10 @@
             position: relative;
             overflow-y: auto;
         }
-        .detailsDataWrapper{
+        /* .detailsDataWrapper{
             width: 100%;
             
-        }
+        } */
         details summary{
             cursor: pointer;
             padding: 10px 0;

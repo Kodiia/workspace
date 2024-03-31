@@ -38,6 +38,7 @@
     }
 
     function runEditor(){
+        console.log('open editor ' + $filesLocalCopy)
         getFileText()
         $editorState = !$editorState;  
     }

@@ -64,7 +64,7 @@
         border-radius: 50%;
         animation: infinite loadAnimation 2s;
     } */
-    .logo-card{
+    /* .logo-card{
         width: 80px;
         height: 80px;
         background: #fdfdfd;
@@ -76,7 +76,7 @@
         box-shadow: 0 0 10px rgba(60, 150, 238, 0.302);
         padding: 15px;
         animation: loadAnimation 2s infinite reverse;
-    }
+    } */
 
     @keyframes loadAnimation{
         0% {
