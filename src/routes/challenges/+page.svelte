@@ -8,7 +8,7 @@
 
     export let data
     let challenges = data.challenges
-    console.log(data)
+    //console.log(data)
     //console.log(data.user, data.user.specialCourses, data.user.specialCourses[0], data.user.specialCourses.specialCourses[0], courses)
 </script>
 <NavPanel data={data} />
