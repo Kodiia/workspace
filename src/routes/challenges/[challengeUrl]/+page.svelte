@@ -26,7 +26,7 @@
 
     $editorState = false
 
-    console.log(data)
+    //console.log(data)
     let resizeHandle, resizeState = false, resizeCoverDiv
     
     function resize(event){
