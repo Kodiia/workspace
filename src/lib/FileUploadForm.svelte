@@ -31,7 +31,6 @@
        const files = event.target.files;
        if (files.length > 0) {
          file = files[0];
-         console.log('this is file change: ' + file.size);
          if(file.size > 1000000){isUploadButtonDisabled = true}
        }
     }
@@ -62,7 +61,7 @@
     {:else if file && file.size < 1000000}
       <p>Whoa, that's too big!</p>
     {:else}
-    Drag and drop your file here or click to browse for a JPEG, PNG, WebP, or GLB file.
+      Drag and drop your file here or click to browse for a JPEG, PNG, WebP, or GLB file. Make sure your file is less than 1 mb.
     {/if}
     <input type="file" name='asset' on:change={handleFileChange} style="display: none;" bind:this={fileInput} />
    </button>
