@@ -37,7 +37,7 @@ export async function load ({ locals, fetch, params}) {
 
 
       return {
-        project: getProjectFiles(params.projectUrl),
+        project: await getProjectFiles(params.projectUrl),
         type: 'project',
         files: filesData
       }
