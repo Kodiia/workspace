@@ -66,6 +66,6 @@ export async function load({locals, fetch, params}){
         return {
           name: templateName,
           files: filesData,
-          template: getTemplateData(selectedTemplateId)
+          template: await getTemplateData(selectedTemplateId)
         }
 }

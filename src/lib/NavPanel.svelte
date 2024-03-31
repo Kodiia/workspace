@@ -4,7 +4,7 @@
     import { bgColor, textColor, secondaryColor, primaryColor, accentColor, theme, width, height, resourcesPanelDisplay, filesPanelDisplay, stylesPanelState, runCode } from "./store"
     import { page } from '$app/stores';
 
-    console.log($page)
+    // console.log($page)
 
     export let data;
 

@@ -12,15 +12,19 @@
     import parserHTML from "prettier/plugins/html";
     import parserEstree from "prettier/plugins/estree";
     import parserCSS from "prettier/plugins/postcss";
+    import parserMarkdown from "prettier/plugins/markdown";
 
     import {height, editorState, consolePanelState, consoleMessages, filesLocalCopy, theme, bgColor, textColor, runCode} from '$lib/store'
     import {getFileLogoURL} from '$lib/utils'
 
 	let editorContainer;
 	let editor;
-	let model;
     let Monaco;
     let editorCreated = false;
+
+    // for(let file of $filesLocalCopy){    
+    //     console.log(file.fileData)
+    // }
 
     export let fileName = 'index.html'
     let mode = fileName.split('.')[1]
@@ -31,14 +35,23 @@
     }
     if (mode == 'md'){
       mode = 'text'
+      parserMode = 'markdown'
     }
     let logoPath = getFileLogoURL(fileName.split('.')[1])
     export let readOnly = false
     export let editorText = "Some code here"
 
+    // console.log('initial editor text ' + editorText)
+
+    for (let file of $filesLocalCopy){
+        if(fileName === file.fileName){
+            editorText = file.fileData
+        }
+    }
+
     const formatOptions = {
           parser: parserMode,
-          plugins: [ parserBabel, parserHTML, parserEstree, parserCSS ]
+          plugins: [ parserBabel, parserHTML, parserEstree, parserCSS, parserMarkdown ]
     }
 
     async function formatText(text = ''){
@@ -46,14 +59,19 @@
        return formattedEditorText
     }
 
-    runCode.subscribe(async ()=>{
-        const formattedCode = await prettier.format(editor.getValue(), formatOptions)
-        updateFileData(fileName, formattedCode);
-        consoleMessages.set([]);
+    runCode.subscribe(async (value)=>{
+        if(value === true){
+            const formattedCode = await prettier.format(editor.getValue(), formatOptions)
+            updateFileData(fileName, formattedCode);
+            consoleMessages.set([]);
+        }
     })
 
 
+    // @ts-ignore
     onMount(async () => {
+        resetEditor();
+
         self.MonacoEnvironment = {
             getWorker: function (_moduleId, label) {
                 if (label === 'json') {
@@ -76,6 +94,7 @@
         $theme === 'dark' ? editorTheme = 'vs-dark' : editorTheme = 'vs-light'
         
 
+        // @ts-ignore
         Monaco = await import('monaco-editor');
         editor = Monaco.editor.create(editorContainer, {
             value: editorText,
@@ -90,7 +109,7 @@
         });
         editorCreated = true
 
-        editor.onDidChangeModelContent(async function (e) {
+        editor.onDidChangeModelContent(async function () {
             $runCode = false;
             const formattedCode = await prettier.format(editor.getValue(), formatOptions)
             updateFileData(fileName, formattedCode);
@@ -106,8 +125,6 @@
            
         })
 
-        console.log(editor)
-
         formatText(editorText).then(result => {editor.setValue(result)})
 
         return () => {
@@ -117,17 +134,32 @@
 
     })
 
+    // Reset editor when opening a new project
+    function resetEditor() {
+        if (editor) {
+            editor.dispose();
+            editor = null;
+        }
+    }
+
+    // Call resetEditor when the component is destroyed
+    onDestroy(() => {
+        resetEditor();
+    });
+
 
     let button
 
     function updateFileData(fileNameLocal = '', value = ''){
-        for (let file of $filesLocalCopy){
-            if (file.fileName === fileNameLocal ){
-                file.fileData = value
-                $filesLocalCopy = [...$filesLocalCopy]
-            }
-        }
-        // console.log('files are here: ',$filesLocalCopy)
+        filesLocalCopy.update(files => {
+            return files.map(file => {
+                if (file.fileName === fileNameLocal) {
+                    return { ...file, fileData: value };
+                }
+                return file;
+            });
+        });
+        // console.log('files are here: ', $filesLocalCopy)
     }
 
     async function paste(){
@@ -213,9 +245,6 @@
 </div>
 
 <style>
-    .container{
-
-    }
     .editorContainer{
         height: 100%;
         border-radius: 15px;

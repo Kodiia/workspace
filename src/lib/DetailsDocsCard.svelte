@@ -3,7 +3,7 @@
     import CodeSnippetMonaco from "./CodeSnippetMonaco.svelte";
     import { getFileLogoURL } from '$lib/utils'
 
-    export let id = 0    
+    // export let id = 0    
     export let docData = ''
 
     let isHovered = false;

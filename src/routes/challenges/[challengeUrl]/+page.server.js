@@ -77,7 +77,7 @@ export async function load ({ locals, fetch, params}) {
 
 
       return {
-        challenge: getChallengeFiles(params.challengeUrl),
+        challenge: await getChallengeFiles(params.challengeUrl),
         type: 'challenge',
         files: filesData
       }

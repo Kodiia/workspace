@@ -3,10 +3,10 @@
     import { getFileLogoURL } from '$lib/utils'
 
     export let name = 'file name'
-    export let fileFullName = ''
+    // export let fileFullName = ''
     export let filePath = ''
     // let containsUnderscore = name.includes("_");
-    console.log(name)
+    // console.log(name)
     let fileType = name.split('.')[1]
     // let nameWithoutFileId = name.split('_')[0] + '.' + fileType
     let logoPath = getFileLogoURL(fileType)
@@ -24,9 +24,9 @@
     } 
     }} style='background-color: hsl({$bgColor}); color: hsl({$textColor}); border: none; border-bottom: 1px solid hsl({isHovered ? $primaryColor : $textColor + ', 20%'});' on:pointerenter={()=>{isHovered = !isHovered}} on:pointerleave={()=>{isHovered = !isHovered}}>
     
-    {#if fileType === 'jpeg'}
-        <img src='{filePath}' alt='image_file'/>
-        <p>{filePath}</p>
+    {#if fileType === 'jpeg' || fileType === 'jpg' || fileType === 'png' || fileType === 'webp'}
+        <img src='{filePath + '?thumb=40x40'}' alt='image_file'/>
+        <p>{name}</p>
     {:else}
         <img src='{logoPath}' alt='logo' />
         <p>{name}</p>

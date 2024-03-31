@@ -11,10 +11,13 @@
     import NavPanel from '$lib/NavPanel.svelte';
     
     export let data
-    console.log(data.challenge.stepsJSON)
+    // console.log(data.challenge.stepsJSON)
 
-    let files = data.challenge.files
-    $filesLocalCopy = data.files
+    // let files = data.challenge.files
+    filesLocalCopy.set([])
+    // console.log($filesLocalCopy)
+    filesLocalCopy.set(data.files)
+    // console.log(data.files, $filesLocalCopy)
 
     let filesPanelWidth = $width / 3 
     if (filesPanelWidth < 400){
@@ -23,7 +26,7 @@
 
     $editorState = false
 
-    console.log(data)
+    //console.log(data)
     let resizeHandle, resizeState = false, resizeCoverDiv
     
     function resize(event){
@@ -51,7 +54,7 @@
     <div class='panelsContainer'>
         
         <div style='width: {$width > 700 ? filesPanelWidth + 'px' : '100%'}; position: {$width > 700 ? 'relative' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$filesPanelDisplay}'>
-            <FilesPanel files='{data.files}' projectName='{data.challenge.heading}' editorType = 'monaco'/>
+            <FilesPanel files='{data.files}' projectName='{data.challenge.heading}'/>
         </div>
 
         {#if $width > 700 && $filesPanelDisplay === 'block'}

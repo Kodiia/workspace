@@ -11,10 +11,12 @@
     import NavPanel from '$lib/NavPanel.svelte';
 
     export let data
-    console.log(data)
+    //console.log(data)
     $runCode = false
     let files = data.files
+    // console.log($filesLocalCopy)
     $filesLocalCopy = data.files
+    // console.log($filesLocalCopy)
 
     let filesPanelWidth = $width / 3 
     if (filesPanelWidth < 400){

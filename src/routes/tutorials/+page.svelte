@@ -3,7 +3,7 @@
     import InfoCard from '$lib/InfoCard.svelte';
     export let data;
 
-    console.log(data);
+    //console.log(data);
 </script>
 
 <NavPanel data={data} />

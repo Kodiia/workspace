@@ -7,7 +7,7 @@
     import CodeSnippetMonaco from '$lib/CodeSnippetMonaco.svelte';
 	import DetailsCard from './DetailsCard.svelte';
 
-    export let docsHTML = ''
+    // export let docsHTML = ''
     export let steps = ''
     export let mode = '' //docs, tutorial, quiz, challenge, etc
     export let URLtoShare = 'url'
@@ -232,7 +232,7 @@
         .socialLinks{
             display: flex;
         }
-        .handle{
+        /* .handle{
             position: absolute;
             top: calc(50% - 40px);
             left: 0px;
@@ -265,7 +265,7 @@
             background: #4233fb;
             color: #f9f9f9;
             cursor: pointer;
-        }
+        } */
         
         h3 {
             font-weight: 300;

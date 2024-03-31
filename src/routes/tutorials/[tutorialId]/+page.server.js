@@ -30,7 +30,7 @@ export async function load ({ locals, fetch, params}) {
     const getTutorialFiles = async (id) => { 
       try{
         const tutorial = await locals.pb.collection('tutorials').getOne(id, { requestKey: null })
-        console.log(tutorial)
+        //console.log(tutorial)
 
         for (let file of tutorial.files){
           let url = `${DB_URL}/api/files/tutorials/${tutorialId}/${file}`
@@ -48,7 +48,7 @@ export async function load ({ locals, fetch, params}) {
         if(tutorial.courseType === 'special'){
           if(typeof locals.user != 'undefined'){
               for(let specialCourse of locals.user.specialCourses.specialCourses){
-                console.log(specialCourse, tutorial.courseSpecialName)
+                //console.log(specialCourse, tutorial.courseSpecialName)
                   if(specialCourse === tutorial.courseSpecialName){
                     return serializeNonPOJOs(tutorial)
                   } 
@@ -69,7 +69,7 @@ export async function load ({ locals, fetch, params}) {
 
 
       return {
-        tutorial: getTutorialFiles(tutorialId),
+        tutorial: await getTutorialFiles(tutorialId),
         type: 'tutorial',
         files: filesData
       }

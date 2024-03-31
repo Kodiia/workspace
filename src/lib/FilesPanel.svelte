@@ -5,26 +5,12 @@
     import CodeEditorMonaco from '$lib/CodeEditorMonaco.svelte';
     import JSZip from 'jszip';
 
-    export let files
-    export let projectName
-    export let editorType = 'default'
+    export let files = []
+    export let projectName = ''
 
-    let editorText = 'hi'
-    function getFileText(){
-        // console.log($fileToOpen)
-        for (let file of $filesLocalCopy){
-            if($fileToOpen === file.fileName){
-                editorText = file.fileData
-                // console.log(editorText)
-            }
-        }
-    }
 
-    function runEditor(){
+    function runEditor(fileName = ''){
         $editorState = !$editorState; 
-        // $fileToOpen = this.children[0].innerHTML; 
-        // console.log($fileToOpen, this.children); 
-        getFileText()
     }
 
     let panelWidth = $width * 0.3 + 'px';
@@ -45,35 +31,35 @@
             }
         }
 
-    function changePanelState(){
-        panelState = !panelState
-        if(panelState){
-            if($leftPanelWidthSetByUser > $width * 0.3){                
-                panelWidth = $leftPanelWidthSetByUser + 'px';
-            } else {
-                panelWidth = $width * 0.3 + 'px';
-                if($width * 0.3 < 400){
-                    panelWidth = '400px'
-                }
-            }
-        } else {
-            panelWidth = '40px'
-        }
-    }
-    // console.log('editor panel', $width, panelWidth)
+    // function changePanelState(){
+    //     panelState = !panelState
+    //     if(panelState){
+    //         if($leftPanelWidthSetByUser > $width * 0.3){                
+    //             panelWidth = $leftPanelWidthSetByUser + 'px';
+    //         } else {
+    //             panelWidth = $width * 0.3 + 'px';
+    //             if($width * 0.3 < 400){
+    //                 panelWidth = '400px'
+    //             }
+    //         }
+    //     } else {
+    //         panelWidth = '40px'
+    //     }
+    // }
+    // // console.log('editor panel', $width, panelWidth)
 
 
-    let setUserPanelSize = false;
-    function updateUserPanelSize(event){
-        event.preventDefault()
-        if(setUserPanelSize){
-            $leftPanelWidthSetByUser = event.pageX - 20 // - panel.getBoundingClientRect().left
-            if($leftPanelWidthSetByUser > $width * 0.45){
-                $leftPanelWidthSetByUser = $width * 0.45
-            }
-            console.log('handle', $leftPanelWidthSetByUser, $width*0.45)
-        }
-    }
+    // let setUserPanelSize = false;
+    // function updateUserPanelSize(event){
+    //     event.preventDefault()
+    //     if(setUserPanelSize){
+    //         $leftPanelWidthSetByUser = event.pageX - 20 // - panel.getBoundingClientRect().left
+    //         if($leftPanelWidthSetByUser > $width * 0.45){
+    //             $leftPanelWidthSetByUser = $width * 0.45
+    //         }
+    //         console.log('handle', $leftPanelWidthSetByUser, $width*0.45)
+    //     }
+    // }
 
     var zip = new JSZip()
 
@@ -112,13 +98,13 @@
             <div class='filesAndEditorWrapper'>
                 {#if $editorState}
                     <div style='height: calc(100% - 250px); background: none;'>
-                        <CodeEditorMonaco fileName='{$fileToOpen}' readOnly='{false}' editorText='{editorText}'/> 
+                        <CodeEditorMonaco fileName='{$fileToOpen}' readOnly='{false}' editorText='Some code here'/> 
                     </div>
                 {:else}
                     <div class='filesContainer'>
                         <p>Click files to open</p>
                         {#each files as file, index}
-                            <ProjectFileCard name='{file.fileName}' action={runEditor}/>
+                            <ProjectFileCard name='{file.fileName}' action={()=>{runEditor(file.fileName)}}/>
                         {/each}
                         <!-- <button class='downloadButton' on:click={downloadFiles} style='color: hsl({$textColor});'>Download files as .zip</button> -->
                     </div>
@@ -131,7 +117,11 @@
                 <!-- <div class='buttonWrapper' style='background: linear-gradient(hsl({$primaryColor}), hsl({$accentColor}))'>
                     <button on:click={downloadFiles} style='background: hsl({$bgColor}); color: hsl({$textColor});'>Download</button>
                 </div> -->
-                <button style='display: flex; align-items: center; justify-content: center; width: 100px; height: 40px; background: hsl({$primaryColor}); color: #1a1a1a; margin-top: 10px; border: none;' on:click={()=>{$runCode = !$runCode}}>{$runCode === false ? 'Run' : 'Stop'}</button>
+                <button style='display: flex; align-items: center; justify-content: center; width: 100px; height: 40px; background: hsl({$primaryColor}); color: #1a1a1a; margin-top: 10px; border: none;' 
+                on:click={()=>{
+                    $runCode = !$runCode; 
+                    console.log($filesLocalCopy)
+                }}>{$runCode === false ? 'Run' : 'Stop'}</button>
             </div>
         </div>    
     
@@ -215,7 +205,7 @@
         width: 100%;
         display: flex;
     }
-    .buttonWrapper{
+    /* .buttonWrapper{
         width: fit-content;
         height: 40px;
         margin: 10px 10px 0 0;
@@ -227,5 +217,5 @@
         background: none;
         border: none;
         border-radius: 8px;
-    }
+    } */
     </style>
