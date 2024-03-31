@@ -22,7 +22,7 @@ export async function load ({ locals, fetch, params}) {
     }
 
       return {
-        projects: getProjects()
+        projects: await getProjects()
       }
   
   }
