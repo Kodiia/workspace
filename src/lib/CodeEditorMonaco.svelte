@@ -22,9 +22,9 @@
     let Monaco;
     let editorCreated = false;
 
-    for(let file of $filesLocalCopy){    
-        console.log(file.fileData)
-    }
+    // for(let file of $filesLocalCopy){    
+    //     console.log(file.fileData)
+    // }
 
     export let fileName = 'index.html'
     let mode = fileName.split('.')[1]
@@ -41,7 +41,7 @@
     export let readOnly = false
     export let editorText = "Some code here"
 
-    console.log('initial editor text ' + editorText)
+    // console.log('initial editor text ' + editorText)
 
     for (let file of $filesLocalCopy){
         if(fileName === file.fileName){
@@ -159,7 +159,7 @@
                 return file;
             });
         });
-        console.log('files are here: ', $filesLocalCopy)
+        // console.log('files are here: ', $filesLocalCopy)
     }
 
     async function paste(){

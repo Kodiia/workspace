@@ -13,11 +13,11 @@
     export let data
     // console.log(data.challenge.stepsJSON)
 
-    let files = data.challenge.files
+    // let files = data.challenge.files
     filesLocalCopy.set([])
-    console.log($filesLocalCopy)
+    // console.log($filesLocalCopy)
     filesLocalCopy.set(data.files)
-    console.log(data.files, $filesLocalCopy)
+    // console.log(data.files, $filesLocalCopy)
 
     let filesPanelWidth = $width / 3 
     if (filesPanelWidth < 400){
