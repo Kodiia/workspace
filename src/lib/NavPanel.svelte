@@ -47,7 +47,7 @@
                 <a class='smallMenuButton' href='/projects'>Projects</a>
                 {/if}
 
-                {#if $page.route.id == '/challenges/[challengeUrl]' || $page.route.id == '/templates/[templateUrl]' || $page.route.id == '/courses/[courseUrl]/[tutorialUrl]' || $page.route.id == '/projects/[projectUrl]/edit' || $page.route.id == '/sandbox/[templateName]'}
+                {#if $page.route.id == '/challenges/[challengeUrl]' || $page.route.id == '/templates/[templateUrl]' || $page.route.id == '/courses/[courseUrl]/[tutorialUrl]' || $page.route.id == '/projects/[projectUrl]/edit' || $page.route.id == '/tutorials/[tutorialId]'  || $page.route.id == '/sandbox/[templateName]'}
                 <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$filesPanelDisplay = 'block';}}'>Files</button>
                 <button class="smallMenuButton" style='padding: 10px;' on:click='{()=>{$resourcesPanelDisplay = 'block';}}'>Resources</button>
                 {/if}
