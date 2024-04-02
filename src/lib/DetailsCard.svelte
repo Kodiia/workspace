@@ -23,7 +23,7 @@
     {/if}
     <p class='{$theme}'>{@html step.text}</p>
     {#if step.link ? step.link : step.linkUrl }
-        <a href='{step.link ? step.link : step.linkUrl}' target='_blank' class='link'>{step.linkText}</a>
+        <a href='{step.link ? step.link : step.linkUrl}' target='_blank' class='link' style="color: hsl({$textColor});">{step.linkText}</a>
     {/if}
     
     {#if step.code != 'false'}
