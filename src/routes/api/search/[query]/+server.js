@@ -12,7 +12,7 @@ export async function GET({locals, params}){
             "zero-shot-classification",
             "Xenova/mobilebert-uncased-mnli",
           );
-        const labels = ["p5js", "grid", "game", "2D", "button", "graphics", "3D", "threejs", "library", "background", "color", "css", "html", "fill", "link"];
+        const labels = ["brainjs", "p5js", "grid", "game", "2D", "button", "graphics", "3D", "threejs", "library", "background", "color", "css", "html", "fill", "link"];
           
         const classificationResult = await classificator(prompt, labels);
         for (let i=0; i<classificationResult.scores.length; i++){

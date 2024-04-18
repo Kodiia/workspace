@@ -39,38 +39,38 @@
         
     }
 
-    async function getModelAnswer(prompt){
-        const generator = await pipeline(
-                "text2text-generation",
-                // "Xenova/LaMini-Flan-T5-77M"
-                // "Xenova/LaMini-Flan-T5-783M",
-                "Xenova/flan-alpaca-base",
-                //"Xenova/flan-t5-small"
-            );
+    // async function getModelAnswer(prompt){
+    //     const generator = await pipeline(
+    //             "text2text-generation",
+    //             // "Xenova/LaMini-Flan-T5-77M"
+    //             // "Xenova/LaMini-Flan-T5-783M",
+    //             "Xenova/flan-alpaca-base",
+    //             //"Xenova/flan-t5-small"
+    //         );
 
-        const generatorOutput = await generator(
-            prompt,
-            {
-                max_new_tokens: 1000,
-            },
-        );
+    //     const generatorOutput = await generator(
+    //         prompt,
+    //         {
+    //             max_new_tokens: 1000,
+    //         },
+    //     );
 
-        console.log(generatorOutput)
+    //     console.log(generatorOutput)
 
-        return generatorOutput[0].generated_text.split(' ')
-    }
+    //     return generatorOutput[0].generated_text.split(' ')
+    // }
 
     async function fetchSearchRequest(query = ''){
         console.log(query)
         let data = await fetch(`/api/search/${query}`)
         searchData = await data.json();
         //console.log(searchData.docsSearchResult)
-        modelAnswerString = ''
-        modelAnswerText = []
-        wordNumber = 0;
-        modelAnswerWords = await getModelAnswer(searchData.prompt)
-        console.log(modelAnswerWords)
-        addWordsFromModelAnswer()
+        // modelAnswerString = ''
+        // modelAnswerText = []
+        // wordNumber = 0;
+        // modelAnswerWords = await getModelAnswer(searchData.prompt)
+        // console.log(modelAnswerWords)
+        // addWordsFromModelAnswer()
     }
 
     onMount(()=>{
@@ -226,9 +226,9 @@
                 {:else if searchData != undefined}
                     <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{searchInput.value}</h3>
                     <div class='stepsWrapper'>
-                        {#if modelAnswerString}
+                        <!-- {#if modelAnswerString}
                             <p style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>{modelAnswerString}</p>
-                        
+                        {/if} -->
                             {#if searchData.docsSearchResult.length > 0}
                             <p>Here are some coding hints for you.</p>
                             <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
@@ -259,11 +259,6 @@
                             {#if searchData.docsSearchResult.length === 0 && searchData.challengesSearchResult.length === 0 }
                                 <p>Nothing is hints found. Try another query.</p>
                             {/if}
-                        {:else}
-                            <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
-                            <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
-                            <div class='loaderDiv' style='width: 70%; background: hsl({$textColor + ', 20%'})'></div>
-                        {/if}
                     </div>  
                 {:else}
                     <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
