@@ -139,26 +139,32 @@ export async function GET({locals, params}){
 
         const joinedContextFromDocs = contextFromDocs.join(', ')
         const joinedContextFromChallenges = contextFromChallenges.join(', ')
-        const context = `${joinedContextFromDocs}, ${joinedContextFromChallenges}`
+        // const context = `${joinedContextFromDocs}, ${joinedContextFromChallenges}`
+        const context = contextFromDocs[0]
         
+        const systemPrompt = `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Explain the concepts behind the code snippets provided as a context. Try to use the most relevant data from the context. Here is the context for your answer: ${context}. But feel free to come up with your ideas as well. Here is a question for you: `
+        const systemPromptSmall = `You are a creative coding assistant on Kodiia platform. Here is the context for your answer: ${context}. `
+        const systemPromptWithNoContext = `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Explain the concepts behind the code snippets provided as a context. Try to use the most relevant data from the context. But feel free to come up with your ideas as well. Here is a question for you: `
+        // const outputPrompt = systemPromptWithNoContext + prompt
+        const outputPrompt = systemPromptSmall + prompt
+        // const generator = await pipeline(
+        //     "text2text-generation",
+        //     "Xenova/LaMini-Flan-T5-783M",
+        //     // "Xenova/flan-alpaca-large",
+        //   );
 
-        const generator = await pipeline(
-            "text2text-generation",
-            "Xenova/LaMini-Flan-T5-783M",
-            // "Xenova/flan-alpaca-large",
-          );
-
-        const generatorOutput = await generator(
-            `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Explain the concepts behind the code snippets provided as a context. Try to use the most relevant data from the context. Here is the context for your answer: ${context}. But feel free to come up with your ideas as well. Here is a question for you: ` + prompt ,
-            // `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Do not write code or qoute code snippets, just explain the concepts behind the code snippets provided as a context. Ignore HTML markup in the context. Here is a question for you: ` + prompt,
-            {
-                max_new_tokens: 1000,
-            },
-        );
+        // const generatorOutput = await generator(
+        //     `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Explain the concepts behind the code snippets provided as a context. Try to use the most relevant data from the context. Here is the context for your answer: ${context}. But feel free to come up with your ideas as well. Here is a question for you: ` + prompt ,
+        //     // `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Do not write code or qoute code snippets, just explain the concepts behind the code snippets provided as a context. Ignore HTML markup in the context. Here is a question for you: ` + prompt,
+        //     {
+        //         max_new_tokens: 1000,
+        //     },
+        // );
  
         const searchResultObject = {
             //context: context,
-            modelResponse: generatorOutput,
+            // modelResponse: generatorOutput,
+            prompt: outputPrompt,
             docsSearchResult: removeDuplicateObjectsFromArray(docsSearchArray),
             challengesSearchResult: removeDuplicateObjectsFromArray(availableChallenges)
         }

@@ -4,6 +4,8 @@
     import { bgColor, textColor, secondaryColor, primaryColor, accentColor, height, resourcesPanelDisplay } from "./store";
     import DetailsCard from "./DetailsCard.svelte";
     import DetailsDocsCard from "./DetailsDocsCard.svelte";
+    import {pipeline, env} from '@xenova/transformers'
+    env.allowLocalModels = false;
     // import PuzzlePieceSvg from "./PuzzlePieceSVG.svelte";
     // let data
     let tutorialsListData = null, challengesListData = null;
@@ -37,6 +39,27 @@
         
     }
 
+    async function getModelAnswer(prompt){
+        const generator = await pipeline(
+                "text2text-generation",
+                // "Xenova/LaMini-Flan-T5-77M"
+                // "Xenova/LaMini-Flan-T5-783M",
+                "Xenova/flan-alpaca-base",
+                //"Xenova/flan-t5-small"
+            );
+
+        const generatorOutput = await generator(
+            prompt,
+            {
+                max_new_tokens: 1000,
+            },
+        );
+
+        console.log(generatorOutput)
+
+        return generatorOutput[0].generated_text.split(' ')
+    }
+
     async function fetchSearchRequest(query = ''){
         console.log(query)
         let data = await fetch(`/api/search/${query}`)
@@ -45,7 +68,7 @@
         modelAnswerString = ''
         modelAnswerText = []
         wordNumber = 0;
-        modelAnswerWords = searchData.modelResponse[0].generated_text.split(' ')
+        modelAnswerWords = await getModelAnswer(searchData.prompt)
         console.log(modelAnswerWords)
         addWordsFromModelAnswer()
     }
@@ -203,38 +226,43 @@
                 {:else if searchData != undefined}
                     <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{searchInput.value}</h3>
                     <div class='stepsWrapper'>
-                        {#if searchData.modelResponse}
+                        {#if modelAnswerString}
                             <p style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>{modelAnswerString}</p>
-                        {/if}
-                        {#if searchData.docsSearchResult.length > 0}
-                        <p>Here are some coding hints for you.</p>
-                        <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
-                            {#each searchData.docsSearchResult as result, i}
-                                <DetailsDocsCard id={i} docData={result} />
-                            {/each}
-                        </div>
-                        {/if}
-                        {#if searchData.challengesSearchResult.length > 0}
-                        <p>Here are some challenges to look into.</p>
-                        <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
-                        {#each searchData.challengesSearchResult as challenge, i}
-                            <button class='tutorialFetchButton' style='color: hsl({$textColor}); background: none; border-bottom: 1px solid hsl({challenge.isHovered ? $primaryColor : $textColor + ', 20%'});' 
-                            on:click={()=>{tutorialData = null; challengeData = null; searchData = null; docsData = null; fetchData('challenges', challenge.id)}} 
-                            on:pointerenter={()=>{challenge.isHovered = true}} 
-                            on:pointerleave={()=>{challenge.isHovered = false}}
-                            >
-                                {#each challenge.technologies as technology}
-                                <img src={getFileLogoURL(technology)} alt='logo' style='width: 20px'/> 
+                        
+                            {#if searchData.docsSearchResult.length > 0}
+                            <p>Here are some coding hints for you.</p>
+                            <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
+                                {#each searchData.docsSearchResult as result, i}
+                                    <DetailsDocsCard id={i} docData={result} />
                                 {/each}
-                                <h3 style='margin: 0; color: hsl({$textColor});'>{challenge.heading}</h3>
-                                <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{challenge.date}</code>
-                            </button>
-                            <!-- <h3>{challenge.heading}{challenge.technologies}</h3> -->
-                        {/each}
-                        </div>
-                        {/if}
-                        {#if searchData.docsSearchResult.length === 0 && searchData.challengesSearchResult.length === 0 }
-                            <p>Nothing is hints found. Try another query.</p>
+                            </div>
+                            {/if}
+                            {#if searchData.challengesSearchResult.length > 0}
+                            <p>Here are some challenges to look into.</p>
+                            <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
+                            {#each searchData.challengesSearchResult as challenge, i}
+                                <button class='tutorialFetchButton' style='color: hsl({$textColor}); background: none; border-bottom: 1px solid hsl({challenge.isHovered ? $primaryColor : $textColor + ', 20%'});' 
+                                on:click={()=>{tutorialData = null; challengeData = null; searchData = null; docsData = null; fetchData('challenges', challenge.id)}} 
+                                on:pointerenter={()=>{challenge.isHovered = true}} 
+                                on:pointerleave={()=>{challenge.isHovered = false}}
+                                >
+                                    {#each challenge.technologies as technology}
+                                    <img src={getFileLogoURL(technology)} alt='logo' style='width: 20px'/> 
+                                    {/each}
+                                    <h3 style='margin: 0; color: hsl({$textColor});'>{challenge.heading}</h3>
+                                    <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{challenge.date}</code>
+                                </button>
+                                <!-- <h3>{challenge.heading}{challenge.technologies}</h3> -->
+                            {/each}
+                            </div>
+                            {/if}
+                            {#if searchData.docsSearchResult.length === 0 && searchData.challengesSearchResult.length === 0 }
+                                <p>Nothing is hints found. Try another query.</p>
+                            {/if}
+                        {:else}
+                            <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
+                            <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
+                            <div class='loaderDiv' style='width: 70%; background: hsl({$textColor + ', 20%'})'></div>
                         {/if}
                     </div>  
                 {:else}
