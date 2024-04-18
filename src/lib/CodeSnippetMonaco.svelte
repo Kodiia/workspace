@@ -18,14 +18,16 @@
  
     export let fileName = 'index.html'
     let mode = fileName.split('.')[1]
+    if (mode == 'md' || mode == 'ino'){
+      mode = 'text'
+    }
     let parserMode = mode
     if(mode == 'js'){
       mode = 'javascript'
       parserMode = 'babel'
     }
-    if (mode == 'md'){
-      mode = 'text'
-    }
+    
+    console.log(mode)
     let logoPath = getFileLogoURL(fileName.split('.')[1])
 
     const formatOptions = {

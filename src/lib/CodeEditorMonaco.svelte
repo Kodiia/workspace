@@ -29,7 +29,7 @@
     export let fileName = 'index.html'
     let mode = fileName.split('.')[1]
     let parserMode = mode
-    if(mode == 'js'){
+    if(mode == 'js' || mode == 'ino'){
       mode = 'javascript'
       parserMode = 'babel'
     }

@@ -15,7 +15,7 @@
 
 </script>
 
-<details style='background-color: hsl({$bgColor}); color: hsl({$textColor}); border: none; border-bottom: 1px solid hsl({isHovered ? $primaryColor : $textColor + ', 20%'});' on:pointerenter={()=>{isHovered = !isHovered}} on:pointerleave={()=>{isHovered = !isHovered}}>
+<details style='color: hsl({$textColor}); border: none; border-bottom: 1px solid hsl({isHovered ? $primaryColor : $textColor + ', 20%'});' on:pointerenter={()=>{isHovered = !isHovered}} on:pointerleave={()=>{isHovered = !isHovered}}>
     <summary>
         <div class='summaryWrapper'>
             <!-- {id}.  -->

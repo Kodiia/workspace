@@ -41,7 +41,13 @@
         console.log(query)
         let data = await fetch(`/api/search/${query}`)
         searchData = await data.json();
-        console.log(searchData.docsSearchResult)
+        //console.log(searchData.docsSearchResult)
+        modelAnswerString = ''
+        modelAnswerText = []
+        wordNumber = 0;
+        modelAnswerWords = searchData.modelResponse[0].generated_text.split(' ')
+        console.log(modelAnswerWords)
+        addWordsFromModelAnswer()
     }
 
     onMount(()=>{
@@ -61,6 +67,22 @@
     })
 
     let SVGwidth = 30
+
+    $: modelAnswerString 
+
+    let modelAnswerText = [], wordNumber = 0, modelAnswerString = ''
+    let modelAnswerWords = ' '
+    function addWordsFromModelAnswer(){
+        if(wordNumber < modelAnswerWords.length){
+            modelAnswerText.push(modelAnswerWords[wordNumber])
+            wordNumber ++
+            // modelAnswerText = [...modelAnswerText]
+            modelAnswerString = modelAnswerText.join(' ')
+            setTimeout(addWordsFromModelAnswer, 20);
+        }
+        
+    }
+    
 
     
 </script>
@@ -181,14 +203,22 @@
                 {:else if searchData != undefined}
                     <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{searchInput.value}</h3>
                     <div class='stepsWrapper'>
-                        {#if searchData.docsSearchResult.items.length > 0}
-                            {#each searchData.docsSearchResult.items as result, i}
+                        {#if searchData.modelResponse}
+                            <p style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>{modelAnswerString}</p>
+                        {/if}
+                        {#if searchData.docsSearchResult.length > 0}
+                        <p>Here are some coding hints for you.</p>
+                        <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
+                            {#each searchData.docsSearchResult as result, i}
                                 <DetailsDocsCard id={i} docData={result} />
                             {/each}
+                        </div>
                         {/if}
                         {#if searchData.challengesSearchResult.length > 0}
+                        <p>Here are some challenges to look into.</p>
+                        <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
                         {#each searchData.challengesSearchResult as challenge, i}
-                            <button class='tutorialFetchButton' style='color: hsl({$textColor}); border-bottom: 1px solid hsl({challenge.isHovered ? $primaryColor : $textColor + ', 20%'});' 
+                            <button class='tutorialFetchButton' style='color: hsl({$textColor}); background: none; border-bottom: 1px solid hsl({challenge.isHovered ? $primaryColor : $textColor + ', 20%'});' 
                             on:click={()=>{tutorialData = null; challengeData = null; searchData = null; docsData = null; fetchData('challenges', challenge.id)}} 
                             on:pointerenter={()=>{challenge.isHovered = true}} 
                             on:pointerleave={()=>{challenge.isHovered = false}}
@@ -201,9 +231,10 @@
                             </button>
                             <!-- <h3>{challenge.heading}{challenge.technologies}</h3> -->
                         {/each}
+                        </div>
                         {/if}
-                        {#if searchData.docsSearchResult.items.length === 0 && searchData.challengesSearchResult.length === 0 }
-                            <p>Nothing is found. Try another query.</p>
+                        {#if searchData.docsSearchResult.length === 0 && searchData.challengesSearchResult.length === 0 }
+                            <p>Nothing is hints found. Try another query.</p>
                         {/if}
                     </div>  
                 {:else}
