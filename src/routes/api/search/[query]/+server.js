@@ -1,6 +1,5 @@
 import { serializeNonPOJOs } from '$lib/utils';
 import { pipeline } from '@xenova/transformers';
-import Fuse from 'fuse.js'
 
 export async function GET({locals, params}){
 
@@ -12,7 +11,8 @@ export async function GET({locals, params}){
             "zero-shot-classification",
             "Xenova/mobilebert-uncased-mnli",
           );
-        const labels = ["brainjs", "p5js", "grid", "game", "2D", "button", "graphics", "3D", "threejs", "library", "background", "color", "css", "html", "fill", "link"];
+          // labels should all be lowercase for correct search
+        const labels = ["brainjs", "brain.js", "p5js", "p5.js", "grid", "game", "2d", "button", "graphics", "3d", "threejs", "three.js", "library", "background", "color", "css", "html", "fill", "link", "scene", "rectangle", "triangle", "circle"];
           
         const classificationResult = await classificator(prompt, labels);
         for (let i=0; i<classificationResult.scores.length; i++){
@@ -59,47 +59,36 @@ export async function GET({locals, params}){
                     }
         }
 
-        const fuseOptions = {
-            isCaseSensitive: false,
-            // includeScore: true,
-            // shouldSort: true,
-            // includeMatches: true,
-            // findAllMatches: true,
-            // minMatchCharLength: 1,
-            // location: 0,
-            // threshold: 0.2,
-            distance: 200,
-            // useExtendedSearch: false,
-            // ignoreLocation: false,
-            // ignoreFieldNorm: false,
-            // fieldNormWeight: 1,
-            keys: ["description", "technology", "heading"],
-        };
-          
-        const fuseSearchDocsData = []
+        const availableDocsData = []
         for(let doc of availableDocs){
             for (let item of doc.items){
-                fuseSearchDocsData.push(item)
+                availableDocsData.push(item)
             }
         }
 
-        const fuse = new Fuse(fuseSearchDocsData, fuseOptions);
-        
+        const selectedDocs = availableDocsData.filter((doc) => {
+            let count = 0;
+            for (const term of searchTerms) {
+                console.log(term)
+                console.log(doc.description)
+                if (doc.description.toLowerCase().includes(term) || doc.technology.toLowerCase().includes(term)) {
+                    count++;
+                }
+            }
+            if(searchTerms.length > 1){
+                return count >= 2;
+            } else {
+                return count > 0
+            }
+          });
 
-        // Pattern to search for
-        const searchPattern = searchTerms.join(' ');
-
-        // Search result as an array of objects
-        const result = fuse.search(searchPattern);
-
-        // Creating new array with necessary data from search results
-        const docsSearchArray = []
-        for (let item of result){
+          const docsSearchArray = []
+          for (let item of selectedDocs){
             docsSearchArray.push({
-                technology: item.item.technology,
-                heading: item.item.heading,
-                description: item.item.description,
-                snippet: item.item.snippet
+                technology: item.technology,
+                heading: item.heading,
+                description: item.description,
+                snippet: item.snippet
             })
         }
 
@@ -126,58 +115,77 @@ export async function GET({locals, params}){
 
         const contextFromDocs = []
         for (let item of removeDuplicateObjectsFromArray(docsSearchArray)){
-            for(let snippet of item.snippet){
-                // contextFromDocs.push(`Command description: ${item.description}, code snippet description: ${snippet.description}, code snippet content: ${snippet.code}`)
-                contextFromDocs.push(`Command: ${item.heading}, command description: ${item.description}, code snippet description: ${snippet.description}.`)
-            }
+            contextFromDocs.push(item.description)
+            // for(let snippet of item.snippet){
+            //     // contextFromDocs.push(`Command description: ${item.description}, code snippet description: ${snippet.description}, code snippet content: ${snippet.code}`)
+            //     contextFromDocs.push(`Command: ${item.heading}, command description: ${item.description}, code snippet description: ${snippet.description}.`)
+            // }
         }
 
-        const contextFromChallenges = []
-        for (let item of removeDuplicateObjectsFromArray(availableChallenges)){
-            contextFromChallenges.push(`Challenge description: ${item.description}`)
-        }
+        // const contextFromChallenges = []
+        // for (let item of removeDuplicateObjectsFromArray(availableChallenges)){
+        //     contextFromChallenges.push(`Challenge description: ${item.description}`)
+        // }
 
-        const joinedContextFromDocs = contextFromDocs.join(', ')
-        const joinedContextFromChallenges = contextFromChallenges.join(', ')
-        // const context = `${joinedContextFromDocs}, ${joinedContextFromChallenges}`
-        const context = contextFromDocs[0]
+        // const joinedContextFromDocs = contextFromDocs.join(', ')
+        // const joinedContextFromChallenges = contextFromChallenges.join(', ')
+        // // const context = `${joinedContextFromDocs}, ${joinedContextFromChallenges}`
+        // const context = contextFromDocs[0]
         
-        const systemPrompt = `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Explain the concepts behind the code snippets provided as a context. Try to use the most relevant data from the context. Here is the context for your answer: ${context}. But feel free to come up with your ideas as well. Here is a question for you: `
-        const systemPromptSmall = `You are a creative coding assistant on Kodiia platform. Here is the context for your answer: ${context}. `
-        const systemPromptWithNoContext = `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Explain the concepts behind the code snippets provided as a context. Try to use the most relevant data from the context. But feel free to come up with your ideas as well. Here is a question for you: `
-        // const outputPrompt = systemPromptWithNoContext + prompt
-        const outputPrompt = systemPromptSmall + prompt
+        // const systemPrompt = `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Explain the concepts behind the code snippets provided as a context. Try to use the most relevant data from the context. Here is the context for your answer: ${context}. But feel free to come up with your ideas as well. Here is a question for you: `
+        // const systemPromptSmall = `You are a creative coding assistant on Kodiia platform. Here is the context for your answer: ${context}. `
+        // const systemPromptWithNoContext = `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Explain the concepts behind the code snippets provided as a context. Try to use the most relevant data from the context. But feel free to come up with your ideas as well. Here is a question for you: `
+        // // const outputPrompt = systemPromptWithNoContext + prompt
+        // const outputPrompt = systemPromptSmall + prompt
+        
         // const generator = await pipeline(
         //     "text2text-generation",
         //     "Xenova/LaMini-Flan-T5-783M",
         //     // "Xenova/flan-alpaca-large",
+        //     // "Xenova/flan-t5-large"
         //   );
 
         // const generatorOutput = await generator(
-        //     `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Explain the concepts behind the code snippets provided as a context. Try to use the most relevant data from the context. Here is the context for your answer: ${context}. But feel free to come up with your ideas as well. Here is a question for you: ` + prompt ,
+        //     systemPromptSmall + prompt,
+        //     // `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Explain the concepts behind the code snippets provided as a context. Try to use the most relevant data from the context. Here is the context for your answer: ${context}. But feel free to come up with your ideas as well. Here is a question for you: ` + prompt ,
         //     // `You are a creative coding assistant on Kodiia platform. Your task is to provide hints on how to create web projects with HTML, CSS, and JavaScript, generative art, procedural design, simulations, and games. Suggest code snippets to look at, challenges to look at, or project ideas. Do not write code or qoute code snippets, just explain the concepts behind the code snippets provided as a context. Ignore HTML markup in the context. Here is a question for you: ` + prompt,
         //     {
         //         max_new_tokens: 1000,
         //     },
         // );
+
+        let answerer = await pipeline(
+            "question-answering",
+            "Xenova/distilbert-base-cased-distilled-squad",
+        );
+
+        const joinedContextFromDocs = contextFromDocs.join(', ')
+        console.log(searchTerms)
+        // console.log(availableDocsData)
+        // console.log(selectedDocs)
+        // console.log(docsSearchArray)
+        console.log(joinedContextFromDocs)
+
+        const answerResult = await answerer(params.query, joinedContextFromDocs);
+        console.log(answerResult)
  
         const searchResultObject = {
             //context: context,
-            // modelResponse: generatorOutput,
-            prompt: outputPrompt,
+            modelResponse: answerResult.answer,
+            prompt: 'hello',
             docsSearchResult: removeDuplicateObjectsFromArray(docsSearchArray),
             challengesSearchResult: removeDuplicateObjectsFromArray(availableChallenges)
         }
-        console.log(searchTerms)
-        console.log(classificationResult)
-        console.log('search data ' + fuseSearchDocsData)
-        console.log(availableDocs)
-        console.log('search pattern ' + searchPattern)
-        console.log('fuse search result ' + result)
-        console.log(docsSearchArray)
-        // console.log()
-        console.log(context)
-        console.log(searchResultObject)
+        // console.log(searchTerms)
+        // console.log(classificationResult)
+        // console.log('search data ' + fuseSearchDocsData)
+        // console.log(availableDocs)
+        // console.log('search pattern ' + searchPattern)
+        // console.log('fuse search result ' + result)
+        // console.log(docsSearchArray)
+        // // console.log()
+        // console.log(context)
+        // console.log(searchResultObject)
 
         return new Response (JSON.stringify(searchResultObject))
 

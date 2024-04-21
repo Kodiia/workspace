@@ -4,8 +4,8 @@
     import { bgColor, textColor, secondaryColor, primaryColor, accentColor, height, resourcesPanelDisplay } from "./store";
     import DetailsCard from "./DetailsCard.svelte";
     import DetailsDocsCard from "./DetailsDocsCard.svelte";
-    import {pipeline, env} from '@xenova/transformers'
-    env.allowLocalModels = false;
+    // import {pipeline, env} from '@xenova/transformers'
+    // env.allowLocalModels = false;
     // import PuzzlePieceSvg from "./PuzzlePieceSVG.svelte";
     // let data
     let tutorialsListData = null, challengesListData = null;
@@ -64,13 +64,15 @@
         console.log(query)
         let data = await fetch(`/api/search/${query}`)
         searchData = await data.json();
-        //console.log(searchData.docsSearchResult)
-        // modelAnswerString = ''
-        // modelAnswerText = []
-        // wordNumber = 0;
+        console.log(searchData.docsSearchResult)
+        modelAnswerString = ''
+        modelAnswerText = []
+        wordNumber = 0;
         // modelAnswerWords = await getModelAnswer(searchData.prompt)
-        // console.log(modelAnswerWords)
-        // addWordsFromModelAnswer()
+        // modelAnswerWords = searchData.modelResponse[0].generated_text.split(' ')
+        modelAnswerWords = searchData.modelResponse.split(' ')
+        console.log(modelAnswerWords)
+        addWordsFromModelAnswer()
     }
 
     onMount(()=>{
@@ -94,7 +96,7 @@
     $: modelAnswerString 
 
     let modelAnswerText = [], wordNumber = 0, modelAnswerString = ''
-    let modelAnswerWords = ' '
+    let modelAnswerWords = []
     function addWordsFromModelAnswer(){
         if(wordNumber < modelAnswerWords.length){
             modelAnswerText.push(modelAnswerWords[wordNumber])
@@ -226,11 +228,11 @@
                 {:else if searchData != undefined}
                     <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{searchInput.value}</h3>
                     <div class='stepsWrapper'>
-                        <!-- {#if modelAnswerString}
+                        {#if modelAnswerString}
                             <p style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>{modelAnswerString}</p>
-                        {/if} -->
+                        {/if}
                             {#if searchData.docsSearchResult.length > 0}
-                            <p>Here are some coding hints for you.</p>
+                            <p>Here are some coding hints.</p>
                             <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
                                 {#each searchData.docsSearchResult as result, i}
                                     <DetailsDocsCard id={i} docData={result} />
@@ -257,7 +259,7 @@
                             </div>
                             {/if}
                             {#if searchData.docsSearchResult.length === 0 && searchData.challengesSearchResult.length === 0 }
-                                <p>Nothing is hints found. Try another query.</p>
+                                <p>Nothing is found. Try another query.</p>
                             {/if}
                     </div>  
                 {:else}
