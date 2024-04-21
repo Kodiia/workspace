@@ -60,19 +60,26 @@
     //     return generatorOutput[0].generated_text.split(' ')
     // }
 
+    let errMessage = null
+
     async function fetchSearchRequest(query = ''){
-        console.log(query)
-        let data = await fetch(`/api/search/${query}`)
-        searchData = await data.json();
-        console.log(searchData.docsSearchResult)
-        modelAnswerString = ''
-        modelAnswerText = []
-        wordNumber = 0;
-        // modelAnswerWords = await getModelAnswer(searchData.prompt)
-        // modelAnswerWords = searchData.modelResponse[0].generated_text.split(' ')
-        modelAnswerWords = searchData.modelResponse.split(' ')
-        console.log(modelAnswerWords)
-        addWordsFromModelAnswer()
+        try{
+            console.log(query)
+            let data = await fetch(`/api/search/${query}`)
+            searchData = await data.json();
+            console.log(searchData.docsSearchResult)
+            modelAnswerString = ''
+            modelAnswerText = []
+            wordNumber = 0;
+            // modelAnswerWords = await getModelAnswer(searchData.prompt)
+            // modelAnswerWords = searchData.modelResponse[0].generated_text.split(' ')
+            modelAnswerWords = searchData.modelResponse.split(' ')
+            console.log(modelAnswerWords)
+            addWordsFromModelAnswer()
+        } catch (err) {
+            errMessage = `Something went wrong. ${err}`
+            console.log(err)
+        }
     }
 
     onMount(()=>{
