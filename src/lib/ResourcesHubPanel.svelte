@@ -55,13 +55,13 @@
             const queryContext = searchDataObject.docsSearchResult[0].description
             const answerData = await fetch(`/api/transformers/answer/${query}&&${queryContext}`)
             const answerDataObject = await answerData.json()
-            const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
-            const rephraseDataObject = await rephraseData.json()
+            // const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
+            // const rephraseDataObject = await rephraseData.json()
 
-            console.log(answerDataObject)
-            console.log(rephraseDataObject)
+            // console.log(answerDataObject)
+            // console.log(rephraseDataObject)
             
-            modelAnswerWords = rephraseDataObject.rephraseResult.split(' ')
+            modelAnswerWords = answerDataObject.answerResult.split(' ')
             console.log(modelAnswerWords)
             addWordsFromModelAnswer()
         } catch (err) {
@@ -225,6 +225,10 @@
                     <div class='stepsWrapper'>
                         {#if modelAnswerString}
                             <p style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>{modelAnswerString}</p>
+                        {:else}
+                            <div class='loaderDiv' style='margin-top: 10px; width: 90%; background: hsl({$textColor + ', 20%'})'></div>
+                            <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
+                            <div class='loaderDiv' style='width: 70%; background: hsl({$textColor + ', 20%'})'></div>
                         {/if}
                             {#if searchDataObject.docsSearchResult.length > 0}
                             <p>Here are some coding hints.</p>
