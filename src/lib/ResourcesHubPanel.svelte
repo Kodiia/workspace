@@ -61,7 +61,7 @@
             console.log(searchDataObject)
             console.log(answerDataObject)
             console.log(rephraseDataObject)
-            if(rephraseDataObject){
+            if(rephraseData){
                 modelAnswerWords = rephraseDataObject.rephraseResult.split(' ')
             } else {
                 modelAnswerWords = answerDataObject.answerResult.split(' ')
