@@ -50,18 +50,23 @@
 
             const keywordsData = await fetch(`/api/transformers/classify/${query}`)
             const keywordsDataObject = await keywordsData.json()
-            const searchData = await fetch(`/api/docs/${keywordsDataObject.searchTerms}`)
+            const searchData = await fetch(`/api/docsData/${keywordsDataObject.searchTerms}`)
             searchDataObject = await searchData.json()
             const queryContext = searchDataObject.docsSearchResult[0].description
             const answerData = await fetch(`/api/transformers/answer/${query}&&${queryContext}`)
             const answerDataObject = await answerData.json()
-            // const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
-            // const rephraseDataObject = await rephraseData.json()
+            const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
+            const rephraseDataObject = await rephraseData.json()
 
-            // console.log(answerDataObject)
-            // console.log(rephraseDataObject)
+            console.log(searchDataObject)
+            console.log(answerDataObject)
+            console.log(rephraseDataObject)
+            if(rephraseDataObject){
+                modelAnswerWords = rephraseDataObject.rephraseResult.split(' ')
+            } else {
+                modelAnswerWords = answerDataObject.answerResult.split(' ')
+            }
             
-            modelAnswerWords = answerDataObject.answerResult.split(' ')
             console.log(modelAnswerWords)
             addWordsFromModelAnswer()
         } catch (err) {
@@ -221,7 +226,7 @@
                         {/each}
                     </div>    
                 {:else if searchDataObject != undefined}
-                    <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{searchInput.value}</h3>
+                    <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>Results</h3>
                     <div class='stepsWrapper'>
                         {#if modelAnswerString}
                             <p style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>{modelAnswerString}</p>

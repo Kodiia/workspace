@@ -1,5 +1,6 @@
 //import { serializeNonPOJOs } from '$lib/utils';
-import { pipeline } from '@xenova/transformers';
+import { pipeline, env } from '@xenova/transformers';
+env.allowLocalModels = false;
 
 export async function GET({locals, params}){
 
