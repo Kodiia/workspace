@@ -4,13 +4,12 @@
     import { bgColor, textColor, secondaryColor, primaryColor, accentColor, height, resourcesPanelDisplay } from "./store";
     import DetailsCard from "./DetailsCard.svelte";
     import DetailsDocsCard from "./DetailsDocsCard.svelte";
-    // import {pipeline, env} from '@xenova/transformers'
-    // env.allowLocalModels = false;
+
     // import PuzzlePieceSvg from "./PuzzlePieceSVG.svelte";
     // let data
     let tutorialsListData = null, challengesListData = null;
     let tutorialData = null, challengeData = null, docsData = null;
-    let searchInput, searchData = null;
+    let searchInput, searchDataObject = null;
     let button, dataPanelDisplay = 'none';
 
     let technologies = [
@@ -39,41 +38,30 @@
         
     }
 
-    // async function getModelAnswer(prompt){
-    //     const generator = await pipeline(
-    //             "text2text-generation",
-    //             // "Xenova/LaMini-Flan-T5-77M"
-    //             // "Xenova/LaMini-Flan-T5-783M",
-    //             "Xenova/flan-alpaca-base",
-    //             //"Xenova/flan-t5-small"
-    //         );
-
-    //     const generatorOutput = await generator(
-    //         prompt,
-    //         {
-    //             max_new_tokens: 1000,
-    //         },
-    //     );
-
-    //     console.log(generatorOutput)
-
-    //     return generatorOutput[0].generated_text.split(' ')
-    // }
 
     let errMessage = null
 
     async function fetchSearchRequest(query = ''){
         try{
-            console.log(query)
-            let data = await fetch(`/api/search/${query}`)
-            searchData = await data.json();
-            console.log(searchData.docsSearchResult)
             modelAnswerString = ''
             modelAnswerText = []
             wordNumber = 0;
-            // modelAnswerWords = await getModelAnswer(searchData.prompt)
-            // modelAnswerWords = searchData.modelResponse[0].generated_text.split(' ')
-            modelAnswerWords = searchData.modelResponse.split(' ')
+            modelAnswerWords = []
+
+            const keywordsData = await fetch(`/api/transformers/classify/${query}`)
+            const keywordsDataObject = await keywordsData.json()
+            const searchData = await fetch(`/api/docs/${keywordsDataObject.searchTerms}`)
+            searchDataObject = await searchData.json()
+            const queryContext = searchDataObject.docsSearchResult[0].description
+            const answerData = await fetch(`/api/transformers/answer/${query}&&${queryContext}`)
+            const answerDataObject = await answerData.json()
+            const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
+            const rephraseDataObject = await rephraseData.json()
+
+            console.log(answerDataObject)
+            console.log(rephraseDataObject)
+            
+            modelAnswerWords = rephraseDataObject.rephraseResult.split(' ')
             console.log(modelAnswerWords)
             addWordsFromModelAnswer()
         } catch (err) {
@@ -130,7 +118,7 @@
             tutorialData = null;
             challengeData = null;
             docsData = null;
-            searchData = null;
+            searchDataObject = null;
             fetchSearchRequest(searchInput.value);
             dataPanelDisplay = 'block';
            }}>
@@ -151,7 +139,7 @@
             <div style='width: 100%; display: flex; flex-direction: column; border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); padding: 10px 0;'>
             {#each technologies as technology}
                 <div style='display: flex; width: 100%;'>
-                    <button class='tutorialFetchButton' style='color: hsl({$textColor}); border-bottom: 1px solid hsl({technology.isHovered ? $primaryColor : $textColor + ', 20%'})' on:click={()=>{tutorialData = null; challengeData = null; docsData = null; searchData = null; fetchData('docs', technology.name)}} on:pointerenter={()=>{technology.isHovered = true}} on:pointerleave={()=>{technology.isHovered = false}}>
+                    <button class='tutorialFetchButton' style='color: hsl({$textColor}); border-bottom: 1px solid hsl({technology.isHovered ? $primaryColor : $textColor + ', 20%'})' on:click={()=>{tutorialData = null; challengeData = null; docsData = null; searchDataObject = null; fetchData('docs', technology.name)}} on:pointerenter={()=>{technology.isHovered = true}} on:pointerleave={()=>{technology.isHovered = false}}>
                         <img src={getFileLogoURL(technology.name)} alt='logo' style='width: 20px'/>        
                         <p style='margin: 0 5px; color: hsl({$textColor});'>{technology.heading}</p>
                         <div style='border-radius: 5px; padding: 5px; font-size: 1rem; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'><p style='font-family: Source Code Pro, sans-serif; margin: 0;'>{technology.description}</p></div>
@@ -166,7 +154,7 @@
                 {#each challengesListData as challenge}
                    
                         <button class='tutorialFetchButton' style='color: hsl({$textColor}); border-bottom: 1px solid hsl({challenge.isHovered ? $primaryColor : $textColor + ', 20%'});' 
-                        on:click={()=>{tutorialData = null; challengeData = null; searchData = null; docsData = null; fetchData('challenges', challenge.id)}} 
+                        on:click={()=>{tutorialData = null; challengeData = null; searchDataObject = null; docsData = null; fetchData('challenges', challenge.id)}} 
                         on:pointerenter={()=>{challenge.isHovered = true}} 
                         on:pointerleave={()=>{challenge.isHovered = false}}
                         >
@@ -184,7 +172,7 @@
                 <summary>Tutorials</summary>
                 {#each tutorialsListData as tutorial}
                     <button class='tutorialFetchButton' style='color: hsl({$textColor}); border-bottom: 1px solid hsl({tutorial.isHovered ? $primaryColor : $textColor + ', 20%'});' 
-                    on:click={()=>{challengeData = null; tutorialData = null; searchData = null; docsData = null; fetchData('tutorials', tutorial.id)}}
+                    on:click={()=>{challengeData = null; tutorialData = null; searchDataObject = null; docsData = null; fetchData('tutorials', tutorial.id)}}
                     on:pointerenter={()=>{tutorial.isHovered = true}} 
                     on:pointerleave={()=>{tutorial.isHovered = false}}
                     >
@@ -232,26 +220,26 @@
                             <DetailsDocsCard id={i} docData={docData} />                           
                         {/each}
                     </div>    
-                {:else if searchData != undefined}
+                {:else if searchDataObject != undefined}
                     <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>{searchInput.value}</h3>
                     <div class='stepsWrapper'>
                         {#if modelAnswerString}
                             <p style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>{modelAnswerString}</p>
                         {/if}
-                            {#if searchData.docsSearchResult.length > 0}
+                            {#if searchDataObject.docsSearchResult.length > 0}
                             <p>Here are some coding hints.</p>
                             <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
-                                {#each searchData.docsSearchResult as result, i}
+                                {#each searchDataObject.docsSearchResult as result, i}
                                     <DetailsDocsCard id={i} docData={result} />
                                 {/each}
                             </div>
                             {/if}
-                            {#if searchData.challengesSearchResult.length > 0}
+                            {#if searchDataObject.challengesSearchResult.length > 0}
                             <p>Here are some challenges to look into.</p>
                             <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
-                            {#each searchData.challengesSearchResult as challenge, i}
+                            {#each searchDataObject.challengesSearchResult as challenge, i}
                                 <button class='tutorialFetchButton' style='color: hsl({$textColor}); background: none; border-bottom: 1px solid hsl({challenge.isHovered ? $primaryColor : $textColor + ', 20%'});' 
-                                on:click={()=>{tutorialData = null; challengeData = null; searchData = null; docsData = null; fetchData('challenges', challenge.id)}} 
+                                on:click={()=>{tutorialData = null; challengeData = null; searchDataObject = null; docsData = null; fetchData('challenges', challenge.id)}} 
                                 on:pointerenter={()=>{challenge.isHovered = true}} 
                                 on:pointerleave={()=>{challenge.isHovered = false}}
                                 >
@@ -265,7 +253,7 @@
                             {/each}
                             </div>
                             {/if}
-                            {#if searchData.docsSearchResult.length === 0 && searchData.challengesSearchResult.length === 0 }
+                            {#if searchDataObject.docsSearchResult.length === 0 && searchDataObject.challengesSearchResult.length === 0 }
                                 <p>Nothing is found. Try another query.</p>
                             {/if}
                     </div>  

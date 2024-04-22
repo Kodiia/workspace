@@ -24,6 +24,15 @@ export async function GET({locals, params}){
 
         let availableDocs = [], availableChallenges = []
 
+        // const docsTestSearch = await locals.pb.collection('docs').getList(1, 100, {
+        //     filter: `description ~ "grid"`
+        //     // filter: locals.pb.filter(
+        //     //     "technology ~ {:search} || heading ~ {:search} || description ~ {:search}",
+        //     //     { search: searchTerm}
+        //     // )
+        // });
+        // console.log(docsTestSearch)
+
         for (let searchTerm of searchTerms){
             const docsSearch = await locals.pb.collection('docs').getList(1, 100, {
                 filter: `technology ~ "${searchTerm}" || heading ~ "${searchTerm}"  || description ~ "${searchTerm}"  || snippet ~ "${searchTerm}"`
@@ -165,8 +174,9 @@ export async function GET({locals, params}){
         // console.log(selectedDocs)
         // console.log(docsSearchArray)
         console.log(joinedContextFromDocs)
+        console.log(removeDuplicateObjectsFromArray(docsSearchArray)[0])
 
-        const answerResult = await answerer(params.query, joinedContextFromDocs);
+        const answerResult = await answerer(params.query, removeDuplicateObjectsFromArray(docsSearchArray)[0].description);
         console.log(answerResult)
  
         const searchResultObject = {
