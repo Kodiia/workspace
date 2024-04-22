@@ -56,17 +56,17 @@
             const answerData = await fetch(`/api/transformers/answer/${query}&&${queryContext}`)
             const answerDataObject = await answerData.json()
             const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
-            const rephraseDataObject = await rephraseData.json()
-
-            console.log(searchDataObject)
-            console.log(answerDataObject)
-            console.log(rephraseDataObject)
-            if(rephraseData){
+            
+            if(rephraseData.ok){
+                const rephraseDataObject = await rephraseData.json()
                 modelAnswerWords = rephraseDataObject.rephraseResult.split(' ')
             } else {
                 modelAnswerWords = answerDataObject.answerResult.split(' ')
             }
             
+            console.log(searchDataObject)
+            console.log(answerDataObject)
+            // console.log(rephraseDataObject)
             console.log(modelAnswerWords)
             addWordsFromModelAnswer()
         } catch (err) {
