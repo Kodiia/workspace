@@ -12,7 +12,7 @@ export async function GET({locals, params}){
         const generator = await pipeline(
             "text2text-generation",
             // "Xenova/LaMini-Flan-T5-783M",
-             "Xenova/flan-alpaca-large",
+            "Xenova/flan-alpaca-large",
             // "Xenova/flan-t5-large"
           );
 

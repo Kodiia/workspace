@@ -53,7 +53,8 @@
             const searchData = await fetch(`/api/docsData/${keywordsDataObject.searchTerms}`)
             searchDataObject = await searchData.json()
             const queryContext = searchDataObject.docsSearchResult[0].description
-            const answerData = await fetch(`/api/transformers/answer/${query}&&${queryContext}`)
+            const cleanQueryContextString = queryContext.replace(/<[^>]*>/g, '');
+            const answerData = await fetch(`/api/transformers/answer/${query}&&${cleanQueryContextString}`)
             const answerDataObject = await answerData.json()
             const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
             
