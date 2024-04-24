@@ -8,16 +8,18 @@ export async function GET({locals, params}){
         const prompt = params.query;
         const query = prompt.split('&&')[0]
         const answer = prompt.split('&&')[1]
+        console.log(query)
+        console.log(answer)
 
         const generator = await pipeline(
             "text2text-generation",
             // "Xenova/LaMini-Flan-T5-783M",
-            "Xenova/flan-alpaca-large",
-            // "Xenova/flan-t5-large"
+             "Xenova/flan-alpaca-base",
+            // "Xenova/flan-t5-base"
           );
 
         const generatorOutput = await generator(
-            `Combine this query: '${query}', and this answer in a complete natural and fluent sentence: ${answer}.`,
+            `Given this query: '${query}', combine it with this answer in a complete sentence: ${answer}`,
             {
                 max_new_tokens: 1000,
             },

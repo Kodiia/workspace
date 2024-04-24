@@ -56,18 +56,20 @@
             const cleanQueryContextString = queryContext.replace(/<[^>]*>/g, '');
             const answerData = await fetch(`/api/transformers/answer/${query}&&${cleanQueryContextString}`)
             const answerDataObject = await answerData.json()
-            const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
+            modelAnswerWords = answerDataObject.answerResult.split(' ')
+            // const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
             
-            if(rephraseData.ok){
-                const rephraseDataObject = await rephraseData.json()
-                modelAnswerWords = rephraseDataObject.rephraseResult.split(' ')
-            } else {
-                modelAnswerWords = answerDataObject.answerResult.split(' ')
-            }
+            // if(rephraseData.ok){
+            //     const rephraseDataObject = await rephraseData.json()
+            //     console.log(rephraseDataObject)
+            //     modelAnswerWords = rephraseDataObject.rephraseResult.split(' ')
+            // } else {
+            //     modelAnswerWords = answerDataObject.answerResult.split(' ')
+            // }
             
             console.log(searchDataObject)
             console.log(answerDataObject)
-            // console.log(rephraseDataObject)
+            
             console.log(modelAnswerWords)
             addWordsFromModelAnswer()
         } catch (err) {
@@ -230,6 +232,7 @@
                     <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>Results</h3>
                     <div class='stepsWrapper'>
                         {#if modelAnswerString}
+                            <p>Here is a quick response.</p>
                             <p style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>{modelAnswerString}</p>
                         {:else}
                             <div class='loaderDiv' style='margin-top: 10px; width: 90%; background: hsl({$textColor + ', 20%'})'></div>
