@@ -57,15 +57,15 @@
             const answerData = await fetch(`/api/transformers/answer/${query}&&${cleanQueryContextString}`)
             const answerDataObject = await answerData.json()
             modelAnswerWords = answerDataObject.answerResult.split(' ')
-            // const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
+            const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
             
-            // if(rephraseData.ok){
-            //     const rephraseDataObject = await rephraseData.json()
-            //     console.log(rephraseDataObject)
-            //     modelAnswerWords = rephraseDataObject.rephraseResult.split(' ')
-            // } else {
-            //     modelAnswerWords = answerDataObject.answerResult.split(' ')
-            // }
+            if(rephraseData.ok){
+                const rephraseDataObject = await rephraseData.json()
+                console.log(rephraseDataObject)
+                modelAnswerWords = rephraseDataObject.rephraseResult.split(' ')
+            } else {
+                modelAnswerWords = answerDataObject.answerResult.split(' ')
+            }
             
             console.log(searchDataObject)
             console.log(answerDataObject)
