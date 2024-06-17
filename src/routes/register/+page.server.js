@@ -4,9 +4,10 @@ export const actions = {
     register: async ({ locals, request }) => {
         const body = Object.fromEntries(await request.formData())
         const specialCourses = '{ "specialCourses" : [] }' 
+        const requests = 100 
 
         try {
-            await locals.pb.collection('users').create({specialCourses, ...body})
+            await locals.pb.collection('users').create({requests, specialCourses, ...body})
             await locals.pb.collection('users').requestVerification(body.email)
         } catch (err) {
             console.log('Error: ', err)
