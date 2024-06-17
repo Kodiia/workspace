@@ -98,7 +98,7 @@
   
   <style>
   .codeSnippetContainer{
-      height: 100%;
+      /* height: 100%; */
       background: #fdfdfd;
       font-family: 'Consolas','Source Code Pro', monospace !important;
       

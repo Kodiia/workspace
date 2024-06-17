@@ -31,21 +31,21 @@
             logos: ['brainjs'],
             size: 30
         },
-        {
-            name: 'CA p5.js',
-            logos: ['p5js'],
-            size: 30
-        },
-        {
-            name: 'noise',
-            logos: ['p5js'],
-            size: 30
-        },
-        {
-            name: 'noise 2D',
-            logos: ['p5js'],
-            size: 30
-        }
+        // {
+        //     name: 'CA p5.js',
+        //     logos: ['p5js'],
+        //     size: 30
+        // },
+        // {
+        //     name: 'noise',
+        //     logos: ['p5js'],
+        //     size: 30
+        // },
+        // {
+        //     name: 'noise 2D',
+        //     logos: ['p5js'],
+        //     size: 30
+        // }
     ]
     // let logoPath = getFileLogoURL(fileType)
     

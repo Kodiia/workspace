@@ -40,6 +40,8 @@
 		"fuse.js": "^7.0.0",
 		"highlight.js": "^11.9.0",
 		"jszip": "^3.10.1",
+		"llamaindex": "^0.3.17",
+		"marked": "^13.0.0",
 		"monaco-editor": "^0.47.0",
 		"node-fetch": "^3.3.2",
 		"p5": "^1.9.2",

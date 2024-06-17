@@ -4,12 +4,14 @@
     import { bgColor, textColor, secondaryColor, primaryColor, accentColor, height, resourcesPanelDisplay } from "./store";
     import DetailsCard from "./DetailsCard.svelte";
     import DetailsDocsCard from "./DetailsDocsCard.svelte";
+    import StyledModelResponse from "./StyledModelResponse.svelte";
 
     // import PuzzlePieceSvg from "./PuzzlePieceSVG.svelte";
     // let data
     let tutorialsListData = null, challengesListData = null;
     let tutorialData = null, challengeData = null, docsData = null;
     let searchInput, searchDataObject = null;
+    let modelAnswer
     let button, dataPanelDisplay = 'none';
 
     let technologies = [
@@ -47,6 +49,7 @@
             modelAnswerText = []
             wordNumber = 0;
             modelAnswerWords = []
+            modelAnswer = ''
 
             const keywordsData = await fetch(`/api/transformers/classify/${query}`)
             const keywordsDataObject = await keywordsData.json()
@@ -54,24 +57,26 @@
             searchDataObject = await searchData.json()
             const queryContext = searchDataObject.docsSearchResult[0].description
             const cleanQueryContextString = queryContext.replace(/<[^>]*>/g, '');
-            const answerData = await fetch(`/api/transformers/answer/${query}&&${cleanQueryContextString}`)
+            // const answerData = await fetch(`/api/transformers/answer/${query}&&${cleanQueryContextString}`)
+            const answerData = await fetch(`/api/transformers/rag/${query}`)
             const answerDataObject = await answerData.json()
-            modelAnswerWords = answerDataObject.answerResult.split(' ')
-            const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
+            modelAnswer = answerDataObject
+            // modelAnswerWords = answerDataObject.answerResult.split(' ')
+            // const rephraseData = await fetch(`/api/transformers/rephrase/${query}&&${answerDataObject.answerResult}`)
             
-            if(rephraseData.ok){
-                const rephraseDataObject = await rephraseData.json()
-                console.log(rephraseDataObject)
-                modelAnswerWords = rephraseDataObject.rephraseResult.split(' ')
-            } else {
-                modelAnswerWords = answerDataObject.answerResult.split(' ')
-            }
+            // if(rephraseData.ok){
+            //     const rephraseDataObject = await rephraseData.json()
+            //     console.log(rephraseDataObject)
+            //     modelAnswerWords = rephraseDataObject.rephraseResult.split(' ')
+            // } else {
+            //     modelAnswerWords = answerDataObject.answerResult.split(' ')
+            // }
             
-            console.log(searchDataObject)
-            console.log(answerDataObject)
+            // console.log(searchDataObject)
+            // console.log(answerDataObject)
             
-            console.log(modelAnswerWords)
-            addWordsFromModelAnswer()
+            // console.log(modelAnswerWords)
+            // addWordsFromModelAnswer()
         } catch (err) {
             errMessage = `Something went wrong. ${err}`
             console.log(err)
@@ -229,25 +234,34 @@
                         {/each}
                     </div>    
                 {:else if searchDataObject != undefined}
-                    <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>Results</h3>
+                    <h3 style='border: none; border-bottom: 1px solid hsl({$textColor + ', 20%'}); color: hsl({$textColor}); margin: 0; height: 40px;'>Answer</h3>
                     <div class='stepsWrapper'>
-                        {#if modelAnswerString}
+                        {#if modelAnswer}
+                            <StyledModelResponse htmlContent = {modelAnswer} />
+                            <!-- <p style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>{modelAnswer}</p> -->
+                        {:else}
+                            <div class='loaderDiv' style='margin-top: 10px; width: 90%; background: hsl({$textColor + ', 20%'})'></div>
+                            <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
+                            <div class='loaderDiv' style='width: 70%; background: hsl({$textColor + ', 20%'})'></div>
+                        {/if}
+
+                        <!-- {#if modelAnswerString}
                             <p>Here is a quick response.</p>
                             <p style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>{modelAnswerString}</p>
                         {:else}
                             <div class='loaderDiv' style='margin-top: 10px; width: 90%; background: hsl({$textColor + ', 20%'})'></div>
                             <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>
                             <div class='loaderDiv' style='width: 70%; background: hsl({$textColor + ', 20%'})'></div>
-                        {/if}
-                            {#if searchDataObject.docsSearchResult.length > 0}
-                            <p>Here are some coding hints.</p>
+                        {/if} -->
+                            <!-- {#if searchDataObject.docsSearchResult.length > 0}
+                                <p>Here are some coding hints.</p>
                             <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
                                 {#each searchDataObject.docsSearchResult as result, i}
                                     <DetailsDocsCard id={i} docData={result} />
                                 {/each}
                             </div>
-                            {/if}
-                            {#if searchDataObject.challengesSearchResult.length > 0}
+                            {/if} -->
+                            <!-- {#if searchDataObject.challengesSearchResult.length > 0}
                             <p>Here are some challenges to look into.</p>
                             <div style='background: hsl({$textColor + ', 5%'}); border-radius: 10px; padding: 10px;'>
                             {#each searchDataObject.challengesSearchResult as challenge, i}
@@ -262,13 +276,12 @@
                                     <h3 style='margin: 0; color: hsl({$textColor});'>{challenge.heading}</h3>
                                     <code style='width: fit-content; max-width: 50%; margin: 10px 0; background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});'>{challenge.date}</code>
                                 </button>
-                                <!-- <h3>{challenge.heading}{challenge.technologies}</h3> -->
                             {/each}
                             </div>
-                            {/if}
-                            {#if searchDataObject.docsSearchResult.length === 0 && searchDataObject.challengesSearchResult.length === 0 }
+                            {/if} -->
+                            <!-- {#if searchDataObject.docsSearchResult.length === 0 && searchDataObject.challengesSearchResult.length === 0 }
                                 <p>Nothing is found. Try another query.</p>
-                            {/if}
+                            {/if} -->
                     </div>  
                 {:else}
                     <div class='loaderDiv' style='width: 90%; background: hsl({$textColor + ', 20%'})'></div>

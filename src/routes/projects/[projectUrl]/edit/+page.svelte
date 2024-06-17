@@ -3,8 +3,9 @@
     import ProjectPanel from '$lib/ProjectPanel.svelte';
     import NavPanel from '$lib/NavPanel.svelte';
     import FilesPanel from '$lib/FilesPanel.svelte';
-    import ResourcesPanel from '$lib/ResourcesPanel.svelte';
+    // import ResourcesPanel from '$lib/ResourcesPanel.svelte';
     import ResourcesHubPanel from '$lib/ResourcesHubPanel.svelte';
+    import AiHubPanel from '$lib/AIHubPanel.svelte';
     import ProjectFileCard from '$lib/ProjectFileCard.svelte'
     import CodeEditorMonaco from '$lib/CodeEditorMonaco.svelte';
     import FileUploadForm from '$lib/FileUploadForm.svelte';
@@ -173,7 +174,8 @@
 
         <div style='width: {$width > 700 ? '400px' : '100%'}; position: {$width > 700 ? 'static' : 'absolute'}; padding: 5px; box-sizing: border-box; display: {$resourcesPanelDisplay};'>
             <!-- <ResourcesPanel steps='{data.project.hints}' mode='template' URLtoShare='{$page.url.href}' /> -->
-            <ResourcesHubPanel />
+            <!-- <ResourcesHubPanel /> -->
+             <AiHubPanel />
         </div>
     </div>
 
