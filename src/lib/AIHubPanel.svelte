@@ -55,7 +55,8 @@
 	async function fetchSearchRequest(query = '') {
 		try {
 			isFetchingRequest = true;
-			const answerData = await fetch(`/api/transformers/rag/${query}`);
+			// const answerData = await fetch(`/api/transformers/rag/${query}`);
+			const answerData = await fetch(`https://node-test-production-9074.up.railway.app/api/rag/${query}`);
 			const answerDataObject = await answerData.json();
 			modelAnswer = answerDataObject;
 			answers = [...answers, modelAnswer];
