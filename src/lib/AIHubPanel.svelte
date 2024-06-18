@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import AI_API_URL from '$env/static/private'
+	import { PUBLIC_AI_API_URL } from '$env/static/public'
 	import { getFileLogoURL } from '$lib/utils';
 	import {
 		bgColor,
@@ -57,7 +57,7 @@
 		try {
 			isFetchingRequest = true;
 			// const answerData = await fetch(`/api/transformers/rag/${query}`);
-			const answerData = await fetch(`${AI_API_URL}/${query}`);
+			const answerData = await fetch(`${PUBLIC_AI_API_URL}/${query}`);
 			const answerDataObject = await answerData.json();
 			modelAnswer = answerDataObject;
 			answers = [...answers, modelAnswer];
