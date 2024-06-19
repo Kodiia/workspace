@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { PUBLIC_AI_API_URL } from '$env/static/public'
+	import { PUBLIC_AI_API_URL } from '$env/static/public';
 	import { getFileLogoURL } from '$lib/utils';
 	import {
 		bgColor,
@@ -90,13 +90,15 @@
 		queryInput.style.height = `${queryInput.scrollHeight}px`;
 	}
 
-	function submitForm() {
-		tutorialData = null;
-		challengeData = null;
-		queries = [...queries, queryInput.value];
-		fetchSearchRequest(queryInput.value);
-		updateRequestsNumber();
-		updateTextareaHeight()
+	async function submitForm() {
+		if (parseInt(requestsNumber) > 0) {
+			tutorialData = null;
+			challengeData = null;
+			queries = [...queries, queryInput.value];
+			fetchSearchRequest(queryInput.value);
+			updateRequestsNumber();
+			updateTextareaHeight();
+		}
 	}
 
 	let requestsNumber = '';
@@ -188,7 +190,12 @@
 				>
 					<svg width="20" height="20">
 						<!-- <path d="M5,2 L20,10 L5,18 Z" fill="hsl({$textColor + ', 50%'})" /> -->
-						<path d="M5,2 L15,10 L5,18 " fill="none" stroke='hsl({$textColor + ', 50%'})' stroke-width='2'/>
+						<path
+							d="M5,2 L15,10 L5,18 "
+							fill="none"
+							stroke="hsl({$textColor + ', 50%'})"
+							stroke-width="2"
+						/>
 					</svg>
 				</button>
 			</form>
