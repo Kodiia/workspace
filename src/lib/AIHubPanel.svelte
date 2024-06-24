@@ -57,7 +57,13 @@
 		try {
 			isFetchingRequest = true;
 			// const answerData = await fetch(`/api/transformers/rag/${query}`);
-			const answerData = await fetch(`${PUBLIC_AI_API_URL}/${query}`);
+			const answerData = await fetch(`${PUBLIC_AI_API_URL}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(query)
+			});
 			const answerDataObject = await answerData.json();
 			modelAnswer = answerDataObject;
 			answers = [...answers, modelAnswer];
