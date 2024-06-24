@@ -61,7 +61,7 @@
 			const answerDataObject = await answerData.json();
 			modelAnswer = answerDataObject;
 			answers = [...answers, modelAnswer];
-			console.log(answers);
+			// console.log(answers);
 			isFetchingRequest = false;
 		} catch (err) {
 			errMessage = `Something went wrong. ${err}`;
