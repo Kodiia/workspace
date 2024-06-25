@@ -64,6 +64,7 @@
 				},
 				body: JSON.stringify(query)
 			});
+			
 			const answerDataObject = await answerData.json();
 			modelAnswer = answerDataObject;
 			answers = [...answers, modelAnswer];
