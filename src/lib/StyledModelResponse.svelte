@@ -17,7 +17,8 @@
 				// const [language, content] = chunk.split('\n').filter(Boolean);
 				// return { type: 'code', language: language.trim(), content: content.trim() };
 				const [language, ...lines] = chunk.split('\n').filter(Boolean);
-            return { type: 'code', language: language.trim(), content: lines.join('\n').trim() };
+				const lang = language.trim() || 'javascript';
+            return { type: 'code', language: lang, content: lines.join('\n').trim() };
 			}
 		});
 	}
