@@ -31,6 +31,11 @@
             logos: ['brainjs'],
             size: 30
         },
+        {
+            name: 'CAcraft',
+            logos: ['threejs'],
+            size: 30
+        },
         // {
         //     name: 'CA p5.js',
         //     logos: ['p5js'],
