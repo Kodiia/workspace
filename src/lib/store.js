@@ -50,6 +50,9 @@ export let filesPanelDisplay = writable('block')
 export let resourcesPanelDisplay = writable('block')
 export let resizeState = writable(false)
 
+export let shareProjectPanelState = writable(false)
+export let shareProjectData = writable({})
+
 export let worldData = writable({})
 export let worldType = writable('flat')
 export let selectedAssets = writable([availableAssets[3]])
