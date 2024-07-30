@@ -251,7 +251,7 @@
 		box-sizing: border-box;
 	}
 	textarea:focus{
-		border: none;
+		outline: none !important;
 	}
 
 	.shareButtons {
