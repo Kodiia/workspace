@@ -10,6 +10,7 @@
 		isEditButtonHovered = false,
 		isShareButtonHovered = false,
 		isDeleteButtonHovered = false,
+		isMobileButtonHovered = false,
 		isDeletingProject = false,
 		isShared = false;
 
@@ -89,29 +90,54 @@
 		? `1px solid hsl(${$primaryColor})`
 		: `1px solid hsl(${$textColor + ', 20%'})`};"
 	on:pointerover={() => {
-		if ($width > 400) {
+		if ($width > 800) {
 			isHovered = true;
 		}
 	}}
 	on:pointerleave={() => {
-		if ($width > 400) {
+		if ($width > 800) {
 			isHovered = false;
 		}
 	}}
 >
 	<div class="projectMenuContainer">
-		<div
-			on:pointerdown={() => {
-				if ($width < 400) {
-					isHovered = !isHovered;
-				}
-			}}
-		>
+		<div>
 			<h3>{project.name}</h3>
 			<!-- <p class='editDateText'>{getProjectEditDate}</p> -->
 			<code style="background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});"
 				>{getProjectEditDate()}</code
 			>
+			{#if $width < 800}
+			<button
+				class="mobileMenuButton"
+				style="background: {isMobileButtonHovered
+							? 'hsl(' + $textColor + ', 20%)'
+							: 'none'}; color: hsl({$textColor}); 
+							color: hsl({$textColor});"
+					on:pointerover={() => {
+						isMobileButtonHovered = true;
+					}}
+					on:pointerleave={() => {
+						isMobileButtonHovered = false;
+					}}
+				on:pointerdown={() => {
+					if ($width < 800) {
+						isHovered = !isHovered;
+					}
+				}}
+				><svg
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="hsl({$textColor + ', 80%'})"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<circle cx="12" cy="5" r="2" />
+					<circle cx="12" cy="12" r="2" />
+					<circle cx="12" cy="19" r="2" />
+				</svg></button
+			>
+			{/if}
 		</div>
 		{#if isHovered || isShared}
 			<div class="buttonsMenu">
@@ -349,6 +375,7 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
+		position: relative;
 	}
 	.buttonWrapper {
 		height: 40px;
@@ -363,6 +390,7 @@
 	h3 {
 		font-weight: 500;
 		margin: 0;
+		max-width: 80%;
 	}
 	a,
 	button {
@@ -382,6 +410,18 @@
 	.buttonsMenu {
 		display: flex;
 		height: 40px;
+	}
+	.mobileMenuButton {
+		position: absolute;
+		right: 0;
+		top: 0;
+		padding: 10px;
+		cursor: pointer;
+		height: 40px;
+		width: 40px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.share-component {
@@ -459,7 +499,7 @@
 		transition: 0.25s;
 	}
 
-	@media screen and (max-width: 400px) {
+	@media screen and (max-width: 800px) {
 		.projectMenuContainer {
 			flex-direction: column;
 		}
