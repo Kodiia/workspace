@@ -1,18 +1,44 @@
 <script>
-	import { bgColor, textColor, primaryColor, accentColor } from '$lib/store';
+	import { bgColor, textColor, primaryColor, accentColor, width } from '$lib/store';
 
 	import ProjectSharePanel from './ProjectSharePanel.svelte';
 
 	export let project = {};
-	console.log(project)
+	console.log(project);
 
 	let isHovered = false,
-		isEditButtonHovered = false, isShareButtonHovered = false, isDeleteButtonHovered = false,
+		isEditButtonHovered = false,
+		isShareButtonHovered = false,
+		isDeleteButtonHovered = false,
 		isDeletingProject = false,
 		isShared = false;
 
 	let embedLabelText = 'Embed Code:';
 	let copyLinkButtonText = 'Copy Link';
+
+	let cursorX = 0;
+	let cursorY = 0;
+
+	/**
+	 * @param {{ clientX: number; clientY: number; currentTarget: { getBoundingClientRect: () => any; }; }} event
+	 */
+	function handleMouseMove(event) {
+		cursorX = event.clientX;
+		cursorY = event.clientY;
+
+		const rect = event.currentTarget.getBoundingClientRect();
+		console.log(rect);
+		if (
+			cursorX >= rect.left &&
+			cursorX <= rect.right &&
+			cursorY >= rect.top &&
+			cursorY <= rect.bottom
+		) {
+			isHovered = true;
+		} else {
+			isHovered = false;
+		}
+	}
 
 	function getProjectEditDate() {
 		const dbDate = project.updated;
@@ -63,14 +89,24 @@
 		? `1px solid hsl(${$primaryColor})`
 		: `1px solid hsl(${$textColor + ', 20%'})`};"
 	on:pointerover={() => {
-		isHovered = true;
+		if ($width > 400) {
+			isHovered = true;
+		}
 	}}
 	on:pointerleave={() => {
-		isHovered = false;
+		if ($width > 400) {
+			isHovered = false;
+		}
 	}}
 >
 	<div class="projectMenuContainer">
-		<div>
+		<div
+			on:pointerdown={() => {
+				if ($width < 400) {
+					isHovered = !isHovered;
+				}
+			}}
+		>
 			<h3>{project.name}</h3>
 			<!-- <p class='editDateText'>{getProjectEditDate}</p> -->
 			<code style="background: hsl({$textColor + ', 20%'}); color: hsl({$textColor});"
@@ -78,71 +114,68 @@
 			>
 		</div>
 		{#if isHovered || isShared}
-		<div class="buttonsMenu">
-			<div
-				class="buttonWrapper"
-				style="background: hsl({$textColor})"
-			>
-			<a
-				href="/projects/{project.id}/edit"
-				style='background: {isEditButtonHovered ? 'hsl(' + $bgColor + ', 70%)' : 'hsl(' + $bgColor + ')'}; color: hsl({$textColor})'
-				on:pointerover={() => {
-					isEditButtonHovered = true;
-				}}
-				on:pointerleave={() => {
-					isEditButtonHovered = false;
-				}}>Edit</a
-			>
-			</div>
+			<div class="buttonsMenu">
+				<div class="buttonWrapper" style="background: hsl({$textColor})">
+					<a
+						href="/projects/{project.id}/edit"
+						style="background: {isEditButtonHovered
+							? 'hsl(' + $bgColor + ', 70%)'
+							: 'hsl(' + $bgColor + ')'}; color: hsl({$textColor})"
+						on:pointerover={() => {
+							isEditButtonHovered = true;
+						}}
+						on:pointerleave={() => {
+							isEditButtonHovered = false;
+						}}>Edit</a
+					>
+				</div>
 
-			<div
-				class="buttonWrapper"
-				style="background: hsl({$textColor})"
-			>
-				<!-- <a
+				<div class="buttonWrapper" style="background: hsl({$textColor})">
+					<!-- <a
 				href="/projects/{project.id}"
 				target="_blank"
 				style="background: hsl({$bgColor}); color: hsl({$textColor}); width: 83px;">Share</a
 			> -->
-				<button
-					style="background: {isShareButtonHovered ? 'hsl(' + $bgColor + ', 70%)' : 'hsl(' + $bgColor + ')'}; color: hsl({$textColor}); width: 83px;"
-					on:click={() => {
-						isShared = !isShared;
-					}}
-					on:pointerover={() => {
-						isShareButtonHovered = true;
-					}}
-					on:pointerleave={() => {
-						isShareButtonHovered = false;
-					}}>Share</button
-				>
-			</div>
-			<form action="?/deleteProject" method="POST">
-				<!-- <a href='/api/projects/{project.id}/delete'>Delete</a> -->
-				<input type="hidden" name="projectId" value={project.id} />
-				<div
-					class="buttonWrapper"
-					style="background: hsl({$textColor})"
-				>
 					<button
-						type="submit"
-						style="background: {isDeleteButtonHovered ? 'hsl(' + $bgColor + ', 70%)' : 'hsl(' + $bgColor + ')'}; color: hsl({$textColor}); width: 83px;"
+						style="background: {isShareButtonHovered
+							? 'hsl(' + $bgColor + ', 70%)'
+							: 'hsl(' + $bgColor + ')'}; color: hsl({$textColor}); width: 83px;"
 						on:click={() => {
-							isDeletingProject = true;
+							isShared = !isShared;
 						}}
 						on:pointerover={() => {
-							isDeleteButtonHovered = true;
+							isShareButtonHovered = true;
 						}}
 						on:pointerleave={() => {
-							isDeleteButtonHovered = false;
-						}}
-						>{@html isDeletingProject
-							? `<span class="loader" style="margin: 0; border-color: hsl(${$textColor}) transparent;"></span>`
-							: 'Delete'}</button
+							isShareButtonHovered = false;
+						}}>Share</button
 					>
 				</div>
-			</form>
-		</div>
+				<form action="?/deleteProject" method="POST">
+					<!-- <a href='/api/projects/{project.id}/delete'>Delete</a> -->
+					<input type="hidden" name="projectId" value={project.id} />
+					<div class="buttonWrapper" style="background: hsl({$textColor})">
+						<button
+							type="submit"
+							style="background: {isDeleteButtonHovered
+								? 'hsl(' + $bgColor + ', 70%)'
+								: 'hsl(' + $bgColor + ')'}; color: hsl({$textColor}); width: 83px;"
+							on:click={() => {
+								isDeletingProject = true;
+							}}
+							on:pointerover={() => {
+								isDeleteButtonHovered = true;
+							}}
+							on:pointerleave={() => {
+								isDeleteButtonHovered = false;
+							}}
+							>{@html isDeletingProject
+								? `<span class="loader" style="margin: 0; border-color: hsl(${$textColor}) transparent;"></span>`
+								: 'Delete'}</button
+						>
+					</div>
+				</form>
+			</div>
 		{/if}
 	</div>
 	<div class="sharePanelContainer">
@@ -426,11 +459,11 @@
 		transition: 0.25s;
 	}
 
-	@media screen and (max-width: 400px){
-		.projectMenuContainer{
+	@media screen and (max-width: 400px) {
+		.projectMenuContainer {
 			flex-direction: column;
 		}
-		.buttonsMenu{
+		.buttonsMenu {
 			padding-left: 0;
 			margin-top: 10px;
 		}
