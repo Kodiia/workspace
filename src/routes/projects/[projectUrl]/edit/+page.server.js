@@ -142,7 +142,7 @@ export async function load ({ locals, fetch, params}) {
       try {
         if(asset){
           
-          if(asset.type === 'image/jpeg' || asset.type === 'image/png' || asset.type === 'image/webp'){
+          if(asset.type === 'image/jpeg' || asset.type === 'image/png' || asset.type === 'image/webp' || asset.type === 'image/svg+xml'){
             const formData = new FormData()
             formData.append('imageFiles', asset)
             // console.log(asset)
@@ -175,7 +175,7 @@ export async function load ({ locals, fetch, params}) {
 
       try {
           // const result = await locals.pb.collection('userProjects').delete(projectId)                
-          if(body.fileType === 'png' || body.fileType === 'jpg' || body.fileType === 'webp' || body.fileType === 'gif'){
+          if(body.fileType === 'png' || body.fileType === 'jpg' || body.fileType === 'webp' || body.fileType === 'gif' || body.fileType === 'svg'){
             const record = await locals.pb.collection('userProjects').update(params.projectUrl, {
             'imageFiles-': fileFullName,
             })
