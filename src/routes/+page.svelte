@@ -36,6 +36,11 @@
             logos: ['threejs'],
             size: 30
         },
+        {
+            name: 'GLB',
+            logos: ['threejs'],
+            size: 30
+        }
         // {
         //     name: 'CA p5.js',
         //     logos: ['p5js'],
