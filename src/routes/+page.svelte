@@ -40,6 +40,11 @@
             name: 'GLB',
             logos: ['threejs'],
             size: 30
+        }, 
+        {
+            name: 'OSM',
+            logos: ['p5js'],
+            size: 40
         }
         // {
         //     name: 'CA p5.js',

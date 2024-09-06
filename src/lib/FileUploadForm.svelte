@@ -58,7 +58,7 @@
     >
     {#if file && file.size < 1000000}
       <p>{file.name}</p>
-    {:else if file && file.size < 1000000}
+    {:else if file && file.size >= 1000000}
       <p>Whoa, that's too big!</p>
     {:else}
       Drag and drop your file here or click to browse for a JPEG, PNG, WebP, or GLB file. Make sure your file is less than 1 mb.
