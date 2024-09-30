@@ -68,7 +68,7 @@
 
 <svelte:window on:pointermove={(e)=>{if(resizeState){resize(e)}}} on:pointerup={()=>{resizeState = false; resizeCoverDiv.style.display = 'none'}}/>
 
-<NavPanel data='{data}' />
+<!-- <NavPanel data='{data}' /> -->
 
 <div class='container' style='width: {$width}px; height:{$height}px;'>
 
@@ -120,7 +120,7 @@
             <div class='resizeHandle' style='background: hsl({$textColor + ', 20%'});' bind:this = {resizeHandle} on:pointerdown={(e)=>{ resizeState = true }}></div>
         {/if}
 
-        <div style='flex: 1; height: 100%; padding: 5px; box-sizing: border-box; margin-left: 0px; background: none; position: relative;' >
+        <div style='flex: 1; height: 100%; padding: 0px; box-sizing: border-box; margin-left: 0px; background: none; position: relative;' >
             <div bind:this={resizeCoverDiv} style='position: absolute; z-index: 2; top: 5; left: 5; background: #00000005; border-radius: 15px; width: calc(100% - 10px); height: calc(100% - 10px);'></div>
             <ProjectPanel />
         </div>
@@ -135,9 +135,9 @@
     }   
     .panelsContainer{
         position: absolute;
-        top: 50px;
+        /* top: 50px; */
         width: 100%;
-        height: calc(100% - 50px);
+        height: calc(100% - 0px);
         display: flex;
         align-items: center;
         justify-content: center;
