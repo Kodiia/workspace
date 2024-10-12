@@ -45,6 +45,16 @@
             name: 'OSM',
             logos: ['p5js'],
             size: 40
+        }, 
+        {
+            name: 'FF2D',
+            logos: ['p5js'],
+            size: 40
+        },
+        {
+            name: 'FF3D',
+            logos: ['threejs'],
+            size: 30
         }
         // {
         //     name: 'CA p5.js',
