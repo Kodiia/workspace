@@ -55,6 +55,11 @@
             name: 'FF3D',
             logos: ['threejs'],
             size: 30
+        }, 
+        {
+            name: 'flock2D',
+            logos: ['p5js'],
+            size: 40
         }
         // {
         //     name: 'CA p5.js',
