@@ -60,6 +60,11 @@
             name: 'flock2D',
             logos: ['p5js'],
             size: 40
+        },
+        {
+            name: 'CAdiffusion3d',
+            logos: ['threejs'],
+            size: 30
         }
         // {
         //     name: 'CA p5.js',
